@@ -24,3 +24,6 @@ include(":server")
 
 include(":common")
 include(":common:core")
+
+include(":common:data")
+include(":common:data:place-service")
