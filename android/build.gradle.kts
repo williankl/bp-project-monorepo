@@ -9,6 +9,9 @@ android {
 }
 
 dependencies {
+    implementation(projects.common.core)
+    implementation(projects.common.data.placeService)
+
     implementation(libs.android.compose.activity)
     implementation(libs.android.compose.ui)
 

@@ -54,7 +54,7 @@ private fun Project.applyAndroidTarget() {
     }
 
     extensions.configure<KotlinMultiplatformExtension>() {
-        androidTarget()
+        android()
     }
 }
 
