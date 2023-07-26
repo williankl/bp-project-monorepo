@@ -1,0 +1,101 @@
+[versions]
+android-compileSdk = "34"
+android-targetSdk = "34"
+android-minSdk = "26"
+android-versionCode = "122"
+android-versionName = "1.5.6"
+
+plugin-ksp = "1.9.0-1.0.12"
+plugin-android = "8.0.0"
+plugin-ktlint = "3.10.0"
+plugin-detekt = "1.22.0"
+plugin-buildKonfig = "0.13.3"
+plugin-google-services = "4.3.15"
+plugin-google-crashlytics = "2.9.5"
+
+kotlin = "1.9.0"
+kotlinx-serialization = "1.5.0"
+compose = "1.4.0"
+voyager = "1.0.0-rc06"
+firebase-bom = "32.1.0"
+lyricist = "1.4.1"
+ktor = "2.3.0"
+kodein = "7.20.1"
+
+android-compose = "1.4.3"
+
+[libraries]
+
+# Plugins
+
+plugin-ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "plugin-ksp" }
+plugin-android = { module = "com.android.tools.build:gradle", version.ref = "plugin-android" }
+plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+plugin-ktlint = { module = "org.jmailen.gradle:kotlinter-gradle", version.ref = "plugin-ktlint" }
+plugin-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "plugin-detekt" }
+plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
+plugin-multiplatform-compose = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose" }
+plugin-buildKonfig = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version.ref = "plugin-buildKonfig" }
+plugin-google-services = { module = "com.google.gms:google-services", version.ref = "plugin-google-services" }
+plugin-google-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "plugin-google-crashlytics" }
+
+# Android
+
+android-compose-activity = { module = "androidx.activity:activity-compose", version = "1.7.1" }
+android-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "android-compose" }
+android-compose-toolingPreview = { module = "androidx.compose.ui:ui-tooling-preview" , version.ref = "android-compose" }
+android-compose-tooling = { module = "androidx.compose.ui:ui-tooling" , version.ref = "android-compose" }
+android-appCompat = { module = "androidx.appcompat:appcompat", version = "1.6.1" }
+android-constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version = "2.2.0-alpha09" }
+android-splashScreen = { module = "androidx.core:core-splashscreen", version = "1.0.1" }
+android-exifInterface = { module = "androidx.exifinterface:exifinterface", version = "1.3.6" }
+
+# Firebase
+
+firebase-bom = { module = "com.google.firebase:firebase-bom" , version.ref = "firebase-bom" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx"}
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx"}
+firebase-auth = { module = "com.google.firebase:firebase-auth-ktx"}
+firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx"}
+
+# Voyager
+
+voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+voyager-bottomSheetNavigator = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyager" }
+voyager-tabNavigator = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }
+voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
+voyager-kodein = { module = "cafe.adriel.voyager:voyager-kodein", version.ref = "voyager" }
+
+# Lyricist
+
+lyricist-core = { module = "cafe.adriel.lyricist:lyricist", version.ref = "lyricist" }
+lyricist-ksp = { module = "cafe.adriel.lyricist:lyricist-processor", version.ref = "lyricist" }
+
+# Ktor
+
+ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-client-contentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+
+# Kodein
+
+kodein-core = { module = "org.kodein.di:kodein-di", version.ref = "kodein" }
+kodein-android = { module = "org.kodein.di:kodein-di-framework-android-x", version.ref = "kodein" }
+kodein-compose = { module = "org.kodein.di:kodein-di-framework-compose", version.ref = "kodein" }
+
+# Kotlinx
+
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version = "1.7.0-RC" }
+kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+
+# Other
+
+kamel = { module = "media.kamel:kamel-image", version = "0.7.0" }
+okHttp-bom = { module = "com.squareup.okhttp3:okhttp-bom", version = "5.0.0-alpha.11" }
+paperDb = { module = "io.github.pilgr:paperdb", version = "2.7.2" }
+blurView = { module = "com.github.Dimezis:BlurView", version = "version-2.0.3" }
+gpuImage = { module = "jp.co.cyberagent.android:gpuimage", version = "2.0.4" }
+lottie = { module = "com.airbnb.android:lottie-compose", version = "6.0.1" }
