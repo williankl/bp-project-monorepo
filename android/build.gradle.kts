@@ -11,4 +11,7 @@ android {
 dependencies {
     implementation(libs.android.compose.activity)
     implementation(libs.android.compose.ui)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.crashlytics)
 }

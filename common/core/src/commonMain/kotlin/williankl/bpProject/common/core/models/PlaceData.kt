@@ -2,8 +2,11 @@ package williankl.bpProject.common.core.models
 
 public data class PlaceData(
     val id: String,
+    val ownerId: String,
     val name: String,
+    val description: String,
     val address: PlaceDataAddress,
+    val imageUrls: List<String>,
     val season: PlaceDataSeason = PlaceDataSeason.Undefined,
 
 ) {
@@ -19,5 +22,11 @@ public data class PlaceData(
         val street: String,
         val city: String,
         val country: String,
-    )
+        val coordinates: PlaceAddressCoordinate,
+    ){
+        public data class PlaceAddressCoordinate(
+            val latitude: Double,
+            val longitude: Double,
+        )
+    }
 }
