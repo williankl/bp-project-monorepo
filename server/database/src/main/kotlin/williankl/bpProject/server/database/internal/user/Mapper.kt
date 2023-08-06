@@ -3,7 +3,7 @@ package williankl.bpProject.server.database.internal.user
 import user.UserData
 import williankl.bpProject.common.core.models.User
 
-internal object DomainMapper {
+internal object Mapper {
     fun toDomain(from: UserData): User {
         return with(from) {
             User(

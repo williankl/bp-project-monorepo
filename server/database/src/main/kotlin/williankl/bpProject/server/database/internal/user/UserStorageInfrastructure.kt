@@ -3,8 +3,8 @@ package williankl.bpProject.server.database.internal.user
 import app.cash.sqldelight.driver.jdbc.JdbcDriver
 import williankl.bpProject.common.core.models.User
 import williankl.bpProject.server.database.internal.DriverProvider.withDatabase
-import williankl.bpProject.server.database.internal.user.DomainMapper.fromDomain
-import williankl.bpProject.server.database.internal.user.DomainMapper.toDomain
+import williankl.bpProject.server.database.internal.user.Mapper.fromDomain
+import williankl.bpProject.server.database.internal.user.Mapper.toDomain
 import williankl.bpProject.server.database.services.UserStorage
 
 internal class UserStorageInfrastructure(

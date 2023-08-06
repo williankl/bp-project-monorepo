@@ -6,5 +6,23 @@ CREATE TABLE IF NOT EXISTS PlaceData (
   description text,
   addressId uuid NOT NULL,
   images text,
-  season text
+  season text NOT NULL
 );
+
+createFullPlace:
+INSERT INTO PlaceData(id, ownerId, name, description, addressId, images, season)
+VALUES ?;
+
+findPlaceById:
+SELECT * FROM PlaceData
+WHERE id = ?;
+
+updatePlaceData:
+UPDATE PlaceData
+SET name = ?, description = ?
+WHERE id = ?;
+
+updateImageUrls:
+UPDATE PlaceData
+SET images = ?
+WHERE id = ?;

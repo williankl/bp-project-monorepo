@@ -1,24 +1,27 @@
 package williankl.bpProject.common.core.models
 
-public data class Place(
-    val id: String,
-    val ownerId: String,
-    val name: String,
-    val description: String,
-    val address: PlaceDataAddress,
-    val imageUrls: List<String>,
-    val season: PlaceDataSeason = PlaceDataSeason.Undefined,
+import com.benasher44.uuid.Uuid
 
-) {
-    public enum class PlaceDataSeason {
+public data class Place(
+    val id: Uuid,
+    val ownerId: Uuid,
+    val name: String,
+    val description: String?,
+    val address: PlaceAddress,
+    val imageUrls: List<String>,
+    val season: PlaceSeason = PlaceSeason.Undefined,
+
+    ) {
+    public enum class PlaceSeason {
         Fall, Autumn, Summer, Spring, Undefined
     }
 
-    public enum class PlaceDataTag {
+    public enum class PlaceTag {
         Nature, City, Beach, Mountains, CountrySide,
     }
 
-    public data class PlaceDataAddress(
+    public data class PlaceAddress(
+        val id: Uuid,
         val street: String,
         val city: String,
         val country: String,

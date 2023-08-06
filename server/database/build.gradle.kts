@@ -1,12 +1,10 @@
 plugins {
     id("bp.kotlin")
     id("app.cash.sqldelight")
-    id("com.google.devtools.ksp")
 }
 
 dependencies {
     implementation(projects.common.core)
-
     implementation(libs.cashApp.jdbcDriver)
     implementation(libs.hikari)
     implementation(libs.postgres)
