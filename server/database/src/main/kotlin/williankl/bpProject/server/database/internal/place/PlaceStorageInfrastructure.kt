@@ -22,7 +22,22 @@ internal class PlaceStorageInfrastructure(
     }
 
     override suspend fun retrievePlaces(page: Int, limit: Int): List<Place> {
-        TODO("Not yet implemented")
+        return withDatabase(driver) {
+            val placeDataList = placeDataQueries.listPlaces(
+                limit.toLong(),
+                (limit * page).toLong()
+            )
+                .executeAsList()
+
+            placeDataList.mapNotNull { placeData ->
+                val addressData = placeAddressQueries.findAddressById(placeData.addressId)
+                    .executeAsOneOrNull()
+
+                if (addressData != null) {
+                    toDomain(placeData, addressData)
+                } else null
+            }
+        }
     }
 
     override suspend fun retrievePlace(id: UUID): Place? {

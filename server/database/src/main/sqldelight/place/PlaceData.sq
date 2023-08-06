@@ -17,6 +17,10 @@ findPlaceById:
 SELECT * FROM PlaceData
 WHERE id = ?;
 
+listPlaces:
+SELECT * FROM PlaceData
+LIMIT ? OFFSET ?;
+
 updatePlaceData:
 UPDATE PlaceData
 SET name = ?, description = ?

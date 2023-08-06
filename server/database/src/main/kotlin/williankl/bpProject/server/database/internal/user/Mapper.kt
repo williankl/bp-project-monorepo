@@ -1,5 +1,6 @@
 package williankl.bpProject.server.database.internal.user
 
+import user.UserCredentials
 import user.UserData
 import williankl.bpProject.common.core.models.User
 

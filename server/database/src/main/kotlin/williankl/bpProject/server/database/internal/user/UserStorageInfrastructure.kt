@@ -1,6 +1,7 @@
 package williankl.bpProject.server.database.internal.user
 
 import app.cash.sqldelight.driver.jdbc.JdbcDriver
+import user.UserData
 import williankl.bpProject.common.core.models.User
 import williankl.bpProject.server.database.internal.DriverProvider.withDatabase
 import williankl.bpProject.server.database.internal.user.Mapper.fromDomain
@@ -21,6 +22,7 @@ internal class UserStorageInfrastructure(
         email: String?,
         tag: String?,
     ): User? = findUserForEmailOrTag(email, tag)
+        ?.let(::toDomain)
 
     override suspend fun userEncryptedPassword(
         email: String?,
@@ -31,7 +33,7 @@ internal class UserStorageInfrastructure(
             userCredentialsQueries.createTableIfNeeded()
             user?.id?.let {
                 userCredentialsQueries
-                    .retrieveCredentialsFor(user.id)
+                    .findCredentialsById(user.id)
                     .executeAsOneOrNull()
                     ?.encryptedPassword
             }
@@ -41,7 +43,7 @@ internal class UserStorageInfrastructure(
     private fun findUserForEmailOrTag(
         email: String?,
         tag: String?,
-    ): User? {
+    ): UserData? {
         return withDatabase(driver) {
             val query = email
                 ?.let(userDataQueries::findUserByEmail)
@@ -50,7 +52,6 @@ internal class UserStorageInfrastructure(
             query
                 ?.executeAsList()
                 ?.firstOrNull()
-                ?.let(::toDomain)
         }
     }
 }
