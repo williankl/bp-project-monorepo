@@ -1,7 +1,9 @@
 package williankl.bpProject.common.core.models
 
-public data class UserData(
-    val id: String,
+import com.benasher44.uuid.Uuid
+
+public data class User(
+    val id: Uuid,
     val email: String,
     val tag: String,
 )

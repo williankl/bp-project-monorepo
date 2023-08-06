@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "williankl.bpProject.common.core"
 }
+
+dependencies {
+    commonMainImplementation(libs.uuid)
+}

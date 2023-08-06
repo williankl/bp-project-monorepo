@@ -1,6 +1,6 @@
 package williankl.bpProject.common.core.models
 
-public data class PlaceData(
+public data class Place(
     val id: String,
     val ownerId: String,
     val name: String,

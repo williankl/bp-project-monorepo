@@ -5,11 +5,13 @@ plugins {
 }
 
 dependencies {
+    implementation(projects.common.core)
+
     implementation(libs.cashApp.jdbcDriver)
-    implementation(libs.cashApp.sqliteDriver)
     implementation(libs.hikari)
     implementation(libs.postgres)
     implementation(libs.kodein.core)
+    implementation(libs.uuid)
 }
 
 sqldelight {

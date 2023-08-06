@@ -1,10 +1,10 @@
 createTableIfNeeded:
 CREATE TABLE IF NOT EXISTS PlaceData (
   id uuid PRIMARY KEY NOT NULL,
-  owner_id uuid NOT NULL,
+  ownerId uuid NOT NULL,
   name text NOT NULL,
   description text,
-  address_id uuid NOT NULL,
+  addressId uuid NOT NULL,
   images text,
   season text
 );
