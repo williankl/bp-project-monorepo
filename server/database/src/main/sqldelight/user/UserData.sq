@@ -1,7 +1,6 @@
 createTableIfNeeded:
 CREATE TABLE IF NOT EXISTS UserData (
   id uuid PRIMARY KEY NOT NULL,
-  credentialsId uuid NOT NULL,
   email text NOT NULL,
   tag text NOT NULL
 );
@@ -15,5 +14,5 @@ SELECT * FROM UserData
 WHERE tag = ?;
 
 createFullUser:
-INSERT INTO UserData(id, credentialsId, email, tag)
+INSERT INTO UserData(id, email, tag)
 VALUES ?;

@@ -1,6 +1,6 @@
 [versions]
-android-compileSdk = "34"
-android-targetSdk = "34"
+android-compileSdk = "33"
+android-targetSdk = "33"
 android-minSdk = "26"
 android-versionCode = "122"
 android-versionName = "1.5.6"
@@ -17,16 +17,16 @@ kotlin = "1.9.0"
 compose = "1.4.0"
 voyager = "1.0.0-rc06"
 lyricist = "1.4.1"
-ktor = "2.3.0"
+ktor = "2.3.2"
 kodein = "7.20.1"
-kamel = "0.7.0"
+kamel = "0.7.1"
 uuid = "0.8.0"
 hikari = "5.0.1"
 postgres = "42.6.0"
 cashApp-sqlDelight = "2.0.0"
 
-kotlinx-serialization = "1.5.0"
-kotlinx-coroutines = "1.7.0-RC"
+kotlinx-serialization = "1.5.1"
+kotlinx-coroutines = "1.7.3"
 
 android-firebase-bom = "32.2.2"
 android-compose = "1.4.3"
@@ -87,10 +87,15 @@ lyricist-ksp = { module = "cafe.adriel.lyricist:lyricist-processor", version.ref
 # Ktor
 
 ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-client-contentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+
+ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
+ktor-server-contentNegotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
 
 # Kodein
 

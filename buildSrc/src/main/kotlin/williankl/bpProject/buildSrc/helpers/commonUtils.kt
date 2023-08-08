@@ -19,7 +19,7 @@ import java.util.Properties
 public fun Project.setupLyricist() {
     configure<KspExtension> {
         arg("lyricist.internalVisibility", "true")
-        arg("lyricist.packageName", "com.likeappro")
+        arg("lyricist.packageName", "williankl.bpProject")
         arg("lyricist.moduleName", project.name)
     }
 }
@@ -49,7 +49,6 @@ internal fun Project.applyRepositories() {
 internal fun Project.applyCommonPlugins() {
     plugins.apply("org.jmailen.kotlinter")
     plugins.apply("io.gitlab.arturbosch.detekt")
-    plugins.apply("kotlin-kapt")
 }
 
 internal fun Project.applyKotlinOptions() {
@@ -57,6 +56,7 @@ internal fun Project.applyKotlinOptions() {
 
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
+            jvmTarget = "${JavaVersion.VERSION_17}"
             freeCompilerArgs += "-Xcontext-receivers"
         }
     }

@@ -23,6 +23,7 @@ rootProject.name = "bp-project"
 
 include(":android")
 include(":server")
+include(":server:app")
 include(":server:database")
 
 include(":common")
