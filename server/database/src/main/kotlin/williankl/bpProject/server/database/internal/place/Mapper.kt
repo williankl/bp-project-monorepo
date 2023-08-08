@@ -1,5 +1,6 @@
 package williankl.bpProject.server.database.internal.place
 
+import java.util.*
 import place.PlaceAddressData
 import place.PlaceData
 import williankl.bpProject.common.core.models.Place
@@ -17,13 +18,13 @@ internal object Mapper {
     ): Place {
         return with(from) {
             Place(
-                id = id,
-                ownerId = ownerId,
+                id = id.toString(),
+                ownerId = ownerId.toString(),
                 name = name,
                 description = description,
                 address = with(address) {
                     PlaceAddress(
-                        id = id,
+                        id = id.toString(),
                         street = street,
                         city = city,
                         country = country,
@@ -42,11 +43,11 @@ internal object Mapper {
     fun toPlaceData(from: Place): PlaceData {
         return with(from) {
             PlaceData(
-                id = id,
-                ownerId = ownerId,
+                id = UUID.fromString(id),
+                ownerId = UUID.fromString(ownerId),
                 name = name,
                 description = description,
-                addressId = address.id,
+                addressId = UUID.fromString(address.id),
                 images = imageUrls.joinToString(ImageSeparator),
                 season = season.name,
             )
@@ -56,7 +57,7 @@ internal object Mapper {
     fun toAddressData(from: PlaceAddress): PlaceAddressData {
         return with(from) {
             PlaceAddressData(
-                id = id,
+                id = UUID.fromString(id),
                 city = city,
                 country = country,
                 street = street,

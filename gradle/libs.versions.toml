@@ -18,6 +18,7 @@ compose = "1.4.0"
 voyager = "1.0.0-rc06"
 lyricist = "1.4.1"
 ktor = "2.3.2"
+ktor-logback = "1.4.9"
 kodein = "7.20.1"
 kamel = "0.7.1"
 uuid = "0.8.0"
@@ -96,6 +97,7 @@ ktor-client-contentNegotiation = { module = "io.ktor:ktor-client-content-negotia
 ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
 ktor-server-contentNegotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
+ktor-server-logBack = { module = "ch.qos.logback:logback-classic", version.ref = "ktor-logback" }
 
 # Kodein
 

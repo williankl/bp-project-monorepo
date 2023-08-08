@@ -12,3 +12,14 @@ internal fun <T> parseOrNull(
         onFailure = { null },
     )
 }
+
+internal suspend fun <T> parseOrNullSuspend(
+    action: suspend () -> T
+): T? {
+    return runCatching {
+        action()
+    }.fold(
+        onSuccess = { it },
+        onFailure = { null },
+    )
+}

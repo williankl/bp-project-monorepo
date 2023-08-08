@@ -11,9 +11,15 @@ import williankl.bpProject.server.database.services.UserStorage
 internal class UserStorageInfrastructure(
     private val driver: JdbcDriver,
 ) : UserStorage {
+
+    init {
+        withDatabase(driver){
+            userDataQueries.createTableIfNeeded()
+        }
+    }
+
     override suspend fun createUser(user: User) {
         withDatabase(driver) {
-            userDataQueries.createTableIfNeeded()
             userDataQueries.createFullUser(fromDomain(user))
         }
     }

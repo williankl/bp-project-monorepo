@@ -1,10 +1,11 @@
 package williankl.bpProject.common.core.models
 
-import com.benasher44.uuid.Uuid
+import kotlinx.serialization.Serializable
 
+@Serializable
 public data class Place(
-    val id: Uuid,
-    val ownerId: Uuid,
+    val id: String,
+    val ownerId: String,
     val name: String,
     val description: String?,
     val address: PlaceAddress,
@@ -20,13 +21,15 @@ public data class Place(
         Nature, City, Beach, Mountains, CountrySide,
     }
 
+    @Serializable
     public data class PlaceAddress(
-        val id: Uuid,
+        val id: String,
         val street: String,
         val city: String,
         val country: String,
         val coordinates: PlaceAddressCoordinate,
     ){
+        @Serializable
         public data class PlaceAddressCoordinate(
             val latitude: Double,
             val longitude: Double,

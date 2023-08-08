@@ -12,9 +12,15 @@ import williankl.bpProject.server.database.services.PlaceStorage
 internal class PlaceStorageInfrastructure(
     private val driver: JdbcDriver,
 ) : PlaceStorage {
+
+    init {
+        withDatabase(driver){
+            placeDataQueries.createTableIfNeeded()
+        }
+    }
+
     override suspend fun savePlace(place: Place) {
         withDatabase(driver) {
-            placeDataQueries.createTableIfNeeded()
             placeDataQueries.createFullPlace(toPlaceData(place))
             placeAddressQueries.createTableIfNeeded()
             placeAddressQueries.createFullAddress(toAddressData(place.address))

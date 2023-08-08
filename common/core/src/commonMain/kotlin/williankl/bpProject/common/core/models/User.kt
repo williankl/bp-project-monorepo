@@ -1,9 +1,10 @@
 package williankl.bpProject.common.core.models
 
-import com.benasher44.uuid.Uuid
+import kotlinx.serialization.Serializable
 
+@Serializable
 public data class User(
-    val id: Uuid,
+    val id: String,
     val email: String,
     val tag: String,
 )
