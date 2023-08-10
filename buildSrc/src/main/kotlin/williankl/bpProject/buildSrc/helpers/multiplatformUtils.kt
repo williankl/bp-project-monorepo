@@ -44,7 +44,6 @@ public fun Project.applyCommonMainCodeGeneration() {
 
 internal fun Project.setupMultiplatformTargets() {
     applyAndroidTarget()
-    applyJvmTarget()
     applyIOSTarget()
 }
 
@@ -56,12 +55,6 @@ private fun Project.applyAndroidTarget() {
 
     extensions.configure<KotlinMultiplatformExtension>() {
         androidTarget()
-    }
-}
-
-private fun Project.applyJvmTarget() {
-    extensions.configure<KotlinMultiplatformExtension>() {
-        jvm()
     }
 }
 

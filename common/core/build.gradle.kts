@@ -11,4 +11,5 @@ dependencies {
     commonMainImplementation(libs.kotlinx.serialization.json)
     commonMainImplementation(libs.kotlinx.serialization.core)
     commonMainImplementation(libs.kotlinx.coroutines.core)
+    commonMainImplementation(libs.kodein.core)
 }
