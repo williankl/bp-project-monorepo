@@ -23,17 +23,17 @@ internal val BeautifulColors: Colors
     @Composable get() {
         val colorTheme = LocalColorTheme.current
         return Colors(
-            primary = BeautifulColor.BrandPrimary.composeColor,
-            primaryVariant = BeautifulColor.BrandSecondary.composeColor,
-            secondary = BeautifulColor.BrandPrimary.composeColor,
-            secondaryVariant = BeautifulColor.BrandSecondary.composeColor,
+            primary = BeautifulColor.Primary.composeColor,
+            primaryVariant = BeautifulColor.PrimaryLow.composeColor,
+            secondary = BeautifulColor.Secondary.composeColor,
+            secondaryVariant = BeautifulColor.SecondaryLow.composeColor,
             background = BeautifulColor.Background.composeColor,
             surface = BeautifulColor.Surface.composeColor,
-            error = BeautifulColor.Error.composeColor,
-            onPrimary = BeautifulColor.White.composeColor,
-            onSecondary = BeautifulColor.White.composeColor,
-            onBackground = BeautifulColor.NeutralHigh.composeColor,
-            onSurface = BeautifulColor.NeutralHigh.composeColor,
+            error = BeautifulColor.Danger.composeColor,
+            onPrimary = BeautifulColor.SecondaryHigh.composeColor,
+            onSecondary = BeautifulColor.PrimaryHigh.composeColor,
+            onBackground = BeautifulColor.White.composeColor,
+            onSurface = BeautifulColor.White.composeColor,
             onError = BeautifulColor.White.composeColor,
             isLight = colorTheme == ColorTheme.Light,
         )
