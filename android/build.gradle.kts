@@ -14,6 +14,8 @@ dependencies {
     implementation(projects.common.data.auth)
     implementation(projects.common.data.placeService)
 
+    implementation(projects.common.features.places)
+
     implementation(libs.android.compose.activity)
     implementation(libs.android.compose.ui)
 
