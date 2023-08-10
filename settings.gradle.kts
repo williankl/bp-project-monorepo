@@ -37,6 +37,7 @@ include(":common:data:place-service")
 include(":common:platform")
 include(":common:platform:design")
 include(":common:platform:design:core")
+include(":common:platform:state-handler")
 
 include(":common:features")
 include(":common:features:places")
