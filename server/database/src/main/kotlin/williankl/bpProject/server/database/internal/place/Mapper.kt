@@ -10,7 +10,7 @@ import java.util.*
 
 internal object Mapper {
 
-    private const val ImageSeparator = "|"
+    private const val IMAGE_SEPARATOR = "|"
 
     fun toDomain(
         from: PlaceData,
@@ -18,8 +18,8 @@ internal object Mapper {
     ): Place {
         return with(from) {
             Place(
-                id = id.toString(),
-                ownerId = ownerId.toString(),
+                id = id,
+                ownerId = ownerId,
                 name = name,
                 description = description,
                 address = with(address) {
@@ -34,7 +34,7 @@ internal object Mapper {
                         )
                     )
                 },
-                imageUrls = images?.split(ImageSeparator).orEmpty(),
+                imageUrls = images?.split(IMAGE_SEPARATOR).orEmpty(),
                 season = PlaceSeason.valueOf(season),
             )
         }
@@ -43,12 +43,12 @@ internal object Mapper {
     fun toPlaceData(from: Place): PlaceData {
         return with(from) {
             PlaceData(
-                id = UUID.fromString(id),
-                ownerId = UUID.fromString(ownerId),
+                id = id,
+                ownerId = ownerId,
                 name = name,
                 description = description,
                 addressId = UUID.fromString(address.id),
-                images = imageUrls.joinToString(ImageSeparator),
+                images = imageUrls.joinToString(IMAGE_SEPARATOR),
                 season = season.name,
             )
         }

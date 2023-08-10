@@ -17,5 +17,6 @@ dependencies {
     commonMainImplementation(libs.kotlinx.serialization.core)
 
     androidMainImplementation(libs.ktor.client.okHttp)
+    jvmMainImplementation(libs.ktor.client.okHttp)
     iosMainImplementation(libs.ktor.client.darwin)
 }

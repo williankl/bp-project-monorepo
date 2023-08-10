@@ -8,7 +8,7 @@ internal object Mapper {
     fun toDomain(from: UserData): User {
         return with(from) {
             User(
-                id = id.toString(),
+                id = id,
                 tag = tag,
                 email = email,
             )
@@ -18,7 +18,7 @@ internal object Mapper {
     fun fromDomain(from: User): UserData {
         return with(from) {
             UserData(
-                id = UUID.fromString(id),
+                id = id,
                 email = email,
                 tag = tag,
             )
