@@ -32,9 +32,9 @@ internal val BeautifulColors: Colors
             error = BeautifulColor.Danger.composeColor,
             onPrimary = BeautifulColor.SecondaryHigh.composeColor,
             onSecondary = BeautifulColor.PrimaryHigh.composeColor,
-            onBackground = BeautifulColor.White.composeColor,
-            onSurface = BeautifulColor.White.composeColor,
-            onError = BeautifulColor.White.composeColor,
+            onBackground = BeautifulColor.NeutralHigh.composeColor,
+            onSurface = BeautifulColor.NeutralHigh.composeColor,
+            onError = BeautifulColor.NeutralHigh.composeColor,
             isLight = colorTheme == ColorTheme.Light,
         )
     }

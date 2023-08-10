@@ -127,7 +127,7 @@ private fun CoreInput(
         onValueChange = onTextChange,
         modifier = modifier.onFocusChanged { state ->
             borderColor =
-                if (state.isFocused) BeautifulColor.Alert
+                if (state.isFocused) BeautifulColor.Danger
                 else BeautifulColor.Surface
         },
         enabled = enabled,
@@ -158,7 +158,7 @@ private fun CoreInput(
                         shape = BeautifulShape.Rounded.Regular.composeShape,
                     )
                     .background(
-                        color = BeautifulColor.SurfaceHigh.composeColor,
+                        color = BeautifulColor.Surface.composeColor,
                         shape = BeautifulShape.Rounded.Regular.composeShape,
                     )
                     .padding(

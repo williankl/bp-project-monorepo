@@ -9,8 +9,9 @@ android {
 
 dependencies {
     commonMainImplementation(projects.common.core)
-    commonMainImplementation(compose.runtime)
-    commonMainImplementation(compose.foundation)
+
+    commonMainApi(compose.runtime)
+    commonMainApi(compose.foundation)
     commonMainImplementation(compose.material)
     commonMainImplementation(compose.material3)
 

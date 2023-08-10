@@ -1,4 +1,4 @@
-package com.likeappro.platform.design.core.input
+package williankl.bpProject.common.platform.design.core.input
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.text.KeyboardActions
@@ -15,7 +15,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.VisualTransformation
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.BeautifulPainter
-import williankl.bpProject.common.platform.design.core.input.Input
 import williankl.bpProject.common.platform.design.core.text.TextSize
 
 public sealed class InputRules {

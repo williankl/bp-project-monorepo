@@ -129,6 +129,21 @@ public sealed class BeautifulColor(
         darkColor = Color(0xff30784E),
     )
 
+    public data object NeutralHigh : BeautifulColor(
+        lightColor = Color.White,
+        darkColor = Color.White,
+    )
+
+    public data object Neutral : BeautifulColor(
+        lightColor = Color.White,
+        darkColor = Color.White,
+    )
+
+    public data object NeutralLow : BeautifulColor(
+        lightColor = Color.White,
+        darkColor = Color.White,
+    )
+
     public data object Surface : BeautifulColor(
         lightColor = Color(0xff4F4F4F),
         darkColor = Color(0xff4F4F4F),

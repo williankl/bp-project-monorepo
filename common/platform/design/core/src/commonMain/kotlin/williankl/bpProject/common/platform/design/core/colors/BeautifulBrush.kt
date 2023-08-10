@@ -24,7 +24,7 @@ public fun BeautifulBrush.radialGradient(isHover: Boolean = false): Brush {
 public sealed class BeautifulBrush(
     public vararg val colors: BeautifulColor,
 ) : BeautifulPainter {
-    public data object Brand : BeautifulBrush(BeautifulColor.BrandPrimary, BeautifulColor.BrandSecondary)
+    public data object Brand : BeautifulBrush(BeautifulColor.PrimaryHigh, BeautifulColor.SecondaryHigh)
 
     public class Custom(vararg colors: BeautifulColor) : BeautifulBrush(*colors)
 }
