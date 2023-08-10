@@ -117,7 +117,7 @@ private fun CoreInput(
 
         is BeautifulBrush -> TextStyle(
             brush = Brush.linearGradient(
-                colors = color.colors.map { proColor -> proColor.composeColor }
+                colors = color.colors.map { color -> color.composeColor }
             ),
         )
     }

@@ -13,7 +13,7 @@ public val BeautifulPainter.hover: BeautifulPainter
         is BeautifulColor -> hover
         is BeautifulBrush -> {
             BeautifulBrush.Custom(
-                colors = this.colors.map { proColor -> proColor.hover }.toTypedArray()
+                colors = this.colors.map { color -> color.hover }.toTypedArray()
             )
         }
     }

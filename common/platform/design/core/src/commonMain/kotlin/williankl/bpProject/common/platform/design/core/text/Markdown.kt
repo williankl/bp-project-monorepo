@@ -91,7 +91,7 @@ internal fun applyMarkdown(
         spanStyles += AnnotatedString.Range(
             item = SpanStyle(
                 brush = Brush.linearGradient(
-                    brush.colors.map { proColor -> proColor.composeColor }
+                    brush.colors.map { color -> color.composeColor }
                 )
             ),
             start = 0,

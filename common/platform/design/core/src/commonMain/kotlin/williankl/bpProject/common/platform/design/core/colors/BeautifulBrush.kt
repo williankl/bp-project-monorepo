@@ -6,8 +6,8 @@ import androidx.compose.ui.graphics.Brush
 @Composable
 public fun BeautifulBrush.linearGradient(isHover: Boolean = false): Brush {
     return Brush.linearGradient(
-        colors = colors.map { proColor ->
-            if (isHover) proColor.composeHoverColor else proColor.composeColor
+        colors = colors.map { color ->
+            if (isHover) color.composeHoverColor else color.composeColor
         },
     )
 }
@@ -15,8 +15,8 @@ public fun BeautifulBrush.linearGradient(isHover: Boolean = false): Brush {
 @Composable
 public fun BeautifulBrush.radialGradient(isHover: Boolean = false): Brush {
     return Brush.radialGradient(
-        colors = colors.map { proColor ->
-            if (isHover) proColor.composeHoverColor else proColor.composeColor
+        colors = colors.map { color ->
+            if (isHover) color.composeHoverColor else color.composeColor
         },
     )
 }
