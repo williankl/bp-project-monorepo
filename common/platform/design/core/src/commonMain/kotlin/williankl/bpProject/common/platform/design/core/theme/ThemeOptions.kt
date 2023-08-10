@@ -3,9 +3,9 @@ package williankl.bpProject.common.platform.design.core.theme
 import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.ColorTheme
 import williankl.bpProject.common.platform.design.core.colors.LocalColorTheme
-import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 
 @Composable
