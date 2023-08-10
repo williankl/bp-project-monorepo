@@ -1,25 +1,37 @@
-package williankl.bpProject.common.platform.stateHandler.model
+package williankl.bpProject.common.platform.stateHandler
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-public abstract class StateModel<T>(
+public abstract class RunnerModel<T>(
     initialData: T,
     private val dispatcher: CoroutineDispatcher,
 ) : ScreenModel {
 
-    public var currentData: T by mutableStateOf(initialData)
-        private set
+    private val mutableUiState: MutableStateFlow<UIState> = MutableStateFlow(UIState.Content)
+    public val uiState: StateFlow<UIState> = mutableUiState
 
-    protected fun setContent(
-        onContent: (T) -> Unit = { result -> currentData = result },
-        onError: (Throwable) -> Unit = { /* Nothing by default */ },
-        onLoading: () -> Unit = { /* Nothing by default */ },
+    private val mutableCurrentData: MutableStateFlow<T> = MutableStateFlow(initialData)
+    public val currentData: StateFlow<T> = mutableCurrentData
+
+    public fun setContent(
+        onContent: (T) -> Unit = { result ->
+            mutableCurrentData.update { result }
+            mutableUiState.update { UIState.Content }
+        },
+        onError: (Throwable) -> Unit = { reason ->
+            mutableUiState.update { UIState.Error(reason) }
+        },
+        onLoading: () -> Unit = {
+            mutableUiState.update { UIState.Loading }
+        },
         action: suspend () -> T,
     ) {
         coroutineScope.launch(dispatcher) {
@@ -32,10 +44,16 @@ public abstract class StateModel<T>(
         }
     }
 
-    protected fun runAsync(
-        onContent: () -> Unit = { /* Nothing by default */ },
-        onError: (Throwable) -> Unit = { /* Nothing by default */ },
-        onLoading: () -> Unit = { /* Nothing by default */ },
+    public fun runAsync(
+        onContent: () -> Unit = {
+            mutableUiState.update { UIState.Content }
+        },
+        onError: (Throwable) -> Unit = { reason ->
+            mutableUiState.update { UIState.Error(reason) }
+        },
+        onLoading: () -> Unit = {
+            mutableUiState.update { UIState.Loading }
+        },
         action: suspend () -> Unit,
     ) {
         coroutineScope.launch(dispatcher) {
@@ -48,10 +66,10 @@ public abstract class StateModel<T>(
         }
     }
 
-    protected fun updateData(
+    public fun updateData(
         action: (T) -> T,
     ) {
-        currentData = action(currentData)
+        mutableCurrentData.update { action(currentData.value) }
     }
 
     private suspend fun <R> runCatchingOnModel(
