@@ -14,6 +14,4 @@ dependencies {
     commonMainApi(compose.foundation)
     commonMainImplementation(compose.material)
     commonMainImplementation(compose.material3)
-
-    commonMainImplementation(libs.voyager.navigator)
 }
