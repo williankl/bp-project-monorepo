@@ -1,0 +1,18 @@
+createTableIfNeeded:
+CREATE TABLE IF NOT EXISTS UserData (
+  id uuid PRIMARY KEY NOT NULL,
+  email text NOT NULL,
+  tag text NOT NULL
+);
+
+findUserByEmail:
+SELECT * FROM UserData
+WHERE email = ?;
+
+findUserByTag:
+SELECT * FROM UserData
+WHERE tag = ?;
+
+createFullUser:
+INSERT INTO UserData(id, email, tag)
+VALUES ?;

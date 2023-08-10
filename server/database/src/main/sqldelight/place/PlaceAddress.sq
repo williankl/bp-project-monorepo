@@ -1,0 +1,22 @@
+createTableIfNeeded:
+CREATE TABLE IF NOT EXISTS PlaceAddressData (
+  id uuid PRIMARY KEY NOT NULL,
+  street text NOT NULL,
+  city text NOT NULL,
+  country text NOT NULL,
+  latitude text NOT NULL,
+  longitude text NOT NULL
+);
+
+createFullAddress:
+INSERT INTO PlaceAddressData(id, street, city, country, latitude, longitude)
+VALUES ?;
+
+findAddressById:
+SELECT * FROM PlaceAddressData
+WHERE id = ?;
+
+updateAddress:
+UPDATE PlaceAddressData
+SET street = ?, city = ?, country = ?, latitude = ?, longitude = ?
+WHERE id = ?;

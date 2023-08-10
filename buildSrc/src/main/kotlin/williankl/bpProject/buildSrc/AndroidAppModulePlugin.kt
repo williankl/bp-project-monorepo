@@ -27,7 +27,7 @@ internal class AndroidAppModulePlugin : Plugin<Project> {
     private fun Project.setupAndroidApp() {
         configure<BaseExtension> {
             buildTypes.getByName("debug").apply {
-                applicationIdSuffix = ".hml"
+                applicationIdSuffix = ".stg"
             }
 
             buildTypes.getByName("release").apply {
@@ -39,7 +39,7 @@ internal class AndroidAppModulePlugin : Plugin<Project> {
             }
 
             defaultConfig {
-                applicationId = "com.lipperhub.likeappro"
+                applicationId = "williankl.bpProject"
                 versionCode = retrieveVersionFromCatalogs("android-versionCode").toInt()
                 versionName = retrieveVersionFromCatalogs("android-versionName")
             }

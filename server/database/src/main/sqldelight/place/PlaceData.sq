@@ -1,0 +1,32 @@
+createTableIfNeeded:
+CREATE TABLE IF NOT EXISTS PlaceData (
+  id uuid PRIMARY KEY NOT NULL,
+  ownerId uuid NOT NULL,
+  name text NOT NULL,
+  description text,
+  addressId uuid NOT NULL,
+  images text,
+  season text NOT NULL
+);
+
+createFullPlace:
+INSERT INTO PlaceData(id, ownerId, name, description, addressId, images, season)
+VALUES ?;
+
+findPlaceById:
+SELECT * FROM PlaceData
+WHERE id = ?;
+
+listPlaces:
+SELECT * FROM PlaceData
+LIMIT ? OFFSET ?;
+
+updatePlaceData:
+UPDATE PlaceData
+SET name = ?, description = ?
+WHERE id = ?;
+
+updateImageUrls:
+UPDATE PlaceData
+SET images = ?
+WHERE id = ?;

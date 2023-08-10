@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "976882731101",
+    "project_id": "wkl-bp-project",
+    "storage_bucket": "wkl-bp-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:976882731101:android:a0ea31c2b30de29db765b4",
+        "android_client_info": {
+          "package_name": "williankl.bpProject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "976882731101-kgcp8n3btnudj7k07fpkreqm8o86dl4t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCb2nZG1G5CsaXlBJd_kgHckfXew4w0UYs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "976882731101-kgcp8n3btnudj7k07fpkreqm8o86dl4t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:976882731101:android:706bf8cabae26fb4b765b4",
+        "android_client_info": {
+          "package_name": "williankl.bpProject.stg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "976882731101-kgcp8n3btnudj7k07fpkreqm8o86dl4t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCb2nZG1G5CsaXlBJd_kgHckfXew4w0UYs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "976882731101-kgcp8n3btnudj7k07fpkreqm8o86dl4t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

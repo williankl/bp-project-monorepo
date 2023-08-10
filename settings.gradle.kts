@@ -1,3 +1,5 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
     repositories {
         google()
@@ -21,6 +23,16 @@ rootProject.name = "bp-project"
 
 include(":android")
 include(":server")
+include(":server:app")
+include(":server:database")
 
 include(":common")
 include(":common:core")
+
+include(":common:data")
+include(":common:data:networking")
+include(":common:data:auth")
+include(":common:data:place-service")
+
+include(":common:features")
+include(":common:features:places")

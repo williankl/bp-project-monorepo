@@ -1,6 +1,7 @@
 # Project exclude paths
 .gradle
-local.properties
+*local.properties*
+*hikari.properties*
 build/
 localStorage/
 !gradle/wrapper/gradle-wrapper.jar
