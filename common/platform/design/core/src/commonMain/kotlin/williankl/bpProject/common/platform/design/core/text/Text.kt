@@ -15,7 +15,7 @@ import williankl.bpProject.common.platform.design.core.colors.BeautifulBrush
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.BeautifulPainter
 import williankl.bpProject.common.platform.design.core.colors.composeColor
-import williankl.bpProject.common.platform.design.core.retrieveLikeAPProFontFamily
+import williankl.bpProject.common.platform.design.core.retrieveBPFontFamily
 
 @Composable
 public fun Text(
@@ -80,7 +80,7 @@ internal fun CoreText(
         onTextLayout = { /* Nothing */ },
         style = LocalTextStyle.current,
         letterSpacing = TextUnit.Unspecified,
-        fontFamily = retrieveLikeAPProFontFamily(),
+        fontFamily = retrieveBPFontFamily(),
         lineHeight = TextUnit.Unspecified,
     )
 }

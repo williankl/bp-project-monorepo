@@ -19,7 +19,7 @@ import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
 
 public typealias ComposeString = @Composable () -> String
 
-internal fun retrieveLikeAPProFontFamily(): FontFamily = FontFamily.Monospace
+internal fun retrieveBPFontFamily(): FontFamily = FontFamily.Monospace
 
 public fun Modifier.overlappingHeight(size: Dp): Modifier = layout { measurable, constraints ->
     val newHeight = constraints.maxHeight + size.toPx()
