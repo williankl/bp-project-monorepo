@@ -34,5 +34,9 @@ include(":common:data:networking")
 include(":common:data:auth")
 include(":common:data:place-service")
 
+include(":common:platform")
+include(":common:platform:design")
+include(":common:platform:design:core")
+
 include(":common:features")
 include(":common:features:places")
