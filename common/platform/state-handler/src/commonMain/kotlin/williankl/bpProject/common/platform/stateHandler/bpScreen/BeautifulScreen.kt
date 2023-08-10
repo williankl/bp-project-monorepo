@@ -16,6 +16,8 @@ import williankl.bpProject.common.platform.stateHandler.UIState
 public abstract class BeautifulScreen : Screen {
 
     public var screenState: UIState by mutableStateOf(UIState.Content)
+
+    @Composable
     override fun Content() {
         ActualScreenContent()
     }
