@@ -13,7 +13,7 @@ internal class UserStorageInfrastructure(
 ) : UserStorage {
 
     init {
-        withDatabase(driver){
+        withDatabase(driver) {
             userDataQueries.createTableIfNeeded()
         }
     }

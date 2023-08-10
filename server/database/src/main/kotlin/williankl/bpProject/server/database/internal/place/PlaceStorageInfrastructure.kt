@@ -1,20 +1,20 @@
 package williankl.bpProject.server.database.internal.place
 
 import app.cash.sqldelight.driver.jdbc.JdbcDriver
-import java.util.*
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.server.database.internal.DriverProvider.withDatabase
 import williankl.bpProject.server.database.internal.place.Mapper.toAddressData
 import williankl.bpProject.server.database.internal.place.Mapper.toDomain
 import williankl.bpProject.server.database.internal.place.Mapper.toPlaceData
 import williankl.bpProject.server.database.services.PlaceStorage
+import java.util.*
 
 internal class PlaceStorageInfrastructure(
     private val driver: JdbcDriver,
 ) : PlaceStorage {
 
     init {
-        withDatabase(driver){
+        withDatabase(driver) {
             placeDataQueries.createTableIfNeeded()
         }
     }
@@ -74,7 +74,6 @@ internal class PlaceStorageInfrastructure(
         }
     }
 
-
     override suspend fun updatePlaceLocation(
         id: UUID,
         address: Place.PlaceAddress
@@ -92,5 +91,4 @@ internal class PlaceStorageInfrastructure(
             }
         }
     }
-
 }

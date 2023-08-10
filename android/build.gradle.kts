@@ -10,6 +10,8 @@ android {
 
 dependencies {
     implementation(projects.common.core)
+    implementation(projects.common.data.networking)
+    implementation(projects.common.data.auth)
     implementation(projects.common.data.placeService)
 
     implementation(libs.android.compose.activity)
@@ -17,4 +19,5 @@ dependencies {
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.crashlytics)
+    implementation(libs.kodein.android)
 }

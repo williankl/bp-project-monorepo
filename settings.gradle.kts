@@ -31,4 +31,5 @@ include(":common:core")
 
 include(":common:data")
 include(":common:data:networking")
+include(":common:data:auth")
 include(":common:data:place-service")

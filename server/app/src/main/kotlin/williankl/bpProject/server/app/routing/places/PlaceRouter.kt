@@ -8,14 +8,16 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
-import java.util.UUID
 import org.kodein.di.instance
-import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.network.NetworkErrorResponse
+import williankl.bpProject.common.data.placeService.models.SavingPlace
+import williankl.bpProject.server.app.generateId
 import williankl.bpProject.server.app.parseOrNull
 import williankl.bpProject.server.app.parseOrNullSuspend
+import williankl.bpProject.server.app.routing.places.PlaceMapper.toPlace
 import williankl.bpProject.server.app.serverDi
 import williankl.bpProject.server.database.services.PlaceStorage
+import java.util.UUID
 
 internal object PlaceRouter {
 
@@ -31,9 +33,10 @@ internal object PlaceRouter {
 
     private fun Route.savePlaceRoute() {
         post {
-            val received = parseOrNullSuspend { call.receive<Place>() }
+            val received = parseOrNullSuspend { call.receive<SavingPlace>() }
             if (received != null) {
-                placesService.savePlace(received)
+                val generatedPlace = received.toPlace(generateId) // fixme - use user id once created
+                placesService.savePlace(generatedPlace)
                 call.respond(HttpStatusCode.OK)
             } else {
                 call.respond(

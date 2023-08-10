@@ -1,9 +1,8 @@
 package williankl.bpProject.server.database.internal.user
 
-import java.util.*
-import user.UserCredentials
 import user.UserData
 import williankl.bpProject.common.core.models.User
+import java.util.*
 
 internal object Mapper {
     fun toDomain(from: UserData): User {

@@ -1,6 +1,9 @@
 package williankl.bpProject.server.app
 
-import java.util.UUID
+import com.benasher44.uuid.Uuid
+
+internal val generateId: Uuid
+    get() = Uuid.randomUUID()
 
 internal fun <T> parseOrNull(
     action: () -> T
