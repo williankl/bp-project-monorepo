@@ -266,7 +266,7 @@ public object LoginScreen : BeautifulScreen() {
     ) {
         Row(
             modifier = modifier.padding(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(40.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Spacer(
