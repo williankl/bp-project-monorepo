@@ -31,7 +31,6 @@ kotlinx-serialization = "1.5.1"
 kotlinx-coroutines = "1.7.3"
 
 android-firebase-bom = "32.2.2"
-android-compose = "1.4.3"
 android-compose-activity = "1.7.2"
 android-appCompat = "1.6.1"
 android-constraintLayout = "2.2.0-alpha11"
@@ -58,9 +57,6 @@ plugin-moko = { module = "dev.icerock.moko:resources-generator", version.ref = "
 # Android
 
 android-compose-activity = { module = "androidx.activity:activity-compose", version.ref = "android-compose-activity" }
-android-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "android-compose" }
-android-compose-toolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "android-compose" }
-android-compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "android-compose" }
 android-appCompat = { module = "androidx.appcompat:appcompat", version.ref = "android-appCompat" }
 android-constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "android-constraintLayout" }
 android-splashScreen = { module = "androidx.core:core-splashscreen", version.ref = "android-splashScreen" }

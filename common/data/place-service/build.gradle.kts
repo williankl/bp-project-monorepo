@@ -1,5 +1,3 @@
-import williankl.bpProject.buildSrc.helpers.applyJvmTarget
-
 plugins {
     id("bp.multiplatform")
     kotlin("plugin.serialization")
@@ -8,8 +6,6 @@ plugins {
 android {
     namespace = "williankl.bpProject.common.data.placeService"
 }
-
-applyJvmTarget()
 
 dependencies {
     commonMainImplementation(projects.common.core)

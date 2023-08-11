@@ -1,5 +1,6 @@
 plugins {
     id("bp.android.app")
+    id("org.jetbrains.compose")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
 }
@@ -21,8 +22,11 @@ dependencies {
     implementation(projects.common.features.authentication)
     implementation(projects.common.features.places)
 
+    implementation(compose.runtime)
+    implementation(compose.foundation)
+    implementation(compose.ui)
+    implementation(compose.animation)
     implementation(libs.android.compose.activity)
-    implementation(libs.android.compose.ui)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.crashlytics)

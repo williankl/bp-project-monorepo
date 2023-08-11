@@ -7,7 +7,7 @@ internal enum class SocialLoginProvider(
     val resource: ImageResource,
 ) {
     Gmail(
-        resource = SharedDesignCoreResources.images.gmail_logo,
+        resource = SharedDesignCoreResources.images.google_logo,
     ),
 
     Facebook(

@@ -42,16 +42,11 @@ public fun Project.applyCommonMainCodeGeneration() {
     }
 }
 
-public fun Project.applyJvmTarget() {
-    extensions.configure<KotlinMultiplatformExtension>() {
-        jvm()
-    }
-}
-
-
 internal fun Project.setupMultiplatformTargets() {
     applyAndroidTarget()
+    applyJvmTarget()
     applyIOSTarget()
+    setDependencies()
 }
 
 private fun Project.applyAndroidTarget() {
@@ -65,8 +60,30 @@ private fun Project.applyAndroidTarget() {
     }
 }
 
+private fun Project.applyJvmTarget() {
+    extensions.configure<KotlinMultiplatformExtension>() {
+        jvm()
+    }
+}
+
 private fun Project.applyIOSTarget() {
     extensions.configure<KotlinMultiplatformExtension>() {
         ios()
+    }
+}
+
+private fun Project.setDependencies() {
+    extensions.configure<KotlinMultiplatformExtension>() {
+        sourceSets {
+            val commonMain by getting
+
+            val jvmMain by getting {
+                dependsOn(commonMain)
+            }
+
+            val androidMain by getting {
+                dependsOn(commonMain)
+            }
+        }
     }
 }

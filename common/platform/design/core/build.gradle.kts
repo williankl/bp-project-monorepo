@@ -4,6 +4,7 @@ plugins {
     id("bp.multiplatform")
     id("org.jetbrains.compose")
     id("dev.icerock.mobile.multiplatform-resources")
+    id("com.google.devtools.ksp")
 }
 
 android {

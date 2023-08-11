@@ -4,8 +4,8 @@ plugins {
 
 dependencies {
     implementation(projects.common.core)
-    implementation(projects.server.database)
     implementation(projects.common.data.placeService)
+    implementation(projects.server.database)
 
     implementation(libs.kodein.core)
     implementation(libs.uuid)
