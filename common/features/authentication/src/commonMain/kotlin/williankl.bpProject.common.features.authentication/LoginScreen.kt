@@ -3,8 +3,6 @@ package williankl.bpProject.common.features.authentication
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,7 +15,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,16 +49,17 @@ public object LoginScreen : BeautifulScreen() {
     override fun BeautifulContent() {
         LoginScreenContent(
             onLoginRequested = { login, password -> /* todo - handle action */ },
+            onSignupRequested = { userName, login, password -> /* todo - handle action */ },
             onForgotPasswordClicked = { /* todo - handle action */ },
             onSocialLoginClicked = { /* todo - handle action */ },
             modifier = Modifier.fillMaxSize(),
         )
     }
 
-    @OptIn(ExperimentalAnimationApi::class)
     @Composable
     private fun LoginScreenContent(
         onLoginRequested: (String, String) -> Unit,
+        onSignupRequested: (String, String, String) -> Unit,
         onForgotPasswordClicked: () -> Unit,
         onSocialLoginClicked: (SocialLoginProvider) -> Unit,
         modifier: Modifier = Modifier,
@@ -99,6 +100,7 @@ public object LoginScreen : BeautifulScreen() {
                 LoginOptions(
                     authenticationFlow = authFlow,
                     onLoginRequested = onLoginRequested,
+                    onSignupRequested = onSignupRequested,
                     onForgotPasswordClicked = onForgotPasswordClicked,
                     onSocialLoginClicked = onSocialLoginClicked,
                     onSignupClicked = {
@@ -107,7 +109,7 @@ public object LoginScreen : BeautifulScreen() {
                             AuthenticationFlow.Login -> AuthenticationFlow.Signup
                         }
                     },
-                    modifier = Modifier,
+                    modifier = Modifier.weight(6f),
                 )
             }
         }
@@ -117,6 +119,7 @@ public object LoginScreen : BeautifulScreen() {
     private fun LoginOptions(
         authenticationFlow: AuthenticationFlow,
         onLoginRequested: (String, String) -> Unit,
+        onSignupRequested: (String, String, String) -> Unit,
         onForgotPasswordClicked: () -> Unit,
         onSocialLoginClicked: (SocialLoginProvider) -> Unit,
         onSignupClicked: () -> Unit,
@@ -124,13 +127,20 @@ public object LoginScreen : BeautifulScreen() {
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = modifier.padding(16.dp),
+            modifier = modifier
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp),
         ) {
             InputLoginOptions(
                 authenticationFlow = authenticationFlow,
                 onLoginRequested = onLoginRequested,
+                onSignupRequested = onSignupRequested,
                 onForgotPasswordClicked = onForgotPasswordClicked,
                 modifier = Modifier,
+            )
+
+            Spacer(
+                modifier = Modifier.weight(1f)
             )
 
             AnimatedVisibility(
@@ -138,8 +148,7 @@ public object LoginScreen : BeautifulScreen() {
             ) {
                 SocialLoginOptions(
                     onSocialLoginClicked = onSocialLoginClicked,
-                    modifier = Modifier
-                        .padding(top = 50.dp),
+                    modifier = Modifier,
                 )
             }
 
@@ -150,7 +159,7 @@ public object LoginScreen : BeautifulScreen() {
             AccountCreationOption(
                 authenticationFlow = authenticationFlow,
                 onSignupClicked = onSignupClicked,
-                modifier = Modifier,
+                modifier = Modifier.padding(top = 16.dp),
             )
         }
     }
@@ -159,6 +168,7 @@ public object LoginScreen : BeautifulScreen() {
     private fun InputLoginOptions(
         authenticationFlow: AuthenticationFlow,
         onLoginRequested: (String, String) -> Unit,
+        onSignupRequested: (String, String, String) -> Unit,
         onForgotPasswordClicked: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
@@ -236,7 +246,12 @@ public object LoginScreen : BeautifulScreen() {
             Button(
                 label = strings.loginActionLabel,
                 variant = ButtonVariant.Primary,
-                onClick = { onLoginRequested(loginText, passwordText) },
+                onClick = {
+                    when (authenticationFlow) {
+                        AuthenticationFlow.Signup -> onSignupRequested(userName, loginText, passwordText)
+                        AuthenticationFlow.Login -> onLoginRequested(loginText, passwordText)
+                    }
+                },
                 modifier = Modifier
                     .padding(top = 30.dp)
                     .fillMaxWidth(),
