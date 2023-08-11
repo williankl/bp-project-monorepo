@@ -1,4 +1,4 @@
-package williankl.bpProject.common.features.authentication
+package williankl.bpProject.common.features.authentication.flows.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,8 +25,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import dev.icerock.moko.resources.compose.painterResource
+import williankl.bpProject.common.features.authentication.SharedAuthenticationResources
 import williankl.bpProject.common.features.authentication.models.SocialLoginProvider
-import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.button.Button
 import williankl.bpProject.common.platform.design.core.button.ButtonVariant
 import williankl.bpProject.common.platform.design.core.clickableIcon
@@ -141,6 +141,7 @@ public object LoginScreen : BeautifulScreen() {
         onForgotPasswordClicked: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
+        val strings =
         var loginText by remember {
             mutableStateOf("")
         }
