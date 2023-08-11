@@ -25,6 +25,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import dev.icerock.moko.resources.compose.painterResource
+import williankl.bpProject.common.features.authentication.LocalAuthenticationStrings
 import williankl.bpProject.common.features.authentication.SharedAuthenticationResources
 import williankl.bpProject.common.features.authentication.models.SocialLoginProvider
 import williankl.bpProject.common.platform.design.core.button.Button
@@ -141,7 +142,7 @@ public object LoginScreen : BeautifulScreen() {
         onForgotPasswordClicked: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
-        val strings =
+        val strings = LocalAuthenticationStrings.current
         var loginText by remember {
             mutableStateOf("")
         }
@@ -157,7 +158,7 @@ public object LoginScreen : BeautifulScreen() {
         ) {
             Input(
                 text = loginText,
-                hint =,
+                hint = strings.loginHint,
                 onTextChange = { loginText = it },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email,
@@ -166,7 +167,7 @@ public object LoginScreen : BeautifulScreen() {
 
             Input(
                 text = passwordText,
-                hint =,
+                hint = strings.passwordHint,
                 onTextChange = { passwordText = it },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
@@ -174,14 +175,14 @@ public object LoginScreen : BeautifulScreen() {
             )
 
             Text(
-                text =,
+                text = strings.forgotPasswordLabel,
                 size = TextSize.XSmall,
                 color = BeautifulColor.Secondary,
                 modifier = Modifier.clickableIcon { onForgotPasswordClicked() }
             )
 
             Button(
-                label =,
+                label = strings.loginActionLabel,
                 variant = ButtonVariant.Primary,
                 onClick = { onLoginRequested(loginText, passwordText) },
                 modifier = Modifier

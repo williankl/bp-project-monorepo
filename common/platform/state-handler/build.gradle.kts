@@ -8,7 +8,6 @@ android {
 }
 
 dependencies {
-    commonMainImplementation(projects.common.core)
     commonMainImplementation(projects.common.platform.design.core)
     commonMainImplementation(libs.voyager.navigator)
     commonMainImplementation(libs.voyager.kodein)

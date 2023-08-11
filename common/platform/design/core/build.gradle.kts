@@ -11,8 +11,6 @@ android {
 }
 
 dependencies {
-    commonMainImplementation(projects.common.core)
-
     commonMainApi(compose.runtime)
     commonMainApi(compose.foundation)
     commonMainImplementation(compose.material)

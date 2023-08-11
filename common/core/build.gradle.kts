@@ -1,3 +1,5 @@
+import williankl.bpProject.buildSrc.helpers.applyJvmTarget
+
 plugins {
     id("bp.multiplatform")
     kotlin("plugin.serialization")
@@ -6,6 +8,8 @@ plugins {
 android {
     namespace = "williankl.bpProject.common.core"
 }
+
+applyJvmTarget()
 
 dependencies {
     commonMainImplementation(libs.uuid)
