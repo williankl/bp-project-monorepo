@@ -11,18 +11,76 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import dev.icerock.moko.resources.ImageResource
+import dev.icerock.moko.resources.compose.asFont
 import williankl.bpProject.common.platform.design.core.colors.ColorTheme
 import williankl.bpProject.common.platform.design.core.colors.LocalColorTheme
 import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
 
 public typealias ComposeString = @Composable () -> String
 
-internal fun retrieveBPFontFamily(): FontFamily = FontFamily.Monospace
+@Composable
+internal fun retrieveBPFontFamily(): FontFamily =
+    with(SharedDesignCoreResources.fonts.Roboto) {
+        FontFamily(
+            listOfNotNull(
+                black.asFont(
+                    style = FontStyle.Normal,
+                    weight = FontWeight.Black,
+                ),
+                blackItalic.asFont(
+                    style = FontStyle.Italic,
+                    weight = FontWeight.Black,
+                ),
+                bold.asFont(
+                    style = FontStyle.Normal,
+                    weight = FontWeight.Bold,
+                ),
+                boldItalic.asFont(
+                    style = FontStyle.Italic,
+                    weight = FontWeight.Bold,
+                ),
+                regular.asFont(
+                    style = FontStyle.Normal,
+                    weight = FontWeight.Normal,
+                ),
+                italic.asFont(
+                    style = FontStyle.Italic,
+                    weight = FontWeight.Normal,
+                ),
+                light.asFont(
+                    style = FontStyle.Normal,
+                    weight = FontWeight.Light,
+                ),
+                lightItalic.asFont(
+                    style = FontStyle.Italic,
+                    weight = FontWeight.Light,
+                ),
+                medium.asFont(
+                    style = FontStyle.Normal,
+                    weight = FontWeight.Medium,
+                ),
+                mediumItalic.asFont(
+                    style = FontStyle.Italic,
+                    weight = FontWeight.Medium,
+                ),
+                thin.asFont(
+                    style = FontStyle.Normal,
+                    weight = FontWeight.Thin,
+                ),
+                thinItalic.asFont(
+                    style = FontStyle.Italic,
+                    weight = FontWeight.Thin,
+                ),
+            )
+        )
+    }
 
 public fun Modifier.overlappingHeight(size: Dp): Modifier = layout { measurable, constraints ->
     val newHeight = constraints.maxHeight + size.toPx()
