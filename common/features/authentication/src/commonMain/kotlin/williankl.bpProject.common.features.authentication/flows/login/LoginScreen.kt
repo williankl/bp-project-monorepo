@@ -7,10 +7,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
@@ -20,7 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -29,6 +28,7 @@ import williankl.bpProject.common.features.authentication.LocalAuthenticationStr
 import williankl.bpProject.common.features.authentication.SharedAuthenticationResources
 import williankl.bpProject.common.features.authentication.models.SocialLoginProvider
 import williankl.bpProject.common.platform.design.core.button.Button
+import williankl.bpProject.common.platform.design.core.button.ButtonType
 import williankl.bpProject.common.platform.design.core.button.ButtonVariant
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
@@ -47,6 +47,7 @@ public object LoginScreen : BeautifulScreen() {
             onLoginRequested = { login, password -> /* todo - handle action */ },
             onForgotPasswordClicked = { /* todo - handle action */ },
             onSocialLoginClicked = { /* todo - handle action */ },
+            onSignupClicked = { /* todo - handle action */ },
             modifier = Modifier.fillMaxSize(),
         )
     }
@@ -56,44 +57,30 @@ public object LoginScreen : BeautifulScreen() {
         onLoginRequested: (String, String) -> Unit,
         onForgotPasswordClicked: () -> Unit,
         onSocialLoginClicked: (SocialLoginProvider) -> Unit,
+        onSignupClicked: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
         Box(
             modifier = modifier
                 .background(BeautifulColor.Background.composeColor)
         ) {
-            Box(
+            Image(
+                painter = painterResource(SharedAuthenticationResources.images.login_image),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.5f)
-            ) {
-                Image(
-                    painter = painterResource(SharedAuthenticationResources.images.login_image),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
-                )
-
-                Spacer(
-                    modifier = Modifier
-                        .background(
-                            brush = Brush.radialGradient(
-                                colors = listOf(
-                                    BeautifulColor.Transparent.composeColor,
-                                    BeautifulColor.Background.composeColor,
-                                )
-                            )
-                        )
-                        .fillMaxSize()
-                )
-            }
+                    .requiredHeight(500.dp)
+            )
 
             Column(
-                modifier = modifier
+                modifier = Modifier
             ) {
                 Box(
                     contentAlignment = Alignment.Center,
-                    modifier = Modifier.weight(4f)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(4f)
                 ) {
                     Image(
                         painter = painterResource(themedLogoResource()),
@@ -102,11 +89,11 @@ public object LoginScreen : BeautifulScreen() {
                     )
                 }
 
-
                 LoginOptions(
                     onLoginRequested = onLoginRequested,
                     onForgotPasswordClicked = onForgotPasswordClicked,
                     onSocialLoginClicked = onSocialLoginClicked,
+                    onSignupClicked = onSignupClicked,
                     modifier = Modifier.weight(6f),
                 )
             }
@@ -118,10 +105,12 @@ public object LoginScreen : BeautifulScreen() {
         onLoginRequested: (String, String) -> Unit,
         onForgotPasswordClicked: () -> Unit,
         onSocialLoginClicked: (SocialLoginProvider) -> Unit,
+        onSignupClicked: () -> Unit,
         modifier: Modifier = Modifier
     ) {
         Column(
-            modifier = modifier,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = modifier.padding(16.dp),
         ) {
             InputLoginOptions(
                 onLoginRequested = onLoginRequested,
@@ -131,6 +120,15 @@ public object LoginScreen : BeautifulScreen() {
 
             SocialLoginOptions(
                 onSocialLoginClicked = onSocialLoginClicked,
+                modifier = Modifier,
+            )
+
+            Spacer(
+                modifier = Modifier.weight(1f)
+            )
+
+            AccountCreationOption(
+                onSignupClicked = onSignupClicked,
                 modifier = Modifier,
             )
         }
@@ -162,7 +160,8 @@ public object LoginScreen : BeautifulScreen() {
                 onTextChange = { loginText = it },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email,
-                )
+                ),
+                modifier = Modifier.fillMaxWidth(),
             )
 
             Input(
@@ -172,6 +171,7 @@ public object LoginScreen : BeautifulScreen() {
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                 ),
+                modifier = Modifier.fillMaxWidth(),
             )
 
             Text(
@@ -198,7 +198,7 @@ public object LoginScreen : BeautifulScreen() {
         modifier: Modifier = Modifier
     ) {
         Row(
-            modifier = modifier,
+            modifier = modifier.padding(16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -214,11 +214,39 @@ public object LoginScreen : BeautifulScreen() {
                         contentDescription = null,
                         modifier = Modifier
                             .clickableIcon { onSocialLoginClicked(provider) }
+                            .size(40.dp)
                     )
                 }
 
             Spacer(
                 modifier = Modifier.weight(1f)
+            )
+        }
+    }
+
+    @Composable
+    private fun AccountCreationOption(
+        onSignupClicked: () -> Unit,
+        modifier: Modifier
+    ) {
+        val strings = LocalAuthenticationStrings.current
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+            modifier = modifier,
+        ) {
+            Text(
+                text = strings.hasNoAccountLabel,
+                size = TextSize.XSmall,
+                color = BeautifulColor.Secondary,
+                modifier = Modifier
+            )
+
+            Button(
+                label = strings.signUpLabel,
+                variant = ButtonVariant.Secondary,
+                type = ButtonType.Pill,
+                onClick = onSignupClicked
             )
         }
     }

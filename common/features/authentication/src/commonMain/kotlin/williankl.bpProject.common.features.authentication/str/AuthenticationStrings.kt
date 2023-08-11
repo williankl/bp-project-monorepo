@@ -1,6 +1,5 @@
 package williankl.bpProject.common.features.authentication.str
 
-
 internal data class AuthenticationStrings(
     val loginHint: String,
     val passwordHint: String,
