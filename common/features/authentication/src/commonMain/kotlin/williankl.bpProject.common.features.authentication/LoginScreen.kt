@@ -38,7 +38,7 @@ import williankl.bpProject.common.platform.design.core.text.TextSize
 import williankl.bpProject.common.platform.design.core.themedLogoResource
 import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
 
-public class LoginScreen : BeautifulScreen() {
+public object LoginScreen : BeautifulScreen() {
 
     @Composable
     override fun BeautifulContent() {
