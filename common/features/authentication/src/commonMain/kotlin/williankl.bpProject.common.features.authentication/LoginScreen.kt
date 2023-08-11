@@ -165,6 +165,7 @@ public object LoginScreen : BeautifulScreen() {
     }
 
     @Composable
+    @OptIn(ExperimentalAnimationApi::class)
     private fun InputLoginOptions(
         authenticationFlow: AuthenticationFlow,
         onLoginRequested: (String, String) -> Unit,
@@ -243,19 +244,26 @@ public object LoginScreen : BeautifulScreen() {
                 )
             }
 
-            Button(
-                label = strings.loginActionLabel,
-                variant = ButtonVariant.Primary,
-                onClick = {
-                    when (authenticationFlow) {
-                        AuthenticationFlow.Signup -> onSignupRequested(userName, loginText, passwordText)
-                        AuthenticationFlow.Login -> onLoginRequested(loginText, passwordText)
-                    }
-                },
-                modifier = Modifier
-                    .padding(top = 30.dp)
-                    .fillMaxWidth(),
-            )
+            AnimatedContent(
+                targetState = authenticationFlow
+            ) { flow ->
+                Button(
+                    label = when (flow) {
+                        AuthenticationFlow.Signup -> strings.signupActionLabel
+                        AuthenticationFlow.Login -> strings.loginActionLabel
+                    },
+                    variant = ButtonVariant.Primary,
+                    onClick = {
+                        when (flow) {
+                            AuthenticationFlow.Signup -> onSignupRequested(userName, loginText, passwordText)
+                            AuthenticationFlow.Login -> onLoginRequested(loginText, passwordText)
+                        }
+                    },
+                    modifier = Modifier
+                        .padding(top = 30.dp)
+                        .fillMaxWidth(),
+                )
+            }
         }
     }
 

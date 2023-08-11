@@ -7,6 +7,7 @@ internal val ptBrStrings = AuthenticationStrings(
     userNameHint = "Digite seu nome completo",
     loginHint = "Digite seu e-mail...",
     passwordHint = "Senha",
+    signupActionLabel = "Cadastrar",
     loginActionLabel = "Entrar",
     forgotPasswordLabel = "Esqueci minha senha",
     signUpLabel = "Cadastre-se",
