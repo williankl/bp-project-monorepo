@@ -15,6 +15,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import dev.icerock.moko.resources.ImageResource
+import williankl.bpProject.common.platform.design.core.colors.ColorTheme
+import williankl.bpProject.common.platform.design.core.colors.LocalColorTheme
 import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
 
 public typealias ComposeString = @Composable () -> String
@@ -64,5 +67,14 @@ public fun IntSize.toDpSize(): DpSize {
             width = this@toDpSize.width.toDp(),
             height = this@toDpSize.height.toDp(),
         )
+    }
+}
+
+@Composable
+public fun themedLogoResource(): ImageResource {
+    val theme = LocalColorTheme.current
+    return when (theme) {
+        ColorTheme.Dark -> SharedDesignCoreResources.images.bp_logo_dark
+        ColorTheme.Light -> SharedDesignCoreResources.images.bp_logo_light
     }
 }

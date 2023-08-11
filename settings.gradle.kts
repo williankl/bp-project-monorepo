@@ -41,3 +41,4 @@ include(":common:platform:state-handler")
 
 include(":common:features")
 include(":common:features:places")
+include(":common:features:authentication")

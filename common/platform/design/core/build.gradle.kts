@@ -1,6 +1,10 @@
+import dev.icerock.gradle.MRVisibility
+
 plugins {
     id("bp.multiplatform")
     id("org.jetbrains.compose")
+    id("dev.icerock.mobile.multiplatform-resources")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -8,10 +12,15 @@ android {
 }
 
 dependencies {
-    commonMainImplementation(projects.common.core)
-
     commonMainApi(compose.runtime)
     commonMainApi(compose.foundation)
     commonMainImplementation(compose.material)
     commonMainImplementation(compose.material3)
+    commonMainImplementation(libs.moko.resourcesCompose)
+}
+
+multiplatformResources {
+    multiplatformResourcesPackage = "williankl.bpProject.common.platform.design.core"
+    multiplatformResourcesClassName = "SharedDesignCoreResources"
+    multiplatformResourcesVisibility = MRVisibility.Public
 }

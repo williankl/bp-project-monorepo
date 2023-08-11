@@ -47,8 +47,8 @@ internal fun Project.setupAndroid(){
         }
 
         compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_17
-            targetCompatibility = JavaVersion.VERSION_17
+            sourceCompatibility = JavaVersion.VERSION_12
+            targetCompatibility = JavaVersion.VERSION_12
         }
     }
 }

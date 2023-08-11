@@ -35,7 +35,6 @@ public fun IconButton(
     enabled: Boolean = true,
     type: ButtonType = ButtonType.Regular,
     variant: ButtonVariant = ButtonVariant.Primary,
-    shape: Shape = RoundedCornerShape(8.dp),
 ) {
     val actualVariant =
         if (enabled) variant
@@ -46,7 +45,7 @@ public fun IconButton(
         modifier = modifier,
         enabled = enabled,
         variant = actualVariant,
-        shape = shape,
+        shape = type.shape.composeShape,
         content = {
             Icon(
                 painter = iconConfig.painter,
@@ -68,7 +67,6 @@ public fun Button(
     type: ButtonType = ButtonType.Regular,
     config: ButtonConfig = ButtonConfig(),
     variant: ButtonVariant = ButtonVariant.Primary,
-    shape: Shape = RoundedCornerShape(8.dp),
 ) {
     val actualVariant =
         if (enabled) variant
@@ -79,7 +77,7 @@ public fun Button(
         modifier = modifier,
         enabled = enabled,
         variant = actualVariant,
-        shape = shape,
+        shape = type.shape.composeShape,
         content = {
             if (config.headingIcon != null) {
                 Icon(
@@ -87,7 +85,7 @@ public fun Button(
                     contentDescription = config.headingIcon.description,
                     tint = actualVariant.tint.composeColor,
                     modifier = Modifier
-                        .padding(horizontal = 12.dp)
+                        .padding(horizontal = type.horizontalPadding)
                         .size(type.iconSize),
                 )
             }
@@ -96,11 +94,11 @@ public fun Button(
                 text = label,
                 size = type.textSize,
                 color = actualVariant.tint,
-                weight = FontWeight.SemiBold,
+                weight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
                 maxLines = 1,
                 modifier = Modifier
-                    .padding(vertical = 12.dp)
+                    .padding(vertical = type.verticalPadding)
                     .modifyIf(iconsOnExtremes) {
                         weight(1f)
                     },
@@ -112,7 +110,7 @@ public fun Button(
                     contentDescription = config.trailingIcon.description,
                     tint = actualVariant.tint.composeColor,
                     modifier = Modifier
-                        .padding(horizontal = 12.dp)
+                        .padding(horizontal = type.horizontalPadding)
                         .size(type.iconSize),
                 )
             }
