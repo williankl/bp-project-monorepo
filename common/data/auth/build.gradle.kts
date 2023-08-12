@@ -1,5 +1,6 @@
 plugins {
     id("bp.multiplatform")
+    kotlin("plugin.serialization")
 }
 
 android {
