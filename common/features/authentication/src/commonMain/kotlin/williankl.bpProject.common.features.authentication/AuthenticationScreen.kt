@@ -19,6 +19,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,9 +48,11 @@ public object AuthenticationScreen : BeautifulScreen() {
 
     @Composable
     override fun BeautifulContent() {
+        val runnerModel = rememberRunnerModel<AuthenticationRunnerModel>()
+
         LoginScreenContent(
-            onLoginRequested = { login, password -> /* todo - handle action */ },
-            onSignupRequested = { userName, login, password -> /* todo - handle action */ },
+            onLoginRequested = runnerModel::logIn,
+            onSignupRequested = runnerModel::signUp,
             onForgotPasswordClicked = { /* todo - handle action */ },
             onSocialLoginClicked = { /* todo - handle action */ },
             modifier = Modifier.fillMaxSize(),

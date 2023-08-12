@@ -19,10 +19,11 @@ applyMultiModuleKsp("williankl.bpProject.common.features.authentication")
 
 dependencies {
     commonMainImplementation(projects.common.core)
+    commonMainImplementation(projects.common.data.auth)
     commonMainImplementation(projects.common.platform.design.core)
     commonMainImplementation(projects.common.platform.stateHandler)
-    commonMainImplementation(libs.voyager.navigator)
     commonMainImplementation(libs.moko.resourcesCompose)
+    commonMainImplementation(libs.kodein.core)
     commonMainImplementation(libs.lyricist.core)
     commonMainLyricistImplementation(libs.lyricist.ksp)
 }
