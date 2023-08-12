@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.SlideTransition
-import williankl.bpProject.common.features.authentication.LoginScreen
+import williankl.bpProject.common.features.authentication.AuthenticationScreen
 import williankl.bpProject.common.platform.design.core.theme.BeautifulThemeContent
 
 internal class MainActivity : ComponentActivity() {
@@ -15,7 +15,7 @@ internal class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             BeautifulThemeContent {
-                Navigator(LoginScreen) {
+                Navigator(AuthenticationScreen) {
                     SlideTransition(it)
                 }
             }

@@ -6,6 +6,7 @@ import org.kodein.di.DIAware
 import org.kodein.di.android.androidCoreModule
 import org.kodein.di.android.x.androidXModule
 import williankl.bpProject.common.core.commonCoreDi
+import williankl.bpProject.common.data.auth.authDataDi
 import williankl.bpProject.common.data.networking.networkingDi
 import williankl.bpProject.common.data.placeService.placesServiceDi
 
@@ -15,6 +16,7 @@ internal class MainApplication : Application(), DIAware {
         import(androidXModule(this@MainApplication))
         import(commonCoreDi)
         import(networkingDi)
+        import(authDataDi)
         import(placesServiceDi)
     }
 }
