@@ -17,6 +17,7 @@ dependencies {
 
     implementation(projects.common.data.networking)
     implementation(projects.common.data.auth)
+    implementation(projects.common.data.imageRetrievalService)
     implementation(projects.common.data.placeService)
 
     implementation(projects.common.features.authentication)
@@ -33,4 +34,5 @@ dependencies {
     implementation(libs.kodein.android)
     implementation(libs.voyager.navigator)
     implementation(libs.voyager.transitions)
+    implementation(libs.korlibs.korim)
 }

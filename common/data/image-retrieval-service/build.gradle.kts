@@ -9,7 +9,7 @@ android {
 
 dependencies {
     commonMainImplementation(libs.kotlinx.coroutines.core)
-    commonMainImplementation(libs.korim.core)
     commonMainImplementation(compose.runtime)
     commonMainImplementation(compose.foundation)
+    commonMainImplementation(libs.korlibs.korim)
 }
