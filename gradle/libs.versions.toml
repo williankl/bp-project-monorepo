@@ -26,6 +26,7 @@ hikari = "5.0.1"
 postgres = "42.6.0"
 cashApp-sqlDelight = "2.0.0"
 moko = "0.23.0"
+korim = "4.0.9"
 
 kotlinx-serialization = "1.5.1"
 kotlinx-coroutines = "1.7.3"
@@ -120,6 +121,10 @@ cashApp-sqliteDriver = { module = "app.cash.sqldelight:sqlite-driver", version.r
 # Moko
 
 moko-resourcesCompose = { module = "dev.icerock.moko:resources-compose", version.ref = "moko" }
+
+# Korim
+
+korim-core = { module = "com.soywiz.korlibs.korim:korim", version.ref = "korim" }
 
 # Other
 
