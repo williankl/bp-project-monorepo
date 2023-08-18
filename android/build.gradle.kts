@@ -35,4 +35,5 @@ dependencies {
     implementation(libs.voyager.navigator)
     implementation(libs.voyager.transitions)
     implementation(libs.korlibs.korim)
+    implementation(libs.android.exifInterface)
 }

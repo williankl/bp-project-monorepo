@@ -21,5 +21,4 @@ public class ImageRetrievalController(
     ) {
         mutableImageFlow.update { images }
     }
-
 }

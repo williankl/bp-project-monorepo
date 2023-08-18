@@ -56,7 +56,7 @@ internal class MainActivity : ComponentActivity() {
             BeautifulThemeContent {
                 CompositionLocalProvider(
                     LocalImageRetrievalController provides imageRetrievalController
-                ){
+                ) {
                     Navigator(LoginScreen) {
                         SlideTransition(it)
                     }
