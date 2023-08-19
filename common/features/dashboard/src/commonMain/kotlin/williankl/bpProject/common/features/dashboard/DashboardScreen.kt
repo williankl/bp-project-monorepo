@@ -2,18 +2,21 @@ package williankl.bpProject.common.features.dashboard
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
@@ -42,7 +45,9 @@ public object DashboardScreen : BeautifulScreen() {
                     if (selectedAction == currentOption) null
                     else selectedAction
             },
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .background(BeautifulColor.Surface.composeColor)
+                .fillMaxSize(),
         )
     }
 
@@ -63,30 +68,51 @@ public object DashboardScreen : BeautifulScreen() {
 
             }
 
-            Row(
+            OptionsBar(
+                currentAction = currentAction,
+                onOptionSelected = onOptionSelected,
                 modifier = Modifier
-                    .background(BeautifulColor.Surface.composeColor)
+                    .background(BeautifulColor.Background.composeColor)
                     .padding(12.dp)
                     .fillMaxWidth()
-            ) {
-                options.forEach { option ->
-                    val (tintColor, backgroundColor) = if (option == currentAction) {
-                        BeautifulColor.PrimaryHigh to BeautifulColor.SecondaryHigh
-                    } else {
-                        BeautifulColor.SecondaryHigh to BeautifulColor.Transparent
-                    }
+            )
+        }
+    }
 
+    @Composable
+    private fun OptionsBar(
+        currentAction: DashboardActions?,
+        onOptionSelected: (DashboardActions) -> Unit,
+        modifier: Modifier = Modifier,
+    ) {
+        Row(
+            modifier = modifier,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            options.forEach { option ->
+                val (tintColor, backgroundColor) = if (option == currentAction) {
+                    BeautifulColor.PrimaryHigh to BeautifulColor.SecondaryHigh
+                } else {
+                    BeautifulColor.SecondaryHigh to BeautifulColor.Transparent
+                }
+
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickableIcon { onOptionSelected(option) },
+                ) {
                     Image(
                         painter = painterResource(option.icon),
                         colorFilter = ColorFilter.tint(tintColor.composeColor),
                         contentDescription = null,
                         modifier = Modifier
-                            .weight(1f)
-                            .clickableIcon { onOptionSelected(option) }
                             .background(
                                 shape = CircleShape,
                                 color = backgroundColor.composeColor,
                             )
+                            .padding(6.dp)
                     )
                 }
             }

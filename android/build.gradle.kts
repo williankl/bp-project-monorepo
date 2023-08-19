@@ -21,6 +21,7 @@ dependencies {
     implementation(projects.common.data.placeService)
 
     implementation(projects.common.features.authentication)
+    implementation(projects.common.features.dashboard)
     implementation(projects.common.features.places)
 
     implementation(compose.runtime)

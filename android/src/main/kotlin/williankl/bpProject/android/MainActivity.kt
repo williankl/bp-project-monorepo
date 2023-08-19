@@ -17,6 +17,7 @@ import williankl.bpProject.common.data.imageRetrievalService.ImageRetrievalContr
 import williankl.bpProject.common.data.imageRetrievalService.LocalImageRetrievalController
 import williankl.bpProject.common.data.imageRetrievalService.RetrievalMode
 import williankl.bpProject.common.features.authentication.LoginScreen
+import williankl.bpProject.common.features.dashboard.DashboardScreen
 import williankl.bpProject.common.platform.design.core.theme.BeautifulThemeContent
 
 internal class MainActivity : ComponentActivity() {
@@ -57,7 +58,7 @@ internal class MainActivity : ComponentActivity() {
                 CompositionLocalProvider(
                     LocalImageRetrievalController provides imageRetrievalController
                 ) {
-                    Navigator(LoginScreen) {
+                    Navigator(DashboardScreen) {
                         SlideTransition(it)
                     }
                 }
