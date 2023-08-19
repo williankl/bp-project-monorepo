@@ -46,7 +46,7 @@ public object DashboardScreen : BeautifulScreen() {
         DashboardScreenContent(
             currentAction = currentOption,
             onOptionSelected = { selectedAction ->
-                when(selectedAction){
+                when (selectedAction) {
                     DashboardActions.Home -> Unit
                     DashboardActions.Add -> imageRetrievalController.showBottomSheet(bottomSheetNavigator)
                     DashboardActions.Profile -> Unit
@@ -76,7 +76,6 @@ public object DashboardScreen : BeautifulScreen() {
                     .weight(1f)
                     .fillMaxWidth()
             ) {
-
             }
 
             OptionsBar(

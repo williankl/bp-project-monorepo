@@ -25,7 +25,6 @@ public class ImageRetrievalController(
         mutableImageFlow.update { images }
     }
 
-
     public fun showBottomSheet(
         bottomSheetNav: BottomSheetNavigator
     ) {
