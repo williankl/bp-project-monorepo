@@ -8,6 +8,18 @@
             android:name=".MainApplication"
             android:label="BP Project"
             android:usesCleartextTraffic="true">
+
+        <provider
+                android:name="androidx.core.content.FileProvider"
+                android:authorities="williankl.bpProject.stg.cache"
+                android:enabled="true"
+                android:grantUriPermissions="true"
+                android:exported="false">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/filepaths" />
+        </provider>
+
         <activity
                 android:name=".MainActivity"
                 android:configChanges="orientation|keyboardHidden"
