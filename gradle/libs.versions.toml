@@ -122,10 +122,6 @@ cashApp-sqliteDriver = { module = "app.cash.sqldelight:sqlite-driver", version.r
 
 moko-resourcesCompose = { module = "dev.icerock.moko:resources-compose", version.ref = "moko" }
 
-# KorLibs
-
-korlibs-korim = { module = "com.soywiz.korlibs.korim:korim", version.ref = "korim" }
-
 # Other
 
 kamel = { module = "media.kamel:kamel-image", version.ref = "kamel" }

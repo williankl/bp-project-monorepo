@@ -20,7 +20,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
+import williankl.bpProject.common.data.imageRetrievalService.LocalImageRetrievalController
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
@@ -34,6 +37,8 @@ public object DashboardScreen : BeautifulScreen() {
 
     @Composable
     override fun BeautifulContent() {
+        val imageRetrievalController = LocalImageRetrievalController.currentOrThrow
+        val bottomSheetNavigator = LocalBottomSheetNavigator.current
         var currentOption by remember {
             mutableStateOf<DashboardActions?>(DashboardActions.Home)
         }
@@ -41,6 +46,12 @@ public object DashboardScreen : BeautifulScreen() {
         DashboardScreenContent(
             currentAction = currentOption,
             onOptionSelected = { selectedAction ->
+                when(selectedAction){
+                    DashboardActions.Home -> Unit
+                    DashboardActions.Add -> imageRetrievalController.showBottomSheet(bottomSheetNavigator)
+                    DashboardActions.Profile -> Unit
+                }
+
                 currentOption =
                     if (selectedAction == currentOption) null
                     else selectedAction
@@ -113,6 +124,7 @@ public object DashboardScreen : BeautifulScreen() {
                                 color = backgroundColor.composeColor,
                             )
                             .padding(6.dp)
+                            .size(24.dp)
                     )
                 }
             }

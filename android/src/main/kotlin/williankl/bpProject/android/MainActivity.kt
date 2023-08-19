@@ -7,17 +7,28 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.transitions.SlideTransition
-import korlibs.image.format.AndroidNativeImage
 import williankl.bpProject.android.internal.ImageCaptureHelper
 import williankl.bpProject.android.internal.ImageUriHandler
 import williankl.bpProject.common.data.imageRetrievalService.ImageRetrievalController
 import williankl.bpProject.common.data.imageRetrievalService.LocalImageRetrievalController
 import williankl.bpProject.common.data.imageRetrievalService.RetrievalMode
-import williankl.bpProject.common.features.authentication.LoginScreen
 import williankl.bpProject.common.features.dashboard.DashboardScreen
+import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
+import williankl.bpProject.common.platform.design.core.colors.composeColor
+import williankl.bpProject.common.platform.design.core.colors.composeHoverColor
 import williankl.bpProject.common.platform.design.core.theme.BeautifulThemeContent
 
 internal class MainActivity : ComponentActivity() {
@@ -50,7 +61,7 @@ internal class MainActivity : ComponentActivity() {
         )
     }
 
-    @OptIn(ExperimentalAnimationApi::class)
+    @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -58,8 +69,27 @@ internal class MainActivity : ComponentActivity() {
                 CompositionLocalProvider(
                     LocalImageRetrievalController provides imageRetrievalController
                 ) {
-                    Navigator(DashboardScreen) {
-                        SlideTransition(it)
+                    BottomSheetNavigator(
+                        scrimColor = BeautifulColor.Black.composeHoverColor,
+                        sheetBackgroundColor = BeautifulColor.Background.composeColor,
+                        sheetShape = RoundedCornerShape(
+                            topStart = 8.dp,
+                            topEnd = 8.dp,
+                        ),
+                    ) { bottomSheetNav ->
+                        val blurDp = if (bottomSheetNav.isVisible) 6.dp else 0.dp
+                        val animatedBlurDp by animateDpAsState(
+                            label = "content-blur-dp",
+                            targetValue = blurDp
+                        )
+
+                        Navigator(DashboardScreen) { nav ->
+                            Box(
+                                modifier = Modifier.blur(animatedBlurDp)
+                            ) {
+                                SlideTransition(nav)
+                            }
+                        }
                     }
                 }
             }
@@ -68,8 +98,7 @@ internal class MainActivity : ComponentActivity() {
 
     private fun onImagePickResult(uris: List<Uri>) {
         val images = uris.map { uri ->
-            val result = ImageUriHandler.retrieveImageFromUri(uri, contentResolver)
-            AndroidNativeImage(result)
+            ImageUriHandler.retrieveImageFromUri(uri, contentResolver).asImageBitmap()
         }
         imageRetrievalController.publishImages(images)
     }
@@ -77,9 +106,8 @@ internal class MainActivity : ComponentActivity() {
     private fun onImageTaken(takenImage: Boolean) {
         val cachedUri = ImageCaptureHelper.cacheUri(this)
         if (takenImage && cachedUri != null) {
-            val result = ImageUriHandler.retrieveImageFromUri(cachedUri, contentResolver)
-            val kmmImage = AndroidNativeImage(result)
-            imageRetrievalController.publishImages(listOf(kmmImage))
+            val result = ImageUriHandler.retrieveImageFromUri(cachedUri, contentResolver).asImageBitmap()
+            imageRetrievalController.publishImages(listOf(result))
         }
     }
 }

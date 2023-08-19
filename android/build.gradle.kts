@@ -28,13 +28,14 @@ dependencies {
     implementation(compose.foundation)
     implementation(compose.ui)
     implementation(compose.animation)
+    implementation(compose.material)
     implementation(libs.android.compose.activity)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.crashlytics)
     implementation(libs.kodein.android)
     implementation(libs.voyager.navigator)
+    implementation(libs.voyager.bottomSheetNavigator)
     implementation(libs.voyager.transitions)
-    implementation(libs.korlibs.korim)
     implementation(libs.android.exifInterface)
 }

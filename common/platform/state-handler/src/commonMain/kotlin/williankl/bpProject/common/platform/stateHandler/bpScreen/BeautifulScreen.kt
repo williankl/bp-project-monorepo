@@ -15,8 +15,6 @@ import williankl.bpProject.common.platform.stateHandler.UIState
 
 public abstract class BeautifulScreen : Screen {
 
-    public var screenState: UIState by mutableStateOf(UIState.Content)
-
     @Composable
     override fun Content() {
         ActualScreenContent()
@@ -26,20 +24,9 @@ public abstract class BeautifulScreen : Screen {
     public abstract fun BeautifulContent()
 
     @Composable
-    protected inline fun <R, reified T : RunnerModel<R>> rememberRunnerModel(): T {
-        val model = rememberScreenModel<T>()
-        val modelUiState by model.uiState.collectAsState()
-        LaunchedEffect(modelUiState) {
-            screenState = modelUiState
-        }
-        return model
-    }
-
-    @Composable
     private fun ActualScreenContent() {
         BeautifulContent()
-
-        when (val state = screenState) {
+        when (val state: UIState? = null) {
             is UIState.Error -> {
                 ErrorScreen(
                     reason = state.reason,
