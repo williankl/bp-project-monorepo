@@ -13,4 +13,7 @@ dependencies {
     commonMainImplementation(libs.kotlinx.serialization.core)
     commonMainImplementation(libs.kotlinx.coroutines.core)
     commonMainImplementation(libs.kodein.core)
+
+    androidMainImplementation(libs.android.exifInterface)
+    androidMainImplementation(libs.android.androidx.core)
 }

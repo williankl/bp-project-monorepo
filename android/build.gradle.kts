@@ -37,5 +37,4 @@ dependencies {
     implementation(libs.voyager.navigator)
     implementation(libs.voyager.bottomSheetNavigator)
     implementation(libs.voyager.transitions)
-    implementation(libs.android.exifInterface)
 }

@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.transitions.SlideTransition
-import williankl.bpProject.android.internal.ImageCaptureHelper
-import williankl.bpProject.android.internal.ImageUriHandler
+import williankl.bpProject.common.core.ImageCaptureHelper
+import williankl.bpProject.common.core.ImageUriHandler
 import williankl.bpProject.common.data.imageRetrievalService.ImageRetrievalController
 import williankl.bpProject.common.data.imageRetrievalService.LocalImageRetrievalController
 import williankl.bpProject.common.data.imageRetrievalService.RetrievalMode

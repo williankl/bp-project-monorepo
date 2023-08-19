@@ -1,4 +1,4 @@
-package williankl.bpProject.android.internal
+package williankl.bpProject.common.core
 
 import android.content.ContentResolver
 import android.graphics.Bitmap
@@ -10,8 +10,8 @@ import android.provider.MediaStore
 import androidx.exifinterface.media.ExifInterface
 import java.io.InputStream
 
-internal object ImageUriHandler {
-    fun retrieveImageFromUri(
+public object ImageUriHandler {
+    public fun retrieveImageFromUri(
         uri: Uri,
         contentResolver: ContentResolver,
     ): Bitmap {

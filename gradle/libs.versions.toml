@@ -26,7 +26,6 @@ hikari = "5.0.1"
 postgres = "42.6.0"
 cashApp-sqlDelight = "2.0.0"
 moko = "0.23.0"
-korim = "4.0.9"
 
 kotlinx-serialization = "1.5.1"
 kotlinx-coroutines = "1.7.3"
@@ -34,7 +33,8 @@ kotlinx-coroutines = "1.7.3"
 android-firebase-bom = "32.2.2"
 android-compose-activity = "1.7.2"
 android-appCompat = "1.6.1"
-android-constraintLayout = "2.2.0-alpha11"
+androidx-core = "1.10.1"
+android-constraintLayout = "2.2.0-alpha12"
 android-splashScreen = "1.0.1"
 android-exifInterface = "1.3.6"
 
@@ -59,6 +59,7 @@ plugin-moko = { module = "dev.icerock.moko:resources-generator", version.ref = "
 
 android-compose-activity = { module = "androidx.activity:activity-compose", version.ref = "android-compose-activity" }
 android-appCompat = { module = "androidx.appcompat:appcompat", version.ref = "android-appCompat" }
+android-androidx-core = { module = "androidx.core:core", version.ref = "androidx-core" }
 android-constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "android-constraintLayout" }
 android-splashScreen = { module = "androidx.core:core-splashscreen", version.ref = "android-splashScreen" }
 android-exifInterface = { module = "androidx.exifinterface:exifinterface", version.ref = "android-exifInterface" }
