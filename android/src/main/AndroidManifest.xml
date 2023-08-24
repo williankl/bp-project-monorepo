@@ -6,7 +6,9 @@
 
     <application
             android:name=".MainApplication"
-            android:label="BP Project"
+            android:label="Beautiful Places"
+            android:icon="@mipmap/ic_launcher_round"
+            android:roundIcon="@mipmap/ic_launcher_round"
             android:usesCleartextTraffic="true">
 
         <provider
