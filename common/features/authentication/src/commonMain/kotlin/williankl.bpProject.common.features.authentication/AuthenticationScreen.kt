@@ -43,13 +43,15 @@ import williankl.bpProject.common.platform.design.core.text.TextSize
 import williankl.bpProject.common.platform.design.core.themedLogoResource
 import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
 
-public object LoginScreen : BeautifulScreen() {
+public object AuthenticationScreen : BeautifulScreen() {
 
     @Composable
     override fun BeautifulContent() {
+        val runnerModel = rememberRunnerModel<AuthenticationRunnerModel>()
+
         LoginScreenContent(
-            onLoginRequested = { login, password -> /* todo - handle action */ },
-            onSignupRequested = { userName, login, password -> /* todo - handle action */ },
+            onLoginRequested = runnerModel::logIn,
+            onSignupRequested = runnerModel::signUp,
             onForgotPasswordClicked = { /* todo - handle action */ },
             onSocialLoginClicked = { /* todo - handle action */ },
             modifier = Modifier.fillMaxSize(),

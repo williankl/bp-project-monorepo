@@ -56,7 +56,7 @@ internal fun Project.applyKotlinOptions() {
 
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
-            jvmTarget = "${JavaVersion.VERSION_12}"
+            jvmTarget = "${JavaVersion.VERSION_17}"
             freeCompilerArgs += "-Xcontext-receivers"
         }
     }

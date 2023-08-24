@@ -5,6 +5,8 @@ import io.ktor.client.engine.HttpClientEngineConfig
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
@@ -19,6 +21,7 @@ internal class ClientConfigurationHelper(
         }
         install(DefaultRequest) {
             url(baseUrl)
+            contentType(ContentType.Application.Json)
         }
     }
 }

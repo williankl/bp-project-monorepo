@@ -10,7 +10,7 @@ import williankl.bpProject.common.data.networking.internal.HttpClientProvider
 public val networkingDi: DI.Module = DI.Module("williankl.bpProject.common.data.networking") {
     bindSingleton<ClientConfigurationHelper> {
         ClientConfigurationHelper(
-            baseUrl = "http://127.0.0.1:8080/", // fixme - localhost for testing
+            baseUrl = "http://10.0.2.2:8080/", // fixme - localhost for testing
             json = instance(),
         )
     }

@@ -19,23 +19,12 @@ public abstract class BeautifulScreen : Screen {
     public abstract fun BeautifulContent()
 
     @Composable
-    private fun ActualScreenContent() {
-        BeautifulContent()
-        when (val state: UIState? = null) {
-            is UIState.Error -> {
-                ErrorScreen(
-                    reason = state.reason,
-                    modifier = Modifier.fillMaxSize(),
-                )
-            }
-
-            is UIState.Loading -> {
-                LoadingScreen(
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
-
-            else -> Unit
+    protected inline fun <reified T : RunnerModel<*>> rememberRunnerModel(): T {
+        val model = rememberScreenModel<T>()
+        val modelUiState by model.uiState.collectAsState()
+        LaunchedEffect(modelUiState) {
+            screenState = modelUiState
         }
+        return model
     }
 }
