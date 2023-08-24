@@ -20,10 +20,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.data.imageRetrievalService.LocalImageRetrievalController
+import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionScreen
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
@@ -38,6 +40,7 @@ public object DashboardScreen : BeautifulScreen() {
     @Composable
     override fun BeautifulContent() {
         val imageRetrievalController = LocalImageRetrievalController.currentOrThrow
+        val navigator = LocalNavigator.currentOrThrow
         val bottomSheetNavigator = LocalBottomSheetNavigator.current
         var currentOption by remember {
             mutableStateOf<DashboardActions?>(DashboardActions.Home)
@@ -48,8 +51,11 @@ public object DashboardScreen : BeautifulScreen() {
             onOptionSelected = { selectedAction ->
                 when (selectedAction) {
                     DashboardActions.Home -> Unit
-                    DashboardActions.Add -> imageRetrievalController.showBottomSheet(bottomSheetNavigator)
                     DashboardActions.Profile -> Unit
+                    DashboardActions.Add ->
+                        imageRetrievalController.showBottomSheet(bottomSheetNavigator) { result ->
+                            navigator.push(PhotoSelectionScreen(result))
+                        }
                 }
 
                 currentOption =

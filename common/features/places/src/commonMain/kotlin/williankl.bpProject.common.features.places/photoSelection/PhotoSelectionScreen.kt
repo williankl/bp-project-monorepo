@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
@@ -37,15 +38,15 @@ import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.button.Button
 import williankl.bpProject.common.platform.design.core.button.ButtonConfig
 import williankl.bpProject.common.platform.design.core.button.ButtonVariant
-import williankl.bpProject.common.platform.design.core.button.IconConfig
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.colors.composeHoverColor
+import williankl.bpProject.common.platform.design.core.models.IconConfig
 import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
 import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
 
-internal data class PhotoSelectionScreen(
+public data class PhotoSelectionScreen(
     private val images: List<ImageBitmap>
 ) : BeautifulScreen() {
 
@@ -74,67 +75,58 @@ internal data class PhotoSelectionScreen(
         val strings = LocalPlacesStrings.current
 
         Column(
+            verticalArrangement = Arrangement.spacedBy(26.dp),
             modifier = modifier,
         ) {
             Image(
                 painter = painterResource(SharedDesignCoreResources.images.ic_chevron_left),
                 contentDescription = null,
-                modifier = Modifier.size(30.dp)
-            )
-
-            Box(
-                contentAlignment = Alignment.TopStart,
-                modifier = Modifier.weight(1f)
-            ) {
-                ImagePager(
-                    images = images,
-                    modifier = Modifier.fillMaxSize()
-                )
-
-                Image(
-                    painter = painterResource(SharedDesignCoreResources.images.ic_trash_close),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(24.dp)
-                        .clip(BeautifulShape.Rounded.Circle.composeShape)
-                        .clickable { onDeleteRequested() }
-                        .background(
-                            color = BeautifulColor.Black.composeHoverColor,
-                            shape = BeautifulShape.Rounded.Circle.composeShape,
-                        )
-                        .padding(6.dp)
-                        .size(30.dp)
-                )
-            }
-        }
-
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(6.dp),
-            modifier = Modifier,
-        ) {
-            Image(
-                painter = painterResource(SharedDesignCoreResources.images.ic_camera_plus),
-                contentDescription = null,
                 modifier = Modifier
-                    .clickableIcon { onAddRequested() }
+                    .padding(16.dp)
                     .size(30.dp)
             )
 
-            Spacer(
+            ImagePager(
+                images = images,
+                contentPadding = PaddingValues(horizontal = 26.dp),
+                pageSpacing = 28.dp,
+                action = IconConfig(
+                    painter = painterResource(SharedDesignCoreResources.images.ic_trash_close),
+                    onClicked = onDeleteRequested,
+                ),
                 modifier = Modifier.weight(1f)
             )
 
-            Button(
-                label = strings.photoSelectionStrings.nextActionLabel,
-                onClick = onImagesConfirmed,
-                variant = ButtonVariant.Secondary,
-                config = ButtonConfig(
-                    trailingIcon = IconConfig(
-                        painter = painterResource(SharedDesignCoreResources.images.ic_chevron_right),
-                    )
-                ),
-                modifier = Modifier,
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                modifier = Modifier.padding(16.dp),
+            ) {
+                Image(
+                    painter = painterResource(SharedDesignCoreResources.images.ic_camera_plus),
+                    colorFilter = ColorFilter.tint(BeautifulColor.Secondary.composeColor),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .clickableIcon { onAddRequested() }
+                        .size(30.dp)
+                )
+
+                Spacer(
+                    modifier = Modifier.weight(1f)
+                )
+
+                Button(
+                    label = strings.photoSelectionStrings.nextActionLabel,
+                    onClick = onImagesConfirmed,
+                    variant = ButtonVariant.Secondary,
+                    config = ButtonConfig(
+                        trailingIcon = IconConfig(
+                            painter = painterResource(SharedDesignCoreResources.images.ic_chevron_right),
+                        )
+                    ),
+                    modifier = Modifier,
+                )
+            }
         }
     }
 }

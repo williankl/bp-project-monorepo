@@ -12,5 +12,6 @@ dependencies {
     commonMainImplementation(projects.common.data.imageRetrievalService)
     commonMainImplementation(projects.common.platform.design.core)
     commonMainImplementation(projects.common.platform.stateHandler)
+    commonMainImplementation(projects.common.features.places)
     commonMainImplementation(libs.moko.resourcesCompose)
 }

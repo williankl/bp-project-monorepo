@@ -87,7 +87,7 @@ internal class MainActivity : ComponentActivity() {
                         )
 
                         Navigator(
-                            screen = AuthenticationScreen,
+                            screen = DashboardScreen,
                             onBackPressed = { true }
                         ) { nav ->
                             Box(
