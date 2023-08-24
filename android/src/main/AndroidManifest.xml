@@ -6,15 +6,15 @@
 
     <application
             android:name=".MainApplication"
-            android:label="BP Project"
+            android:label="Beautiful Places"
+            android:icon="@mipmap/ic_launcher_round"
+            android:roundIcon="@mipmap/ic_launcher_round"
             android:usesCleartextTraffic="true">
 
         <provider
                 android:name="androidx.core.content.FileProvider"
                 android:authorities="williankl.bpProject.stg.cache"
                 android:enabled="true"
-                android:icon="@drawable/ic_launcher_foreground"
-                android:roundIcon="@mipmap/ic_launcher_round"
                 android:grantUriPermissions="true"
                 android:exported="false">
             <meta-data
