@@ -32,6 +32,7 @@ include(":common:core")
 include(":common:data")
 include(":common:data:networking")
 include(":common:data:auth")
+include(":common:data:image-retrieval-service")
 include(":common:data:place-service")
 
 include(":common:platform")
@@ -41,4 +42,5 @@ include(":common:platform:state-handler")
 
 include(":common:features")
 include(":common:features:places")
+include(":common:features:dashboard")
 include(":common:features:authentication")
