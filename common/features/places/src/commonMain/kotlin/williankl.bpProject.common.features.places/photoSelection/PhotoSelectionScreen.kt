@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.features.places.LocalPlacesStrings
+import williankl.bpProject.common.platform.design.components.ImagePager
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.button.Button
 import williankl.bpProject.common.platform.design.core.button.ButtonConfig
@@ -55,7 +56,9 @@ internal data class PhotoSelectionScreen(
             onDeleteRequested = { /* Nothing */ },
             onAddRequested = { /* Nothing */ },
             onImagesConfirmed = { /* Nothing */ },
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .background(BeautifulColor.Background.composeColor)
+                .fillMaxSize()
         )
     }
 
@@ -136,61 +139,4 @@ internal data class PhotoSelectionScreen(
     }
 }
 
-@Composable
-@OptIn(ExperimentalFoundationApi::class)
-private fun ImagePager(
-    images: List<ImageBitmap>,
-    state: PagerState = rememberPagerState(),
-    contentPadding: PaddingValues = PaddingValues(0.dp),
-    pageSize: PageSize = PageSize.Fill,
-    beyondBoundsPageCount: Int = 0,
-    pageSpacing: Dp = 0.dp,
-    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
-    userScrollEnabled: Boolean = true,
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier,
-    ) {
-        HorizontalPager(
-            state = state,
-            contentPadding = contentPadding,
-            pageSize = pageSize,
-            beyondBoundsPageCount = beyondBoundsPageCount,
-            pageSpacing = pageSpacing,
-            verticalAlignment = verticalAlignment,
-            userScrollEnabled = userScrollEnabled,
-            pageCount = images.size,
-            modifier = Modifier.clip(BeautifulShape.Rounded.Regular.composeShape),
-        ) { page ->
-            val image = images[page]
-            Image(
-                bitmap = image,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
-        }
 
-        AnimatedVisibility(
-            visible = images.size > 1,
-            content = {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(6.dp),
-                    modifier = Modifier.padding(top = 6.dp),
-                ) {
-                    repeat(images.size) { index ->
-                        Spacer(
-                            modifier = Modifier
-                                .background(
-                                    shape = BeautifulShape.Rounded.Circle.composeShape,
-                                    color = BeautifulColor.Secondary.composeColor(state.currentPage != index),
-                                )
-                                .size(4.dp)
-                        )
-                    }
-                }
-            }
-        )
-    }
-}

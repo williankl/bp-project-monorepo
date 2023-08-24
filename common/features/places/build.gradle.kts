@@ -18,6 +18,7 @@ applyMultiModuleKsp("williankl.bpProject.common.features.places")
 dependencies {
     commonMainImplementation(projects.common.core)
     commonMainImplementation(projects.common.platform.design.core)
+    commonMainImplementation(projects.common.platform.design.components)
     commonMainImplementation(projects.common.platform.stateHandler)
     commonMainImplementation(libs.voyager.navigator)
     commonMainImplementation(libs.moko.resourcesCompose)
