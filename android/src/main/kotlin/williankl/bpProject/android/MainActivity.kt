@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.transitions.SlideTransition
-import williankl.bpProject.common.features.authentication.AuthenticationScreen
 import williankl.bpProject.common.core.ImageCaptureHelper
 import williankl.bpProject.common.core.ImageUriHandler
 import williankl.bpProject.common.data.imageRetrievalService.ImageRetrievalController
@@ -31,8 +30,6 @@ import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.colors.composeHoverColor
 import williankl.bpProject.common.platform.design.core.theme.BeautifulThemeContent
-import williankl.bpProject.common.platform.stateHandler.UIState
-import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
 
 internal class MainActivity : ComponentActivity() {
 
@@ -80,20 +77,15 @@ internal class MainActivity : ComponentActivity() {
                             topEnd = 8.dp,
                         ),
                     ) { bottomSheetNav ->
-                        val blurDp = if (bottomSheetNav.isVisible) 6.dp else 0.dp
+                        val blurDp = if (bottomSheetNav.isVisible) 12.dp else 0.dp
                         val animatedBlurDp by animateDpAsState(
                             label = "content-blur-dp",
                             targetValue = blurDp
                         )
 
                         Navigator(
-                           screen = AuthenticationScreen,
-                    onBackPressed = { currentScreen ->
-                        if (currentScreen is BeautifulScreen && currentScreen.screenState is UIState.Error) {
-                            currentScreen.screenState = UIState.Content
-                            false
-                        } else true
-                    }
+                            screen = DashboardScreen,
+                            onBackPressed = { true }
                         ) { nav ->
                             Box(
                                 modifier = Modifier.blur(animatedBlurDp)

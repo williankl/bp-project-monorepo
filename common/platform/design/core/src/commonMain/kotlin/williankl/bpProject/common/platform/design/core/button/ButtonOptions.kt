@@ -1,10 +1,10 @@
 package williankl.bpProject.common.platform.design.core.button
 
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.BeautifulPainter
+import williankl.bpProject.common.platform.design.core.models.IconConfig
 import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
 import williankl.bpProject.common.platform.design.core.text.TextSize
 
@@ -75,9 +75,4 @@ public enum class ButtonVariant(
 public data class ButtonConfig(
     val headingIcon: IconConfig? = null,
     val trailingIcon: IconConfig? = null,
-)
-
-public data class IconConfig(
-    val painter: Painter,
-    val description: String? = null,
 )

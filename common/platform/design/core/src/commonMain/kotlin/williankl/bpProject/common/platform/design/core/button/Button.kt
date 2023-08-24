@@ -24,6 +24,7 @@ import williankl.bpProject.common.platform.design.core.colors.BeautifulBrush
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.colors.linearGradient
+import williankl.bpProject.common.platform.design.core.models.IconConfig
 import williankl.bpProject.common.platform.design.core.modifyIf
 import williankl.bpProject.common.platform.design.core.text.Text
 

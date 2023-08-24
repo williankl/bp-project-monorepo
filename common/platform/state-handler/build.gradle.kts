@@ -10,7 +10,7 @@ android {
 dependencies {
     commonMainImplementation(projects.common.platform.design.core)
 
-    commonMainImplementation(libs.voyager.kodein)
+    commonMainApi(libs.voyager.kodein)
     commonMainApi(libs.voyager.navigator)
     commonMainApi(libs.voyager.bottomSheetNavigator)
 
