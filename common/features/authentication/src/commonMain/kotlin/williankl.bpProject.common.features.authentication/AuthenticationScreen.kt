@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.kodein.rememberScreenModel
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.features.authentication.models.AuthenticationFlow
 import williankl.bpProject.common.features.authentication.models.SocialLoginProvider
@@ -47,7 +48,7 @@ public object AuthenticationScreen : BeautifulScreen() {
 
     @Composable
     override fun BeautifulContent() {
-        val runnerModel = rememberRunnerModel<AuthenticationRunnerModel>()
+        val runnerModel = rememberScreenModel<AuthenticationRunnerModel>()
 
         LoginScreenContent(
             onLoginRequested = runnerModel::logIn,

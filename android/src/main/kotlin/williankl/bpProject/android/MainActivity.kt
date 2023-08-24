@@ -87,13 +87,8 @@ internal class MainActivity : ComponentActivity() {
                         )
 
                         Navigator(
-                           screen = AuthenticationScreen,
-                    onBackPressed = { currentScreen ->
-                        if (currentScreen is BeautifulScreen && currentScreen.screenState is UIState.Error) {
-                            currentScreen.screenState = UIState.Content
-                            false
-                        } else true
-                    }
+                            screen = AuthenticationScreen,
+                            onBackPressed = { true }
                         ) { nav ->
                             Box(
                                 modifier = Modifier.blur(animatedBlurDp)

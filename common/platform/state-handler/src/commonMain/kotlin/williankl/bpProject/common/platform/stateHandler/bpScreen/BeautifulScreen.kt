@@ -19,12 +19,7 @@ public abstract class BeautifulScreen : Screen {
     public abstract fun BeautifulContent()
 
     @Composable
-    protected inline fun <reified T : RunnerModel<*>> rememberRunnerModel(): T {
-        val model = rememberScreenModel<T>()
-        val modelUiState by model.uiState.collectAsState()
-        LaunchedEffect(modelUiState) {
-            screenState = modelUiState
-        }
-        return model
+    private fun ActualScreenContent(){
+        BeautifulContent()
     }
 }

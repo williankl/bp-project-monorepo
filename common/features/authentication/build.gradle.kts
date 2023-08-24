@@ -24,6 +24,7 @@ dependencies {
     commonMainImplementation(projects.common.platform.stateHandler)
     commonMainImplementation(libs.moko.resourcesCompose)
     commonMainImplementation(libs.kodein.core)
+
     commonMainImplementation(libs.lyricist.core)
     commonMainLyricistImplementation(libs.lyricist.ksp)
 }
