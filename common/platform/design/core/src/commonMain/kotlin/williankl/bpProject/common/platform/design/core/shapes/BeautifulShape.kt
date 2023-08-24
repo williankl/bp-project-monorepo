@@ -13,6 +13,10 @@ public sealed class BeautifulShape(
             shape = RoundedCornerShape(8.dp)
         )
 
+        public data object Large : Rounded(
+            shape = RoundedCornerShape(16.dp)
+        )
+
         public data object Circle : Rounded(
             shape = CircleShape
         )

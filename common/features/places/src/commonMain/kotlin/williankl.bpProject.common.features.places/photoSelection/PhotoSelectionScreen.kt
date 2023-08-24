@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
@@ -31,6 +32,7 @@ import williankl.bpProject.common.platform.design.core.button.ButtonVariant
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
+import williankl.bpProject.common.platform.design.core.colors.composeHoverColor
 import williankl.bpProject.common.platform.design.core.models.IconConfig
 import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
 
@@ -55,6 +57,15 @@ public data class PhotoSelectionScreen(
             onImagesConfirmed = { /* Nothing */ },
             modifier = Modifier
                 .background(BeautifulColor.Background.composeColor)
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            BeautifulColor.Background.composeColor,
+                            BeautifulColor.Secondary.composeHoverColor,
+                            BeautifulColor.Background.composeColor,
+                        )
+                    )
+                )
                 .fillMaxSize()
         )
     }

@@ -73,7 +73,7 @@ public fun ImagePager(
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .clip(BeautifulShape.Rounded.Regular.composeShape)
+                        .clip(BeautifulShape.Rounded.Large.composeShape)
                         .fillMaxSize()
                 )
 

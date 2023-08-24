@@ -77,7 +77,7 @@ internal class MainActivity : ComponentActivity() {
                             topEnd = 8.dp,
                         ),
                     ) { bottomSheetNav ->
-                        val blurDp = if (bottomSheetNav.isVisible) 6.dp else 0.dp
+                        val blurDp = if (bottomSheetNav.isVisible) 12.dp else 0.dp
                         val animatedBlurDp by animateDpAsState(
                             label = "content-blur-dp",
                             targetValue = blurDp
