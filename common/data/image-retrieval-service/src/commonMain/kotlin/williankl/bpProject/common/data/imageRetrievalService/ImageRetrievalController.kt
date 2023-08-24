@@ -2,7 +2,6 @@ package williankl.bpProject.common.data.imageRetrievalService
 
 import androidx.compose.ui.graphics.ImageBitmap
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
-import kotlinx.coroutines.flow.update
 import williankl.bpProject.common.data.imageRetrievalService.components.ImageRequestBottomSheet
 import williankl.bpProject.common.data.imageRetrievalService.components.ImageRequestBottomSheet.ImageRequestOptions
 

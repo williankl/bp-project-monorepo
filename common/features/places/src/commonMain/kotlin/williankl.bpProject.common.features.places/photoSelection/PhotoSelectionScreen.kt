@@ -1,37 +1,27 @@
 package williankl.bpProject.common.features.places.photoSelection
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.snapping.SnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PageSize
-import androidx.compose.foundation.pager.PagerDefaults
-import androidx.compose.foundation.pager.PagerState
-import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
+import williankl.bpProject.common.data.imageRetrievalService.LocalImageRetrievalController
 import williankl.bpProject.common.features.places.LocalPlacesStrings
 import williankl.bpProject.common.platform.design.components.ImagePager
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
@@ -41,9 +31,7 @@ import williankl.bpProject.common.platform.design.core.button.ButtonVariant
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
-import williankl.bpProject.common.platform.design.core.colors.composeHoverColor
 import williankl.bpProject.common.platform.design.core.models.IconConfig
-import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
 import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
 
 public data class PhotoSelectionScreen(
@@ -52,10 +40,18 @@ public data class PhotoSelectionScreen(
 
     @Composable
     override fun BeautifulContent() {
+        val imageRetrievalController = LocalImageRetrievalController.currentOrThrow
+        val bottomSheetNavigator = LocalBottomSheetNavigator.current
+        val navigator = LocalNavigator.currentOrThrow
+
         PhotoSelectionContent(
             images = images,
             onDeleteRequested = { /* Nothing */ },
-            onAddRequested = { /* Nothing */ },
+            onAddRequested = {
+                imageRetrievalController.showBottomSheet(bottomSheetNavigator) { result ->
+                    navigator.replace(PhotoSelectionScreen(images + result))
+                }
+            },
             onImagesConfirmed = { /* Nothing */ },
             modifier = Modifier
                 .background(BeautifulColor.Background.composeColor)
@@ -130,5 +126,3 @@ public data class PhotoSelectionScreen(
         }
     }
 }
-
-

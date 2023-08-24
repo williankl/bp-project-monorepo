@@ -1,6 +1,5 @@
 package williankl.bpProject.common.platform.design.core.button
 
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
@@ -77,5 +76,3 @@ public data class ButtonConfig(
     val headingIcon: IconConfig? = null,
     val trailingIcon: IconConfig? = null,
 )
-
-
