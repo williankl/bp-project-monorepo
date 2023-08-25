@@ -12,19 +12,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
-import williankl.bpProject.common.core.imageFromUri
-import williankl.bpProject.common.core.imageHelpers.toImageBitmap
-import williankl.bpProject.common.core.imageHelpers.toUri
 import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
 import williankl.bpProject.common.features.places.LocalPlacesStrings
 import williankl.bpProject.common.platform.design.components.ImagePager
@@ -47,18 +50,23 @@ public data class PhotoSelectionScreen(
     override fun BeautifulContent() {
         val imageRetrievalController = LocalImageRetrievalController.currentOrThrow
         val bottomSheetNavigator = LocalBottomSheetNavigator.current
-        val navigator = LocalNavigator.currentOrThrow
+        val runnerModel = rememberScreenModel<PhotoSelectionRunnerModel>()
+        val presentation by runnerModel.currentData.collectAsState()
 
-        val images = imageUriList.map { uri ->
-            imageFromUri(uri.toUri()).toImageBitmap()
+        var finalUriList by remember {
+            mutableStateOf(imageUriList)
+        }
+
+        LaunchedEffect(finalUriList) {
+            runnerModel.retrievePresentation(finalUriList)
         }
 
         PhotoSelectionContent(
-            images = images,
+            images = presentation.images,
             onDeleteRequested = { /* Nothing */ },
             onAddRequested = {
                 imageRetrievalController.showBottomSheet(bottomSheetNavigator) { result ->
-                    navigator.replace(PhotoSelectionScreen(imageUriList + result))
+                    finalUriList = finalUriList + result
                 }
             },
             onImagesConfirmed = { /* Nothing */ },

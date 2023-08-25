@@ -8,5 +8,4 @@ public actual class ImageRetriever {
     public actual fun retrieveImageFromUri(uri: Uri): Bitmap {
         TODO("To be implemented")
     }
-
 }

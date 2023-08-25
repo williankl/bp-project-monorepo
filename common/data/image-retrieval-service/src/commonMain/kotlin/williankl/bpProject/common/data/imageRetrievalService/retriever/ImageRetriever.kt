@@ -6,5 +6,4 @@ import korlibs.image.bitmap.Bitmap
 public expect class ImageRetriever {
 
     public fun retrieveImageFromUri(uri: Uri): Bitmap
-
 }

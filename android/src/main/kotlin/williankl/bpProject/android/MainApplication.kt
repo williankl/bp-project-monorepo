@@ -11,6 +11,8 @@ import williankl.bpProject.common.data.imageRetrievalService.imageRetrievalServi
 import williankl.bpProject.common.data.networking.networkingDi
 import williankl.bpProject.common.data.placeService.placesServiceDi
 import williankl.bpProject.common.features.authentication.authenticationFeatureDi
+import williankl.bpProject.common.features.dashboard.dashboardDi
+import williankl.bpProject.common.features.places.placesDi
 
 internal class MainApplication : Application(), DIAware {
     override val di: DI = DI {
@@ -22,5 +24,7 @@ internal class MainApplication : Application(), DIAware {
         import(placesServiceDi)
         import(authenticationFeatureDi)
         import(imageRetrievalServiceDi)
+        import(dashboardDi)
+        import(placesDi)
     }
 }

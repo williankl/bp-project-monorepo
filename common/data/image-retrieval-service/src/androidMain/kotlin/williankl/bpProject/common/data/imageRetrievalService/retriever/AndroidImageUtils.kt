@@ -5,11 +5,11 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import com.chrynan.uri.core.Uri
 import com.chrynan.uri.core.fromString
-import android.net.Uri as AndroidUri
 import korlibs.image.bitmap.Bitmap
 import korlibs.image.format.AndroidNativeImage
 import korlibs.image.format.toAndroidBitmap
 import williankl.bpProject.common.data.imageRetrievalService.ImageUriHandler
+import android.net.Uri as AndroidUri
 
 public actual fun Bitmap.toImageBitmap(): ImageBitmap {
     return toAndroidBitmap().asImageBitmap()

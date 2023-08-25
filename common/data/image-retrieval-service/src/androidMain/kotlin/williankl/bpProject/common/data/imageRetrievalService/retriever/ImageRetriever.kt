@@ -17,5 +17,4 @@ public actual class ImageRetriever(
 
         return AndroidNativeImage(bitmap)
     }
-
 }

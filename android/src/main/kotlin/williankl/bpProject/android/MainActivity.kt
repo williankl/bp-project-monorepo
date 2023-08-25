@@ -1,6 +1,5 @@
 package williankl.bpProject.android
 
-import android.net.Uri as AndroidUri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.transitions.SlideTransition
-import williankl.bpProject.common.core.ImageCaptureHelper
+import williankl.bpProject.common.data.imageRetrievalService.ImageCaptureHelper
 import williankl.bpProject.common.data.imageRetrievalService.controller.ImageRetrievalController
 import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
 import williankl.bpProject.common.data.imageRetrievalService.controller.RetrievalMode
@@ -28,6 +27,7 @@ import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.colors.composeHoverColor
 import williankl.bpProject.common.platform.design.core.theme.BeautifulThemeContent
+import android.net.Uri as AndroidUri
 
 internal class MainActivity : ComponentActivity() {
 

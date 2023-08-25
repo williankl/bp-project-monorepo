@@ -1,8 +1,6 @@
 package williankl.bpProject.common.data.imageRetrievalService.retriever
 
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.ImageBitmap
-import com.chrynan.uri.core.Uri
 import korlibs.image.bitmap.Bitmap
 
 public actual fun Bitmap.toImageBitmap(): ImageBitmap {
