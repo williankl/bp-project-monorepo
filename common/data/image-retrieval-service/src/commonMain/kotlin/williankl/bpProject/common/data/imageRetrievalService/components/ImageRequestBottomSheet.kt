@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.compose.painterResource
+import williankl.bpProject.common.data.imageRetrievalService.LocalImageRetrievalServiceStrings
 import williankl.bpProject.common.platform.design.core.ComposeString
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
@@ -35,11 +36,11 @@ internal class ImageRequestBottomSheet(
         val icon: ImageResource,
     ) {
         ImportFromGallery(
-            label = { "import" },
+            label = { LocalImageRetrievalServiceStrings.current.importLabel },
             icon = SharedDesignCoreResources.images.ic_import,
         ),
         Camera(
-            label = { "camera" },
+            label = { LocalImageRetrievalServiceStrings.current.captureLabel },
             icon = SharedDesignCoreResources.images.ic_camera,
         ),
     }

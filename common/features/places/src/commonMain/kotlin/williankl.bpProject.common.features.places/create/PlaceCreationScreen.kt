@@ -20,7 +20,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -29,6 +28,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.core.models.Season
+import williankl.bpProject.common.features.places.LocalPlacesStrings
 import williankl.bpProject.common.features.places.create.components.ChipCarrousselOption
 import williankl.bpProject.common.features.places.create.components.ChipOption
 import williankl.bpProject.common.features.places.create.components.InputOption
@@ -77,6 +77,7 @@ internal data class PlaceCreationScreen(
         onBackRequested: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
+        val strings = LocalPlacesStrings.current.placeCreationStrings
         val creationHandler = LocalPlaceCreationHandler.current
 
         Column(
@@ -123,10 +124,10 @@ internal data class PlaceCreationScreen(
 
                 item {
                     InputOption(
-                        headerPainter = painterResource(SharedDesignCoreResources.images.ic_camera),
+                        headerPainter = painterResource(SharedDesignCoreResources.images.ic_help_circle),
                         text = creationHandler.notes,
                         onTextChange = { creationHandler.notes = it },
-                        hint = "Escreva uma curiosidade...",
+                        hint = strings.curiosityInputHintLabel,
                         inputHeight = 60.dp,
                         modifier = Modifier.padding(10.dp),
                     )
@@ -136,10 +137,10 @@ internal data class PlaceCreationScreen(
 
                 item {
                     InputOption(
-                        headerPainter = painterResource(SharedDesignCoreResources.images.ic_camera),
+                        headerPainter = painterResource(SharedDesignCoreResources.images.ic_tags),
                         text = creationHandler.price,
                         onTextChange = { creationHandler.price = it },
-                        hint = "Valor médio para acesso, caso precise. ",
+                        hint = strings.costInputHintLabel,
                         keyboardType = KeyboardType.Decimal,
                         modifier = Modifier.padding(10.dp),
                     )
@@ -165,9 +166,11 @@ internal data class PlaceCreationScreen(
         modifier: Modifier = Modifier,
     ) {
         val creationHandler = LocalPlaceCreationHandler.current
+        val strings = LocalPlacesStrings.current.placeCreationStrings
+
         val options = Season.entries.map { season ->
             ChipOption(
-                label = season.name,
+                label = season.label(),
                 isSelected = season in creationHandler.selectedSeasons,
                 onClicked = {
                     if (season in creationHandler.selectedSeasons) {
@@ -180,8 +183,8 @@ internal data class PlaceCreationScreen(
         }
 
         ChipCarrousselOption(
-            label = "season",
-            headerPainter = painterResource(SharedDesignCoreResources.images.ic_camera),
+            label = strings.seasonLabel,
+            headerPainter = painterResource(SharedDesignCoreResources.images.ic_flower),
             options = options,
             modifier = modifier.fillMaxWidth()
         )
