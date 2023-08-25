@@ -1,4 +1,4 @@
-package williankl.bpProject.common.core
+package williankl.bpProject.common.data.imageRetrievalService
 
 import android.content.Context
 import android.net.Uri

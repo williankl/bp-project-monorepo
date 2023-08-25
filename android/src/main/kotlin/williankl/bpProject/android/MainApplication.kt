@@ -7,6 +7,7 @@ import org.kodein.di.android.androidCoreModule
 import org.kodein.di.android.x.androidXModule
 import williankl.bpProject.common.core.commonCoreDi
 import williankl.bpProject.common.data.auth.authServiceDi
+import williankl.bpProject.common.data.imageRetrievalService.imageRetrievalServiceDi
 import williankl.bpProject.common.data.networking.networkingDi
 import williankl.bpProject.common.data.placeService.placesServiceDi
 import williankl.bpProject.common.features.authentication.authenticationFeatureDi
@@ -20,5 +21,6 @@ internal class MainApplication : Application(), DIAware {
         import(authServiceDi)
         import(placesServiceDi)
         import(authenticationFeatureDi)
+        import(imageRetrievalServiceDi)
     }
 }

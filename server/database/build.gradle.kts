@@ -9,7 +9,6 @@ dependencies {
     implementation(libs.hikari)
     implementation(libs.postgres)
     implementation(libs.kodein.core)
-    implementation(libs.kmm.uuid)
 }
 
 sqldelight {

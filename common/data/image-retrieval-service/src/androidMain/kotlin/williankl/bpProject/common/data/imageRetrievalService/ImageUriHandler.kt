@@ -1,4 +1,4 @@
-package williankl.bpProject.common.core
+package williankl.bpProject.common.data.imageRetrievalService
 
 import android.content.ContentResolver
 import android.graphics.Bitmap

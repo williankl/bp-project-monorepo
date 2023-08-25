@@ -1,6 +1,5 @@
-package williankl.bpProject.common.data.imageRetrievalService
+package williankl.bpProject.common.data.imageRetrievalService.controller
 
-import androidx.compose.ui.graphics.ImageBitmap
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import williankl.bpProject.common.data.imageRetrievalService.components.ImageRequestBottomSheet
 import williankl.bpProject.common.data.imageRetrievalService.components.ImageRequestBottomSheet.ImageRequestOptions
@@ -10,7 +9,7 @@ public class ImageRetrievalController(
 ) {
 
     private val publishListeners by lazy {
-        mutableListOf<(List<ImageBitmap>) -> Unit>()
+        mutableListOf<(List<String>) -> Unit>()
     }
 
     public fun requestImage(mode: RetrievalMode) {
@@ -18,7 +17,7 @@ public class ImageRetrievalController(
     }
 
     public fun publishImages(
-        images: List<ImageBitmap>
+        images: List<String>
     ) {
         publishListeners.forEach { listener ->
             listener(images)
@@ -33,13 +32,13 @@ public class ImageRetrievalController(
 
     public fun showBottomSheet(
         bottomSheetNav: BottomSheetNavigator,
-        onImagePublished: (List<ImageBitmap>) -> Unit
+        onImagePublished: (List<String>) -> Unit
     ) {
         bottomSheetNav.show(
             ImageRequestBottomSheet(
                 onOptionSelected = { option ->
-                    publishListeners.add(onImagePublished)
                     bottomSheetNav.hide()
+                    publishListeners.add(onImagePublished)
                     requestImage(
                         when (option) {
                             ImageRequestOptions.ImportFromGallery -> RetrievalMode.Gallery

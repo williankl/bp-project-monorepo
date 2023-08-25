@@ -1,6 +1,5 @@
 plugins {
     id("bp.multiplatform")
-    id("org.jetbrains.compose")
     kotlin("plugin.serialization")
 }
 
@@ -9,15 +8,11 @@ android {
 }
 
 dependencies {
-    commonMainImplementation(libs.kmm.uuid)
-    commonMainImplementation(libs.kmm.uri)
-    commonMainImplementation(libs.kmm.bitmap)
+    commonMainApi(libs.kmm.uuid)
+    commonMainApi(libs.kmm.uri)
+    commonMainApi(libs.kmm.bitmap)
     commonMainImplementation(libs.kotlinx.serialization.json)
     commonMainImplementation(libs.kotlinx.serialization.core)
     commonMainImplementation(libs.kotlinx.coroutines.core)
     commonMainImplementation(libs.kodein.core)
-    commonMainImplementation(compose.foundation)
-
-    androidMainImplementation(libs.android.exifInterface)
-    androidMainImplementation(libs.android.androidx.core)
 }

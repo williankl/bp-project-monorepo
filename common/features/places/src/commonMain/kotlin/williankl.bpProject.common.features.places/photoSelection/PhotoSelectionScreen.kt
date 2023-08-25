@@ -22,7 +22,10 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
-import williankl.bpProject.common.data.imageRetrievalService.LocalImageRetrievalController
+import williankl.bpProject.common.core.imageFromUri
+import williankl.bpProject.common.core.imageHelpers.toImageBitmap
+import williankl.bpProject.common.core.imageHelpers.toUri
+import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
 import williankl.bpProject.common.features.places.LocalPlacesStrings
 import williankl.bpProject.common.platform.design.components.ImagePager
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
@@ -37,7 +40,7 @@ import williankl.bpProject.common.platform.design.core.models.IconConfig
 import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
 
 public data class PhotoSelectionScreen(
-    private val images: List<ImageBitmap>
+    private val imageUriList: List<String>
 ) : BeautifulScreen() {
 
     @Composable
@@ -46,12 +49,16 @@ public data class PhotoSelectionScreen(
         val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val navigator = LocalNavigator.currentOrThrow
 
+        val images = imageUriList.map { uri ->
+            imageFromUri(uri.toUri()).toImageBitmap()
+        }
+
         PhotoSelectionContent(
             images = images,
             onDeleteRequested = { /* Nothing */ },
             onAddRequested = {
                 imageRetrievalController.showBottomSheet(bottomSheetNavigator) { result ->
-                    navigator.replace(PhotoSelectionScreen(images + result))
+                    navigator.replace(PhotoSelectionScreen(imageUriList + result))
                 }
             },
             onImagesConfirmed = { /* Nothing */ },
