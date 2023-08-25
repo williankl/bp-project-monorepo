@@ -32,6 +32,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
 import williankl.bpProject.common.features.places.LocalPlacesStrings
+import williankl.bpProject.common.features.places.create.PlaceCreationScreen
 import williankl.bpProject.common.platform.design.components.ImagePager
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.button.Button
@@ -73,20 +74,11 @@ public data class PhotoSelectionScreen(
                     finalUriList = finalUriList + result
                 }
             },
-            onImagesConfirmed = { /* Nothing */ },
+            onImagesConfirmed = {
+                navigator.push(PlaceCreationScreen(finalUriList))
+            },
             onBackRequested = navigator::pop,
-            modifier = Modifier
-                .background(BeautifulColor.Background.composeColor)
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            BeautifulColor.Background.composeColor,
-                            BeautifulColor.Secondary.composeHoverColor,
-                            BeautifulColor.Background.composeColor,
-                        )
-                    )
-                )
-                .fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         )
     }
 
@@ -104,7 +96,17 @@ public data class PhotoSelectionScreen(
 
         Column(
             verticalArrangement = Arrangement.spacedBy(26.dp),
-            modifier = modifier,
+            modifier = modifier
+                .background(BeautifulColor.Background.composeColor)
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            BeautifulColor.Background.composeColor,
+                            BeautifulColor.Secondary.composeHoverColor,
+                            BeautifulColor.Background.composeColor,
+                        )
+                    )
+                ),
         ) {
             Image(
                 painter = painterResource(SharedDesignCoreResources.images.ic_chevron_left),

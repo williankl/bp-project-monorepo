@@ -1,7 +1,6 @@
 package williankl.bpProject.common.platform.design.core.input
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -54,6 +53,7 @@ public fun Input(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     maxLines: Int = Int.MAX_VALUE,
     minLines: Int = 1,
+    textAlignment: Alignment.Vertical = Alignment.Top,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     sideContentsOnExtremes: Boolean = false,
@@ -75,6 +75,7 @@ public fun Input(
         keyboardActions = keyboardActions,
         maxLines = maxLines,
         minLines = minLines,
+        textAlignment = textAlignment,
         visualTransformation = visualTransformation,
         interactionSource = interactionSource,
         sideContentsOnExtremes = sideContentsOnExtremes,
@@ -100,6 +101,7 @@ private fun CoreInput(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     maxLines: Int = Int.MAX_VALUE,
     minLines: Int = 1,
+    textAlignment: Alignment.Vertical = Alignment.Top,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     sideContentsOnExtremes: Boolean = false,
@@ -107,7 +109,7 @@ private fun CoreInput(
     endContent: (@Composable () -> Unit)? = null,
 ) {
     var borderColor: BeautifulColor by remember {
-        mutableStateOf(BeautifulColor.Surface)
+        mutableStateOf(BeautifulColor.PrimaryHigh)
     }
 
     val style = when (color) {
@@ -117,7 +119,7 @@ private fun CoreInput(
 
         is BeautifulBrush -> TextStyle(
             brush = Brush.linearGradient(
-                colors = color.colors.map { color -> color.composeColor }
+                colors = color.colors.map { it.composeColor }
             ),
         )
     }
@@ -127,8 +129,8 @@ private fun CoreInput(
         onValueChange = onTextChange,
         modifier = modifier.onFocusChanged { state ->
             borderColor =
-                if (state.isFocused) BeautifulColor.Danger
-                else BeautifulColor.Surface
+                if (state.isFocused) BeautifulColor.PrimaryLow
+                else BeautifulColor.PrimaryHigh
         },
         enabled = enabled,
         readOnly = readOnly,
@@ -150,15 +152,11 @@ private fun CoreInput(
         decorationBox = { innerTextField ->
             Row(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = textAlignment,
                 modifier = Modifier
                     .border(
                         width = 1.dp,
                         color = borderColor.composeColor,
-                        shape = BeautifulShape.Rounded.Regular.composeShape,
-                    )
-                    .background(
-                        color = BeautifulColor.Surface.composeColor,
                         shape = BeautifulShape.Rounded.Regular.composeShape,
                     )
                     .padding(
