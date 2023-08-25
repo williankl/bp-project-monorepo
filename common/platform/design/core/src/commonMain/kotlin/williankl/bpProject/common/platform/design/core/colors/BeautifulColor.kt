@@ -47,6 +47,10 @@ public fun BeautifulColor.composeColor(isHover: Boolean): Color =
     if (isHover) composeHoverColor else composeColor
 
 @Composable
+public fun BeautifulColor.color(isHover: Boolean = false): BeautifulColor =
+    if(isHover) hover else this
+
+@Composable
 public fun BeautifulColor.alpha(alpha: Float): BeautifulColor =
     BeautifulColor.Custom(
         lightColor = lightColor.copy(alpha = alpha),

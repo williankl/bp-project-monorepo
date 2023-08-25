@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import williankl.bpProject.common.platform.design.core.colors.BeautifulBrush
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
+import williankl.bpProject.common.platform.design.core.colors.color
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.colors.linearGradient
 import williankl.bpProject.common.platform.design.core.models.IconConfig
@@ -37,21 +38,17 @@ public fun IconButton(
     type: ButtonType = ButtonType.Regular,
     variant: ButtonVariant = ButtonVariant.Primary,
 ) {
-    val actualVariant =
-        if (enabled) variant
-        else ButtonVariant.Disabled
-
     CoreButton(
         onClick = onClick,
         modifier = modifier,
         enabled = enabled,
-        variant = actualVariant,
+        variant = variant,
         shape = type.shape.composeShape,
         content = {
             Icon(
                 painter = iconConfig.painter,
                 contentDescription = iconConfig.description,
-                tint = actualVariant.tint.composeColor,
+                tint = variant.tint.composeColor(enabled.not()),
                 modifier = Modifier.size(type.iconSize),
             )
         },
@@ -69,22 +66,18 @@ public fun Button(
     config: ButtonConfig = ButtonConfig(),
     variant: ButtonVariant = ButtonVariant.Primary,
 ) {
-    val actualVariant =
-        if (enabled) variant
-        else ButtonVariant.Disabled
-
     CoreButton(
         onClick = onClick,
         modifier = modifier,
         enabled = enabled,
-        variant = actualVariant,
+        variant = variant,
         shape = type.shape.composeShape,
         content = {
             if (config.headingIcon != null) {
                 Icon(
                     painter = config.headingIcon.painter,
                     contentDescription = config.headingIcon.description,
-                    tint = actualVariant.tint.composeColor,
+                    tint = variant.tint.composeColor(enabled.not()),
                     modifier = Modifier
                         .padding(horizontal = type.horizontalPadding)
                         .size(type.iconSize),
@@ -94,7 +87,7 @@ public fun Button(
             Text(
                 text = label,
                 size = type.textSize,
-                color = actualVariant.tint,
+                color = variant.tint.color(enabled.not()),
                 weight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
                 maxLines = 1,
@@ -109,7 +102,7 @@ public fun Button(
                 Icon(
                     painter = config.trailingIcon.painter,
                     contentDescription = config.trailingIcon.description,
-                    tint = actualVariant.tint.composeColor,
+                    tint = variant.tint.composeColor(enabled.not()),
                     modifier = Modifier
                         .padding(horizontal = type.horizontalPadding)
                         .size(type.iconSize),

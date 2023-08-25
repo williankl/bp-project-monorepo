@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,6 +26,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
@@ -34,6 +36,7 @@ import williankl.bpProject.common.platform.design.components.ImagePager
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.button.Button
 import williankl.bpProject.common.platform.design.core.button.ButtonConfig
+import williankl.bpProject.common.platform.design.core.button.ButtonType
 import williankl.bpProject.common.platform.design.core.button.ButtonVariant
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
@@ -50,6 +53,7 @@ public data class PhotoSelectionScreen(
     override fun BeautifulContent() {
         val imageRetrievalController = LocalImageRetrievalController.currentOrThrow
         val bottomSheetNavigator = LocalBottomSheetNavigator.current
+        val navigator = LocalNavigator.currentOrThrow
         val runnerModel = rememberScreenModel<PhotoSelectionRunnerModel>()
         val presentation by runnerModel.currentData.collectAsState()
 
@@ -70,6 +74,7 @@ public data class PhotoSelectionScreen(
                 }
             },
             onImagesConfirmed = { /* Nothing */ },
+            onBackRequested = navigator::pop,
             modifier = Modifier
                 .background(BeautifulColor.Background.composeColor)
                 .background(
@@ -92,6 +97,7 @@ public data class PhotoSelectionScreen(
         onDeleteRequested: () -> Unit,
         onAddRequested: () -> Unit,
         onImagesConfirmed: () -> Unit,
+        onBackRequested: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
         val strings = LocalPlacesStrings.current
@@ -104,7 +110,7 @@ public data class PhotoSelectionScreen(
                 painter = painterResource(SharedDesignCoreResources.images.ic_chevron_left),
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(16.dp)
+                    .clickableIcon(padding = 16.dp) { onBackRequested() }
                     .size(30.dp)
             )
 
@@ -141,12 +147,14 @@ public data class PhotoSelectionScreen(
                     label = strings.photoSelectionStrings.nextActionLabel,
                     onClick = onImagesConfirmed,
                     variant = ButtonVariant.Secondary,
+                    type = ButtonType.Pill,
+                    iconsOnExtremes = true,
                     config = ButtonConfig(
                         trailingIcon = IconConfig(
                             painter = painterResource(SharedDesignCoreResources.images.ic_chevron_right),
                         )
                     ),
-                    modifier = Modifier,
+                    modifier = Modifier.width(140.dp),
                 )
             }
         }

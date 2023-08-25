@@ -16,19 +16,11 @@ public enum class ButtonType(
     internal val shape: BeautifulShape,
 ) {
     Pill(
-        textSize = TextSize.XSmall,
-        iconSize = 6.dp,
-        verticalPadding = 6.dp,
-        horizontalPadding = 6.dp,
+        textSize = TextSize.Regular,
+        iconSize = 20.dp,
+        verticalPadding = 2.dp,
+        horizontalPadding = 10.dp,
         shape = BeautifulShape.Rounded.Regular
-    ),
-
-    Small(
-        textSize = TextSize.XSmall,
-        iconSize = 10.dp,
-        verticalPadding = 8.dp,
-        horizontalPadding = 8.dp,
-        shape = BeautifulShape.Rounded.Regular,
     ),
 
     Regular(
@@ -36,14 +28,6 @@ public enum class ButtonType(
         iconSize = 16.dp,
         verticalPadding = 10.dp,
         horizontalPadding = 10.dp,
-        shape = BeautifulShape.Rounded.Regular,
-    ),
-
-    Large(
-        textSize = TextSize.XLarge,
-        iconSize = 20.dp,
-        verticalPadding = 12.dp,
-        horizontalPadding = 12.dp,
         shape = BeautifulShape.Rounded.Regular,
     ),
 }
@@ -54,20 +38,26 @@ public enum class ButtonVariant(
     internal val tint: BeautifulColor,
 ) {
     Primary(
-        backgroundColor = BeautifulColor.PrimaryHigh,
+        backgroundColor = BeautifulColor.Primary,
         borderColor = BeautifulColor.Transparent,
-        tint = BeautifulColor.NeutralHigh,
+        tint = BeautifulColor.SecondaryHigh,
+    ),
+
+    PrimaryGhost(
+        backgroundColor = BeautifulColor.Transparent,
+        borderColor = BeautifulColor.Primary,
+        tint = BeautifulColor.SecondaryHigh,
     ),
 
     Secondary(
-        backgroundColor = BeautifulColor.Transparent,
-        borderColor = BeautifulColor.PrimaryHigh,
-        tint = BeautifulColor.NeutralHigh,
+        backgroundColor = BeautifulColor.Secondary,
+        borderColor = BeautifulColor.Transparent,
+        tint = BeautifulColor.PrimaryHigh,
     ),
 
-    Disabled(
+    SecondaryGhost(
         backgroundColor = BeautifulColor.Transparent,
-        borderColor = BeautifulColor.PrimaryHigh,
+        borderColor = BeautifulColor.Secondary,
         tint = BeautifulColor.PrimaryHigh,
     ),
 }
