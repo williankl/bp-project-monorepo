@@ -47,6 +47,10 @@ public fun BeautifulColor.composeColor(isHover: Boolean): Color =
     if (isHover) composeHoverColor else composeColor
 
 @Composable
+public fun BeautifulColor.color(isHover: Boolean = false): BeautifulColor =
+    if (isHover) hover else this
+
+@Composable
 public fun BeautifulColor.alpha(alpha: Float): BeautifulColor =
     BeautifulColor.Custom(
         lightColor = lightColor.copy(alpha = alpha),
@@ -152,6 +156,11 @@ public sealed class BeautifulColor(
     public data object Background : BeautifulColor(
         lightColor = Color(0xff212121),
         darkColor = Color(0xff212121),
+    )
+
+    public data object Border : BeautifulColor(
+        lightColor = Color(0xff353535),
+        darkColor = Color(0xff353535),
     )
 
     public data object Transparent : BeautifulColor(

@@ -84,6 +84,10 @@ private fun Project.setDependencies() {
             val androidMain by getting {
                 dependsOn(commonMain)
             }
+
+            val iosMain by getting {
+                dependsOn(commonMain)
+            }
         }
     }
 }

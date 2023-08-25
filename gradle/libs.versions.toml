@@ -22,6 +22,8 @@ ktor-logback = "1.4.9"
 kodein = "7.20.1"
 kamel = "0.7.1"
 uuid = "0.8.0"
+uri = "0.4.0"
+korim = "4.0.10"
 hikari = "5.0.1"
 postgres = "42.6.0"
 cashApp-sqlDelight = "2.0.0"
@@ -123,9 +125,14 @@ cashApp-sqliteDriver = { module = "app.cash.sqldelight:sqlite-driver", version.r
 
 moko-resourcesCompose = { module = "dev.icerock.moko:resources-compose", version.ref = "moko" }
 
+# KMM - Utils
+
+kmm-uuid = { module = "com.benasher44:uuid", version.ref = "uuid" }
+kmm-uri = { module = "com.chrynan.uri:uri-core", version.ref = "uri" }
+kmm-bitmap = { module = "com.soywiz.korlibs.korim:korim", version.ref = "korim" }
+
 # Other
 
 kamel = { module = "media.kamel:kamel-image", version.ref = "kamel" }
-uuid = { module = "com.benasher44:uuid", version.ref = "uuid" }
 hikari = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
 postgres = { module = "org.postgresql:postgresql", version.ref = "postgres" }

@@ -9,7 +9,7 @@ android {
 
 dependencies {
     commonMainImplementation(projects.common.core)
-    commonMainImplementation(libs.uuid)
+    commonMainImplementation(libs.kmm.uuid)
     commonMainImplementation(libs.kodein.core)
     commonMainImplementation(libs.ktor.client.core)
     commonMainImplementation(libs.kotlinx.serialization.core)

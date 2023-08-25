@@ -24,7 +24,8 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
-import williankl.bpProject.common.data.imageRetrievalService.LocalImageRetrievalController
+import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
+import williankl.bpProject.common.features.dashboard.models.DashboardActions
 import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionScreen
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor

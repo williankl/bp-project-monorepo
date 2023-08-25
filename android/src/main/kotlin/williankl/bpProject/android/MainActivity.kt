@@ -1,6 +1,5 @@
 package williankl.bpProject.android
 
-import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,21 +14,20 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.transitions.SlideTransition
-import williankl.bpProject.common.core.ImageCaptureHelper
-import williankl.bpProject.common.core.ImageUriHandler
-import williankl.bpProject.common.data.imageRetrievalService.ImageRetrievalController
-import williankl.bpProject.common.data.imageRetrievalService.LocalImageRetrievalController
-import williankl.bpProject.common.data.imageRetrievalService.RetrievalMode
+import williankl.bpProject.common.data.imageRetrievalService.ImageCaptureHelper
+import williankl.bpProject.common.data.imageRetrievalService.controller.ImageRetrievalController
+import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
+import williankl.bpProject.common.data.imageRetrievalService.controller.RetrievalMode
 import williankl.bpProject.common.features.dashboard.DashboardScreen
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.colors.composeHoverColor
 import williankl.bpProject.common.platform.design.core.theme.BeautifulThemeContent
+import android.net.Uri as AndroidUri
 
 internal class MainActivity : ComponentActivity() {
 
@@ -99,18 +97,16 @@ internal class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun onImagePickResult(uris: List<Uri>) {
-        val images = uris.map { uri ->
-            ImageUriHandler.retrieveImageFromUri(uri, contentResolver).asImageBitmap()
-        }
+    private fun onImagePickResult(uris: List<AndroidUri>) {
+        val images = uris.map { uri -> uri.toString() }
+
         imageRetrievalController.publishImages(images)
     }
 
     private fun onImageTaken(takenImage: Boolean) {
         val cachedUri = ImageCaptureHelper.cacheUri(this)
         if (takenImage && cachedUri != null) {
-            val result = ImageUriHandler.retrieveImageFromUri(cachedUri, contentResolver).asImageBitmap()
-            imageRetrievalController.publishImages(listOf(result))
+            imageRetrievalController.publishImages(listOf(cachedUri.toString()))
         }
     }
 }
