@@ -40,6 +40,7 @@ internal fun Project.applyRepositories() {
     repositories.apply {
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven("https://jitpack.io/")
+        maven("https://repo.repsy.io/mvn/chrynan/public")
         mavenCentral()
         google()
         gradlePluginPortal()

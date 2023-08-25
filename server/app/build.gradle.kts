@@ -8,7 +8,7 @@ dependencies {
     implementation(projects.server.database)
 
     implementation(libs.kodein.core)
-    implementation(libs.uuid)
+    implementation(libs.kmm.uuid)
     implementation(libs.ktor.serialization)
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.netty)
