@@ -1,6 +1,7 @@
 package williankl.bpProject.common.data.placeService
 
 import com.benasher44.uuid.Uuid
+import korlibs.image.bitmap.Bitmap
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.data.placeService.models.SavingPlace
 
@@ -14,4 +15,8 @@ public interface PlacesService {
         page: Int,
         limit: Int,
     ): List<Place>
+
+    public suspend fun uploadPlacesImages(
+        images: List<Bitmap>,
+    ): List<String>
 }
