@@ -1,4 +1,5 @@
 import dev.icerock.gradle.MRVisibility
+import williankl.bpProject.buildSrc.helpers.addJvmTarget
 
 plugins {
     id("bp.multiplatform")
@@ -10,6 +11,8 @@ plugins {
 android {
     namespace = "williankl.bpProject.common.platform.design.core"
 }
+
+addJvmTarget()
 
 dependencies {
     commonMainApi(compose.runtime)

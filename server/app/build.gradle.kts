@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
     implementation(projects.common.core)
-    implementation(projects.common.data.placeService)
+    implementation(projects.common.data.placeService.core)
     implementation(projects.server.database)
 
     implementation(libs.kodein.core)

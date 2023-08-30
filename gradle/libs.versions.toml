@@ -26,6 +26,7 @@ uri = "0.4.0"
 korim = "4.0.10"
 hikari = "5.0.1"
 postgres = "42.6.0"
+atomicfu = "0.21.0"
 cashApp-sqlDelight = "2.0.0"
 moko = "0.23.0"
 
@@ -137,3 +138,4 @@ kmm-bitmap = { module = "com.soywiz.korlibs.korim:korim", version.ref = "korim" 
 kamel = { module = "media.kamel:kamel-image", version.ref = "kamel" }
 hikari = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
 postgres = { module = "org.postgresql:postgresql", version.ref = "postgres" }
+atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu" }
