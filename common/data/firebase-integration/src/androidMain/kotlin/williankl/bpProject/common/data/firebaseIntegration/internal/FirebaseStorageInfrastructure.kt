@@ -39,6 +39,4 @@ internal actual class FirebaseStorageInfrastructure : FirebaseIntegration {
     private fun retrieveStorageReference(userId: Uuid): StorageReference {
         return Firebase.storage.reference.child("$userId/$randomId.jpg")
     }
-
-
 }
