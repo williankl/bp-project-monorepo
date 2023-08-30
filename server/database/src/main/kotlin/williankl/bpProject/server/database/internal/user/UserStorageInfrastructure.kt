@@ -1,6 +1,7 @@
 package williankl.bpProject.server.database.internal.user
 
 import app.cash.sqldelight.driver.jdbc.JdbcDriver
+import com.benasher44.uuid.Uuid
 import user.UserData
 import williankl.bpProject.common.core.models.User
 import williankl.bpProject.server.database.internal.DriverProvider.withDatabase
@@ -15,6 +16,8 @@ internal class UserStorageInfrastructure(
     init {
         withDatabase(driver) {
             userDataQueries.createTableIfNeeded()
+            userCredentialsQueries.createTableIfNeeded()
+            userBearerCredentialQueries.createTableIfNeeded()
         }
     }
 
@@ -24,20 +27,16 @@ internal class UserStorageInfrastructure(
         }
     }
 
-    override suspend fun retrieveUser(
-        email: String?,
-        tag: String?,
-    ): User? = findUserForEmailOrTag(email, tag)
-        ?.let(::toDomain)
+    override suspend fun retrieveUser(credential: String): User? =
+        findUserForCredential(credential)
+            ?.let(::toDomain)
 
-    override suspend fun userEncryptedPassword(
-        email: String?,
-        tag: String?,
-    ): String? {
-        val user = findUserForEmailOrTag(email, tag)
+    override suspend fun userEncryptedPassword(id: Uuid): String? {
         return withDatabase(driver) {
-            userCredentialsQueries.createTableIfNeeded()
-            user?.id?.let {
+            val user = userDataQueries.findUserById(id)
+                .executeAsOneOrNull()
+
+            user?.let {
                 userCredentialsQueries
                     .findCredentialsById(user.id)
                     .executeAsOneOrNull()
@@ -46,18 +45,30 @@ internal class UserStorageInfrastructure(
         }
     }
 
-    private fun findUserForEmailOrTag(
-        email: String?,
-        tag: String?,
+    override suspend fun findUserByBearer(token: String): User? {
+        return withDatabase(driver) {
+            val bearerCredential = userBearerCredentialQueries.findBearerCredentialByToken(token)
+                .executeAsList()
+                .lastOrNull()
+
+            bearerCredential?.let { credential ->
+                userDataQueries.findUserById(credential.ownerId)
+                    .executeAsOneOrNull()
+                    ?.let(::toDomain)
+            }
+        }
+    }
+
+    private fun findUserForCredential(
+        credential: String
     ): UserData? {
         return withDatabase(driver) {
-            val query = email
-                ?.let(userDataQueries::findUserByEmail)
-                ?: tag?.let(userDataQueries::findUserByTag)
-
-            query
-                ?.executeAsList()
-                ?.firstOrNull()
+            userDataQueries
+                .findUserByEmail(credential)
+                .executeAsOneOrNull()
+                ?: userDataQueries
+                    .findUserByTag(credential)
+                    .executeAsOneOrNull()
         }
     }
 }

@@ -102,6 +102,7 @@ ktor-client-jsonSerialization = { module = "io.ktor:ktor-serialization-kotlinx-j
 
 ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
+ktor-server-authentication = { module = "io.ktor:ktor-server-auth", version.ref = "ktor" }
 ktor-server-contentNegotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
 ktor-server-logBack = { module = "ch.qos.logback:logback-classic", version.ref = "ktor-logback" }
 
