@@ -51,8 +51,10 @@ internal class PlaceStorageInfrastructure(
             val placeData = placeDataQueries.findPlaceById(id)
                 .executeAsOneOrNull()
 
-            val addressData = placeAddressQueries.findAddressById(id)
-                .executeAsOneOrNull()
+            val addressData =
+                placeData?.addressId
+                    ?.let(placeAddressQueries::findAddressById)
+                    ?.executeAsOneOrNull()
 
             if (placeData != null && addressData != null) {
                 toDomain(placeData, addressData)
