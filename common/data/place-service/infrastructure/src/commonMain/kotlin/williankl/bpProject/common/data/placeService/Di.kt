@@ -6,9 +6,10 @@ import org.kodein.di.instance
 import williankl.bpProject.common.data.placeService.internal.PlacesServiceInfrastructure
 
 public val placesServiceDi: DI.Module = DI.Module("williankl.bpProject.common.data.placeService") {
+
     bindSingleton<PlacesService> {
         PlacesServiceInfrastructure(
-            client = instance()
+            client = instance(),
         )
     }
 }

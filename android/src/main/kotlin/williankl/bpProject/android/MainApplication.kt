@@ -7,6 +7,7 @@ import org.kodein.di.android.androidCoreModule
 import org.kodein.di.android.x.androidXModule
 import williankl.bpProject.common.core.commonCoreDi
 import williankl.bpProject.common.data.auth.authServiceDi
+import williankl.bpProject.common.data.firebaseIntegration.firebaseIntegrationDi
 import williankl.bpProject.common.data.imageRetrievalService.imageRetrievalServiceDi
 import williankl.bpProject.common.data.networking.networkingDi
 import williankl.bpProject.common.data.placeService.placesServiceDi
@@ -19,11 +20,12 @@ internal class MainApplication : Application(), DIAware {
         import(androidCoreModule(this@MainApplication))
         import(androidXModule(this@MainApplication))
         import(commonCoreDi)
+        import(imageRetrievalServiceDi)
+        import(firebaseIntegrationDi)
         import(networkingDi)
         import(authServiceDi)
         import(placesServiceDi)
         import(authenticationFeatureDi)
-        import(imageRetrievalServiceDi)
         import(dashboardDi)
         import(placesDi)
     }

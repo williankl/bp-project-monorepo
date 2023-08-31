@@ -26,6 +26,7 @@ uri = "0.4.0"
 korim = "4.0.10"
 hikari = "5.0.1"
 postgres = "42.6.0"
+atomicfu = "0.21.0"
 cashApp-sqlDelight = "2.0.0"
 moko = "0.23.0"
 
@@ -73,6 +74,7 @@ firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 firebase-auth = { module = "com.google.firebase:firebase-auth-ktx" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx" }
+firebase-storage = { module = "com.google.firebase:firebase-storage-ktx" }
 
 # Voyager
 
@@ -100,6 +102,7 @@ ktor-client-jsonSerialization = { module = "io.ktor:ktor-serialization-kotlinx-j
 
 ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
+ktor-server-authentication = { module = "io.ktor:ktor-server-auth", version.ref = "ktor" }
 ktor-server-contentNegotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
 ktor-server-logBack = { module = "ch.qos.logback:logback-classic", version.ref = "ktor-logback" }
 
@@ -136,3 +139,4 @@ kmm-bitmap = { module = "com.soywiz.korlibs.korim:korim", version.ref = "korim" 
 kamel = { module = "media.kamel:kamel-image", version.ref = "kamel" }
 hikari = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
 postgres = { module = "org.postgresql:postgresql", version.ref = "postgres" }
+atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu" }

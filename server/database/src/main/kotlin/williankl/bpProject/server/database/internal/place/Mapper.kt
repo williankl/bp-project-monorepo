@@ -6,7 +6,6 @@ import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.Place.PlaceAddress
 import williankl.bpProject.common.core.models.Place.PlaceAddress.PlaceAddressCoordinate
 import williankl.bpProject.common.core.models.Place.PlaceSeason
-import java.util.*
 
 internal object Mapper {
 
@@ -24,7 +23,7 @@ internal object Mapper {
                 description = description,
                 address = with(address) {
                     PlaceAddress(
-                        id = id.toString(),
+                        id = id,
                         street = street,
                         city = city,
                         country = country,
@@ -47,7 +46,7 @@ internal object Mapper {
                 ownerId = ownerId,
                 name = name,
                 description = description,
-                addressId = UUID.fromString(address.id),
+                addressId = address.id,
                 images = imageUrls.joinToString(IMAGE_SEPARATOR),
                 season = season.name,
             )
@@ -57,7 +56,7 @@ internal object Mapper {
     fun toAddressData(from: PlaceAddress): PlaceAddressData {
         return with(from) {
             PlaceAddressData(
-                id = UUID.fromString(id),
+                id = id,
                 city = city,
                 country = country,
                 street = street,

@@ -13,6 +13,10 @@ findUserByTag:
 SELECT * FROM UserData
 WHERE tag = ?;
 
+findUserById:
+SELECT * FROM UserData
+WHERE id = ?;
+
 createFullUser:
 INSERT INTO UserData(id, email, tag)
 VALUES ?;

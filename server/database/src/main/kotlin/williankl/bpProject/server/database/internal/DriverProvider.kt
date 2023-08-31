@@ -17,7 +17,9 @@ internal object DriverProvider {
         driver: JdbcDriver,
         action: BpProject.() -> T
     ): T {
-        return with(BpProject.invoke(driver)) {
+        return with(
+            BpProject.invoke(driver)
+        ) {
             action()
         }
     }

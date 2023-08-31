@@ -10,6 +10,10 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import williankl.bpProject.buildSrc.helpers.findAndroidExtension
 import williankl.bpProject.buildSrc.helpers.setupAndroid
 
+public fun Project.addJvmTarget() {
+    setupMultiplatformTargets(withJvm = true)
+}
+
 public fun DependencyHandlerScope.commonMainLyricistImplementation(
     lyricistDependency: Provider<MinimalExternalModuleDependency>
 ) {
@@ -42,11 +46,11 @@ public fun Project.applyCommonMainCodeGeneration() {
     }
 }
 
-internal fun Project.setupMultiplatformTargets() {
+internal fun Project.setupMultiplatformTargets(withJvm: Boolean = false) {
+    if (withJvm) applyJvmTarget()
     applyAndroidTarget()
-    applyJvmTarget()
     applyIOSTarget()
-    setDependencies()
+    setDependencies(withJvm)
 }
 
 private fun Project.applyAndroidTarget() {
@@ -72,13 +76,15 @@ private fun Project.applyIOSTarget() {
     }
 }
 
-private fun Project.setDependencies() {
-    extensions.configure<KotlinMultiplatformExtension>() {
+private fun Project.setDependencies(withJvm: Boolean) {
+    extensions.configure<KotlinMultiplatformExtension> {
         sourceSets {
             val commonMain by getting
 
-            val jvmMain by getting {
-                dependsOn(commonMain)
+            if (withJvm) {
+                val jvmMain by getting {
+                    dependsOn(commonMain)
+                }
             }
 
             val androidMain by getting {

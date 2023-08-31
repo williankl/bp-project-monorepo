@@ -16,13 +16,13 @@ internal class PlaceStorageInfrastructure(
     init {
         withDatabase(driver) {
             placeDataQueries.createTableIfNeeded()
+            placeAddressQueries.createTableIfNeeded()
         }
     }
 
     override suspend fun savePlace(place: Place) {
         withDatabase(driver) {
             placeDataQueries.createFullPlace(toPlaceData(place))
-            placeAddressQueries.createTableIfNeeded()
             placeAddressQueries.createFullAddress(toAddressData(place.address))
         }
     }
@@ -51,8 +51,10 @@ internal class PlaceStorageInfrastructure(
             val placeData = placeDataQueries.findPlaceById(id)
                 .executeAsOneOrNull()
 
-            val addressData = placeAddressQueries.findAddressById(id)
-                .executeAsOneOrNull()
+            val addressData =
+                placeData?.addressId
+                    ?.let(placeAddressQueries::findAddressById)
+                    ?.executeAsOneOrNull()
 
             if (placeData != null && addressData != null) {
                 toDomain(placeData, addressData)
