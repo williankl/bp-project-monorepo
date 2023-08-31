@@ -28,7 +28,10 @@ internal object UserRouter {
         route("/user") {
             formLoginRoute()
             signupRoute()
-            defaultUser()
+
+            authenticate(AuthenticationHandler.BEARER_KEY) {
+                currentUserRoute()
+            }
         }
     }
 
@@ -115,33 +118,31 @@ internal object UserRouter {
         }
     }
 
-    private fun Route.defaultUser() {
-        authenticate(AuthenticationHandler.BEARER_KEY) {
-            get {
-                val userId = call.principal<UserIdPrincipal>()
-                    ?.name
-                    ?.let(::uuidFrom)
+    private fun Route.currentUserRoute() {
+        get {
+            val userId = call.principal<UserIdPrincipal>()
+                ?.name
+                ?.let(::uuidFrom)
 
-                val foundUser = userId?.let {
-                    userService.retrieveUser(userId)
+            val foundUser = userId?.let {
+                userService.retrieveUser(userId)
+            }
+
+            when {
+                foundUser != null -> {
+                    call.respond(
+                        status = HttpStatusCode.OK,
+                        message = foundUser,
+                    )
                 }
 
-                when {
-                    foundUser != null -> {
-                        call.respond(
-                            status = HttpStatusCode.OK,
-                            message = foundUser,
+                else -> {
+                    call.respond(
+                        status = HttpStatusCode.NotFound,
+                        message = NetworkErrorResponse(
+                            message = "Bearer token holder not found"
                         )
-                    }
-
-                    else -> {
-                        call.respond(
-                            status = HttpStatusCode.NotFound,
-                            message = NetworkErrorResponse(
-                                message = "Bearer token holder not found"
-                            )
-                        )
-                    }
+                    )
                 }
             }
         }
