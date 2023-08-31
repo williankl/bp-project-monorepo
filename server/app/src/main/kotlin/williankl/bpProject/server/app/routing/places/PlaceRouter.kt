@@ -2,6 +2,7 @@ package williankl.bpProject.server.app.routing.places
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
+import io.ktor.server.auth.authenticate
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
@@ -11,6 +12,7 @@ import io.ktor.server.routing.route
 import org.kodein.di.instance
 import williankl.bpProject.common.core.models.network.response.NetworkErrorResponse
 import williankl.bpProject.common.data.placeService.models.SavingPlace
+import williankl.bpProject.server.app.configuration.AuthenticationHandler
 import williankl.bpProject.server.app.generateId
 import williankl.bpProject.server.app.parseOrNull
 import williankl.bpProject.server.app.parseOrNullSuspend
@@ -25,10 +27,13 @@ internal object PlaceRouter {
 
     fun Route.placesRoute() {
         route("/places") {
-            savePlaceRoute()
             pagingRouting()
             idRouting()
             defaultRoute()
+
+            authenticate(AuthenticationHandler.BEARER_KEY) {
+                savePlaceRoute()
+            }
         }
     }
 
