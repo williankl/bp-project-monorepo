@@ -1,4 +1,4 @@
-package williankl.bpProject.common.core.models.network
+package williankl.bpProject.common.core.models.network.response
 
 import kotlinx.serialization.Serializable
 

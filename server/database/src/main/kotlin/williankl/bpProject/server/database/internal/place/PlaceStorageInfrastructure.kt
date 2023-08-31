@@ -16,13 +16,13 @@ internal class PlaceStorageInfrastructure(
     init {
         withDatabase(driver) {
             placeDataQueries.createTableIfNeeded()
+            placeAddressQueries.createTableIfNeeded()
         }
     }
 
     override suspend fun savePlace(place: Place) {
         withDatabase(driver) {
             placeDataQueries.createFullPlace(toPlaceData(place))
-            placeAddressQueries.createTableIfNeeded()
             placeAddressQueries.createFullAddress(toAddressData(place.address))
         }
     }

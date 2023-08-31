@@ -5,7 +5,6 @@ import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.auth.Authentication
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
-import williankl.bpProject.server.app.configuration.AuthenticationHandler.basicConfig
 import williankl.bpProject.server.app.configuration.AuthenticationHandler.bearerConfig
 
 internal object ConfigurationRunner {
@@ -17,7 +16,6 @@ internal object ConfigurationRunner {
 
     private fun Application.installAuthentication() {
         install(Authentication) {
-            basicConfig()
             bearerConfig()
         }
     }

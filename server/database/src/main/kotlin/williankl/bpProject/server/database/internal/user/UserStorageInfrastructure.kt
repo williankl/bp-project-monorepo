@@ -2,6 +2,9 @@ package williankl.bpProject.server.database.internal.user
 
 import app.cash.sqldelight.driver.jdbc.JdbcDriver
 import com.benasher44.uuid.Uuid
+import java.util.Date
+import user.UserBearerCredential
+import user.UserCredentials
 import user.UserData
 import williankl.bpProject.common.core.models.User
 import williankl.bpProject.server.database.internal.DriverProvider.withDatabase
@@ -21,15 +24,32 @@ internal class UserStorageInfrastructure(
         }
     }
 
-    override suspend fun createUser(user: User) {
+    override suspend fun createUser(
+        user: User,
+        encryptedPassword: String,
+    ) {
         withDatabase(driver) {
             userDataQueries.createFullUser(fromDomain(user))
+            userCredentialsQueries.createPassword(
+                UserCredentials(
+                    ownerId = user.id,
+                    encryptedPassword = encryptedPassword,
+                )
+            )
         }
     }
 
     override suspend fun retrieveUser(credential: String): User? =
         findUserForCredential(credential)
             ?.let(::toDomain)
+
+    override suspend fun retrieveUser(id: Uuid): User? {
+        return withDatabase(driver) {
+            userDataQueries.findUserById(id)
+                .executeAsOneOrNull()
+                ?.let(::toDomain)
+        }
+    }
 
     override suspend fun userEncryptedPassword(id: Uuid): String? {
         return withDatabase(driver) {
@@ -45,11 +65,24 @@ internal class UserStorageInfrastructure(
         }
     }
 
+    override suspend fun attachBearerToken(userId: Uuid, token: String) {
+        withDatabase(driver) {
+            userBearerCredentialQueries.attachToken(
+                UserBearerCredential(
+                    ownerId = userId,
+                    createdAt = Date().time,
+                    valid = true,
+                    token = token,
+                )
+            )
+        }
+    }
+
     override suspend fun findUserByBearer(token: String): User? {
         return withDatabase(driver) {
             val bearerCredential = userBearerCredentialQueries.findBearerCredentialByToken(token)
                 .executeAsList()
-                .lastOrNull()
+                .maxByOrNull { credential -> credential.createdAt }
 
             bearerCredential?.let { credential ->
                 userDataQueries.findUserById(credential.ownerId)

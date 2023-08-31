@@ -6,6 +6,7 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
 import williankl.bpProject.server.app.configuration.ConfigurationRunner.configure
 import williankl.bpProject.server.app.routing.places.PlaceRouter.placesRoute
+import williankl.bpProject.server.app.routing.user.UserRouter.userRoutes
 
 public fun main(args: Array<String>): Unit = EngineMain.main(args)
 
@@ -13,5 +14,6 @@ public fun Application.module() {
     configure()
     routing {
         placesRoute()
+        userRoutes()
     }
 }
