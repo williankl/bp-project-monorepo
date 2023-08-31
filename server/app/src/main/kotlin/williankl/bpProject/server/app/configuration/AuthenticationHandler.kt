@@ -11,9 +11,11 @@ import williankl.bpProject.server.database.services.UserStorage
 internal object AuthenticationHandler {
 
     private val userStorage by serverDi.instance<UserStorage>()
+    internal const val BEARER_KEY = "bearer-provider"
+    internal const val BASIC_KEY = "basic-provider"
 
     fun AuthenticationConfig.basicConfig() {
-        basic {
+        basic(BASIC_KEY) {
             validate { credentials ->
                 userStorage.retrieveUser(credentials.name)
                     ?.let { user ->
@@ -26,7 +28,7 @@ internal object AuthenticationHandler {
     }
 
     fun AuthenticationConfig.bearerConfig() {
-        bearer {
+        bearer(BEARER_KEY) {
             authenticate { tokenCredential ->
                 userStorage.findUserByBearer(tokenCredential.token)
                     ?.let { user ->

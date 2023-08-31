@@ -28,6 +28,7 @@ internal object PlaceRouter {
             savePlaceRoute()
             pagingRouting()
             idRouting()
+            defaultRoute()
         }
     }
 
@@ -50,7 +51,7 @@ internal object PlaceRouter {
     }
 
     private fun Route.pagingRouting() {
-        get("{page?}{limit?}") {
+        get {
             val page = call.parameters["page"]?.toIntOrNull()
             val limit = call.parameters["limit"]?.toIntOrNull()
 
@@ -63,19 +64,12 @@ internal object PlaceRouter {
                         message = placesFound
                     )
                 }
-            } else {
-                call.respond(
-                    status = HttpStatusCode.BadRequest,
-                    message = NetworkErrorResponse(
-                        message = "No 'limit' or 'page' found on path parameters"
-                    )
-                )
             }
         }
     }
 
     private fun Route.idRouting() {
-        get("{id?}") {
+        get {
             val id = call.parameters["id"]
             val uuid = parseOrNull { UUID.fromString(id) }
             if (uuid != null) {
@@ -93,14 +87,18 @@ internal object PlaceRouter {
                         message = placeFound
                     )
                 }
-            } else {
-                call.respond(
-                    status = HttpStatusCode.BadRequest,
-                    message = NetworkErrorResponse(
-                        message = "No parameter 'id' found"
-                    )
-                )
             }
+        }
+    }
+
+    private fun Route.defaultRoute(){
+        get {
+            call.respond(
+                status = HttpStatusCode.BadRequest,
+                message = NetworkErrorResponse(
+                    message = "No 'limit' and 'page' or 'id' found on path parameters"
+                )
+            )
         }
     }
 }

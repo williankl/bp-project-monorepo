@@ -1,9 +1,14 @@
 package williankl.bpProject.server.database.internal
 
+import app.cash.sqldelight.ColumnAdapter
 import app.cash.sqldelight.driver.jdbc.JdbcDriver
 import app.cash.sqldelight.driver.jdbc.asJdbcDriver
+import com.benasher44.uuid.Uuid
+import com.benasher44.uuid.uuidFrom
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import java.util.UUID
+import place.PlaceData
 import williankl.bpProject.server.database.BpProject
 
 internal object DriverProvider {
@@ -17,7 +22,9 @@ internal object DriverProvider {
         driver: JdbcDriver,
         action: BpProject.() -> T
     ): T {
-        return with(BpProject.invoke(driver)) {
+        return with(
+            BpProject.invoke(driver)
+        ) {
             action()
         }
     }
