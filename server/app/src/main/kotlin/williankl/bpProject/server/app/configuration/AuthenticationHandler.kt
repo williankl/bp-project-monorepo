@@ -1,9 +1,7 @@
 package williankl.bpProject.server.app.configuration
 
-import com.benasher44.uuid.uuid4
 import io.ktor.server.auth.AuthenticationConfig
 import io.ktor.server.auth.UserIdPrincipal
-import io.ktor.server.auth.basic
 import io.ktor.server.auth.bearer
 import org.kodein.di.instance
 import williankl.bpProject.server.app.serverDi

@@ -91,7 +91,7 @@ internal object PlaceRouter {
         }
     }
 
-    private fun Route.defaultRoute(){
+    private fun Route.defaultRoute() {
         get {
             call.respond(
                 status = HttpStatusCode.BadRequest,

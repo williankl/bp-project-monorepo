@@ -2,7 +2,6 @@ package williankl.bpProject.server.database.internal.user
 
 import app.cash.sqldelight.driver.jdbc.JdbcDriver
 import com.benasher44.uuid.Uuid
-import java.util.Date
 import user.UserBearerCredential
 import user.UserCredentials
 import user.UserData
@@ -11,6 +10,7 @@ import williankl.bpProject.server.database.internal.DriverProvider.withDatabase
 import williankl.bpProject.server.database.internal.user.Mapper.fromDomain
 import williankl.bpProject.server.database.internal.user.Mapper.toDomain
 import williankl.bpProject.server.database.services.UserStorage
+import java.util.Date
 
 internal class UserStorageInfrastructure(
     private val driver: JdbcDriver,
