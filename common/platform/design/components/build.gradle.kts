@@ -8,8 +8,12 @@ android {
 }
 
 dependencies {
-    commonMainImplementation(libs.atomicfu)
     commonMainImplementation(projects.common.platform.design.core)
     commonMainImplementation(compose.material)
     commonMainImplementation(compose.material3)
+    commonMainImplementation(libs.atomicfu)
+    commonMainImplementation(libs.moko.resourcesCompose)
+
+    androidMainImplementation(libs.maps.android.compose)
+    androidMainImplementation(libs.maps.android.composeUtils)
 }
