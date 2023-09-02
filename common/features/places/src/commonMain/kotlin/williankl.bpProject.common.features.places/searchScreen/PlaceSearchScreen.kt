@@ -76,6 +76,7 @@ public object PlaceSearchScreen : BeautifulScreen() {
         modifier: Modifier = Modifier,
     ) {
         val strings = LocalPlacesStrings.current.placeSearchStrings
+        val focusManager = LocalFocusManager.current
 
         val focusRequester = remember {
             FocusRequester()
@@ -109,9 +110,11 @@ public object PlaceSearchScreen : BeautifulScreen() {
                     imeAction = ImeAction.Search,
                 ),
                 keyboardActions = KeyboardActions(
-                    onSearch = { focusRequester.freeFocus() }
+                    onSearch = { focusManager.clearFocus(true) }
                 ),
                 modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth()
                     .focusRequester(focusRequester)
                     .onFocusChanged { focusState -> isFocusOnInput = focusState.isFocused }
             )

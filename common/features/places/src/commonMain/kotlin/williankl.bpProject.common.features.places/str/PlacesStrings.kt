@@ -10,6 +10,8 @@ internal data class PlacesStrings(
     )
 
     internal data class PlaceCreationStrings(
+        val locationLabel: String,
+        val searchLocationLabel: String,
         val seasonLabel: String,
         val curiosityInputHintLabel: String,
         val costInputHintLabel: String,

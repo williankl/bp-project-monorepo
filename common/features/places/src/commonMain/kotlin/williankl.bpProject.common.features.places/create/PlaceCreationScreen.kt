@@ -35,6 +35,7 @@ import williankl.bpProject.common.features.places.create.components.InputOption
 import williankl.bpProject.common.features.places.create.handler.CreationHandler
 import williankl.bpProject.common.features.places.create.handler.LocalPlaceCreationHandler
 import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionRunnerModel
+import williankl.bpProject.common.features.places.searchScreen.PlaceSearchScreen
 import williankl.bpProject.common.platform.design.components.ImagePager
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.clickableIcon
@@ -113,6 +114,26 @@ internal data class PlaceCreationScreen(
                 }
 
                 item {
+                    LocationOptions(
+                        modifier = Modifier
+                            .padding(start = 10.dp)
+                            .padding(vertical = 10.dp),
+                    )
+
+                    Divider()
+                }
+
+                item {
+                    SeasonsOption(
+                        modifier = Modifier
+                            .padding(start = 10.dp)
+                            .padding(vertical = 10.dp),
+                    )
+
+                    Divider()
+                }
+
+                item {
                     SeasonsOption(
                         modifier = Modifier
                             .padding(start = 10.dp)
@@ -158,6 +179,33 @@ internal data class PlaceCreationScreen(
                 .background(BeautifulColor.Border.composeColor)
                 .height(1.dp)
                 .fillMaxWidth()
+        )
+    }
+
+    @Composable
+    private fun LocationOptions(
+        modifier: Modifier = Modifier,
+    ) {
+        val navigator = LocalNavigator.currentOrThrow
+        val strings = LocalPlacesStrings.current.placeCreationStrings
+
+        val options = remember {
+            listOf(
+                ChipOption(
+                    label = strings.searchLocationLabel,
+                    isSelected = false,
+                    onClicked = {
+                        navigator.push(PlaceSearchScreen)
+                    },
+                )
+            )
+        }
+
+        ChipCarrousselOption(
+            label = strings.locationLabel,
+            headerPainter = painterResource(SharedDesignCoreResources.images.ic_location_pin),
+            options = options,
+            modifier = modifier.fillMaxWidth()
         )
     }
 

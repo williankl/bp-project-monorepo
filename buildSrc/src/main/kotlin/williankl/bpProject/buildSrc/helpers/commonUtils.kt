@@ -24,6 +24,12 @@ public fun Project.setupLyricist() {
     }
 }
 
+public fun Project.fromLocalProperties(key: String): String {
+    val properties = Properties()
+    properties.load(project.rootProject.file("local.properties").inputStream())
+    return properties.getProperty(key)
+}
+
 @Suppress("IMPLICIT_CAST_TO_ANY")
 public inline fun <reified ValueT> VariantDimension.buildConfigField(
     name: String,

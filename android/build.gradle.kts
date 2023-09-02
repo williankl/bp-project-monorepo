@@ -1,3 +1,6 @@
+import java.util.*
+import williankl.bpProject.buildSrc.helpers.fromLocalProperties
+
 plugins {
     id("bp.android.app")
     id("org.jetbrains.compose")
@@ -7,6 +10,10 @@ plugins {
 
 android {
     namespace = "williankl.bpProject.android"
+
+    defaultConfig {
+        manifestPlaceholders["MAPS_API_KEY"] = fromLocalProperties("MAPS_API_KEY")
+    }
 }
 
 dependencies {
