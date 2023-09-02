@@ -9,6 +9,6 @@ public actual fun MapsComponent(
     onClearPlaceRequested: () -> Unit,
     onPlaceSelected: (MapCoordinate) -> Unit,
     modifier: Modifier,
-){
+) {
     TODO("Yet to be implemented")
 }

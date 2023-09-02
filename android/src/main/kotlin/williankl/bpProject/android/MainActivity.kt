@@ -1,5 +1,6 @@
 package williankl.bpProject.android
 
+import android.Manifest
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -34,13 +35,19 @@ internal class MainActivity : ComponentActivity() {
     private val imageRetriever =
         registerForActivityResult(
             ActivityResultContracts.PickMultipleVisualMedia(maxItems = 4),
-            ::onImagePickResult
+            ::onImagePickResult,
         )
 
     private val cameraImageRetriever =
         registerForActivityResult(
             ActivityResultContracts.TakePicture(),
-            ::onImageTaken
+            ::onImageTaken,
+        )
+
+    private val locationPermissionRetriever =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions(),
+            ::onPermissionRequestResult,
         )
 
     private val imageRetrievalController by lazy {
@@ -62,6 +69,14 @@ internal class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        locationPermissionRetriever.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+            )
+        )
+
         setContent {
             BeautifulThemeContent {
                 CompositionLocalProvider(
@@ -108,5 +123,11 @@ internal class MainActivity : ComponentActivity() {
         if (takenImage && cachedUri != null) {
             imageRetrievalController.publishImages(listOf(cachedUri.toString()))
         }
+    }
+
+    private fun onPermissionRequestResult(
+        permissionMap: Map<String, Boolean>
+    ) {
+        // todo - handle result if needed
     }
 }

@@ -129,7 +129,6 @@ public object PlaceSearchScreen : BeautifulScreen() {
                             .fillMaxWidth()
                             .weight(1f),
                     ) {
-
                     }
                 } else {
                     MapsComponent(
@@ -153,5 +152,4 @@ public object PlaceSearchScreen : BeautifulScreen() {
             )
         }
     }
-
 }

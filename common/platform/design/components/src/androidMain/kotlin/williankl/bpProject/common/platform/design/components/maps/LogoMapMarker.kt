@@ -27,7 +27,7 @@ internal fun LogoMapMarker(
         ),
     ) {
         Image(
-            painter = painterResource(SharedDesignCoreResources.images.bp_logo_light),
+            painter = painterResource(SharedDesignCoreResources.images.bp_logo_dark),
             contentDescription = null,
             modifier = modifier
         )
