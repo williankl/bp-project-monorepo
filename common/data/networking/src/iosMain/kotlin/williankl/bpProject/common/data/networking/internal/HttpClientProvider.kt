@@ -13,4 +13,12 @@ internal actual class HttpClientProvider actual constructor(
             }
         }
     }
+
+    actual fun provideGoogleClient(): HttpClient {
+        return HttpClient(Darwin) {
+            with(configurationHelper) {
+                googleConfiguration()
+            }
+        }
+    }
 }
