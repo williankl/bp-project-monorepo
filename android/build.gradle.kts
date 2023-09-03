@@ -1,4 +1,5 @@
 import java.util.*
+import williankl.bpProject.buildSrc.helpers.buildConfigField
 import williankl.bpProject.buildSrc.helpers.fromLocalProperties
 
 plugins {
@@ -12,7 +13,9 @@ android {
     namespace = "williankl.bpProject.android"
 
     defaultConfig {
+        buildFeatures.buildConfig = true
         manifestPlaceholders["MAPS_API_KEY"] = fromLocalProperties("MAPS_API_KEY")
+        buildConfigField("MAPS_API_KEY", fromLocalProperties("MAPS_API_KEY"))
     }
 }
 

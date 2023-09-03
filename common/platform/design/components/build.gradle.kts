@@ -8,6 +8,7 @@ android {
 }
 
 dependencies {
+    commonMainImplementation(projects.common.core)
     commonMainImplementation(projects.common.platform.design.core)
     commonMainImplementation(compose.material)
     commonMainImplementation(compose.material3)

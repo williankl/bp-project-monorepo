@@ -8,6 +8,7 @@ import com.google.maps.android.compose.GoogleMapComposable
 import com.google.maps.android.compose.MarkerComposable
 import com.google.maps.android.compose.MarkerState
 import dev.icerock.moko.resources.compose.painterResource
+import williankl.bpProject.common.core.models.MapCoordinate
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 
 @Composable

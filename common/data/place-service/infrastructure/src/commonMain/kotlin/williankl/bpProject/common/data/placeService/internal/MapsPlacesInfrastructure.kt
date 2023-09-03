@@ -16,7 +16,6 @@ internal class MapsPlacesInfrastructure(
         val key: String,
     ) {
         Id("places.id"),
-        Name("places.name"),
         DisplayName("places.displayName"),
         Location("places.location"),
         Photos("places.photos"),
@@ -30,7 +29,7 @@ internal class MapsPlacesInfrastructure(
     suspend fun queryForText(query: String): MapTextQueryResponse {
         val types = MapsPlaceTypes.entries
 
-        val result = client.post(TEXT_SEARCH_ENDPOINT) {
+        return client.post(TEXT_SEARCH_ENDPOINT) {
             headers.append(
                 name = FIELD_MASK_HEADER,
                 value = types.joinToString(separator = ",") { type -> type.key }
@@ -39,14 +38,9 @@ internal class MapsPlacesInfrastructure(
             setBody(
                 MapTextQueryRequest(
                     textQuery = query,
-                    languageCode = "pt",
                 )
             )
-        }.bodyAsText()
-
-        println(result)
-
-        return TODO()
+        }.body()
     }
 
 }

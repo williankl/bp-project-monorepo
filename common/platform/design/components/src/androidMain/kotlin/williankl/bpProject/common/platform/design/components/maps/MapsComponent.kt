@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.dp
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
+import williankl.bpProject.common.core.models.MapCoordinate
 
 @Composable
 public actual fun MapsComponent(

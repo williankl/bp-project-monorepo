@@ -10,8 +10,9 @@ import williankl.bpProject.common.data.networking.internal.HttpClientProvider
 public val networkingDi: DI.Module = DI.Module("williankl.bpProject.common.data.networking") {
     bindSingleton<ClientConfigurationHelper> {
         ClientConfigurationHelper(
-            bpBaseUrl = "http://10.0.2.2:8080/", // fixme - localhost for testing
-            googlePlacesBaseUrl = "https://places.googleapis.com", // fixme - place this in a better place
+            bpBaseUrl = instance(NetworkConstant.BeautifulPlacesBaseUrl),
+            googlePlacesBaseUrl = instance(NetworkConstant.GooglePlacesBaseUrl),
+            googleMapsKey = instance(NetworkConstant.GooglePlacesApiKey),
             json = instance(),
         )
     }

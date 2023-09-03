@@ -47,7 +47,8 @@ internal class PlacesServiceInfrastructure(
                 with(response) {
                     MapPlaceResult(
                         id = id,
-                        displayName = displayName.text
+                        displayName = displayName.text,
+                        coordinate = location,
                     )
                 }
             }
