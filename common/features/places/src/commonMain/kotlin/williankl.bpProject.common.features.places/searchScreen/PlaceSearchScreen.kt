@@ -2,6 +2,9 @@ package williankl.bpProject.common.features.places.searchScreen
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.with
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -145,13 +148,12 @@ public object PlaceSearchScreen : BeautifulScreen() {
 
             AnimatedContent(
                 targetState = isFocusOnInput,
+                transitionSpec = { fadeIn() with fadeOut() },
                 modifier = Modifier.weight(1f)
             ) { shouldShowResultList ->
                 if (shouldShowResultList) {
                     LazyColumn(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f),
+                        modifier = Modifier.fillMaxSize(),
                     ) {
                         itemsIndexed(presentation.queryResults) { index, result ->
                             PlaceOption(
@@ -176,9 +178,7 @@ public object PlaceSearchScreen : BeautifulScreen() {
                         currentMarkedPlace = selectedLocation,
                         onClearPlaceRequested = { onLocationClicked(null) },
                         onPlaceSelected = onLocationClicked,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f),
+                        modifier = Modifier.fillMaxSize(),
                     )
                 }
             }
