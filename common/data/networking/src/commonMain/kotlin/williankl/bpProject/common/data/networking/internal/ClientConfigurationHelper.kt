@@ -26,7 +26,7 @@ internal class ClientConfigurationHelper(
     }
 
     fun <T : HttpClientEngineConfig> HttpClientConfig<T>.googleConfiguration() {
-        defaultConfigWithUrl(googlePlacesBaseUrl){
+        defaultConfigWithUrl(googlePlacesBaseUrl) {
             headers.append(MAPS_HEADER_KEY, googleMapsKey)
         }
     }
@@ -34,7 +34,7 @@ internal class ClientConfigurationHelper(
     private fun <T : HttpClientEngineConfig> HttpClientConfig<T>.defaultConfigWithUrl(
         url: String,
         onDefaultRequest: DefaultRequest.DefaultRequestBuilder.() -> Unit = { /* Nothing by default */ },
-    ){
+    ) {
         install(Logging)
         install(ContentNegotiation) {
             json(json)

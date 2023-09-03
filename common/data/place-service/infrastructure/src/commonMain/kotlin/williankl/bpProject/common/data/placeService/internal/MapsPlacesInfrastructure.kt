@@ -16,6 +16,7 @@ internal class MapsPlacesInfrastructure(
         val key: String,
     ) {
         Id("places.id"),
+        AddressComponents("places.addressComponents"),
         DisplayName("places.displayName"),
         Location("places.location"),
         Photos("places.photos"),
@@ -40,7 +41,7 @@ internal class MapsPlacesInfrastructure(
                     textQuery = query,
                 )
             )
-        }.body()
+        }.also { println(it.bodyAsText()) }
+            .body()
     }
-
 }

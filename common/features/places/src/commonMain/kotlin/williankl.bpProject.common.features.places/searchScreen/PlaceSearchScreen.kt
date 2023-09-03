@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -36,10 +35,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
 import dev.icerock.moko.resources.compose.painterResource
+import kotlinx.coroutines.delay
 import williankl.bpProject.common.core.models.MapCoordinate
 import williankl.bpProject.common.features.places.Divider
 import williankl.bpProject.common.features.places.LocalPlacesStrings
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.Companion.MINIMUM_SEARCH_LENGTH
+import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.Companion.queryDebounce
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.PlaceSearchPresentation
 import williankl.bpProject.common.platform.design.components.maps.MapsComponent
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
@@ -68,6 +69,7 @@ public object PlaceSearchScreen : BeautifulScreen() {
         }
 
         LaunchedEffect(searchQuery) {
+            delay(queryDebounce)
             if (searchQuery.length > MINIMUM_SEARCH_LENGTH) {
                 runnerModel.queryFor(searchQuery)
             }
@@ -154,8 +156,13 @@ public object PlaceSearchScreen : BeautifulScreen() {
                         itemsIndexed(presentation.queryResults) { index, result ->
                             PlaceOption(
                                 label = result.displayName,
-                                description = result.displayName,
-                                onClicked = { /* Nothing for now */ },
+                                description = with(result.address) {
+                                    "$street\n$city ($state) - $country"
+                                },
+                                onClicked = {
+                                    focusManager.clearFocus(force = true)
+                                    onLocationClicked(result.coordinate)
+                                },
                                 modifier = Modifier.fillMaxWidth(),
                             )
 

@@ -10,7 +10,6 @@ import williankl.bpProject.common.core.commonCoreDi
 import williankl.bpProject.common.data.auth.authServiceDi
 import williankl.bpProject.common.data.firebaseIntegration.firebaseIntegrationDi
 import williankl.bpProject.common.data.imageRetrievalService.imageRetrievalServiceDi
-import williankl.bpProject.common.data.networking.ClientType
 import williankl.bpProject.common.data.networking.NetworkConstant
 import williankl.bpProject.common.data.networking.networkingDi
 import williankl.bpProject.common.data.placeService.placesServiceDi
