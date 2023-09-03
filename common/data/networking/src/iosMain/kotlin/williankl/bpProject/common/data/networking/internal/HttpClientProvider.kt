@@ -6,7 +6,7 @@ import io.ktor.client.engine.darwin.Darwin
 internal actual class HttpClientProvider actual constructor(
     private val configurationHelper: ClientConfigurationHelper
 ) {
-    actual fun provide(): HttpClient {
+    actual fun provideBpClient(): HttpClient {
         return HttpClient(Darwin) {
             with(configurationHelper) {
                 commonConfiguration()

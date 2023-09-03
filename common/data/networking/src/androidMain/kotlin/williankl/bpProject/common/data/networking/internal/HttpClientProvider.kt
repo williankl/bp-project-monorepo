@@ -6,10 +6,18 @@ import io.ktor.client.engine.okhttp.OkHttp
 internal actual class HttpClientProvider actual constructor(
     private val configurationHelper: ClientConfigurationHelper
 ) {
-    actual fun provide(): HttpClient {
+    actual fun provideBpClient(): HttpClient {
         return HttpClient(OkHttp) {
             with(configurationHelper) {
                 commonConfiguration()
+            }
+        }
+    }
+
+    actual fun provideGoogleClient(): HttpClient {
+        return HttpClient(OkHttp) {
+            with(configurationHelper) {
+                googleConfiguration()
             }
         }
     }

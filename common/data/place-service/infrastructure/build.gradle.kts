@@ -11,6 +11,7 @@ dependencies {
     commonMainImplementation(projects.common.core)
     commonMainImplementation(projects.common.data.imageRetrievalService)
     commonMainImplementation(projects.common.data.placeService.core)
+    commonMainImplementation(projects.common.data.networking)
 
     commonMainImplementation(libs.kodein.core)
     commonMainImplementation(libs.ktor.client.core)
