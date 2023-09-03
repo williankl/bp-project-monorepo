@@ -2,8 +2,12 @@ package williankl.bpProject.common.features.places.searchScreen
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.with
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,10 +15,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,11 +32,19 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.kodein.rememberScreenModel
 import dev.icerock.moko.resources.compose.painterResource
+import kotlinx.coroutines.delay
+import williankl.bpProject.common.core.models.MapCoordinate
+import williankl.bpProject.common.features.places.Divider
 import williankl.bpProject.common.features.places.LocalPlacesStrings
-import williankl.bpProject.common.platform.design.components.maps.MapCoordinate
+import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.Companion.MINIMUM_SEARCH_LENGTH
+import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.Companion.queryDebounce
+import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.PlaceSearchPresentation
 import williankl.bpProject.common.platform.design.components.maps.MapsComponent
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.button.Button
@@ -39,12 +53,16 @@ import williankl.bpProject.common.platform.design.core.button.ButtonVariant
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.input.Input
+import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
 
 public object PlaceSearchScreen : BeautifulScreen() {
 
     @Composable
     override fun BeautifulContent() {
+        val runnerModel = rememberScreenModel<PlaceSearchRunnerModel>()
+        val presentation by runnerModel.currentData.collectAsState()
+
         var selectedLocation by remember {
             mutableStateOf<MapCoordinate?>(null)
         }
@@ -53,7 +71,15 @@ public object PlaceSearchScreen : BeautifulScreen() {
             mutableStateOf("")
         }
 
+        LaunchedEffect(searchQuery) {
+            delay(queryDebounce)
+            if (searchQuery.length > MINIMUM_SEARCH_LENGTH) {
+                runnerModel.queryFor(searchQuery)
+            }
+        }
+
         PlaceSearchContent(
+            presentation = presentation,
             searchQuery = searchQuery,
             selectedLocation = selectedLocation,
             onSearchQueryChanged = { searchQuery = it },
@@ -68,6 +94,7 @@ public object PlaceSearchScreen : BeautifulScreen() {
     @OptIn(ExperimentalAnimationApi::class)
     @Composable
     private fun PlaceSearchContent(
+        presentation: PlaceSearchPresentation,
         searchQuery: String,
         selectedLocation: MapCoordinate?,
         onSearchQueryChanged: (String) -> Unit,
@@ -121,23 +148,37 @@ public object PlaceSearchScreen : BeautifulScreen() {
 
             AnimatedContent(
                 targetState = isFocusOnInput,
+                transitionSpec = { fadeIn() with fadeOut() },
                 modifier = Modifier.weight(1f)
             ) { shouldShowResultList ->
                 if (shouldShowResultList) {
                     LazyColumn(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f),
+                        modifier = Modifier.fillMaxSize(),
                     ) {
+                        itemsIndexed(presentation.queryResults) { index, result ->
+                            PlaceOption(
+                                label = result.displayName,
+                                description = with(result.address) {
+                                    "$street\n$city ($state) - $country"
+                                },
+                                onClicked = {
+                                    focusManager.clearFocus(force = true)
+                                    onLocationClicked(result.coordinate)
+                                },
+                                modifier = Modifier.fillMaxWidth(),
+                            )
+
+                            if (index != presentation.queryResults.lastIndex) {
+                                Divider()
+                            }
+                        }
                     }
                 } else {
                     MapsComponent(
                         currentMarkedPlace = selectedLocation,
                         onClearPlaceRequested = { onLocationClicked(null) },
                         onPlaceSelected = onLocationClicked,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f),
+                        modifier = Modifier.fillMaxSize(),
                     )
                 }
             }
@@ -149,6 +190,35 @@ public object PlaceSearchScreen : BeautifulScreen() {
                 variant = ButtonVariant.Secondary,
                 enabled = selectedLocation != null,
                 type = ButtonType.Pill,
+            )
+        }
+    }
+
+    @Composable
+    private fun PlaceOption(
+        label: String,
+        description: String,
+        onClicked: () -> Unit,
+        modifier: Modifier = Modifier,
+    ) {
+        Column(
+            modifier = modifier
+                .clickable { onClicked() }
+                .padding(12.dp)
+        ) {
+            Text(
+                text = label,
+                color = BeautifulColor.NeutralHigh,
+                weight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+
+            Text(
+                text = description,
+                color = BeautifulColor.NeutralHigh,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
             )
         }
     }

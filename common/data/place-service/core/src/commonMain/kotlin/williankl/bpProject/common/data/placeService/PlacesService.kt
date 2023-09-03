@@ -2,6 +2,7 @@ package williankl.bpProject.common.data.placeService
 
 import com.benasher44.uuid.Uuid
 import williankl.bpProject.common.core.models.Place
+import williankl.bpProject.common.data.placeService.models.MapPlaceResult
 import williankl.bpProject.common.data.placeService.models.SavingPlace
 
 public interface PlacesService {
@@ -14,4 +15,8 @@ public interface PlacesService {
         page: Int,
         limit: Int,
     ): List<Place>
+
+    public suspend fun queryForPlace(
+        query: String,
+    ): List<MapPlaceResult>
 }

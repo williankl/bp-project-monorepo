@@ -5,7 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,6 +27,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.core.models.Season
+import williankl.bpProject.common.features.places.Divider
 import williankl.bpProject.common.features.places.LocalPlacesStrings
 import williankl.bpProject.common.features.places.create.components.ChipCarrousselOption
 import williankl.bpProject.common.features.places.create.components.ChipOption
@@ -170,16 +170,6 @@ internal data class PlaceCreationScreen(
                 }
             }
         }
-    }
-
-    @Composable
-    private fun Divider() {
-        Spacer(
-            modifier = Modifier
-                .background(BeautifulColor.Border.composeColor)
-                .height(1.dp)
-                .fillMaxWidth()
-        )
     }
 
     @Composable

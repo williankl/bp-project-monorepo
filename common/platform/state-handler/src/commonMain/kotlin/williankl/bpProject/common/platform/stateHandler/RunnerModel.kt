@@ -86,6 +86,7 @@ public abstract class RunnerModel<T>(
                 onContent(result)
             },
             onFailure = { error ->
+                error.printStackTrace()
                 onError(error)
             },
         )
