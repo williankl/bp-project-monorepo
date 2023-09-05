@@ -37,12 +37,15 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import kotlinx.coroutines.delay
 import williankl.bpProject.common.core.models.MapCoordinate
 import williankl.bpProject.common.data.placeService.models.MapPlaceResult
 import williankl.bpProject.common.features.places.Divider
 import williankl.bpProject.common.features.places.LocalPlacesStrings
+import williankl.bpProject.common.features.places.create.handler.CreationHandler
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.Companion.MINIMUM_SEARCH_LENGTH
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.Companion.queryDebounce
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.PlaceSearchPresentation
@@ -57,14 +60,15 @@ import williankl.bpProject.common.platform.design.core.input.Input
 import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
 
-public data class PlaceSearchScreen(
-    private val onPlaceCreated: (MapPlaceResult) -> Unit,
+internal data class PlaceSearchScreen(
+    private val placeCreationHandler: CreationHandler,
 ) : BeautifulScreen() {
 
     @Composable
     override fun BeautifulContent() {
         val runnerModel = rememberScreenModel<PlaceSearchRunnerModel>()
         val presentation by runnerModel.currentData.collectAsState()
+        val navigator = LocalNavigator.currentOrThrow
 
         var searchQuery by remember {
             mutableStateOf("")
@@ -93,7 +97,9 @@ public data class PlaceSearchScreen(
                 )
             },
             onContinueClicked = {
-                presentation.selectedAddress?.let(onPlaceCreated)
+                presentation.selectedAddress
+                    ?.let { place -> placeCreationHandler.selectedAddress = place }
+                    ?.also { navigator.pop() }
             },
             modifier = Modifier
                 .background(BeautifulColor.Background.composeColor)

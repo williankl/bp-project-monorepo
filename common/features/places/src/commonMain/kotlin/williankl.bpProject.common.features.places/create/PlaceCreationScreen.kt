@@ -134,16 +134,6 @@ internal data class PlaceCreationScreen(
                 }
 
                 item {
-                    SeasonsOption(
-                        modifier = Modifier
-                            .padding(start = 10.dp)
-                            .padding(vertical = 10.dp),
-                    )
-
-                    Divider()
-                }
-
-                item {
                     InputOption(
                         headerPainter = painterResource(SharedDesignCoreResources.images.ic_help_circle),
                         text = creationHandler.notes,
@@ -177,23 +167,20 @@ internal data class PlaceCreationScreen(
         modifier: Modifier = Modifier,
     ) {
         val navigator = LocalNavigator.currentOrThrow
+        val creationHandler = LocalPlaceCreationHandler.current
         val strings = LocalPlacesStrings.current.placeCreationStrings
 
-        val options = remember {
-            listOf(
-                ChipOption(
-                    label = strings.searchLocationLabel,
-                    isSelected = false,
-                    onClicked = {
-                        navigator.push(
-                            PlaceSearchScreen { selectedPlace ->
-                                println(selectedPlace) // todo - handle place selection
-                            }
-                        )
-                    },
-                )
+        val options = listOf(
+            ChipOption(
+                label = creationHandler.selectedAddress?.displayName ?: strings.searchLocationLabel,
+                isSelected = false,
+                onClicked = {
+                    navigator.push(
+                        item = PlaceSearchScreen(creationHandler)
+                    )
+                },
             )
-        }
+        )
 
         ChipCarrousselOption(
             label = strings.locationLabel,

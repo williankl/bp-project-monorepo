@@ -21,4 +21,12 @@ internal actual class HttpClientProvider actual constructor(
             }
         }
     }
+
+    public actual fun provideGoogleMapsClient(): HttpClient {
+        return HttpClient(Darwin) {
+            with(configurationHelper) {
+                googleMapsConfiguration()
+            }
+        }
+    }
 }
