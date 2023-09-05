@@ -1,4 +1,4 @@
-package williankl.bpProject.common.data.placeService.models
+package williankl.bpProject.common.data.placeService.models.request
 
 import kotlinx.serialization.Serializable
 

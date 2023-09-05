@@ -9,9 +9,6 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.data.placeService.PlacesService
-import williankl.bpProject.common.data.placeService.models.AddressComponentType
-import williankl.bpProject.common.data.placeService.models.MapPlaceResult
-import williankl.bpProject.common.data.placeService.models.MapTextQueryResponse.MapTextQueryResponseData
 import williankl.bpProject.common.data.placeService.models.SavingPlace
 
 internal class PlacesServiceInfrastructure(

@@ -14,5 +14,5 @@ public interface MapsService {
 
     public suspend fun placeFromCoordinates(
         coordinates: MapCoordinate,
-    ): MapPlaceResult
+    ): List<MapPlaceResult>
 }
