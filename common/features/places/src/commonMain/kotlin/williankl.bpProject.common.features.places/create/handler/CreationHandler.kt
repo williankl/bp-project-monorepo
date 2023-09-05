@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import williankl.bpProject.common.core.models.Season
-import williankl.bpProject.common.features.places.create.model.CreatingPlaceAddress
+import williankl.bpProject.common.data.placeService.models.MapPlaceResult
 
 internal class CreationHandler {
 
@@ -15,5 +15,5 @@ internal class CreationHandler {
 
     var price by mutableStateOf("")
 
-    var inputAddress by mutableStateOf<CreatingPlaceAddress?>(null)
+    var selectedAddress by mutableStateOf<MapPlaceResult?>(null)
 }

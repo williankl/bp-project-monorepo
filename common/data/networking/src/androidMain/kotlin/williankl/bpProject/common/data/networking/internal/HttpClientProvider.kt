@@ -22,7 +22,7 @@ internal actual class HttpClientProvider actual constructor(
         }
     }
 
-    public actual fun provideGoogleGeoLocateClient(): HttpClient {
+    public actual fun provideGoogleMapsClient(): HttpClient {
         return HttpClient(OkHttp) {
             with(configurationHelper) {
                 googleMapsConfiguration()

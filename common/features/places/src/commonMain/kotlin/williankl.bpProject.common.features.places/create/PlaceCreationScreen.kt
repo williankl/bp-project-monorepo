@@ -185,7 +185,11 @@ internal data class PlaceCreationScreen(
                     label = strings.searchLocationLabel,
                     isSelected = false,
                     onClicked = {
-                        navigator.push(PlaceSearchScreen)
+                        navigator.push(
+                            PlaceSearchScreen { selectedPlace ->
+                                println(selectedPlace) // todo - handle place selection
+                            }
+                        )
                     },
                 )
             )

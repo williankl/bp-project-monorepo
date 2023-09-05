@@ -43,7 +43,7 @@ internal class MapsServiceInfrastructure(
                 with(response) {
                     MapPlaceResult(
                         id = placeId,
-                        displayName = displayName.text,
+                        displayName = displayName,
                         coordinate = coordinates,
                         address = MapPlaceResult.Address(
                             city = typeLongTextOrEmpty(AddressComponentType.AdministrativeAreaLevelTwo),
@@ -82,9 +82,7 @@ internal class MapsServiceInfrastructure(
         return mapsClient.get(GEO_LOCATE_ENDPOINT) {
             val parameterValue = listOf(coordinates.latitude, coordinates.longitude)
                 .joinToString(separator = ",")
-            parameters {
-                append(LAT_LNG_PARAMETER_KEY, parameterValue)
-            }
+            url.parameters.append(LAT_LNG_PARAMETER_KEY, parameterValue)
         }.body()
     }
 

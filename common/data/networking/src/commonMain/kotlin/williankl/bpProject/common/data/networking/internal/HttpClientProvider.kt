@@ -9,5 +9,5 @@ internal expect class HttpClientProvider(
 
     fun provideGooglePlacesClient(): HttpClient
 
-    fun provideGoogleGeoLocateClient(): HttpClient
+    fun provideGoogleMapsClient(): HttpClient
 }

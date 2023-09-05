@@ -17,7 +17,7 @@ public val placesDi: DI.Module = DI.Module("williankl.bpProject.common.features.
 
     bindProvider {
         PlaceSearchRunnerModel(
-            placesService = instance(),
+            mapsService = instance(),
             dispatcher = Dispatchers.Default,
         )
     }

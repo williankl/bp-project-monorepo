@@ -43,7 +43,6 @@ import williankl.bpProject.common.core.models.MapCoordinate
 import williankl.bpProject.common.data.placeService.models.MapPlaceResult
 import williankl.bpProject.common.features.places.Divider
 import williankl.bpProject.common.features.places.LocalPlacesStrings
-import williankl.bpProject.common.features.places.create.model.CreatingPlaceAddress
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.Companion.MINIMUM_SEARCH_LENGTH
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.Companion.queryDebounce
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.PlaceSearchPresentation
@@ -67,12 +66,12 @@ public data class PlaceSearchScreen(
         val runnerModel = rememberScreenModel<PlaceSearchRunnerModel>()
         val presentation by runnerModel.currentData.collectAsState()
 
-        var selectedLocation by remember {
-            mutableStateOf<MapPlaceResult?>(null)
-        }
-
         var searchQuery by remember {
             mutableStateOf("")
+        }
+
+        LaunchedEffect(presentation.selectedAddress) {
+            searchQuery = presentation.selectedAddress?.displayName.orEmpty()
         }
 
         LaunchedEffect(searchQuery) {
@@ -85,10 +84,17 @@ public data class PlaceSearchScreen(
         PlaceSearchContent(
             presentation = presentation,
             searchQuery = searchQuery,
-            selectedLocation = selectedLocation,
+            selectedLocation = presentation.selectedAddress,
             onSearchQueryChanged = { searchQuery = it },
-            onLocationClicked = { selectedLocation = it },
-            onContinueClicked = { /* todo - handle flow */ },
+            onMapAddressSelected = { runnerModel.updateAddressValue(it) },
+            onCoordinateSelected = {
+                runnerModel.updateFromCoordinate(
+                    coordinate = it,
+                )
+            },
+            onContinueClicked = {
+                presentation.selectedAddress?.let(onPlaceCreated)
+            },
             modifier = Modifier
                 .background(BeautifulColor.Background.composeColor)
                 .fillMaxSize()
@@ -102,7 +108,8 @@ public data class PlaceSearchScreen(
         searchQuery: String,
         selectedLocation: MapPlaceResult?,
         onSearchQueryChanged: (String) -> Unit,
-        onLocationClicked: (MapPlaceResult?) -> Unit,
+        onMapAddressSelected: (MapPlaceResult?) -> Unit,
+        onCoordinateSelected: (MapCoordinate) -> Unit,
         onContinueClicked: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
@@ -167,7 +174,7 @@ public data class PlaceSearchScreen(
                                 },
                                 onClicked = {
                                     focusManager.clearFocus(force = true)
-                                    onLocationClicked(result)
+                                    onMapAddressSelected(result)
                                 },
                                 modifier = Modifier.fillMaxWidth(),
                             )
@@ -180,8 +187,8 @@ public data class PlaceSearchScreen(
                 } else {
                     MapsComponent(
                         currentMarkedPlace = selectedLocation?.coordinate,
-                        onClearPlaceRequested = { onLocationClicked(null) },
-                        onPlaceSelected = onLocationClicked,
+                        onClearPlaceRequested = { onMapAddressSelected(null) },
+                        onPlaceSelected = onCoordinateSelected,
                         modifier = Modifier.fillMaxSize(),
                     )
                 }

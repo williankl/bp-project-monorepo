@@ -2,7 +2,6 @@ package williankl.bpProject.common.data.placeService.models.response
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import williankl.bpProject.common.core.models.MapCoordinate
 import williankl.bpProject.common.data.placeService.internal.AddressComponentTypeSerializer
 import williankl.bpProject.common.data.placeService.models.AddressComponentType
 
@@ -13,19 +12,13 @@ internal data class GeoLocateResultResponse(
     @Serializable
     internal data class MapTextQueryResponseData(
         @SerialName("place_id") val placeId: String,
-        @SerialName("display_name") val displayName: DisplayNameResponse,
+        @SerialName("formatted_address") val displayName: String,
         @SerialName("address_components") val addressComponents: List<AddressComponents>,
     ) {
         @Serializable
-        internal data class DisplayNameResponse(
-            val text: String,
-            @SerialName("language_code") val languageCode: String,
-        )
-
-        @Serializable
         internal data class AddressComponents(
-            @SerialName("long_text") val longText: String,
-            @SerialName("short_text") val shortText: String,
+            @SerialName("long_name") val longText: String,
+            @SerialName("short_name") val shortText: String,
             val types: List<@Serializable(AddressComponentTypeSerializer::class) AddressComponentType> = emptyList(),
         )
     }

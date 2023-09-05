@@ -38,8 +38,4 @@ internal class PlacesServiceInfrastructure(
             parameter("limit", limit)
         }.body()
     }
-
-
-
-
 }

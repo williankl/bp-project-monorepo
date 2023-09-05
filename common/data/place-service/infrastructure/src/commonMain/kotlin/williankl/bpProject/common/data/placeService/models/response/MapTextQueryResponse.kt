@@ -15,7 +15,7 @@ internal data class MapTextQueryResponse(
         val displayName: DisplayNameResponse,
         val location: MapCoordinate,
         val addressComponents: List<AddressComponents>,
-    ){
+    ) {
         @Serializable
         internal data class DisplayNameResponse(
             val text: String,

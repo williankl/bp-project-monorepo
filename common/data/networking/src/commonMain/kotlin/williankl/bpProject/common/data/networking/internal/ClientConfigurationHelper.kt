@@ -4,7 +4,10 @@ import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngineConfig
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.http.parameters
@@ -36,9 +39,7 @@ internal class ClientConfigurationHelper(
 
     fun <T : HttpClientEngineConfig> HttpClientConfig<T>.googleMapsConfiguration() {
         defaultConfigWithUrl(googleMapsBaseUrl) {
-            parameters {
-                append(MAPS_PARAMETER_KEY, googleMapsKey)
-            }
+            url.parameters.append(MAPS_PARAMETER_KEY, googleMapsKey)
         }
     }
 
@@ -46,7 +47,10 @@ internal class ClientConfigurationHelper(
         url: String,
         onDefaultRequest: DefaultRequest.DefaultRequestBuilder.() -> Unit = { /* Nothing by default */ },
     ) {
-        install(Logging)
+        install(Logging) {
+            logger = Logger.SIMPLE
+            level = LogLevel.ALL
+        }
         install(ContentNegotiation) {
             json(json)
         }
