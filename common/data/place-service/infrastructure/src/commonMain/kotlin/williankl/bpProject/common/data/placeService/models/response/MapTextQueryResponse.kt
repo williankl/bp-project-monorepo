@@ -1,8 +1,9 @@
-package williankl.bpProject.common.data.placeService.models
+package williankl.bpProject.common.data.placeService.models.response
 
 import kotlinx.serialization.Serializable
 import williankl.bpProject.common.core.models.MapCoordinate
 import williankl.bpProject.common.data.placeService.internal.AddressComponentTypeSerializer
+import williankl.bpProject.common.data.placeService.models.AddressComponentType
 
 @Serializable
 internal data class MapTextQueryResponse(
@@ -25,7 +26,7 @@ internal data class MapTextQueryResponse(
         internal data class AddressComponents(
             val longText: String,
             val shortText: String,
-            val types: List<@Serializable(AddressComponentTypeSerializer::class)AddressComponentType> = emptyList(),
+            val types: List<@Serializable(AddressComponentTypeSerializer::class) AddressComponentType> = emptyList(),
         )
     }
 }

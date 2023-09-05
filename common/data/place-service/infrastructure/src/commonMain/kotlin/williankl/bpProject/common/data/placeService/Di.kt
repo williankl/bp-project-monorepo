@@ -4,7 +4,7 @@ import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
 import williankl.bpProject.common.data.networking.ClientType
-import williankl.bpProject.common.data.placeService.internal.MapsPlacesInfrastructure
+import williankl.bpProject.common.data.placeService.internal.MapsServiceInfrastructure
 import williankl.bpProject.common.data.placeService.internal.PlacesServiceInfrastructure
 
 public val placesServiceDi: DI.Module = DI.Module("williankl.bpProject.common.data.placeService") {
@@ -12,13 +12,14 @@ public val placesServiceDi: DI.Module = DI.Module("williankl.bpProject.common.da
     bindSingleton<PlacesService> {
         PlacesServiceInfrastructure(
             client = instance(ClientType.BeautifulPlaces),
-            mapsPlacesInfrastructure = instance(),
+            mapsServiceInfrastructure = instance(),
         )
     }
 
-    bindSingleton<MapsPlacesInfrastructure> {
-        MapsPlacesInfrastructure(
-            client = instance(ClientType.GooglePlaces),
+    bindSingleton<MapsService> {
+        MapsServiceInfrastructure(
+            placesClient = instance(ClientType.GooglePlaces),
+            mapsClient = instance(ClientType.GoogleMaps),
         )
     }
 }

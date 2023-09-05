@@ -12,15 +12,10 @@ public val networkingDi: DI.Module = DI.Module("williankl.bpProject.common.data.
         ClientConfigurationHelper(
             bpBaseUrl = instance(NetworkConstant.BeautifulPlacesBaseUrl),
             googlePlacesBaseUrl = instance(NetworkConstant.GooglePlacesBaseUrl),
+            googleMapsBaseUrl = instance(NetworkConstant.GoogleMapsBaseUrl),
             googleMapsKey = instance(NetworkConstant.GooglePlacesApiKey),
             json = instance(),
         )
-    }
-
-    bindSingleton<HttpClient> {
-        HttpClientProvider(
-            configurationHelper = instance()
-        ).provideBpClient()
     }
 
     bindSingleton<HttpClient>(ClientType.BeautifulPlaces) {
@@ -32,6 +27,12 @@ public val networkingDi: DI.Module = DI.Module("williankl.bpProject.common.data.
     bindSingleton<HttpClient>(ClientType.GooglePlaces) {
         HttpClientProvider(
             configurationHelper = instance()
-        ).provideGoogleClient()
+        ).provideGooglePlacesClient()
+    }
+
+    bindSingleton<HttpClient>(ClientType.GoogleMaps) {
+        HttpClientProvider(
+            configurationHelper = instance()
+        ).provideGoogleMapsClient()
     }
 }

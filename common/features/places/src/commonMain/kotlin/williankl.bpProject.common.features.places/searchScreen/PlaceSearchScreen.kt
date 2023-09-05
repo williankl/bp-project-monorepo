@@ -37,11 +37,15 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import kotlinx.coroutines.delay
 import williankl.bpProject.common.core.models.MapCoordinate
+import williankl.bpProject.common.data.placeService.models.MapPlaceResult
 import williankl.bpProject.common.features.places.Divider
 import williankl.bpProject.common.features.places.LocalPlacesStrings
+import williankl.bpProject.common.features.places.create.handler.CreationHandler
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.Companion.MINIMUM_SEARCH_LENGTH
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.Companion.queryDebounce
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.PlaceSearchPresentation
@@ -56,19 +60,22 @@ import williankl.bpProject.common.platform.design.core.input.Input
 import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
 
-public object PlaceSearchScreen : BeautifulScreen() {
+internal data class PlaceSearchScreen(
+    private val placeCreationHandler: CreationHandler,
+) : BeautifulScreen() {
 
     @Composable
     override fun BeautifulContent() {
         val runnerModel = rememberScreenModel<PlaceSearchRunnerModel>()
         val presentation by runnerModel.currentData.collectAsState()
-
-        var selectedLocation by remember {
-            mutableStateOf<MapCoordinate?>(null)
-        }
+        val navigator = LocalNavigator.currentOrThrow
 
         var searchQuery by remember {
             mutableStateOf("")
+        }
+
+        LaunchedEffect(presentation.selectedAddress) {
+            searchQuery = presentation.selectedAddress?.displayName.orEmpty()
         }
 
         LaunchedEffect(searchQuery) {
@@ -81,10 +88,19 @@ public object PlaceSearchScreen : BeautifulScreen() {
         PlaceSearchContent(
             presentation = presentation,
             searchQuery = searchQuery,
-            selectedLocation = selectedLocation,
+            selectedLocation = presentation.selectedAddress,
             onSearchQueryChanged = { searchQuery = it },
-            onLocationClicked = { selectedLocation = it },
-            onContinueClicked = { /* todo - handle flow */ },
+            onMapAddressSelected = { runnerModel.updateAddressValue(it) },
+            onCoordinateSelected = {
+                runnerModel.updateFromCoordinate(
+                    coordinate = it,
+                )
+            },
+            onContinueClicked = {
+                presentation.selectedAddress
+                    ?.let { place -> placeCreationHandler.selectedAddress = place }
+                    ?.also { navigator.pop() }
+            },
             modifier = Modifier
                 .background(BeautifulColor.Background.composeColor)
                 .fillMaxSize()
@@ -96,9 +112,10 @@ public object PlaceSearchScreen : BeautifulScreen() {
     private fun PlaceSearchContent(
         presentation: PlaceSearchPresentation,
         searchQuery: String,
-        selectedLocation: MapCoordinate?,
+        selectedLocation: MapPlaceResult?,
         onSearchQueryChanged: (String) -> Unit,
-        onLocationClicked: (MapCoordinate?) -> Unit,
+        onMapAddressSelected: (MapPlaceResult?) -> Unit,
+        onCoordinateSelected: (MapCoordinate) -> Unit,
         onContinueClicked: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
@@ -163,7 +180,7 @@ public object PlaceSearchScreen : BeautifulScreen() {
                                 },
                                 onClicked = {
                                     focusManager.clearFocus(force = true)
-                                    onLocationClicked(result.coordinate)
+                                    onMapAddressSelected(result)
                                 },
                                 modifier = Modifier.fillMaxWidth(),
                             )
@@ -175,9 +192,9 @@ public object PlaceSearchScreen : BeautifulScreen() {
                     }
                 } else {
                     MapsComponent(
-                        currentMarkedPlace = selectedLocation,
-                        onClearPlaceRequested = { onLocationClicked(null) },
-                        onPlaceSelected = onLocationClicked,
+                        currentMarkedPlace = selectedLocation?.coordinate,
+                        onClearPlaceRequested = { onMapAddressSelected(null) },
+                        onPlaceSelected = onCoordinateSelected,
                         modifier = Modifier.fillMaxSize(),
                     )
                 }

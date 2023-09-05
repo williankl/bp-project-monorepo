@@ -7,5 +7,7 @@ internal expect class HttpClientProvider(
 ) {
     fun provideBpClient(): HttpClient
 
-    fun provideGoogleClient(): HttpClient
+    fun provideGooglePlacesClient(): HttpClient
+
+    fun provideGoogleMapsClient(): HttpClient
 }
