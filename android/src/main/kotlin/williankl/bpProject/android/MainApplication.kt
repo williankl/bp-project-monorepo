@@ -39,6 +39,10 @@ internal class MainApplication : Application(), DIAware {
             "https://places.googleapis.com/"
         }
 
+        bindConstant(NetworkConstant.GoogleMapsBaseUrl) {
+            "https://maps.googleapis.com/"
+        }
+
         bindConstant(NetworkConstant.BeautifulPlacesBaseUrl) {
             "http://127.0.0.1:8080/"
         }

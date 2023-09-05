@@ -14,10 +14,18 @@ internal actual class HttpClientProvider actual constructor(
         }
     }
 
-    actual fun provideGoogleClient(): HttpClient {
+    actual fun provideGooglePlacesClient(): HttpClient {
         return HttpClient(OkHttp) {
             with(configurationHelper) {
-                googleConfiguration()
+                googlePlacesConfiguration()
+            }
+        }
+    }
+
+    public actual fun provideGoogleGeoLocateClient(): HttpClient {
+        return HttpClient(OkHttp) {
+            with(configurationHelper) {
+                googleMapsConfiguration()
             }
         }
     }

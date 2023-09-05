@@ -40,8 +40,10 @@ import cafe.adriel.voyager.kodein.rememberScreenModel
 import dev.icerock.moko.resources.compose.painterResource
 import kotlinx.coroutines.delay
 import williankl.bpProject.common.core.models.MapCoordinate
+import williankl.bpProject.common.data.placeService.models.MapPlaceResult
 import williankl.bpProject.common.features.places.Divider
 import williankl.bpProject.common.features.places.LocalPlacesStrings
+import williankl.bpProject.common.features.places.create.model.CreatingPlaceAddress
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.Companion.MINIMUM_SEARCH_LENGTH
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.Companion.queryDebounce
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.PlaceSearchPresentation
@@ -56,7 +58,9 @@ import williankl.bpProject.common.platform.design.core.input.Input
 import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
 
-public object PlaceSearchScreen : BeautifulScreen() {
+public data class PlaceSearchScreen(
+    private val onPlaceCreated: (MapPlaceResult) -> Unit,
+) : BeautifulScreen() {
 
     @Composable
     override fun BeautifulContent() {
@@ -64,7 +68,7 @@ public object PlaceSearchScreen : BeautifulScreen() {
         val presentation by runnerModel.currentData.collectAsState()
 
         var selectedLocation by remember {
-            mutableStateOf<MapCoordinate?>(null)
+            mutableStateOf<MapPlaceResult?>(null)
         }
 
         var searchQuery by remember {
@@ -96,9 +100,9 @@ public object PlaceSearchScreen : BeautifulScreen() {
     private fun PlaceSearchContent(
         presentation: PlaceSearchPresentation,
         searchQuery: String,
-        selectedLocation: MapCoordinate?,
+        selectedLocation: MapPlaceResult?,
         onSearchQueryChanged: (String) -> Unit,
-        onLocationClicked: (MapCoordinate?) -> Unit,
+        onLocationClicked: (MapPlaceResult?) -> Unit,
         onContinueClicked: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
@@ -163,7 +167,7 @@ public object PlaceSearchScreen : BeautifulScreen() {
                                 },
                                 onClicked = {
                                     focusManager.clearFocus(force = true)
-                                    onLocationClicked(result.coordinate)
+                                    onLocationClicked(result)
                                 },
                                 modifier = Modifier.fillMaxWidth(),
                             )
@@ -175,7 +179,7 @@ public object PlaceSearchScreen : BeautifulScreen() {
                     }
                 } else {
                     MapsComponent(
-                        currentMarkedPlace = selectedLocation,
+                        currentMarkedPlace = selectedLocation?.coordinate,
                         onClearPlaceRequested = { onLocationClicked(null) },
                         onPlaceSelected = onLocationClicked,
                         modifier = Modifier.fillMaxSize(),

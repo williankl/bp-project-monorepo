@@ -16,7 +16,7 @@ import williankl.bpProject.common.data.placeService.models.SavingPlace
 
 internal class PlacesServiceInfrastructure(
     private val client: HttpClient,
-    private val mapsPlacesInfrastructure: MapsPlacesInfrastructure,
+    private val mapsServiceInfrastructure: MapsServiceInfrastructure,
 ) : PlacesService {
 
     private companion object {
@@ -42,31 +42,7 @@ internal class PlacesServiceInfrastructure(
         }.body()
     }
 
-    override suspend fun queryForPlace(query: String): List<MapPlaceResult> {
-        return mapsPlacesInfrastructure.queryForText(query)
-            .places
-            .map { response ->
-                with(response) {
-                    MapPlaceResult(
-                        id = id,
-                        displayName = displayName.text,
-                        coordinate = location,
-                        address = MapPlaceResult.Address(
-                            city = typeLongTextOrEmpty(AddressComponentType.AdministrativeAreaLevelTwo),
-                            state = typeLongTextOrEmpty(AddressComponentType.AdministrativeAreaLevelOne),
-                            neighborhood = typeLongTextOrEmpty(AddressComponentType.SubLocalityOne),
-                            country = typeLongTextOrEmpty(AddressComponentType.Country),
-                            street = typeLongTextOrEmpty(AddressComponentType.Street),
-                        )
-                    )
-                }
-            }
-    }
 
-    private fun MapTextQueryResponseData.typeLongTextOrEmpty(type: AddressComponentType): String {
-        return addressComponents
-            .firstOrNull { component -> type in component.types }
-            ?.longText
-            .orEmpty()
-    }
+
+
 }
