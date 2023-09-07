@@ -1,5 +1,6 @@
 plugins {
     id("bp.kotlin")
+    id("io.ktor.plugin")
 }
 
 dependencies {
@@ -14,5 +15,8 @@ dependencies {
     implementation(libs.ktor.server.authentication)
     implementation(libs.ktor.server.netty)
     implementation(libs.ktor.server.contentNegotiation)
-    implementation(libs.ktor.server.logBack)
+}
+
+application {
+    mainClass.set("io.ktor.server.netty.EngineMain")
 }

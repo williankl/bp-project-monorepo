@@ -57,6 +57,7 @@ plugin-buildKonfig = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle
 plugin-google-services = { module = "com.google.gms:google-services", version.ref = "plugin-google-services" }
 plugin-google-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "plugin-google-crashlytics" }
 plugin-cashApp-SqlDelight = { module = "app.cash.sqldelight:gradle-plugin", version.ref = "cashApp-sqlDelight" }
+plugin-ktor = { module = "io.ktor.plugin:plugin", version.ref = "ktor" }
 plugin-moko = { module = "dev.icerock.moko:resources-generator", version.ref = "moko" }
 
 # Android
@@ -110,7 +111,6 @@ ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
 ktor-server-authentication = { module = "io.ktor:ktor-server-auth", version.ref = "ktor" }
 ktor-server-contentNegotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
-ktor-server-logBack = { module = "ch.qos.logback:logback-classic", version.ref = "ktor-logback" }
 
 # Kodein
 

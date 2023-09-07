@@ -9,6 +9,7 @@ public val authenticationFeatureDi: DI.Module = DI.Module("williankl.bpProject.c
     bindProvider {
         AuthenticationRunnerModel(
             authService = instance(),
+            preferencesHandler = instance(),
             dispatcher = Dispatchers.Default,
         )
     }

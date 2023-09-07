@@ -29,6 +29,7 @@ dependencies {
     implementation(projects.common.data.imageRetrievalService)
     implementation(projects.common.data.networking)
     implementation(projects.common.data.auth)
+    implementation(projects.common.data.preferencesHandler)
     implementation(projects.common.data.placeService.core)
     implementation(projects.common.data.placeService.infrastructure)
 

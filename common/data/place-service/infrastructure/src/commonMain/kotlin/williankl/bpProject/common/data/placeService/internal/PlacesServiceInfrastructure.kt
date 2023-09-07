@@ -13,7 +13,6 @@ import williankl.bpProject.common.data.placeService.models.SavingPlace
 
 internal class PlacesServiceInfrastructure(
     private val client: HttpClient,
-    private val mapsServiceInfrastructure: MapsServiceInfrastructure,
 ) : PlacesService {
 
     private companion object {

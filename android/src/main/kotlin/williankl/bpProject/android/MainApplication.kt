@@ -13,6 +13,7 @@ import williankl.bpProject.common.data.imageRetrievalService.imageRetrievalServi
 import williankl.bpProject.common.data.networking.NetworkConstant
 import williankl.bpProject.common.data.networking.networkingDi
 import williankl.bpProject.common.data.placeService.placesServiceDi
+import williankl.bpProject.common.data.preferencesHandler.preferencesHandlerDi
 import williankl.bpProject.common.features.authentication.authenticationFeatureDi
 import williankl.bpProject.common.features.dashboard.dashboardDi
 import williankl.bpProject.common.features.places.placesDi
@@ -25,6 +26,7 @@ internal class MainApplication : Application(), DIAware {
         import(imageRetrievalServiceDi)
         import(firebaseIntegrationDi)
         import(networkingDi)
+        import(preferencesHandlerDi)
         import(authServiceDi)
         import(placesServiceDi)
         import(authenticationFeatureDi)
@@ -44,7 +46,7 @@ internal class MainApplication : Application(), DIAware {
         }
 
         bindConstant(NetworkConstant.BeautifulPlacesBaseUrl) {
-            "http://127.0.0.1:8080/"
+            "https://bp-project-1ca064ca4aeb.herokuapp.com/"
         }
     }
 }

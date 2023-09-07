@@ -1,6 +1,7 @@
 package williankl.bpProject.buildSrc
 
 import com.android.build.gradle.BaseExtension
+import org.gradle.api.JavaVersion
 import williankl.bpProject.buildSrc.helpers.applyCommonPlugins
 import williankl.bpProject.buildSrc.helpers.applyKotlinOptions
 import williankl.bpProject.buildSrc.helpers.applyRepositories

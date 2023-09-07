@@ -1,9 +1,7 @@
 package williankl.bpProject.buildSrc.helpers
 
 import com.android.build.api.dsl.VariantDimension
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.google.devtools.ksp.gradle.KspExtension
-import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.configure
@@ -11,9 +9,9 @@ import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.maven
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.io.File
-import java.io.FileInputStream
 import java.util.Properties
+import org.gradle.api.JavaVersion
+import org.gradle.api.tasks.compile.JavaCompile
 
 
 public fun Project.setupLyricist() {
@@ -61,9 +59,14 @@ internal fun Project.applyCommonPlugins() {
 internal fun Project.applyKotlinOptions() {
     applyCodeSafetyFeatures(true)
 
+    tasks.withType<JavaCompile>().configureEach {
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
+    }
+
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
-            jvmTarget = "${JavaVersion.VERSION_17}"
+            jvmTarget = "1.8"
             freeCompilerArgs += "-Xcontext-receivers"
         }
     }
