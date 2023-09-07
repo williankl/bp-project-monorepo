@@ -44,7 +44,7 @@ internal class MainApplication : Application(), DIAware {
         }
 
         bindConstant(NetworkConstant.BeautifulPlacesBaseUrl) {
-            "http://127.0.0.1:8080/"
+            "https://bp-project-1ca064ca4aeb.herokuapp.com/"
         }
     }
 }
