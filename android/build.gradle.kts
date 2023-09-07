@@ -18,7 +18,13 @@ android {
         buildConfigField("MAPS_API_KEY", fromLocalProperties("MAPS_API_KEY"))
     }
 }
+java {
+    this.sourceCompatibility
+}
 
+kotlin{
+
+}
 dependencies {
     implementation(projects.common.core)
 

@@ -1,6 +1,6 @@
 plugins {
     id("bp.kotlin")
-    id("distribution")
+    id("io.ktor.plugin")
 }
 
 dependencies {
@@ -18,6 +18,6 @@ dependencies {
     implementation(libs.ktor.server.logBack)
 }
 
-tasks {
-    create("stage").dependsOn("installDist")
+application {
+    mainClass.set("io.ktor.server.netty.EngineMain")
 }
