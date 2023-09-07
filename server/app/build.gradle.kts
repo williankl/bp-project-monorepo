@@ -1,5 +1,6 @@
 plugins {
     id("bp.kotlin")
+    id("distribution")
 }
 
 dependencies {
