@@ -39,11 +39,6 @@ internal class AndroidAppModulePlugin : Plugin<Project> {
                 )
             }
 
-            compileOptions {
-                sourceCompatibility = JavaVersion.VERSION_11
-                targetCompatibility = JavaVersion.VERSION_11
-            }
-
             defaultConfig {
                 applicationId = "williankl.bpProject"
                 versionCode = retrieveVersionFromCatalogs("android-versionCode").toInt()
