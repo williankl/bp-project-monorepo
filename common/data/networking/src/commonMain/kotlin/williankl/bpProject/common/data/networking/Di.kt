@@ -14,11 +14,12 @@ public val networkingDi: DI.Module = DI.Module("williankl.bpProject.common.data.
             googlePlacesBaseUrl = instance(NetworkConstant.GooglePlacesBaseUrl),
             googleMapsBaseUrl = instance(NetworkConstant.GoogleMapsBaseUrl),
             googleMapsKey = instance(NetworkConstant.GooglePlacesApiKey),
+            preferencesHandler = instance(),
             json = instance(),
         )
     }
 
-    bindSingleton<HttpClient>(ClientType.BeautifulPlaces) {
+    bindSingleton<HttpClient>() {
         HttpClientProvider(
             configurationHelper = instance()
         ).provideBpClient()

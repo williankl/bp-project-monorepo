@@ -2,4 +2,4 @@ package williankl.bpProject.common.data.preferencesHandler
 
 import org.kodein.di.DI
 
-public expect val authenticationFeatureDi: DI.Module
+public expect val preferencesHandlerDi: DI.Module
