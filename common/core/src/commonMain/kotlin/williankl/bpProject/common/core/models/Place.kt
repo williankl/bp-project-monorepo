@@ -1,7 +1,6 @@
 package williankl.bpProject.common.core.models
 
 import com.benasher44.uuid.Uuid
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import williankl.bpProject.common.core.serializers.UuidSerializer
 
@@ -14,7 +13,7 @@ public data class Place(
     val imageUrls: List<String>,
     val seasons: List<Season> = emptyList(),
 
-    ) {
+) {
     public enum class PlaceTag {
         Nature, City, Beach, Mountains, CountrySide,
     }

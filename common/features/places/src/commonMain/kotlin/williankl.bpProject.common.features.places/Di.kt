@@ -19,6 +19,8 @@ public val placesDi: DI.Module = DI.Module("williankl.bpProject.common.features.
     bindProvider {
         PlaceCreationRunnerModel(
             imageRetriever = instance(),
+            placesService = instance(),
+            firebaseIntegration = instance(),
             dispatcher = Dispatchers.Default,
         )
     }

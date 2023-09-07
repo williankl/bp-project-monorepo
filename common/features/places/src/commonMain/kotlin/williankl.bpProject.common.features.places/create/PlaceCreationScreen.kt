@@ -33,8 +33,6 @@ import williankl.bpProject.common.features.places.create.components.ChipCarrouss
 import williankl.bpProject.common.features.places.create.components.ChipOption
 import williankl.bpProject.common.features.places.create.components.InputOption
 import williankl.bpProject.common.features.places.create.handler.LocalPlaceCreationHandler
-import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionRunnerModel
-import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.PlaceSearchPresentation
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchScreen
 import williankl.bpProject.common.platform.design.components.ImagePager
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
@@ -201,7 +199,7 @@ internal data class PlaceCreationScreen(
             ChipOption(
                 label = creationHandler.selectedAddress?.displayName ?: strings.searchLocationLabel,
                 isSelected = creationHandler.selectedAddress != null &&
-                        creationHandler.selectedAddress !in presentation.suggestedPlaces,
+                    creationHandler.selectedAddress !in presentation.suggestedPlaces,
                 onClicked = {
                     navigator.push(
                         item = PlaceSearchScreen(creationHandler)

@@ -6,7 +6,6 @@ import com.chrynan.uri.core.fromString
 import kotlinx.coroutines.CoroutineDispatcher
 import williankl.bpProject.common.data.imageRetrievalService.retriever.ImageRetriever
 import williankl.bpProject.common.data.imageRetrievalService.retriever.toImageBitmap
-import williankl.bpProject.common.features.places.create.handler.CreationHandler
 import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionRunnerModel.PhotoSelectionPresentation
 import williankl.bpProject.common.platform.stateHandler.RunnerModel
 
