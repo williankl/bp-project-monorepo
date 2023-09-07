@@ -76,7 +76,7 @@ internal class PlaceCreationRunnerModel(
                     )
                 },
                 imageUrls = imageUrls,
-                season = creationHandler.selectedSeasons,
+                seasons = creationHandler.selectedSeasons,
             )
         )
     }
