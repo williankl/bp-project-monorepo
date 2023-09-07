@@ -4,6 +4,7 @@ import io.ktor.server.application.Application
 import io.ktor.server.netty.EngineMain
 import io.ktor.server.routing.routing
 import williankl.bpProject.server.app.configuration.ConfigurationRunner.configure
+import williankl.bpProject.server.app.routing.auth.AuthRouter.authRoutes
 import williankl.bpProject.server.app.routing.places.PlaceRouter.placesRoute
 import williankl.bpProject.server.app.routing.user.UserRouter.userRoutes
 
@@ -12,7 +13,8 @@ public fun main(args: Array<String>): Unit = EngineMain.main(args)
 public fun Application.module() {
     configure()
     routing {
-        placesRoute()
+        authRoutes()
         userRoutes()
+        placesRoute()
     }
 }

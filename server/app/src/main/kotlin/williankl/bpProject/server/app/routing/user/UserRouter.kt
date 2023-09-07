@@ -26,94 +26,8 @@ internal object UserRouter {
 
     fun Route.userRoutes() {
         route("/user") {
-            formLoginRoute()
-            signupRoute()
-
             authenticate(AuthenticationHandler.BEARER_KEY) {
                 currentUserRoute()
-            }
-        }
-    }
-
-    private fun Route.formLoginRoute() {
-        get("/login") {
-            val credential = call.parameters["credential"]
-            val password = call.parameters["password"]
-
-            val foundUser = credential?.let {
-                userService.retrieveUser(credential)
-            }
-
-            if (foundUser != null && password != null) {
-                val userPassword = userService.userEncryptedPassword(foundUser.id)
-                    ?.let(::decryptPassword)
-
-                if (userPassword == password) {
-                    val generatedBearerToken = generateBearerToken()
-
-                    userService.attachBearerToken(
-                        userId = foundUser.id,
-                        token = generatedBearerToken,
-                    )
-
-                    call.respond(
-                        status = HttpStatusCode.OK,
-                        message = UserCredentialResponse(
-                            bearerToken = generatedBearerToken,
-                            user = foundUser,
-                        ),
-                    )
-                }
-            }
-
-            call.respond(
-                status = HttpStatusCode.Unauthorized,
-                message = NetworkErrorResponse(
-                    message = "Email or password are invalid"
-                )
-            )
-        }
-    }
-
-    private fun Route.signupRoute() {
-        post("/signup") {
-            val email = call.parameters["email"]
-            val tag = call.parameters["tag"]
-            val password = call.parameters["password"]
-
-            if (email != null && tag != null && password != null) {
-                val createdUser = User(
-                    id = uuid4(),
-                    email = email,
-                    tag = tag,
-                )
-
-                val generatedBearerToken = generateBearerToken()
-
-                userService.attachBearerToken(
-                    userId = createdUser.id,
-                    token = generatedBearerToken,
-                )
-
-                userService.createUser(
-                    user = createdUser,
-                    encryptedPassword = encryptPassword(password),
-                )
-
-                call.respond(
-                    status = HttpStatusCode.OK,
-                    message = UserCredentialResponse(
-                        bearerToken = generatedBearerToken,
-                        user = createdUser,
-                    ),
-                )
-            } else {
-                call.respond(
-                    status = HttpStatusCode.BadRequest,
-                    message = NetworkErrorResponse(
-                        message = "Email | Tag | Password are in invalid format"
-                    )
-                )
             }
         }
     }
@@ -146,17 +60,5 @@ internal object UserRouter {
                 }
             }
         }
-    }
-
-    private fun generateBearerToken(): String {
-        return uuid4().toString()
-    }
-
-    private fun encryptPassword(password: String): String {
-        return password
-    }
-
-    private fun decryptPassword(encryptedPassword: String): String {
-        return encryptedPassword
     }
 }
