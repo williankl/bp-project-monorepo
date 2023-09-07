@@ -17,7 +17,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.text.input.KeyboardType
@@ -29,15 +28,16 @@ import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.core.models.Season
 import williankl.bpProject.common.features.places.Divider
 import williankl.bpProject.common.features.places.LocalPlacesStrings
+import williankl.bpProject.common.features.places.create.PlaceCreationRunnerModel.PlaceCreationPresentation
 import williankl.bpProject.common.features.places.create.components.ChipCarrousselOption
 import williankl.bpProject.common.features.places.create.components.ChipOption
 import williankl.bpProject.common.features.places.create.components.InputOption
-import williankl.bpProject.common.features.places.create.handler.CreationHandler
 import williankl.bpProject.common.features.places.create.handler.LocalPlaceCreationHandler
-import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionRunnerModel
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchScreen
 import williankl.bpProject.common.platform.design.components.ImagePager
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
+import williankl.bpProject.common.platform.design.core.button.Button
+import williankl.bpProject.common.platform.design.core.button.ButtonVariant
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
@@ -49,22 +49,21 @@ internal data class PlaceCreationScreen(
     @Composable
     override fun BeautifulContent() {
         val navigator = LocalNavigator.currentOrThrow
-        val runnerModel = rememberScreenModel<PhotoSelectionRunnerModel>()
+        val runnerModel = rememberScreenModel<PlaceCreationRunnerModel>()
         val presentation by runnerModel.currentData.collectAsState()
-        val creationHandler = remember {
-            CreationHandler()
-        }
 
         LaunchedEffect(imageUriList) {
             runnerModel.retrievePresentation(imageUriList)
         }
 
         CompositionLocalProvider(
-            LocalPlaceCreationHandler provides creationHandler,
+            LocalPlaceCreationHandler provides runnerModel.creationHandler,
         ) {
             PlaceCreationContent(
+                presentation = presentation,
                 images = presentation.images,
                 onBackRequested = navigator::pop,
+                onPublishRequested = { runnerModel.publishImage(imageUriList) },
                 modifier = Modifier
                     .fillMaxSize()
             )
@@ -74,8 +73,10 @@ internal data class PlaceCreationScreen(
     @Composable
     @OptIn(ExperimentalFoundationApi::class)
     private fun PlaceCreationContent(
+        presentation: PlaceCreationPresentation,
         images: List<ImageBitmap>,
         onBackRequested: () -> Unit,
+        onPublishRequested: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
         val strings = LocalPlacesStrings.current.placeCreationStrings
@@ -102,7 +103,7 @@ internal data class PlaceCreationScreen(
                 item {
                     ImagePager(
                         images = images,
-                        contentPadding = PaddingValues(horizontal = 26.dp),
+                        contentPadding = PaddingValues(horizontal = 46.dp),
                         pageSpacing = 28.dp,
                         modifier = Modifier
                             .padding(vertical = 20.dp)
@@ -115,6 +116,7 @@ internal data class PlaceCreationScreen(
 
                 item {
                     LocationOptions(
+                        presentation = presentation,
                         modifier = Modifier
                             .padding(start = 10.dp)
                             .padding(vertical = 10.dp),
@@ -158,34 +160,58 @@ internal data class PlaceCreationScreen(
 
                     Divider()
                 }
+
+                item {
+                    Button(
+                        label = strings.publishLabel,
+                        variant = ButtonVariant.Primary,
+                        enabled = creationHandler.selectedAddress != null,
+                        onClick = onPublishRequested,
+                        modifier = Modifier
+                            .padding(40.dp)
+                            .fillMaxWidth(),
+                    )
+                }
             }
         }
     }
 
     @Composable
     private fun LocationOptions(
+        presentation: PlaceCreationPresentation,
         modifier: Modifier = Modifier,
     ) {
         val navigator = LocalNavigator.currentOrThrow
         val creationHandler = LocalPlaceCreationHandler.current
         val strings = LocalPlacesStrings.current.placeCreationStrings
 
-        val options = listOf(
+        val suggestedOptions = remember(presentation.suggestedPlaces, creationHandler.selectedAddress) {
+            presentation.suggestedPlaces.map { placeResult ->
+                ChipOption(
+                    label = placeResult.displayName,
+                    isSelected = creationHandler.selectedAddress == placeResult,
+                    onClicked = { creationHandler.selectedAddress = placeResult },
+                )
+            }
+        }
+
+        val selectableOption = remember(creationHandler.selectedAddress, presentation.suggestedPlaces) {
             ChipOption(
                 label = creationHandler.selectedAddress?.displayName ?: strings.searchLocationLabel,
-                isSelected = false,
+                isSelected = creationHandler.selectedAddress != null &&
+                    creationHandler.selectedAddress !in presentation.suggestedPlaces,
                 onClicked = {
                     navigator.push(
                         item = PlaceSearchScreen(creationHandler)
                     )
                 },
             )
-        )
+        }
 
         ChipCarrousselOption(
             label = strings.locationLabel,
             headerPainter = painterResource(SharedDesignCoreResources.images.ic_location_pin),
-            options = options,
+            options = suggestedOptions + selectableOption,
             modifier = modifier.fillMaxWidth()
         )
     }

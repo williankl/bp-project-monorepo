@@ -6,11 +6,11 @@ CREATE TABLE IF NOT EXISTS PlaceData (
   description text,
   addressId uuid NOT NULL,
   images text,
-  season text NOT NULL
+  seasons text NOT NULL
 );
 
 createFullPlace:
-INSERT INTO PlaceData(id, ownerId, name, description, addressId, images, season)
+INSERT INTO PlaceData(id, ownerId, name, description, addressId, images, seasons)
 VALUES ?;
 
 findPlaceById:

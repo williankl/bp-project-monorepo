@@ -5,7 +5,7 @@ import place.PlaceData
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.Place.PlaceAddress
 import williankl.bpProject.common.core.models.Place.PlaceAddress.PlaceAddressCoordinate
-import williankl.bpProject.common.core.models.Place.PlaceSeason
+import williankl.bpProject.common.core.models.Season
 
 internal object Mapper {
 
@@ -19,7 +19,7 @@ internal object Mapper {
             Place(
                 id = id,
                 ownerId = ownerId,
-                name = name,
+                displayName = name,
                 description = description,
                 address = with(address) {
                     PlaceAddress(
@@ -34,7 +34,7 @@ internal object Mapper {
                     )
                 },
                 imageUrls = images?.split(IMAGE_SEPARATOR).orEmpty(),
-                season = PlaceSeason.valueOf(season),
+                seasons = seasons.split(IMAGE_SEPARATOR).sanitizeSeasonList(),
             )
         }
     }
@@ -44,11 +44,11 @@ internal object Mapper {
             PlaceData(
                 id = id,
                 ownerId = ownerId,
-                name = name,
+                name = displayName,
                 description = description,
                 addressId = address.id,
                 images = imageUrls.joinToString(IMAGE_SEPARATOR),
-                season = season.name,
+                seasons = seasons.joinToString(IMAGE_SEPARATOR),
             )
         }
     }
@@ -63,6 +63,12 @@ internal object Mapper {
                 latitude = coordinates.latitude.toString(),
                 longitude = coordinates.longitude.toString(),
             )
+        }
+    }
+
+    private fun List<String>.sanitizeSeasonList(): List<Season> {
+        return mapNotNull { code ->
+            Season.entries.firstOrNull { season -> season.name == code }
         }
     }
 }

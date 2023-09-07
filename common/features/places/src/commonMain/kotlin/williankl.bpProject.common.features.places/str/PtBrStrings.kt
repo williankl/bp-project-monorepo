@@ -17,6 +17,7 @@ internal val ptBrStrings = PlacesStrings(
         seasonLabel = "Estação do ano",
         curiosityInputHintLabel = "Escreva uma curiosidade...",
         costInputHintLabel = "Valor médio para acesso, caso precise.",
+        publishLabel = "Publicar",
     ),
     placeSearchStrings = PlaceSearchStrings(
         nextLabel = "Próximo"

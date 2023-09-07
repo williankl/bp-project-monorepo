@@ -10,11 +10,11 @@ internal object PlaceMapper {
         return Place(
             id = generateId,
             ownerId = ownerId,
-            name = name,
+            displayName = name,
             description = description,
             address = address,
             imageUrls = imageUrls,
-            season = season,
+            seasons = seasons,
         )
     }
 }
