@@ -1,0 +1,1 @@
+web: .server/app/build/install/bp-project/bin/bp-project

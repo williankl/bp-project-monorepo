@@ -16,3 +16,7 @@ dependencies {
     implementation(libs.ktor.server.contentNegotiation)
     implementation(libs.ktor.server.logBack)
 }
+
+tasks {
+    create("stage").dependsOn("installDist")
+}
