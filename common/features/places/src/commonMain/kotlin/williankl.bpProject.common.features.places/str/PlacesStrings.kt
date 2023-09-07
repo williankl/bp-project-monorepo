@@ -15,6 +15,7 @@ internal data class PlacesStrings(
         val seasonLabel: String,
         val curiosityInputHintLabel: String,
         val costInputHintLabel: String,
+        val publishLabel: String,
     )
 
     internal data class PlaceSearchStrings(

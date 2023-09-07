@@ -38,6 +38,8 @@ import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunner
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchScreen
 import williankl.bpProject.common.platform.design.components.ImagePager
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
+import williankl.bpProject.common.platform.design.core.button.Button
+import williankl.bpProject.common.platform.design.core.button.ButtonVariant
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
@@ -63,6 +65,7 @@ internal data class PlaceCreationScreen(
                 presentation = presentation,
                 images = presentation.images,
                 onBackRequested = navigator::pop,
+                onPublishRequested = { /* todo - create this */ },
                 modifier = Modifier
                     .fillMaxSize()
             )
@@ -75,6 +78,7 @@ internal data class PlaceCreationScreen(
         presentation: PlaceCreationPresentation,
         images: List<ImageBitmap>,
         onBackRequested: () -> Unit,
+        onPublishRequested: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
         val strings = LocalPlacesStrings.current.placeCreationStrings
@@ -101,7 +105,7 @@ internal data class PlaceCreationScreen(
                 item {
                     ImagePager(
                         images = images,
-                        contentPadding = PaddingValues(horizontal = 26.dp),
+                        contentPadding = PaddingValues(horizontal = 46.dp),
                         pageSpacing = 28.dp,
                         modifier = Modifier
                             .padding(vertical = 20.dp)
@@ -158,6 +162,18 @@ internal data class PlaceCreationScreen(
 
                     Divider()
                 }
+
+                item {
+                    Button(
+                        label = strings.publishLabel,
+                        variant = ButtonVariant.Primary,
+                        enabled = creationHandler.selectedAddress != null,
+                        onClick = onPublishRequested,
+                        modifier = Modifier
+                            .padding(40.dp)
+                            .fillMaxWidth(),
+                    )
+                }
             }
         }
     }
@@ -181,7 +197,7 @@ internal data class PlaceCreationScreen(
             }
         }
 
-        val selectableOption = remember(creationHandler.selectedAddress) {
+        val selectableOption = remember(creationHandler.selectedAddress, presentation.suggestedPlaces) {
             ChipOption(
                 label = creationHandler.selectedAddress?.displayName ?: strings.searchLocationLabel,
                 isSelected = creationHandler.selectedAddress != null &&
