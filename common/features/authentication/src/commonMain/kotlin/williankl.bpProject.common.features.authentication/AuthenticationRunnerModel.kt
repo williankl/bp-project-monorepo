@@ -1,12 +1,15 @@
 package williankl.bpProject.common.features.authentication
 
 import kotlinx.coroutines.CoroutineDispatcher
+import williankl.bpProject.common.core.models.network.response.UserCredentialResponse
 import williankl.bpProject.common.data.auth.AuthService
 import williankl.bpProject.common.data.auth.model.LoginData
+import williankl.bpProject.common.data.preferencesHandler.PreferencesHandler
 import williankl.bpProject.common.platform.stateHandler.RunnerModel
 
 internal class AuthenticationRunnerModel(
     private val authService: AuthService,
+    private val preferencesHandler: PreferencesHandler,
     dispatcher: CoroutineDispatcher,
 ) : RunnerModel<Unit>(
     initialData = Unit,
@@ -22,7 +25,7 @@ internal class AuthenticationRunnerModel(
                 email = login,
                 password = password
             )
-        )
+        ).handleSuccessfulLogin()
     }
 
     fun signUp(
@@ -36,6 +39,12 @@ internal class AuthenticationRunnerModel(
                 email = login,
                 password = password
             )
+        ).handleSuccessfulLogin()
+    }
+
+    private fun UserCredentialResponse.handleSuccessfulLogin() {
+        preferencesHandler.setBearerToken(
+            token = bearerToken,
         )
     }
 }

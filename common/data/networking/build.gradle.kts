@@ -8,6 +8,7 @@ android {
 
 dependencies {
     commonMainImplementation(projects.common.core)
+    commonMainImplementation(projects.common.data.preferencesHandler)
     commonMainImplementation(libs.kodein.core)
     commonMainImplementation(libs.ktor.client.core)
     commonMainImplementation(libs.ktor.client.logging)

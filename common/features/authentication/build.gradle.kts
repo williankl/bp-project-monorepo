@@ -22,6 +22,7 @@ dependencies {
     commonMainImplementation(projects.common.data.auth)
     commonMainImplementation(projects.common.platform.design.core)
     commonMainImplementation(projects.common.platform.stateHandler)
+    commonMainImplementation(projects.common.data.preferencesHandler)
     commonMainImplementation(libs.moko.resourcesCompose)
     commonMainImplementation(libs.kodein.core)
 

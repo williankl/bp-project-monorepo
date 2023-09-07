@@ -13,16 +13,20 @@ import io.ktor.http.contentType
 import io.ktor.http.parameters
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import williankl.bpProject.common.data.preferencesHandler.PreferencesHandler
 
 internal class ClientConfigurationHelper(
     private val bpBaseUrl: String,
     private val googlePlacesBaseUrl: String,
     private val googleMapsBaseUrl: String,
     private val googleMapsKey: String,
+    private val preferencesHandler: PreferencesHandler,
     private val json: Json,
 ) {
 
     private companion object {
+        const val AUTHORIZATION_HEADER_KEY = "Authorization"
+        const val BEARER_HEADER_KEY = "Bearer"
         const val MAPS_HEADER_KEY = "X-Goog-Api-Key"
         const val MAPS_PARAMETER_KEY = "key"
     }
@@ -55,9 +59,17 @@ internal class ClientConfigurationHelper(
             json(json)
         }
         install(DefaultRequest) {
+            bearerAuth()
             url(url)
             contentType(ContentType.Application.Json)
             onDefaultRequest()
         }
+    }
+
+    private fun DefaultRequest.DefaultRequestBuilder.bearerAuth() {
+        preferencesHandler.userBearerToken()
+            ?.let { token ->
+                headers.append(AUTHORIZATION_HEADER_KEY, "$BEARER_HEADER_KEY $token")
+            }
     }
 }
