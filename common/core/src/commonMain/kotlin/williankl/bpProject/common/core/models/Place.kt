@@ -8,6 +8,7 @@ import williankl.bpProject.common.core.serializers.UuidSerializer
 public data class Place(
     @Serializable(UuidSerializer::class) val id: Uuid,
     @Serializable(UuidSerializer::class) val ownerId: Uuid,
+    val displayName: String,
     val description: String?,
     val address: PlaceAddress,
     val imageUrls: List<String>,

@@ -10,5 +10,5 @@ public data class SavingPlace(
     val description: String?,
     val address: PlaceAddress,
     val imageUrls: List<String>,
-    val season: List<Season>,
+    val seasons: List<Season>,
 )
