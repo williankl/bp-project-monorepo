@@ -1,6 +1,7 @@
 package williankl.bpProject.buildSrc
 
 import com.android.build.gradle.BaseExtension
+import org.gradle.api.JavaVersion
 import williankl.bpProject.buildSrc.helpers.applyCommonPlugins
 import williankl.bpProject.buildSrc.helpers.applyKotlinOptions
 import williankl.bpProject.buildSrc.helpers.applyRepositories
@@ -36,6 +37,11 @@ internal class AndroidAppModulePlugin : Plugin<Project> {
                     getDefaultProguardFile("proguard-android.txt"),
                     "proguard-rules.pro"
                 )
+            }
+
+            compileOptions {
+                sourceCompatibility = JavaVersion.VERSION_11
+                targetCompatibility = JavaVersion.VERSION_11
             }
 
             defaultConfig {
