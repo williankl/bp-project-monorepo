@@ -18,6 +18,7 @@ applyMultiModuleKsp("williankl.bpProject.common.features.places")
 dependencies {
     commonMainImplementation(projects.common.core)
     commonMainImplementation(projects.common.data.placeService.core)
+    commonMainImplementation(projects.common.data.firebaseIntegration)
     commonMainImplementation(projects.common.data.imageRetrievalService)
     commonMainImplementation(projects.common.platform.design.core)
     commonMainImplementation(projects.common.platform.design.components)

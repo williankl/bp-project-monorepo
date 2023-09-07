@@ -12,17 +12,9 @@ public data class Place(
     val description: String?,
     val address: PlaceAddress,
     val imageUrls: List<String>,
-    val season: PlaceSeason = PlaceSeason.Undefined,
+    val seasons: List<Season> = emptyList(),
 
-) {
-    public enum class PlaceSeason {
-        @SerialName("fall") Fall,
-        @SerialName("autumn") Autumn,
-        @SerialName("summer") Summer,
-        @SerialName("spring") Spring,
-        @SerialName("undefined") Undefined,
-    }
-
+    ) {
     public enum class PlaceTag {
         Nature, City, Beach, Mountains, CountrySide,
     }

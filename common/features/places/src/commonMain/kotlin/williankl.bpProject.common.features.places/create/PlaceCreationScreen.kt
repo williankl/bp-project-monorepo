@@ -65,7 +65,7 @@ internal data class PlaceCreationScreen(
                 presentation = presentation,
                 images = presentation.images,
                 onBackRequested = navigator::pop,
-                onPublishRequested = { /* todo - create this */ },
+                onPublishRequested = { runnerModel.publishImage(imageUriList) },
                 modifier = Modifier
                     .fillMaxSize()
             )
