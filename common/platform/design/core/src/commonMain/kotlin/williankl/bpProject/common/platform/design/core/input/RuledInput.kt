@@ -25,15 +25,15 @@ public sealed class InputRules {
             regexRule = Regex(".{$length,}")
         )
 
-        public object HasNumber : RegexRule(
+        public data object HasNumber : RegexRule(
             regexRule = Regex("(.*?)[0-9](.*?)")
         )
 
-        public object HasUppercaseLetter : RegexRule(
+        public data object HasUppercaseLetter : RegexRule(
             regexRule = Regex("(.*?)[A-Z](.*?)")
         )
 
-        public object Email : RegexRule(
+        public data object Email : RegexRule(
             regexRule = Regex("(.*?)@(.*?)\\.(.*?)")
         )
     }
@@ -108,6 +108,7 @@ public fun RuledInput(
     text: String,
     onTextChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    variant: InputVariant = InputVariant.Default,
     hint: String? = null,
     size: TextSize = TextSize.Regular,
     fontStyle: FontStyle = FontStyle.Normal,
@@ -133,6 +134,7 @@ public fun RuledInput(
         text = text,
         onTextChange = onTextChange,
         modifier = modifier,
+        variant = variant,
         hint = hint,
         size = size,
         fontStyle = fontStyle,
@@ -159,6 +161,7 @@ public fun RuledLabeledInput(
     text: String,
     onTextChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    variant: InputVariant = InputVariant.Default,
     hint: String? = null,
     size: TextSize = TextSize.Regular,
     fontStyle: FontStyle = FontStyle.Normal,
@@ -185,6 +188,7 @@ public fun RuledLabeledInput(
         text = text,
         onTextChange = onTextChange,
         modifier = modifier,
+        variant = variant,
         hint = hint,
         size = size,
         fontStyle = fontStyle,
