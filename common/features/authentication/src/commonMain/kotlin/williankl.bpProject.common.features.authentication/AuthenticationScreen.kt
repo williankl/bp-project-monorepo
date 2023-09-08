@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -25,13 +26,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.features.authentication.models.AuthenticationFlow
 import williankl.bpProject.common.features.authentication.models.SocialLoginProvider
+import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.button.Button
 import williankl.bpProject.common.platform.design.core.button.ButtonType
 import williankl.bpProject.common.platform.design.core.button.ButtonVariant
@@ -177,6 +184,7 @@ public object AuthenticationScreen : BeautifulScreen() {
         onForgotPasswordClicked: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
+        val focusManager = LocalFocusManager.current
         val strings = LocalAuthenticationStrings.current
 
         var userName by remember {
@@ -191,6 +199,10 @@ public object AuthenticationScreen : BeautifulScreen() {
             mutableStateOf("")
         }
 
+        var isShowingPassword by remember {
+            mutableStateOf(false)
+        }
+
         Column(
             modifier = modifier,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -201,9 +213,14 @@ public object AuthenticationScreen : BeautifulScreen() {
                 Input(
                     text = userName,
                     hint = strings.userNameHint,
+                    maxLines = 1,
                     onTextChange = { userName = it },
+                    keyboardActions = KeyboardActions(
+                        onNext = { focusManager.moveFocus(FocusDirection.Next) }
+                    ),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Next,
                     ),
                     modifier = Modifier
                         .padding(vertical = 6.dp)
@@ -214,9 +231,14 @@ public object AuthenticationScreen : BeautifulScreen() {
             Input(
                 text = loginText,
                 hint = strings.loginHint,
+                maxLines = 1,
                 onTextChange = { loginText = it },
+                keyboardActions = KeyboardActions(
+                    onNext = { focusManager.moveFocus(FocusDirection.Next) }
+                ),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next,
                 ),
                 modifier = Modifier
                     .padding(vertical = 6.dp)
@@ -226,10 +248,41 @@ public object AuthenticationScreen : BeautifulScreen() {
             Input(
                 text = passwordText,
                 hint = strings.passwordHint,
+                maxLines = 1,
+                sideContentsOnExtremes = true,
                 onTextChange = { passwordText = it },
+                visualTransformation =
+                if (isShowingPassword) VisualTransformation.None
+                else PasswordVisualTransformation('•'),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        when (authenticationFlow) {
+                            AuthenticationFlow.Signup -> onSignupRequested(userName, loginText, passwordText)
+                            AuthenticationFlow.Login -> onLoginRequested(loginText, passwordText)
+                        }
+                    }
+                ),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Done,
                 ),
+                endContent = {
+                    val iconResource = if (isShowingPassword) {
+                        SharedDesignCoreResources.images.ic_eye_off
+                    } else {
+                        SharedDesignCoreResources.images.ic_eye
+                    }
+
+                    Image(
+                        painter = painterResource(iconResource),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .clickableIcon(0.dp) {
+                                isShowingPassword = isShowingPassword.not()
+                            }
+                            .size(24.dp)
+                    )
+                },
                 modifier = Modifier
                     .padding(vertical = 6.dp)
                     .fillMaxWidth(),
@@ -333,7 +386,7 @@ public object AuthenticationScreen : BeautifulScreen() {
 
                 Button(
                     label = actionLabel,
-                    variant = ButtonVariant.Secondary,
+                    variant = ButtonVariant.PrimaryGhost,
                     type = ButtonType.Pill,
                     onClick = onSignupClicked
                 )
