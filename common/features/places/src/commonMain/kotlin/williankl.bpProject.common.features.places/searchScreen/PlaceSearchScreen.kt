@@ -144,7 +144,7 @@ internal data class PlaceSearchScreen(
                 onTextChange = onSearchQueryChanged,
                 startContent = {
                     Image(
-                        painter = painterResource(SharedDesignCoreResources.images.ic_camera),
+                        painter = painterResource(SharedDesignCoreResources.images.ic_search),
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(BeautifulColor.NeutralHigh.composeColor),
                         modifier = Modifier.size(30.dp)
@@ -203,7 +203,9 @@ internal data class PlaceSearchScreen(
             Button(
                 label = strings.nextLabel,
                 onClick = onContinueClicked,
-                modifier = Modifier.align(Alignment.End),
+                modifier = Modifier
+                    .padding(end = 12.dp)
+                    .align(Alignment.End),
                 variant = ButtonVariant.Secondary,
                 enabled = selectedLocation != null,
                 type = ButtonType.Pill,

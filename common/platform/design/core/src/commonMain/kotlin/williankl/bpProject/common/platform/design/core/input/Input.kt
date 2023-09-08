@@ -56,7 +56,7 @@ public fun Input(
     maxLines: Int = Int.MAX_VALUE,
     minLines: Int = 1,
     generalAlignment: Alignment.Vertical = Alignment.CenterVertically,
-    textAlignment: Alignment.Vertical = Alignment.CenterVertically,
+    textAlignment: Alignment.Vertical = generalAlignment,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     sideContentsOnExtremes: Boolean = false,
