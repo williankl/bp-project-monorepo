@@ -23,7 +23,6 @@ import williankl.bpProject.common.data.imageRetrievalService.ImageCaptureHelper
 import williankl.bpProject.common.data.imageRetrievalService.controller.ImageRetrievalController
 import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
 import williankl.bpProject.common.data.imageRetrievalService.controller.RetrievalMode
-import williankl.bpProject.common.features.authentication.AuthenticationScreen
 import williankl.bpProject.common.features.dashboard.DashboardScreen
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor

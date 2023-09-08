@@ -8,7 +8,6 @@ import com.chrynan.uri.core.fromString
 import korlibs.image.bitmap.Bitmap
 import korlibs.image.format.AndroidNativeImage
 import korlibs.image.format.toAndroidBitmap
-import williankl.bpProject.common.data.imageRetrievalService.ImageUriHandler
 import android.net.Uri as AndroidUri
 
 public actual fun Bitmap.toImageBitmap(): ImageBitmap {

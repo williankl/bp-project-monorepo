@@ -32,11 +32,11 @@ import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.chrynan.uri.core.Uri
 import dev.icerock.moko.resources.compose.painterResource
-import korlibs.image.bitmap.Bitmap
 import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
 import williankl.bpProject.common.data.imageRetrievalService.toImageBitmap
 import williankl.bpProject.common.features.places.LocalPlacesStrings
 import williankl.bpProject.common.features.places.create.PlaceCreationScreen
+import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionRunnerModel.Companion.defaultImageColor
 import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionRunnerModel.PhotoSelectionPresentation
 import williankl.bpProject.common.platform.design.components.ActionedImagePager
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
@@ -72,7 +72,6 @@ public data class PhotoSelectionScreen(
 
         PhotoSelectionContent(
             presentation = presentation,
-            onImageAverageColorUpdateRequest = runnerModel::updateImageAverageColor,
             onDeleteRequested = runnerModel::handleImageRemoval,
             onAddRequested = {
                 imageRetrievalController.showBottomSheet(bottomSheetNavigator) { result ->
@@ -92,7 +91,6 @@ public data class PhotoSelectionScreen(
     private fun PhotoSelectionContent(
         presentation: PhotoSelectionPresentation,
         onDeleteRequested: (Uri) -> Unit,
-        onImageAverageColorUpdateRequest: (Bitmap) -> Unit,
         onAddRequested: () -> Unit,
         onImagesConfirmed: () -> Unit,
         onBackRequested: () -> Unit,
@@ -100,19 +98,23 @@ public data class PhotoSelectionScreen(
     ) {
         val strings = LocalPlacesStrings.current
         val pagerState = rememberPagerState()
-        val animatedColor by animateColorAsState(presentation.imageAverageColor)
 
-        val imageBitmapPresentation = remember(presentation.imageMap) {
-            presentation.imageMap.map { (uri, bitmap) -> uri to bitmap.toImageBitmap() }
-                .toMap()
+        var currentPageColor by remember {
+            mutableStateOf(defaultImageColor)
         }
 
-        LaunchedEffect(pagerState.currentPage, presentation.imageMap) {
-            val currentImage = presentation.imageMap.values.toList()
-                .getOrNull(pagerState.currentPage)
-            if (currentImage != null) {
-                onImageAverageColorUpdateRequest(currentImage)
+        val animatedColor by animateColorAsState(currentPageColor)
+
+        val imageBitmapPresentation = remember(presentation.imageDataList) {
+            presentation.imageDataList.associate { (uri, bitmap) ->
+                uri to bitmap.toImageBitmap()
             }
+        }
+
+        LaunchedEffect(presentation.imageDataList, pagerState.currentPage) {
+            currentPageColor = presentation.imageDataList.getOrNull(pagerState.currentPage)
+                ?.averageColor
+                ?: defaultImageColor
         }
 
         Column(

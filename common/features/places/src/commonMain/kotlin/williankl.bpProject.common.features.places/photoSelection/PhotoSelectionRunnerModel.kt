@@ -20,40 +20,44 @@ internal class PhotoSelectionRunnerModel(
     initialData = PhotoSelectionPresentation()
 ) {
 
-    internal data class PhotoSelectionPresentation(
-        val imageAverageColor: Color = BeautifulColor.Secondary.nonComposableColor(),
-        val imageMap: Map<Uri, Bitmap> = emptyMap(),
-    )
+    internal companion object {
+        val defaultImageColor = BeautifulColor.Secondary.nonComposableColor()
+    }
 
-    fun retrievePresentation(uriList: List<String>) = runAsync {
-        val parsedUriList = uriList.map(Uri::fromString)
-        updateData { currentData ->
-            currentData.copy(
-                imageMap = parsedUriList
-                    .associateWith { uri ->
-                        imageRetriever.retrieveImageFromUri(uri)
-                    }
+    internal data class PhotoSelectionPresentation(
+        val imageDataList: List<SelectedImageData> = emptyList()
+    ) {
+        internal data class SelectedImageData(
+            val uri: Uri,
+            val image: Bitmap,
+            val averageColor: Color,
+        )
+    }
+
+    fun retrievePresentation(uriList: List<String>) = setContent {
+        val parsedUriList = uriList.map { uriString ->
+            val uri = Uri.fromString(uriString)
+            val image = imageRetriever.retrieveImageFromUri(uri)
+            val averageImageColor = image.averageColor()
+
+            PhotoSelectionPresentation.SelectedImageData(
+                uri = uri,
+                image = image,
+                averageColor = averageImageColor,
             )
         }
+
+        PhotoSelectionPresentation(
+            imageDataList = parsedUriList,
+        )
     }
 
     fun handleImageRemoval(uri: Uri) = runAsync {
         updateData { currentData ->
             currentData.copy(
-                imageMap = currentData.imageMap.filter { (mapUri, _) ->
-                    mapUri != uri
+                imageDataList = currentData.imageDataList.filter { data ->
+                    data.uri != uri
                 }
-            )
-        }
-    }
-
-    fun updateImageAverageColor(image: Bitmap) = runAsync(
-        onLoading = { /* Nothing by default */ }
-    ) {
-        val averageColor = image.averageColor()
-        updateData { currentData ->
-            currentData.copy(
-                imageAverageColor = averageColor
             )
         }
     }

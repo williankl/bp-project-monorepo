@@ -160,7 +160,6 @@ public fun <T> ActionedImagePager(
                             .clickable {
                                 if (index == state.currentPage) {
                                     onActionClicked(pairList[index].first)
-
                                 } else {
                                     coroutineScope.launch {
                                         state.animateScrollToPage(index)

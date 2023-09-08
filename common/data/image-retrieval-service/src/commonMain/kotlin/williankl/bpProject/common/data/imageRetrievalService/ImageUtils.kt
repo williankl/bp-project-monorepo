@@ -1,11 +1,8 @@
 package williankl.bpProject.common.data.imageRetrievalService
 
-
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import korlibs.image.bitmap.Bitmap
-import korlibs.memory.IntArrayBuffer
-
 
 public expect fun Bitmap.toImageBitmap(): ImageBitmap
 
