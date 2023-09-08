@@ -14,10 +14,13 @@ public object ImageUriHandler {
     public fun retrieveImageFromUri(
         uri: Uri,
         contentResolver: ContentResolver,
+        mutable: Boolean = true,
     ): Bitmap {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             val source = ImageDecoder.createSource(contentResolver, uri)
-            ImageDecoder.decodeBitmap(source)
+            ImageDecoder.decodeBitmap(source) { imageDecoder, _, _ ->
+                imageDecoder.isMutableRequired = mutable
+            }
         } else {
             legacyImageRetrieval(uri, contentResolver)
         }
