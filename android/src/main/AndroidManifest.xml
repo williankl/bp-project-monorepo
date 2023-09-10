@@ -11,6 +11,7 @@
             android:label="Beautiful Places"
             android:icon="@mipmap/ic_launcher_round"
             android:roundIcon="@mipmap/ic_launcher_round"
+            android:theme="@style/BeautifulTheme"
             android:usesCleartextTraffic="true">
 
         <meta-data
