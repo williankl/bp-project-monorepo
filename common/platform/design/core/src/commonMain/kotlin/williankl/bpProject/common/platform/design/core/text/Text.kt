@@ -1,8 +1,10 @@
 package williankl.bpProject.common.platform.design.core.text
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontStyle
@@ -11,6 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
 import williankl.bpProject.common.platform.design.core.colors.BeautifulBrush
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.BeautifulPainter
@@ -65,11 +68,13 @@ internal fun CoreText(
     overflow: TextOverflow = TextOverflow.Clip,
     maxLines: Int = Int.MAX_VALUE,
 ) {
+    val animatedSize by animateFloatAsState(size.textUnit.value)
+
     Text(
         text = text,
         modifier = modifier,
         color = color.composeColor,
-        fontSize = size.textUnit,
+        fontSize = animatedSize.sp,
         fontStyle = style,
         fontWeight = weight,
         textDecoration = decoration,
