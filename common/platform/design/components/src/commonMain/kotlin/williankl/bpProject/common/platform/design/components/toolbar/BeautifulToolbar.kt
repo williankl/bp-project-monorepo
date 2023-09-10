@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -12,6 +13,7 @@ import androidx.compose.animation.with
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,6 +22,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -41,8 +44,7 @@ public fun BeautifulToolbar(
     backgroundColor: BeautifulColor = BeautifulColor.Background,
     trailingIcons: List<ToolbarHandler.ToolbarAction> = emptyList(),
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
+    Box(
         modifier = modifier
             .background(backgroundColor.composeColor)
             .padding(
@@ -53,7 +55,7 @@ public fun BeautifulToolbar(
         AnimatedContent(
             targetState = headingIcon != null,
             transitionSpec = { fadeIn() + expandHorizontally() with fadeOut() + shrinkHorizontally() },
-            modifier = Modifier,
+            modifier = Modifier.align(Alignment.CenterStart),
         ) { shouldShowHeadingIcon ->
             if (shouldShowHeadingIcon && headingIcon != null) {
                 Image(
@@ -66,34 +68,33 @@ public fun BeautifulToolbar(
             }
         }
 
-        AnimatedVisibility(
-            visible = headingIcon != null,
-            modifier = Modifier.weight(1f),
-            content = {
-                Spacer(
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+        val bias = if (headingIcon != null) 0f else -1f
+        val animatedBias by animateFloatAsState(bias)
+        val alignment = BiasAlignment(
+            horizontalBias = animatedBias,
+            verticalBias = 0f,
         )
 
-        Text(
-            text = label.orEmpty(),
-            color = BeautifulColor.NeutralHigh,
-            weight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            size =
-            if (headingIcon == null) TextSize.XXLarge
-            else TextSize.Regular,
-        )
-
-        Spacer(
-            modifier = Modifier.weight(1f)
-        )
+        AnimatedContent(
+            targetState = label.orEmpty(),
+            transitionSpec = { fadeIn() with fadeOut() },
+            modifier = Modifier.align(alignment),
+        ) { toolbarLabel ->
+            Text(
+                text = toolbarLabel,
+                color = BeautifulColor.NeutralHigh,
+                weight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                size =
+                if (headingIcon == null) TextSize.XXLarge
+                else TextSize.Regular,
+            )
+        }
 
         AnimatedContent(
             targetState = trailingIcons,
             transitionSpec = { fadeIn() with fadeOut() },
-            modifier = Modifier,
+            modifier = Modifier.align(Alignment.CenterEnd),
         ) { shownIcons ->
             shownIcons.forEach { icon ->
                 Image(

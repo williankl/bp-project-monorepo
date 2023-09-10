@@ -50,6 +50,7 @@ import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunner
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.Companion.queryDebounce
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.PlaceSearchPresentation
 import williankl.bpProject.common.platform.design.components.maps.MapsComponent
+import williankl.bpProject.common.platform.design.components.toolbar.ToolbarHandler
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.button.Button
 import williankl.bpProject.common.platform.design.core.button.ButtonType
@@ -63,6 +64,12 @@ import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
 internal data class PlaceSearchScreen(
     private val placeCreationHandler: CreationHandler,
 ) : BeautifulScreen() {
+
+    @Composable
+    override fun ToolbarHandler.initialToolbarConfig() {
+        val strings = LocalPlacesStrings.current
+        label = strings.placeSearchStrings.localizationLabel
+    }
 
     @Composable
     override fun BeautifulContent() {
