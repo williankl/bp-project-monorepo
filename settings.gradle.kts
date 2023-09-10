@@ -27,6 +27,7 @@ include(":server:app")
 include(":server:database")
 
 include(":common")
+include(":common:application")
 include(":common:core")
 
 include(":common:data")

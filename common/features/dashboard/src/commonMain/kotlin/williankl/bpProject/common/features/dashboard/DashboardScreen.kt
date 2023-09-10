@@ -21,12 +21,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
 import williankl.bpProject.common.features.dashboard.models.DashboardActions
 import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionScreen
+import williankl.bpProject.common.platform.design.components.toolbar.ToolbarHandler
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
@@ -36,6 +38,16 @@ public object DashboardScreen : BeautifulScreen() {
 
     private val options by lazy {
         DashboardActions.entries.toList()
+    }
+
+    @Composable
+    override fun initialToolbarConfig(
+        navigator: Navigator,
+        toolbarHandler: ToolbarHandler,
+    ) {
+        super.initialToolbarConfig(navigator, toolbarHandler)
+        val strings = LocalDashboardStrings.current
+        toolbarHandler.label = strings.projectName
     }
 
     @Composable

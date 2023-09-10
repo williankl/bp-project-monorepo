@@ -9,6 +9,7 @@ android {
 
 dependencies {
     commonMainImplementation(projects.common.platform.design.core)
+    commonMainImplementation(projects.common.platform.design.components)
 
     commonMainApi(libs.kodein.core)
     commonMainApi(libs.voyager.kodein)

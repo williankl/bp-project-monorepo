@@ -2,35 +2,23 @@ package williankl.bpProject.android
 
 import android.Manifest
 import android.os.Bundle
+import android.view.Window
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
-import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
-import cafe.adriel.voyager.transitions.SlideTransition
+import williankl.bpProject.common.application.AppContent
 import williankl.bpProject.common.data.imageRetrievalService.ImageCaptureHelper
 import williankl.bpProject.common.data.imageRetrievalService.controller.ImageRetrievalController
-import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
 import williankl.bpProject.common.data.imageRetrievalService.controller.RetrievalMode
-import williankl.bpProject.common.features.authentication.AuthenticationScreen
-import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
-import williankl.bpProject.common.platform.design.core.colors.composeColor
-import williankl.bpProject.common.platform.design.core.colors.composeHoverColor
-import williankl.bpProject.common.platform.design.core.theme.BeautifulThemeContent
+import williankl.bpProject.common.platform.design.components.toolbar.ToolbarHandler
 import android.net.Uri as AndroidUri
 
 internal class MainActivity : ComponentActivity() {
+
+    private val toolbarHandler by lazy {
+        ToolbarHandler()
+    }
 
     private val imageRetriever =
         registerForActivityResult(
@@ -66,9 +54,9 @@ internal class MainActivity : ComponentActivity() {
         )
     }
 
-    @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
 
         locationPermissionRetriever.launch(
             arrayOf(
@@ -78,37 +66,7 @@ internal class MainActivity : ComponentActivity() {
         )
 
         setContent {
-            BeautifulThemeContent {
-                CompositionLocalProvider(
-                    LocalImageRetrievalController provides imageRetrievalController
-                ) {
-                    BottomSheetNavigator(
-                        scrimColor = BeautifulColor.Black.composeHoverColor,
-                        sheetBackgroundColor = BeautifulColor.Background.composeColor,
-                        sheetShape = RoundedCornerShape(
-                            topStart = 8.dp,
-                            topEnd = 8.dp,
-                        ),
-                    ) { bottomSheetNav ->
-                        val blurDp = if (bottomSheetNav.isVisible) 12.dp else 0.dp
-                        val animatedBlurDp by animateDpAsState(
-                            label = "content-blur-dp",
-                            targetValue = blurDp
-                        )
-
-                        Navigator(
-                            screen = AuthenticationScreen,
-                            onBackPressed = { true }
-                        ) { nav ->
-                            Box(
-                                modifier = Modifier.blur(animatedBlurDp)
-                            ) {
-                                SlideTransition(nav)
-                            }
-                        }
-                    }
-                }
-            }
+            AppContent(imageRetrievalController, toolbarHandler)
         }
     }
 

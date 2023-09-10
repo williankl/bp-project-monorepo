@@ -1,6 +1,7 @@
 package williankl.bpProject.common.platform.design.core.input
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -42,6 +43,7 @@ public fun Input(
     text: String,
     onTextChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    variant: InputVariant = InputVariant.Default,
     hint: String? = null,
     size: TextSize = TextSize.Regular,
     fontStyle: FontStyle = FontStyle.Normal,
@@ -53,7 +55,8 @@ public fun Input(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     maxLines: Int = Int.MAX_VALUE,
     minLines: Int = 1,
-    textAlignment: Alignment.Vertical = Alignment.Top,
+    generalAlignment: Alignment.Vertical = Alignment.CenterVertically,
+    textAlignment: Alignment.Vertical = generalAlignment,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     sideContentsOnExtremes: Boolean = false,
@@ -64,6 +67,7 @@ public fun Input(
         text = text,
         onTextChange = onTextChange,
         modifier = modifier,
+        variant = variant,
         hint = hint,
         size = size,
         fontStyle = fontStyle,
@@ -75,6 +79,7 @@ public fun Input(
         keyboardActions = keyboardActions,
         maxLines = maxLines,
         minLines = minLines,
+        generalAlignment = generalAlignment,
         textAlignment = textAlignment,
         visualTransformation = visualTransformation,
         interactionSource = interactionSource,
@@ -90,6 +95,7 @@ private fun CoreInput(
     text: String,
     onTextChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    variant: InputVariant = InputVariant.Default,
     hint: String? = null,
     size: TextSize = TextSize.Regular,
     fontStyle: FontStyle = FontStyle.Normal,
@@ -101,7 +107,8 @@ private fun CoreInput(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     maxLines: Int = Int.MAX_VALUE,
     minLines: Int = 1,
-    textAlignment: Alignment.Vertical = Alignment.Top,
+    generalAlignment: Alignment.Vertical = Alignment.CenterVertically,
+    textAlignment: Alignment.Vertical = Alignment.CenterVertically,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     sideContentsOnExtremes: Boolean = false,
@@ -109,7 +116,7 @@ private fun CoreInput(
     endContent: (@Composable () -> Unit)? = null,
 ) {
     var borderColor: BeautifulColor by remember {
-        mutableStateOf(BeautifulColor.PrimaryHigh)
+        mutableStateOf(variant.borderColor)
     }
 
     val style = when (color) {
@@ -129,8 +136,8 @@ private fun CoreInput(
         onValueChange = onTextChange,
         modifier = modifier.onFocusChanged { state ->
             borderColor =
-                if (state.isFocused) BeautifulColor.PrimaryLow
-                else BeautifulColor.PrimaryHigh
+                if (state.isFocused) variant.borderColorFocused
+                else variant.borderColor
         },
         enabled = enabled,
         readOnly = readOnly,
@@ -152,12 +159,16 @@ private fun CoreInput(
         decorationBox = { innerTextField ->
             Row(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalAlignment = textAlignment,
+                verticalAlignment = generalAlignment,
                 modifier = Modifier
                     .border(
                         width = 1.dp,
                         color = borderColor.composeColor,
                         shape = BeautifulShape.Rounded.Regular.composeShape,
+                    )
+                    .background(
+                        shape = BeautifulShape.Rounded.Regular.composeShape,
+                        color = variant.backgroundColor.composeColor
                     )
                     .padding(
                         horizontal = 16.dp,
@@ -171,6 +182,7 @@ private fun CoreInput(
                 Box(
                     contentAlignment = Alignment.CenterStart,
                     modifier = Modifier
+                        .align(textAlignment)
                         .modifyIf(sideContentsOnExtremes) {
                             weight(1f)
                         }

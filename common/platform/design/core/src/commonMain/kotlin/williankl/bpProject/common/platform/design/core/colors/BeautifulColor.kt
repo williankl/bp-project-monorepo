@@ -68,6 +68,13 @@ public fun BeautifulColor.argb(dark: Boolean = true): Int {
     }
 }
 
+public fun BeautifulColor.nonComposableColor(dark: Boolean = true): Color {
+    return when (dark) {
+        true -> darkColor
+        false -> lightColor
+    }
+}
+
 public sealed class BeautifulColor(
     internal val lightColor: Color,
     internal val darkColor: Color,

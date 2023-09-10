@@ -17,9 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.Navigator
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.data.imageRetrievalService.LocalImageRetrievalServiceStrings
+import williankl.bpProject.common.platform.design.components.toolbar.ToolbarHandler
 import williankl.bpProject.common.platform.design.core.ComposeString
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
@@ -48,6 +50,12 @@ internal class ImageRequestBottomSheet(
     private val options by lazy {
         ImageRequestOptions.entries.toList()
     }
+
+    @Composable
+    override fun initialToolbarConfig(
+        navigator: Navigator,
+        toolbarHandler: ToolbarHandler,
+    ) = Unit
 
     @Composable
     override fun BeautifulContent() {

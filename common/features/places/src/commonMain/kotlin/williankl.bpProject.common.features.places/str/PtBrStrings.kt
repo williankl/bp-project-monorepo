@@ -20,6 +20,7 @@ internal val ptBrStrings = PlacesStrings(
         publishLabel = "Publicar",
     ),
     placeSearchStrings = PlaceSearchStrings(
-        nextLabel = "Próximo"
+        nextLabel = "Próximo",
+        localizationLabel = "Localização",
     )
 )

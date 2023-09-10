@@ -3,7 +3,7 @@ package williankl.bpProject.common.features.places.create.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
@@ -14,6 +14,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import williankl.bpProject.common.platform.design.core.input.Input
+import williankl.bpProject.common.platform.design.core.input.InputVariant
 import williankl.bpProject.common.platform.design.core.modifyIf
 import williankl.bpProject.common.platform.design.core.text.Text
 
@@ -42,12 +43,14 @@ internal fun InputOption(
             text = text,
             hint = hint,
             onTextChange = onTextChange,
+            variant = InputVariant.Primary,
+            generalAlignment = Alignment.Top,
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType
             ),
             modifier = Modifier
                 .modifyIf(inputHeight != null) {
-                    height(inputHeight ?: 0.dp)
+                    heightIn(min = inputHeight ?: 0.dp)
                 }
                 .weight(1f),
         )

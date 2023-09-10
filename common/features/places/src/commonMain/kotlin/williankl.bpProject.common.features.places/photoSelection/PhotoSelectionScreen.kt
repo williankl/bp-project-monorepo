@@ -1,5 +1,6 @@
 package williankl.bpProject.common.features.places.photoSelection
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -23,17 +25,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.chrynan.uri.core.Uri
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
+import williankl.bpProject.common.data.imageRetrievalService.toImageBitmap
 import williankl.bpProject.common.features.places.LocalPlacesStrings
 import williankl.bpProject.common.features.places.create.PlaceCreationScreen
-import williankl.bpProject.common.platform.design.components.ImagePager
+import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionRunnerModel.Companion.defaultImageColor
+import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionRunnerModel.PhotoSelectionPresentation
+import williankl.bpProject.common.platform.design.components.ActionedImagePager
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.button.Button
 import williankl.bpProject.common.platform.design.core.button.ButtonConfig
@@ -42,7 +47,6 @@ import williankl.bpProject.common.platform.design.core.button.ButtonVariant
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
-import williankl.bpProject.common.platform.design.core.colors.composeHoverColor
 import williankl.bpProject.common.platform.design.core.models.IconConfig
 import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
 
@@ -67,8 +71,8 @@ public data class PhotoSelectionScreen(
         }
 
         PhotoSelectionContent(
-            images = presentation.images,
-            onDeleteRequested = { /* Nothing */ },
+            presentation = presentation,
+            onDeleteRequested = runnerModel::handleImageRemoval,
             onAddRequested = {
                 imageRetrievalController.showBottomSheet(bottomSheetNavigator) { result ->
                     finalUriList = finalUriList + result
@@ -85,14 +89,33 @@ public data class PhotoSelectionScreen(
     @Composable
     @OptIn(ExperimentalFoundationApi::class)
     private fun PhotoSelectionContent(
-        images: List<ImageBitmap>,
-        onDeleteRequested: () -> Unit,
+        presentation: PhotoSelectionPresentation,
+        onDeleteRequested: (Uri) -> Unit,
         onAddRequested: () -> Unit,
         onImagesConfirmed: () -> Unit,
         onBackRequested: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
         val strings = LocalPlacesStrings.current
+        val pagerState = rememberPagerState()
+
+        var currentPageColor by remember {
+            mutableStateOf(defaultImageColor)
+        }
+
+        val animatedColor by animateColorAsState(currentPageColor)
+
+        val imageBitmapPresentation = remember(presentation.imageDataList) {
+            presentation.imageDataList.associate { (uri, bitmap) ->
+                uri to bitmap.toImageBitmap()
+            }
+        }
+
+        LaunchedEffect(presentation.imageDataList, pagerState.currentPage) {
+            currentPageColor = presentation.imageDataList.getOrNull(pagerState.currentPage)
+                ?.averageColor
+                ?: defaultImageColor
+        }
 
         Column(
             verticalArrangement = Arrangement.spacedBy(26.dp),
@@ -102,28 +125,19 @@ public data class PhotoSelectionScreen(
                     brush = Brush.verticalGradient(
                         colors = listOf(
                             BeautifulColor.Background.composeColor,
-                            BeautifulColor.Secondary.composeHoverColor,
+                            animatedColor,
                             BeautifulColor.Background.composeColor,
                         )
                     )
                 ),
         ) {
-            Image(
-                painter = painterResource(SharedDesignCoreResources.images.ic_chevron_left),
-                contentDescription = null,
-                modifier = Modifier
-                    .clickableIcon(padding = 16.dp) { onBackRequested() }
-                    .size(30.dp)
-            )
-
-            ImagePager(
-                images = images,
+            ActionedImagePager(
+                state = pagerState,
+                imageMap = imageBitmapPresentation,
+                actionResource = SharedDesignCoreResources.images.ic_trash_close,
                 contentPadding = PaddingValues(horizontal = 26.dp),
                 pageSpacing = 28.dp,
-                action = IconConfig(
-                    painter = painterResource(SharedDesignCoreResources.images.ic_trash_close),
-                    onClicked = onDeleteRequested,
-                ),
+                onActionClicked = onDeleteRequested,
                 modifier = Modifier.weight(1f)
             )
 

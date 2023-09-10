@@ -1,7 +1,6 @@
 package williankl.bpProject.common.features.places.create
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -38,7 +36,6 @@ import williankl.bpProject.common.platform.design.components.ImagePager
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.button.Button
 import williankl.bpProject.common.platform.design.core.button.ButtonVariant
-import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
@@ -90,16 +87,6 @@ internal data class PlaceCreationScreen(
                 contentPadding = PaddingValues(vertical = 12.dp),
                 modifier = Modifier.weight(2f),
             ) {
-                stickyHeader {
-                    Image(
-                        painter = painterResource(SharedDesignCoreResources.images.ic_chevron_left),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .clickableIcon(padding = 16.dp) { onBackRequested() }
-                            .size(30.dp)
-                    )
-                }
-
                 item {
                     ImagePager(
                         images = images,

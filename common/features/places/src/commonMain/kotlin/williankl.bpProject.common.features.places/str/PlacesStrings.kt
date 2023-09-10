@@ -19,6 +19,7 @@ internal data class PlacesStrings(
     )
 
     internal data class PlaceSearchStrings(
+        val localizationLabel: String,
         val nextLabel: String,
     )
 }

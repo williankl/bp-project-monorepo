@@ -1,4 +1,4 @@
-package williankl.bpProject.common.data.imageRetrievalService.retriever
+package williankl.bpProject.common.data.imageRetrievalService
 
 import androidx.compose.ui.graphics.ImageBitmap
 import korlibs.image.bitmap.Bitmap
