@@ -38,6 +38,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import kotlinx.coroutines.delay
@@ -66,9 +67,13 @@ internal data class PlaceSearchScreen(
 ) : BeautifulScreen() {
 
     @Composable
-    override fun ToolbarHandler.initialToolbarConfig() {
+    override fun initialToolbarConfig(
+        navigator: Navigator,
+        toolbarHandler: ToolbarHandler,
+    ) {
+        super.initialToolbarConfig(navigator, toolbarHandler)
         val strings = LocalPlacesStrings.current
-        label = strings.placeSearchStrings.localizationLabel
+        toolbarHandler.label = strings.placeSearchStrings.localizationLabel
     }
 
     @Composable
