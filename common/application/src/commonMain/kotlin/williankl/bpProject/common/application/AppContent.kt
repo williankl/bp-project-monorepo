@@ -4,12 +4,14 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.dp
@@ -31,7 +33,7 @@ import williankl.bpProject.common.platform.design.core.theme.BeautifulThemeConte
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
 public fun AppContent(
     imageRetrievalController: ImageRetrievalController,
-    toolbarHandler: ToolbarHandler = ToolbarHandler(),
+    toolbarHandler: ToolbarHandler,
 ) {
     BeautifulThemeContent {
         CompositionLocalProvider(
@@ -45,8 +47,8 @@ public fun AppContent(
                     topStart = 8.dp,
                     topEnd = 8.dp,
                 ),
-            ) { bottomSheetNav ->
-                val blurDp = if (bottomSheetNav.isVisible) 12.dp else 0.dp
+            ) { bottomSheetNavigator ->
+                val blurDp = if (bottomSheetNavigator.isVisible) 12.dp else 0.dp
                 val animatedBlurDp by animateDpAsState(
                     label = "content-blur-dp",
                     targetValue = blurDp
@@ -55,25 +57,36 @@ public fun AppContent(
                 Navigator(
                     screen = DashboardScreen,
                     onBackPressed = { true }
-                ) { nav ->
+                ) { navigator ->
                     Column(
                         modifier = Modifier.blur(animatedBlurDp)
                     ) {
-                        AnimatedVisibility(
-                            visible = toolbarHandler.visible,
-                        ) {
-                            BeautifulToolbar(
-                                label = toolbarHandler.label,
-                                headingIcon = toolbarHandler.headingIcon,
-                                backgroundColor = toolbarHandler.backgroundColor,
-                                trailingIcons = toolbarHandler.trailingIcons,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
-                        SlideTransition(nav)
+                        HandleToolbarContent(toolbarHandler)
+                        SlideTransition(navigator)
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun ColumnScope.HandleToolbarContent(
+    toolbarHandler: ToolbarHandler,
+) {
+    val hasToolbarContent = toolbarHandler.label != null ||
+            toolbarHandler.headingIcon != null ||
+            toolbarHandler.trailingIcons.isNotEmpty()
+
+    AnimatedVisibility(
+        visible = toolbarHandler.visible && hasToolbarContent,
+    ) {
+        BeautifulToolbar(
+            label = toolbarHandler.label,
+            headingIcon = toolbarHandler.headingIcon,
+            backgroundColor = toolbarHandler.backgroundColor,
+            trailingIcons = toolbarHandler.trailingIcons,
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }

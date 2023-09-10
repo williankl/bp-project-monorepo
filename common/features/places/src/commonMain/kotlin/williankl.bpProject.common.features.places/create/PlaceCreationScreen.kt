@@ -90,16 +90,6 @@ internal data class PlaceCreationScreen(
                 contentPadding = PaddingValues(vertical = 12.dp),
                 modifier = Modifier.weight(2f),
             ) {
-                stickyHeader {
-                    Image(
-                        painter = painterResource(SharedDesignCoreResources.images.ic_chevron_left),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .clickableIcon(padding = 16.dp) { onBackRequested() }
-                            .size(30.dp)
-                    )
-                }
-
                 item {
                     ImagePager(
                         images = images,

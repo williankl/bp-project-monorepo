@@ -1,16 +1,20 @@
 package williankl.bpProject.common.platform.design.components.toolbar
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.with
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -48,11 +52,8 @@ public fun BeautifulToolbar(
     ) {
         AnimatedContent(
             targetState = headingIcon != null,
-            transitionSpec = { fadeIn() with fadeOut() },
-            modifier = Modifier
-                .modifyIf(headingIcon != null) {
-                    weight(1f)
-                },
+            transitionSpec = { fadeIn() + expandHorizontally() with fadeOut() + shrinkHorizontally() },
+            modifier = Modifier,
         ) { shouldShowHeadingIcon ->
             if (shouldShowHeadingIcon && headingIcon != null) {
                 Image(
@@ -60,10 +61,20 @@ public fun BeautifulToolbar(
                     contentDescription = null,
                     modifier = Modifier
                         .clickableIcon { headingIcon.onClick() }
-                        .size(16.dp)
+                        .size(30.dp)
                 )
             }
         }
+
+        AnimatedVisibility(
+            visible = headingIcon != null,
+            modifier = Modifier.weight(1f),
+            content = {
+                Spacer(
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        )
 
         Text(
             text = label.orEmpty(),
@@ -75,10 +86,14 @@ public fun BeautifulToolbar(
             else TextSize.Regular,
         )
 
+        Spacer(
+            modifier = Modifier.weight(1f)
+        )
+
         AnimatedContent(
             targetState = trailingIcons,
             transitionSpec = { fadeIn() with fadeOut() },
-            modifier = Modifier.weight(1f),
+            modifier = Modifier,
         ) { shownIcons ->
             shownIcons.forEach { icon ->
                 Image(
@@ -86,7 +101,7 @@ public fun BeautifulToolbar(
                     contentDescription = null,
                     modifier = Modifier
                         .clickableIcon { icon.onClick() }
-                        .size(16.dp)
+                        .size(30.dp)
                 )
             }
         }

@@ -18,6 +18,7 @@ applyMultiModuleKsp("williankl.bpProject.common.data.imageRetrievalService")
 dependencies {
     commonMainImplementation(projects.common.core)
     commonMainImplementation(projects.common.platform.design.core)
+    commonMainImplementation(projects.common.platform.design.components)
     commonMainImplementation(projects.common.platform.stateHandler)
 
     commonMainImplementation(compose.runtime)

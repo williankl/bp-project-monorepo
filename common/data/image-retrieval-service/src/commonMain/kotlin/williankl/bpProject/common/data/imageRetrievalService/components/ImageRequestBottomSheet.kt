@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.data.imageRetrievalService.LocalImageRetrievalServiceStrings
+import williankl.bpProject.common.platform.design.components.toolbar.ToolbarHandler
 import williankl.bpProject.common.platform.design.core.ComposeString
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
@@ -48,6 +49,9 @@ internal class ImageRequestBottomSheet(
     private val options by lazy {
         ImageRequestOptions.entries.toList()
     }
+
+    @Composable
+    override fun ToolbarHandler.initialToolbarConfig() = Unit
 
     @Composable
     override fun BeautifulContent() {

@@ -131,14 +131,6 @@ public data class PhotoSelectionScreen(
                     )
                 ),
         ) {
-            Image(
-                painter = painterResource(SharedDesignCoreResources.images.ic_chevron_left),
-                contentDescription = null,
-                modifier = Modifier
-                    .clickableIcon(padding = 16.dp) { onBackRequested() }
-                    .size(30.dp)
-            )
-
             ActionedImagePager(
                 state = pagerState,
                 imageMap = imageBitmapPresentation,

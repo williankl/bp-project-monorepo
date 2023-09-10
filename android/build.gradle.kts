@@ -21,6 +21,8 @@ android {
 
 dependencies {
     implementation(projects.common.application)
+    implementation(projects.common.platform.design.core)
+    implementation(projects.common.platform.design.components)
     implementation(projects.common.data.networking)
     implementation(projects.common.data.imageRetrievalService)
 
