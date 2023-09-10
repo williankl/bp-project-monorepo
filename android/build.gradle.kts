@@ -20,22 +20,9 @@ android {
 }
 
 dependencies {
-    implementation(projects.common.core)
-
-    implementation(projects.common.platform.design.core)
-    implementation(projects.common.platform.stateHandler)
-
-    implementation(projects.common.data.firebaseIntegration)
-    implementation(projects.common.data.imageRetrievalService)
+    implementation(projects.common.application)
     implementation(projects.common.data.networking)
-    implementation(projects.common.data.auth)
-    implementation(projects.common.data.preferencesHandler)
-    implementation(projects.common.data.placeService.core)
-    implementation(projects.common.data.placeService.infrastructure)
-
-    implementation(projects.common.features.authentication)
-    implementation(projects.common.features.dashboard)
-    implementation(projects.common.features.places)
+    implementation(projects.common.data.imageRetrievalService)
 
     implementation(compose.runtime)
     implementation(compose.foundation)
