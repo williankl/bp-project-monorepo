@@ -6,8 +6,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.material.ExperimentalMaterialApi
 import williankl.bpProject.common.application.AppContent
 import williankl.bpProject.common.data.imageRetrievalService.ImageCaptureHelper
 import williankl.bpProject.common.data.imageRetrievalService.controller.ImageRetrievalController

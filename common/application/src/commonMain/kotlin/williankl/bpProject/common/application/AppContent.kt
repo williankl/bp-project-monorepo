@@ -11,7 +11,6 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.dp
@@ -75,8 +74,8 @@ private fun ColumnScope.HandleToolbarContent(
     toolbarHandler: ToolbarHandler,
 ) {
     val hasToolbarContent = toolbarHandler.label != null ||
-            toolbarHandler.headingIcon != null ||
-            toolbarHandler.trailingIcons.isNotEmpty()
+        toolbarHandler.headingIcon != null ||
+        toolbarHandler.trailingIcons.isNotEmpty()
 
     AnimatedVisibility(
         visible = toolbarHandler.visible && hasToolbarContent,

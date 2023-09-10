@@ -1,10 +1,7 @@
 package williankl.bpProject.common.platform.stateHandler.bpScreen
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import cafe.adriel.voyager.core.lifecycle.LifecycleEffect
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -12,7 +9,6 @@ import williankl.bpProject.common.platform.design.components.toolbar.LocalBeauti
 import williankl.bpProject.common.platform.design.components.toolbar.ToolbarHandler
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
-import williankl.bpProject.common.platform.design.core.colors.composeColor
 
 public abstract class BeautifulScreen : Screen {
 
@@ -43,6 +39,7 @@ public abstract class BeautifulScreen : Screen {
             backgroundColor = BeautifulColor.Background
             trailingIcons = emptyList()
             label = null
+            visible = true
 
             headingIcon =
                 if (navigator.canPop) ToolbarHandler.ToolbarAction(
