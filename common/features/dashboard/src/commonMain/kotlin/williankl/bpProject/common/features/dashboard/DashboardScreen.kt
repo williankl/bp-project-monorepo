@@ -20,19 +20,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
 import williankl.bpProject.common.features.dashboard.models.DashboardActions
-import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionScreen
 import williankl.bpProject.common.platform.design.components.toolbar.ToolbarHandler
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
+import williankl.bpProject.common.platform.stateHandler.navigation.LocalRouter
+import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication
+import williankl.bpProject.common.platform.stateHandler.navigation.models.PlacesFlow.PlacePhotoSelection
 
 public object DashboardScreen : BeautifulScreen() {
 
@@ -53,8 +53,7 @@ public object DashboardScreen : BeautifulScreen() {
     @Composable
     override fun BeautifulContent() {
         val imageRetrievalController = LocalImageRetrievalController.currentOrThrow
-        val navigator = LocalNavigator.currentOrThrow
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
+        val router = LocalRouter.currentOrThrow
         var currentOption by remember {
             mutableStateOf<DashboardActions?>(DashboardActions.Home)
         }
@@ -64,10 +63,15 @@ public object DashboardScreen : BeautifulScreen() {
             onOptionSelected = { selectedAction ->
                 when (selectedAction) {
                     DashboardActions.Home -> Unit
-                    DashboardActions.Profile -> Unit
+                    DashboardActions.Profile -> {
+                        router.showBottomSheet(
+                            Authentication.LoginRequiredBottomSheet
+                        )
+                    }
+
                     DashboardActions.Add ->
-                        imageRetrievalController.showBottomSheet(bottomSheetNavigator) { result ->
-                            navigator.push(PhotoSelectionScreen(result))
+                        imageRetrievalController.showBottomSheet(router.bottomSheetNavigator) { result ->
+                            router.push(PlacePhotoSelection(result))
                         }
                 }
 

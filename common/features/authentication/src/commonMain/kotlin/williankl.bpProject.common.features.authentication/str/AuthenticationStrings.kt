@@ -11,4 +11,13 @@ internal data class AuthenticationStrings(
     val logInLabel: String,
     val hasNoAccountLabel: String,
     val alreadyHasAccountLabel: String,
-)
+    val loginRequiredStrings: LoginRequiredStrings,
+) {
+    internal data class LoginRequiredStrings(
+        val title: String,
+        val subtitle: String,
+        val defaultOptionLabel: String,
+        val facebookOptionLabel: String,
+        val googleOptionLabel: String,
+    )
+}
