@@ -26,7 +26,6 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.transitions.SlideTransition
 import williankl.bpProject.common.application.internal.RouterInfrastructure
 import williankl.bpProject.common.data.imageRetrievalService.controller.ImageRetrievalController
@@ -130,8 +129,8 @@ private fun ColumnScope.HandleToolbarContent(
     toolbarHandler: ToolbarHandler,
 ) {
     val hasToolbarContent = toolbarHandler.label != null ||
-            toolbarHandler.headingIcon != null ||
-            toolbarHandler.trailingIcons.isNotEmpty()
+        toolbarHandler.headingIcon != null ||
+        toolbarHandler.trailingIcons.isNotEmpty()
 
     AnimatedVisibility(
         visible = toolbarHandler.visible && hasToolbarContent,
