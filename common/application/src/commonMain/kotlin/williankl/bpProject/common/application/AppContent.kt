@@ -101,7 +101,7 @@ private fun WithNavigators(
         ),
     ) { bottomSheetNavigator ->
         Navigator(
-            screen = DashboardScreen,
+            screen = DashboardScreen(),
             onBackPressed = { true },
             content = { navigator -> content(navigator, bottomSheetNavigator) },
         )

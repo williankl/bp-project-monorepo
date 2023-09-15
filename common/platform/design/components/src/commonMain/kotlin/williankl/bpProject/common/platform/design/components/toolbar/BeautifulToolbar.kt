@@ -34,7 +34,7 @@ public fun BeautifulToolbar(
     modifier: Modifier = Modifier,
     label: String? = null,
     headingIcon: ToolbarHandler.ToolbarAction? = null,
-    backgroundColor: BeautifulColor = BeautifulColor.Background,
+    backgroundColor: BeautifulColor = BeautifulColor.BackgroundHigh,
     trailingIcons: List<ToolbarHandler.ToolbarAction> = emptyList(),
 ) {
     Box(

@@ -36,7 +36,7 @@ public abstract class BeautifulScreen : Screen {
         toolbarHandler: ToolbarHandler,
     ) {
         with(toolbarHandler) {
-            backgroundColor = BeautifulColor.Background
+            backgroundColor = BeautifulColor.BackgroundHigh
             trailingIcons = emptyList()
             label = null
             visible = true

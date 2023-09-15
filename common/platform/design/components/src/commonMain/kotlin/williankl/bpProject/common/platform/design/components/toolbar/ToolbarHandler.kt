@@ -13,7 +13,7 @@ public class ToolbarHandler {
         val onClick: () -> Unit,
     )
 
-    public var backgroundColor: BeautifulColor by mutableStateOf(BeautifulColor.Background)
+    public var backgroundColor: BeautifulColor by mutableStateOf(BeautifulColor.BackgroundHigh)
     public var headingIcon: ToolbarAction? by mutableStateOf(null)
     public var trailingIcons: List<ToolbarAction> by mutableStateOf(emptyList())
     public var label: String? by mutableStateOf(null)

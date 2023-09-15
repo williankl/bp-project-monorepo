@@ -1,5 +1,10 @@
 package williankl.bpProject.common.features.dashboard
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.with
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,6 +31,8 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
 import williankl.bpProject.common.features.dashboard.models.DashboardActions
+import williankl.bpProject.common.features.dashboard.pages.home.HomePage
+import williankl.bpProject.common.features.dashboard.pages.userProfile.UserProfilePage
 import williankl.bpProject.common.platform.design.components.toolbar.ToolbarHandler
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
@@ -32,9 +40,15 @@ import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
 import williankl.bpProject.common.platform.stateHandler.navigation.LocalRouter
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication
-import williankl.bpProject.common.platform.stateHandler.navigation.models.PlacesFlow.PlacePhotoSelection
+import williankl.bpProject.common.platform.stateHandler.navigation.models.Places.PlacePhotoSelection
 
-public object DashboardScreen : BeautifulScreen() {
+public data class DashboardScreen(
+    private val initialTab: DashboardTab = DashboardTab.Home
+) : BeautifulScreen() {
+
+    public enum class DashboardTab {
+        Home, Profile
+    }
 
     private val options by lazy {
         DashboardActions.entries.toList()
@@ -54,6 +68,7 @@ public object DashboardScreen : BeautifulScreen() {
     override fun BeautifulContent() {
         val imageRetrievalController = LocalImageRetrievalController.currentOrThrow
         val router = LocalRouter.currentOrThrow
+
         var currentOption by remember {
             mutableStateOf<DashboardActions?>(DashboardActions.Home)
         }
@@ -62,22 +77,21 @@ public object DashboardScreen : BeautifulScreen() {
             currentAction = currentOption,
             onOptionSelected = { selectedAction ->
                 when (selectedAction) {
-                    DashboardActions.Home -> Unit
-                    DashboardActions.Profile -> {
-                        router.showBottomSheet(
-                            Authentication.LoginRequiredBottomSheet
-                        )
-                    }
+                    DashboardActions.Home -> currentOption = DashboardActions.Home
+                    DashboardActions.Profile ->
+                        if (true) {
+                            currentOption = DashboardActions.Profile
+                        } else {
+                            router.showBottomSheet(
+                                Authentication.LoginRequiredBottomSheet
+                            )
+                        }
 
                     DashboardActions.Add ->
                         imageRetrievalController.showBottomSheet(router.bottomSheetNavigator) { result ->
                             router.push(PlacePhotoSelection(result))
                         }
                 }
-
-                currentOption =
-                    if (selectedAction == currentOption) null
-                    else selectedAction
             },
             modifier = Modifier
                 .background(BeautifulColor.Surface.composeColor)
@@ -85,6 +99,7 @@ public object DashboardScreen : BeautifulScreen() {
         )
     }
 
+    @OptIn(ExperimentalAnimationApi::class)
     @Composable
     private fun DashboardScreenContent(
         currentAction: DashboardActions?,
@@ -99,13 +114,24 @@ public object DashboardScreen : BeautifulScreen() {
                     .weight(1f)
                     .fillMaxWidth()
             ) {
+                AnimatedContent(
+                    modifier = Modifier.fillMaxSize(),
+                    transitionSpec = { fadeIn() with fadeOut() },
+                    targetState = when (currentAction) {
+                        DashboardActions.Profile -> UserProfilePage
+                        else -> HomePage
+                    },
+                    content = { currentPage ->
+                        currentPage.BeautifulContent()
+                    }
+                )
             }
 
             OptionsBar(
                 currentAction = currentAction,
                 onOptionSelected = onOptionSelected,
                 modifier = Modifier
-                    .background(BeautifulColor.Background.composeColor)
+                    .background(BeautifulColor.BackgroundHigh.composeColor)
                     .padding(12.dp)
                     .fillMaxWidth()
             )
