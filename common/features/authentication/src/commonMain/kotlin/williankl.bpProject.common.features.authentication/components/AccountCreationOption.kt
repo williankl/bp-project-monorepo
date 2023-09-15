@@ -9,13 +9,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import williankl.bpProject.common.features.authentication.LocalAuthenticationStrings
-import williankl.bpProject.common.features.authentication.models.AuthenticationFlow
 import williankl.bpProject.common.platform.design.core.button.Button
 import williankl.bpProject.common.platform.design.core.button.ButtonType
 import williankl.bpProject.common.platform.design.core.button.ButtonVariant
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.design.core.text.TextSize
+import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication
+import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication.Login.AuthenticationFlow
 
 @Composable
 @OptIn(ExperimentalAnimationApi::class)

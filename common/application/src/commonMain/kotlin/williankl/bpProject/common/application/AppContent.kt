@@ -11,12 +11,14 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.transitions.SlideTransition
+import williankl.bpProject.common.application.internal.RouterInfrastructure
 import williankl.bpProject.common.data.imageRetrievalService.controller.ImageRetrievalController
 import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
 import williankl.bpProject.common.features.dashboard.DashboardScreen
@@ -27,6 +29,7 @@ import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.colors.composeHoverColor
 import williankl.bpProject.common.platform.design.core.theme.BeautifulThemeContent
+import williankl.bpProject.common.platform.stateHandler.navigation.LocalRouter
 
 @Composable
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
@@ -35,28 +38,37 @@ public fun AppContent(
     toolbarHandler: ToolbarHandler,
 ) {
     BeautifulThemeContent {
-        CompositionLocalProvider(
-            LocalImageRetrievalController provides imageRetrievalController,
-            LocalBeautifulToolbarHandler provides toolbarHandler,
-        ) {
-            BottomSheetNavigator(
-                scrimColor = BeautifulColor.Black.composeHoverColor,
-                sheetBackgroundColor = BeautifulColor.Background.composeColor,
-                sheetShape = RoundedCornerShape(
-                    topStart = 8.dp,
-                    topEnd = 8.dp,
-                ),
-            ) { bottomSheetNavigator ->
-                val blurDp = if (bottomSheetNavigator.isVisible) 12.dp else 0.dp
-                val animatedBlurDp by animateDpAsState(
-                    label = "content-blur-dp",
-                    targetValue = blurDp
-                )
 
-                Navigator(
-                    screen = DashboardScreen,
-                    onBackPressed = { true }
-                ) { navigator ->
+        BottomSheetNavigator(
+            scrimColor = BeautifulColor.Black.composeHoverColor,
+            sheetBackgroundColor = BeautifulColor.Background.composeColor,
+            sheetShape = RoundedCornerShape(
+                topStart = 8.dp,
+                topEnd = 8.dp,
+            ),
+        ) { bottomSheetNavigator ->
+            val blurDp = if (bottomSheetNavigator.isVisible) 12.dp else 0.dp
+            val animatedBlurDp by animateDpAsState(
+                label = "content-blur-dp",
+                targetValue = blurDp
+            )
+            Navigator(
+                screen = DashboardScreen,
+                onBackPressed = { true }
+            ) { navigator ->
+
+                val router = remember {
+                    RouterInfrastructure(
+                        navigator = navigator,
+                        bottomSheetNavigator = bottomSheetNavigator,
+                    )
+                }
+
+                CompositionLocalProvider(
+                    LocalImageRetrievalController provides imageRetrievalController,
+                    LocalBeautifulToolbarHandler provides toolbarHandler,
+                    LocalRouter provides router,
+                ) {
                     Column(
                         modifier = Modifier.blur(animatedBlurDp)
                     ) {
@@ -74,8 +86,8 @@ private fun ColumnScope.HandleToolbarContent(
     toolbarHandler: ToolbarHandler,
 ) {
     val hasToolbarContent = toolbarHandler.label != null ||
-        toolbarHandler.headingIcon != null ||
-        toolbarHandler.trailingIcons.isNotEmpty()
+            toolbarHandler.headingIcon != null ||
+            toolbarHandler.trailingIcons.isNotEmpty()
 
     AnimatedVisibility(
         visible = toolbarHandler.visible && hasToolbarContent,

@@ -37,11 +37,9 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.features.authentication.components.AccountCreationOption
-import williankl.bpProject.common.features.authentication.models.AuthenticationFlow
 import williankl.bpProject.common.features.authentication.models.SocialLoginProvider
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.button.Button
-import williankl.bpProject.common.platform.design.core.button.ButtonType
 import williankl.bpProject.common.platform.design.core.button.ButtonVariant
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
@@ -51,6 +49,7 @@ import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.design.core.text.TextSize
 import williankl.bpProject.common.platform.design.core.themedLogoResource
 import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
+import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication.Login.AuthenticationFlow
 
 public class AuthenticationScreen(
     private val startingFlow: AuthenticationFlow = AuthenticationFlow.Login

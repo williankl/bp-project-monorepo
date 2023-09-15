@@ -16,14 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.compose.painterResource
-import williankl.bpProject.common.features.authentication.AuthenticationScreen
 import williankl.bpProject.common.features.authentication.LocalAuthenticationStrings
 import williankl.bpProject.common.features.authentication.components.AccountCreationOption
-import williankl.bpProject.common.features.authentication.models.AuthenticationFlow
 import williankl.bpProject.common.features.authentication.models.SocialLoginProvider
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
@@ -32,19 +29,22 @@ import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
 import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.design.core.text.TextSize
 import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
+import williankl.bpProject.common.platform.stateHandler.navigation.LocalRouter
+import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication
+import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication.Login.AuthenticationFlow
 
 public class LoginRequiredBottomSheet : BeautifulScreen() {
 
     @Composable
     override fun BeautifulContent() {
-        val navigator = LocalNavigator.currentOrThrow
+        val router = LocalRouter.currentOrThrow
 
         LoginRequiredContent(
             onDefaultLoginRequested = {
-                navigator.push(AuthenticationScreen())
+                router.push(Authentication.Login())
             },
             onSignupClicked = {
-                navigator.push(AuthenticationScreen(AuthenticationFlow.Signup))
+                router.push(Authentication.Login(AuthenticationFlow.Signup))
             },
             onSocialProviderLoginRequested = {
                 /* todo - handle social login */
