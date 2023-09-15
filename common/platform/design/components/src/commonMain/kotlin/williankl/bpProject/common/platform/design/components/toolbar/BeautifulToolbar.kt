@@ -56,7 +56,7 @@ public fun BeautifulToolbar(
                     contentDescription = null,
                     modifier = Modifier
                         .clickableIcon { headingIcon.onClick() }
-                        .size(30.dp)
+                        .size(20.dp)
                 )
             }
         }
@@ -95,7 +95,7 @@ public fun BeautifulToolbar(
                     contentDescription = null,
                     modifier = Modifier
                         .clickableIcon { icon.onClick() }
-                        .size(30.dp)
+                        .size(20.dp)
                 )
             }
         }

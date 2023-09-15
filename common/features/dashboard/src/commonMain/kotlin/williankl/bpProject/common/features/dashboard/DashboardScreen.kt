@@ -26,6 +26,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.model.rememberScreenModel
+import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
@@ -34,6 +36,7 @@ import williankl.bpProject.common.features.dashboard.models.DashboardActions
 import williankl.bpProject.common.features.dashboard.pages.home.HomePage
 import williankl.bpProject.common.features.dashboard.pages.userProfile.UserProfilePage
 import williankl.bpProject.common.platform.design.components.toolbar.ToolbarHandler
+import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
@@ -60,27 +63,52 @@ public data class DashboardScreen(
         toolbarHandler: ToolbarHandler,
     ) {
         super.initialToolbarConfig(navigator, toolbarHandler)
-        val strings = LocalDashboardStrings.current
-        toolbarHandler.label = strings.projectName
+        val runnerModel = rememberScreenModel<DashboardTab, DashboardRunnerModel>(arg = initialTab)
+
+        when (runnerModel.currentTab) {
+            DashboardActions.Profile -> {
+                toolbarHandler.label = null
+                toolbarHandler.backgroundColor = BeautifulColor.Background
+                toolbarHandler.trailingIcons = listOf(
+                    ToolbarHandler.ToolbarAction(
+                        icon = SharedDesignCoreResources.images.ic_profile,
+                        onClick = { /* todo -> fix these */ }
+                    ),
+                    ToolbarHandler.ToolbarAction(
+                        icon = SharedDesignCoreResources.images.ic_profile,
+                        onClick = { /* todo -> fix these */ }
+                    ),
+                )
+            }
+
+            DashboardActions.Home -> {
+                val strings = LocalDashboardStrings.current
+                toolbarHandler.label = strings.projectName
+                toolbarHandler.backgroundColor = BeautifulColor.BackgroundHigh
+            }
+
+            else -> {
+                toolbarHandler.backgroundColor = BeautifulColor.Background
+                toolbarHandler.label = null
+            }
+        }
+
     }
 
     @Composable
     override fun BeautifulContent() {
+        val runnerModel = rememberScreenModel<DashboardTab, DashboardRunnerModel>(arg = initialTab)
         val imageRetrievalController = LocalImageRetrievalController.currentOrThrow
         val router = LocalRouter.currentOrThrow
 
-        var currentOption by remember {
-            mutableStateOf<DashboardActions?>(DashboardActions.Home)
-        }
-
         DashboardScreenContent(
-            currentAction = currentOption,
+            currentAction = runnerModel.currentTab,
             onOptionSelected = { selectedAction ->
                 when (selectedAction) {
-                    DashboardActions.Home -> currentOption = DashboardActions.Home
+                    DashboardActions.Home -> runnerModel.currentTab = DashboardActions.Home
                     DashboardActions.Profile ->
                         if (true) {
-                            currentOption = DashboardActions.Profile
+                            runnerModel.currentTab = DashboardActions.Profile
                         } else {
                             router.showBottomSheet(
                                 Authentication.LoginRequiredBottomSheet
