@@ -6,8 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -41,15 +40,17 @@ public class LoginRequiredBottomSheet : BeautifulScreen() {
 
         LoginRequiredContent(
             onDefaultLoginRequested = {
+                router.hideBottomSheet()
                 router.push(Authentication.Login())
             },
             onSignupClicked = {
+                router.hideBottomSheet()
                 router.push(Authentication.Login(AuthenticationFlow.Signup))
             },
             onSocialProviderLoginRequested = {
                 /* todo - handle social login */
             },
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
         )
     }
 
@@ -89,28 +90,29 @@ public class LoginRequiredBottomSheet : BeautifulScreen() {
                 )
             }
 
-            LoginOptionButton(
-                label = strings.defaultOptionLabel,
-                icon = SharedDesignCoreResources.images.ic_profile_circle,
-                onClick = onDefaultLoginRequested,
+            Column(
+                verticalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = Modifier,
-            )
-
-            SocialLoginProvider.entries.forEach { socialProvider ->
+            ) {
                 LoginOptionButton(
-                    label = when (socialProvider) {
-                        SocialLoginProvider.Gmail -> strings.googleOptionLabel
-                        SocialLoginProvider.Facebook -> strings.facebookOptionLabel
-                    },
-                    icon = socialProvider.resource,
-                    onClick = { onSocialProviderLoginRequested(socialProvider) },
-                    modifier = Modifier,
+                    label = strings.defaultOptionLabel,
+                    icon = SharedDesignCoreResources.images.ic_profile_circle,
+                    onClick = onDefaultLoginRequested,
+                    modifier = Modifier.fillMaxWidth(),
                 )
-            }
 
-            Spacer(
-                modifier = Modifier.weight(1f)
-            )
+                SocialLoginProvider.entries.forEach { socialProvider ->
+                    LoginOptionButton(
+                        label = when (socialProvider) {
+                            SocialLoginProvider.Gmail -> strings.googleOptionLabel
+                            SocialLoginProvider.Facebook -> strings.facebookOptionLabel
+                        },
+                        icon = socialProvider.resource,
+                        onClick = { onSocialProviderLoginRequested(socialProvider) },
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
+            }
 
             AccountCreationOption(
                 authenticationFlow = AuthenticationFlow.Signup,
@@ -128,6 +130,7 @@ public class LoginRequiredBottomSheet : BeautifulScreen() {
         modifier: Modifier = Modifier,
     ) {
         Row(
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifier
                 .clip(BeautifulShape.Rounded.Regular.composeShape)

@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -37,38 +38,38 @@ public fun AppContent(
     imageRetrievalController: ImageRetrievalController,
     toolbarHandler: ToolbarHandler,
 ) {
+    val router = remember {
+        RouterInfrastructure()
+    }
+
     BeautifulThemeContent {
+        CompositionLocalProvider(
+            LocalImageRetrievalController provides imageRetrievalController,
+            LocalBeautifulToolbarHandler provides toolbarHandler,
+            LocalRouter provides router,
+        ) {
+            BottomSheetNavigator(
+                scrimColor = BeautifulColor.Black.composeHoverColor,
+                sheetBackgroundColor = BeautifulColor.Background.composeColor,
+                sheetShape = RoundedCornerShape(
+                    topStart = 8.dp,
+                    topEnd = 8.dp,
+                ),
+            ) { bottomSheetNavigator ->
+                val blurDp = if (bottomSheetNavigator.isVisible) 12.dp else 0.dp
+                val animatedBlurDp by animateDpAsState(
+                    label = "content-blur-dp",
+                    targetValue = blurDp
+                )
+                Navigator(
+                    screen = DashboardScreen,
+                    onBackPressed = { true }
+                ) { navigator ->
+                    LaunchedEffect(navigator, bottomSheetNavigator) {
+                        router.mutableNavigator = navigator
+                        router.mutableBottomSheetNavigator = bottomSheetNavigator
+                    }
 
-        BottomSheetNavigator(
-            scrimColor = BeautifulColor.Black.composeHoverColor,
-            sheetBackgroundColor = BeautifulColor.Background.composeColor,
-            sheetShape = RoundedCornerShape(
-                topStart = 8.dp,
-                topEnd = 8.dp,
-            ),
-        ) { bottomSheetNavigator ->
-            val blurDp = if (bottomSheetNavigator.isVisible) 12.dp else 0.dp
-            val animatedBlurDp by animateDpAsState(
-                label = "content-blur-dp",
-                targetValue = blurDp
-            )
-            Navigator(
-                screen = DashboardScreen,
-                onBackPressed = { true }
-            ) { navigator ->
-
-                val router = remember {
-                    RouterInfrastructure(
-                        navigator = navigator,
-                        bottomSheetNavigator = bottomSheetNavigator,
-                    )
-                }
-
-                CompositionLocalProvider(
-                    LocalImageRetrievalController provides imageRetrievalController,
-                    LocalBeautifulToolbarHandler provides toolbarHandler,
-                    LocalRouter provides router,
-                ) {
                     Column(
                         modifier = Modifier.blur(animatedBlurDp)
                     ) {
@@ -86,8 +87,8 @@ private fun ColumnScope.HandleToolbarContent(
     toolbarHandler: ToolbarHandler,
 ) {
     val hasToolbarContent = toolbarHandler.label != null ||
-            toolbarHandler.headingIcon != null ||
-            toolbarHandler.trailingIcons.isNotEmpty()
+        toolbarHandler.headingIcon != null ||
+        toolbarHandler.trailingIcons.isNotEmpty()
 
     AnimatedVisibility(
         visible = toolbarHandler.visible && hasToolbarContent,
