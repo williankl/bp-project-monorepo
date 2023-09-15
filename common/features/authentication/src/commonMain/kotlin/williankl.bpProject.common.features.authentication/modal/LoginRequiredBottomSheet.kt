@@ -3,6 +3,7 @@ package williankl.bpProject.common.features.authentication.modal
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
@@ -50,7 +52,9 @@ public class LoginRequiredBottomSheet : BeautifulScreen() {
         val strings = LocalAuthenticationStrings.current.loginRequiredStrings
 
         Column(
-            modifier = modifier,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(40.dp),
+            modifier = modifier.padding(20.dp),
         ) {
             Image(
                 painter = painterResource(SharedDesignCoreResources.images.bp_logo_dark),
@@ -58,16 +62,21 @@ public class LoginRequiredBottomSheet : BeautifulScreen() {
                 modifier = Modifier.size(80.dp)
             )
 
-            Text(
-                text = strings.title,
-                size = TextSize.XLarge,
-                weight = FontWeight.Bold
-            )
+            Column(
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
+                    text = strings.title,
+                    size = TextSize.XLarge,
+                    weight = FontWeight.Bold
+                )
 
-            Text(
-                text = strings.subtitle,
-                size = TextSize.Large,
-            )
+                Text(
+                    text = strings.subtitle,
+                    size = TextSize.Large,
+                )
+            }
 
             LoginOptionButton(
                 label = strings.defaultOptionLabel,
@@ -95,7 +104,7 @@ public class LoginRequiredBottomSheet : BeautifulScreen() {
             AccountCreationOption(
                 authenticationFlow = AuthenticationFlow.Signup,
                 onSignupClicked = onSignupClicked,
-                modifier = Modifier.padding(top = 16.dp),
+                modifier = Modifier,
             )
         }
     }
@@ -108,6 +117,7 @@ public class LoginRequiredBottomSheet : BeautifulScreen() {
         modifier: Modifier = Modifier,
     ) {
         Row(
+            verticalAlignment = Alignment.CenterVertically,
             modifier = modifier
                 .clip(BeautifulShape.Rounded.Regular.composeShape)
                 .clickable { onClick() }
