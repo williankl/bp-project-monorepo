@@ -7,8 +7,12 @@ import williankl.bpProject.common.platform.stateHandler.navigation.models.Naviga
 public interface Router {
     public val navigator: Navigator
     public val bottomSheetNavigator: BottomSheetNavigator
+    public val isBottomSheetVisible: Boolean
+    public val isSidebarVisible: Boolean
     public fun showBottomSheet(destination: NavigationDestination)
     public fun hideBottomSheet()
     public fun push(destination: NavigationDestination)
     public fun pop()
+    public fun showSidebar(destination: NavigationDestination)
+    public fun hideSidebar()
 }

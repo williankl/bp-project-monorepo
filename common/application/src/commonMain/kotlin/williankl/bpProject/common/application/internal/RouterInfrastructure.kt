@@ -1,5 +1,7 @@
 package williankl.bpProject.common.application.internal
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -17,12 +19,23 @@ import williankl.bpProject.common.platform.stateHandler.navigation.models.Places
 
 internal class RouterInfrastructure : Router {
 
+    internal var mutableSideBarContent by mutableStateOf<(@Composable () -> Unit)?>(null)
     internal var mutableNavigator by mutableStateOf<Navigator?>(null)
     internal var mutableBottomSheetNavigator by mutableStateOf<BottomSheetNavigator?>(null)
+
     override val navigator: Navigator
         get() = mutableNavigator ?: error("Navigator was not set")
+
     override val bottomSheetNavigator: BottomSheetNavigator
         get() = mutableBottomSheetNavigator ?: error("BottomSheetNavigator was not set")
+
+    override val isBottomSheetVisible: Boolean by derivedStateOf {
+        bottomSheetNavigator.isVisible
+    }
+
+    override val isSidebarVisible: Boolean by derivedStateOf {
+        mutableSideBarContent != null
+    }
 
     override fun showBottomSheet(destination: NavigationDestination) {
         bottomSheetNavigator.show(destination.mapToScreen())
@@ -38,6 +51,18 @@ internal class RouterInfrastructure : Router {
 
     override fun pop() {
         navigator.pop()
+    }
+
+    override fun showSidebar(destination: NavigationDestination) {
+        mutableSideBarContent = {
+            destination
+                .mapToScreen()
+                .BeautifulContent()
+        }
+    }
+
+    override fun hideSidebar() {
+        mutableSideBarContent = null
     }
 
     private fun NavigationDestination.mapToScreen(): BeautifulScreen {
