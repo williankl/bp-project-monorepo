@@ -16,8 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.compose.painterResource
+import williankl.bpProject.common.features.authentication.AuthenticationScreen
 import williankl.bpProject.common.features.authentication.LocalAuthenticationStrings
 import williankl.bpProject.common.features.authentication.components.AccountCreationOption
 import williankl.bpProject.common.features.authentication.models.AuthenticationFlow
@@ -34,10 +37,18 @@ public class LoginRequiredBottomSheet : BeautifulScreen() {
 
     @Composable
     override fun BeautifulContent() {
+        val navigator = LocalNavigator.currentOrThrow
+
         LoginRequiredContent(
-            onDefaultLoginRequested = {},
-            onSignupClicked = {},
-            onSocialProviderLoginRequested = {},
+            onDefaultLoginRequested = {
+                navigator.push(AuthenticationScreen())
+            },
+            onSignupClicked = {
+                navigator.push(AuthenticationScreen(AuthenticationFlow.Signup))
+            },
+            onSocialProviderLoginRequested = {
+                /* todo - handle social login */
+            },
             modifier = Modifier.fillMaxSize()
         )
     }

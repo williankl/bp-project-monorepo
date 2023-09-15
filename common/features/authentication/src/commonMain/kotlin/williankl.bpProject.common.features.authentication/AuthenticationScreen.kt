@@ -52,7 +52,9 @@ import williankl.bpProject.common.platform.design.core.text.TextSize
 import williankl.bpProject.common.platform.design.core.themedLogoResource
 import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
 
-public object AuthenticationScreen : BeautifulScreen() {
+public class AuthenticationScreen(
+    private val startingFlow: AuthenticationFlow = AuthenticationFlow.Login
+) : BeautifulScreen() {
 
     @Composable
     override fun BeautifulContent() {
@@ -76,7 +78,7 @@ public object AuthenticationScreen : BeautifulScreen() {
         modifier: Modifier = Modifier,
     ) {
         var authFlow by remember {
-            mutableStateOf(AuthenticationFlow.Login)
+            mutableStateOf(startingFlow)
         }
 
         Box(
