@@ -36,6 +36,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
 import dev.icerock.moko.resources.compose.painterResource
+import williankl.bpProject.common.features.authentication.components.AccountCreationOption
 import williankl.bpProject.common.features.authentication.models.AuthenticationFlow
 import williankl.bpProject.common.features.authentication.models.SocialLoginProvider
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
@@ -352,44 +353,6 @@ public object AuthenticationScreen : BeautifulScreen() {
             Spacer(
                 modifier = Modifier.weight(1f)
             )
-        }
-    }
-
-    @Composable
-    @OptIn(ExperimentalAnimationApi::class)
-    private fun AccountCreationOption(
-        authenticationFlow: AuthenticationFlow,
-        onSignupClicked: () -> Unit,
-        modifier: Modifier
-    ) {
-        val strings = LocalAuthenticationStrings.current
-        AnimatedContent(
-            targetState = authenticationFlow
-        ) { flow ->
-            val (message, actionLabel) = when (flow) {
-                AuthenticationFlow.Signup -> strings.alreadyHasAccountLabel to strings.logInLabel
-                AuthenticationFlow.Login -> strings.hasNoAccountLabel to strings.signUpLabel
-            }
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = modifier,
-            ) {
-                Text(
-                    text = message,
-                    size = TextSize.XSmall,
-                    color = BeautifulColor.Secondary,
-                    modifier = Modifier
-                )
-
-                Button(
-                    label = actionLabel,
-                    variant = ButtonVariant.PrimaryGhost,
-                    type = ButtonType.Pill,
-                    onClick = onSignupClicked
-                )
-            }
         }
     }
 }
