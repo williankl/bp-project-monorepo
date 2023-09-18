@@ -5,7 +5,7 @@ import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 
 public data class ToolbarConfig(
     val backgroundColor: BeautifulColor = BeautifulColor.BackgroundHigh,
-    val headingIcon: ToolbarHandler.ToolbarAction? = null,
+    val headingIcon: ToolbarAction? = null,
     val trailingIcons: List<ToolbarAction> = emptyList(),
     val label: String? = null,
 ) {

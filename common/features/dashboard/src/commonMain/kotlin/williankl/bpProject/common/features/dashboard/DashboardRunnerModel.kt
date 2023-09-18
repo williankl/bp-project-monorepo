@@ -16,7 +16,7 @@ internal class DashboardRunnerModel(
     initialData = Unit,
 ) {
     var currentTab by mutableStateOf(
-        when(initialTab){
+        when (initialTab) {
             DashboardTab.Home -> DashboardActions.Home
             DashboardTab.Profile -> DashboardActions.Profile
         }

@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
-import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
@@ -33,60 +32,60 @@ import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
-import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 import williankl.bpProject.common.platform.stateHandler.LocalRouter
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Places.PlacePhotoSelection
+import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
+import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig
+import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig.ToolbarAction
 
 public data class DashboardScreen(
     private val initialTab: DashboardTab = DashboardTab.Home
 ) : BeautifulScreen() {
 
-    public enum class DashboardTab {
-        Home, Profile
+    public enum class DashboardTab(
+        internal val toolbarConfig: @Composable () -> ToolbarConfig,
+    ) {
+        Home(
+            toolbarConfig = {
+                ToolbarConfig(
+                    label = LocalDashboardStrings.current.projectName,
+                    backgroundColor = BeautifulColor.BackgroundHigh,
+                )
+            }
+        ),
+        Profile(
+            toolbarConfig = {
+                ToolbarConfig(
+                    backgroundColor = BeautifulColor.Background,
+                    trailingIcons = listOf(
+                        ToolbarAction(
+                            icon = SharedDesignCoreResources.images.ic_profile,
+                            onClick = { /* todo -> fix these */ }
+                        ),
+                        ToolbarAction(
+                            icon = SharedDesignCoreResources.images.ic_profile,
+                            onClick = { /* todo -> fix these */ }
+                        ),
+                    ),
+                )
+            }
+        ),
     }
 
     private val options by lazy {
         DashboardActions.entries.toList()
     }
 
-    @Composable
-    override fun initialToolbarConfig(
-        navigator: Navigator,
-        toolbarHandler: ToolbarHandler,
-    ) {
-        super.initialToolbarConfig(navigator, toolbarHandler)
-        val runnerModel = rememberScreenModel<DashboardTab, DashboardRunnerModel>(arg = initialTab)
-
-        when (runnerModel.currentTab) {
-            DashboardActions.Profile -> {
-                toolbarHandler.label = null
-                toolbarHandler.backgroundColor = BeautifulColor.Background
-                toolbarHandler.trailingIcons = listOf(
-                    ToolbarHandler.ToolbarAction(
-                        icon = SharedDesignCoreResources.images.ic_profile,
-                        onClick = { /* todo -> fix these */ }
-                    ),
-                    ToolbarHandler.ToolbarAction(
-                        icon = SharedDesignCoreResources.images.ic_profile,
-                        onClick = { /* todo -> fix these */ }
-                    ),
-                )
-            }
-
-            DashboardActions.Home -> {
-                val strings = LocalDashboardStrings.current
-                toolbarHandler.label = strings.projectName
-                toolbarHandler.backgroundColor = BeautifulColor.BackgroundHigh
-            }
-
-            else -> {
-                toolbarHandler.backgroundColor = BeautifulColor.Background
-                toolbarHandler.label = null
+    override val toolbarConfig: ToolbarConfig
+        @Composable get() {
+            val runnerModel = rememberScreenModel<DashboardTab, DashboardRunnerModel>(arg = initialTab)
+            return when (runnerModel.currentTab) {
+                DashboardActions.Home -> DashboardTab.Home.toolbarConfig()
+                DashboardActions.Profile -> DashboardTab.Profile.toolbarConfig()
+                else -> ToolbarConfig()
             }
         }
-
-    }
 
     @Composable
     override fun BeautifulContent() {

@@ -48,8 +48,8 @@ import williankl.bpProject.common.platform.design.core.input.Input
 import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.design.core.text.TextSize
 import williankl.bpProject.common.platform.design.core.themedLogoResource
-import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication.Login.AuthenticationFlow
+import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
 public class AuthenticationScreen(
     private val startingFlow: AuthenticationFlow = AuthenticationFlow.Login

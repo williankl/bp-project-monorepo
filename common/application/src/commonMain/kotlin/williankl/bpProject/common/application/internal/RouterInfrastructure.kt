@@ -11,12 +11,12 @@ import williankl.bpProject.common.features.authentication.AuthenticationScreen
 import williankl.bpProject.common.features.authentication.modal.LoginRequiredBottomSheet
 import williankl.bpProject.common.features.dashboard.DashboardScreen
 import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionScreen
-import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 import williankl.bpProject.common.platform.stateHandler.navigation.Router
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication
 import williankl.bpProject.common.platform.stateHandler.navigation.models.NavigationDestination
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Places
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Profile
+import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
 internal class RouterInfrastructure : Router {
 

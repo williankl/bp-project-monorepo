@@ -8,6 +8,9 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.stateHandler.LocalToolbarConfig
 import williankl.bpProject.common.platform.stateHandler.screen.toolbar.BeautifulToolbar
 import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig
@@ -15,14 +18,26 @@ import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarCo
 public abstract class BeautifulScreen : Screen {
 
     public open val toolbarConfig: ToolbarConfig
-        @Composable get() = remember { ToolbarConfig() }
-
+        @Composable get() {
+            val navigator = LocalNavigator.currentOrThrow
+            return remember {
+                ToolbarConfig(
+                    headingIcon =
+                    if (navigator.canPop) {
+                        ToolbarConfig.ToolbarAction(
+                            icon = SharedDesignCoreResources.images.ic_chevron_left,
+                            onClick = { navigator.pop() }
+                        )
+                    } else null
+                )
+            }
+        }
 
     @Composable
     override fun Content() {
         val hasToolbarContent = toolbarConfig.label != null ||
-                toolbarConfig.headingIcon != null ||
-                toolbarConfig.trailingIcons.isNotEmpty()
+            toolbarConfig.headingIcon != null ||
+            toolbarConfig.trailingIcons.isNotEmpty()
 
         Column {
             AnimatedVisibility(
@@ -47,5 +62,4 @@ public abstract class BeautifulScreen : Screen {
 
     @Composable
     public abstract fun BeautifulContent()
-
 }

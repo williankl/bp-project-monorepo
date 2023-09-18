@@ -10,7 +10,9 @@ import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.with
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -90,14 +92,19 @@ public fun BeautifulToolbar(
             transitionSpec = { fadeIn() with fadeOut() },
             modifier = Modifier.align(Alignment.CenterEnd),
         ) { shownIcons ->
-            shownIcons.forEach { icon ->
-                Image(
-                    painter = painterResource(icon.icon),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .clickableIcon { icon.onClick() }
-                        .size(20.dp)
-                )
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                shownIcons.forEach { icon ->
+                    Image(
+                        painter = painterResource(icon.icon),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .clickableIcon { icon.onClick() }
+                            .size(20.dp)
+                    )
+                }
             }
         }
     }

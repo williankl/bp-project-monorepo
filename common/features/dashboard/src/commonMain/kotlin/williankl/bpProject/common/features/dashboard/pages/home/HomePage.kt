@@ -12,5 +12,4 @@ internal object HomePage : BeautifulScreen() {
     override fun BeautifulContent() {
         Box(Modifier.fillMaxSize())
     }
-
 }

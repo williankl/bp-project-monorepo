@@ -129,5 +129,4 @@ internal object UserProfilePage : BeautifulScreen() {
             )
         }
     }
-
 }
