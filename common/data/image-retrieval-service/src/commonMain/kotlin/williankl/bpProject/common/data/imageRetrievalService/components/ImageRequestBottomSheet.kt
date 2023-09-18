@@ -21,13 +21,12 @@ import cafe.adriel.voyager.navigator.Navigator
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.data.imageRetrievalService.LocalImageRetrievalServiceStrings
-import williankl.bpProject.common.platform.design.components.toolbar.ToolbarHandler
 import williankl.bpProject.common.platform.design.core.ComposeString
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.text.Text
-import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
+import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
 internal class ImageRequestBottomSheet(
     private val onOptionSelected: (ImageRequestOptions) -> Unit,

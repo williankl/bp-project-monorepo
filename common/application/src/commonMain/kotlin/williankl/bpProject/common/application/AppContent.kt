@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
@@ -31,20 +32,16 @@ import williankl.bpProject.common.application.internal.RouterInfrastructure
 import williankl.bpProject.common.data.imageRetrievalService.controller.ImageRetrievalController
 import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
 import williankl.bpProject.common.features.dashboard.DashboardScreen
-import williankl.bpProject.common.platform.design.components.toolbar.BeautifulToolbar
-import williankl.bpProject.common.platform.design.components.toolbar.LocalBeautifulToolbarHandler
-import williankl.bpProject.common.platform.design.components.toolbar.ToolbarHandler
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.colors.composeHoverColor
 import williankl.bpProject.common.platform.design.core.theme.BeautifulThemeContent
-import williankl.bpProject.common.platform.stateHandler.navigation.LocalRouter
+import williankl.bpProject.common.platform.stateHandler.LocalRouter
 
 @Composable
 @OptIn(ExperimentalAnimationApi::class)
 public fun AppContent(
     imageRetrievalController: ImageRetrievalController,
-    toolbarHandler: ToolbarHandler,
 ) {
     val router = remember {
         RouterInfrastructure()
@@ -52,7 +49,6 @@ public fun AppContent(
     BeautifulThemeContent {
         CompositionLocalProvider(
             LocalImageRetrievalController provides imageRetrievalController,
-            LocalBeautifulToolbarHandler provides toolbarHandler,
             LocalRouter provides router,
         ) {
             WithNavigators { navigator, bottomSheetNavigator ->
@@ -70,18 +66,15 @@ public fun AppContent(
                     targetValue = blurDp
                 )
 
-                Column(
-                    modifier = Modifier.blur(animatedBlurDp)
-                ) {
-                    HandleToolbarContent(toolbarHandler)
-                    Box(
-                        modifier = Modifier.weight(1f),
-                        content = {
-                            SlideTransition(navigator)
-                            HandleSideBar(router)
-                        }
-                    )
-                }
+                Box(
+                    modifier = Modifier
+                        .blur(animatedBlurDp)
+                        .fillMaxSize(),
+                    content = {
+                        SlideTransition(navigator)
+                        HandleSideBar(router)
+                    }
+                )
             }
         }
     }
@@ -121,26 +114,5 @@ private fun BoxScope.HandleSideBar(
             .fillMaxHeight(),
     ) { content ->
         content?.invoke()
-    }
-}
-
-@Composable
-private fun ColumnScope.HandleToolbarContent(
-    toolbarHandler: ToolbarHandler,
-) {
-    val hasToolbarContent = toolbarHandler.label != null ||
-        toolbarHandler.headingIcon != null ||
-        toolbarHandler.trailingIcons.isNotEmpty()
-
-    AnimatedVisibility(
-        visible = toolbarHandler.visible && hasToolbarContent,
-    ) {
-        BeautifulToolbar(
-            label = toolbarHandler.label,
-            headingIcon = toolbarHandler.headingIcon,
-            backgroundColor = toolbarHandler.backgroundColor,
-            trailingIcons = toolbarHandler.trailingIcons,
-            modifier = Modifier.fillMaxWidth()
-        )
     }
 }

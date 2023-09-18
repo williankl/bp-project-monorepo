@@ -48,7 +48,7 @@ import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.models.IconConfig
-import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
+import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
 public data class PhotoSelectionScreen(
     private val imageUriList: List<String>

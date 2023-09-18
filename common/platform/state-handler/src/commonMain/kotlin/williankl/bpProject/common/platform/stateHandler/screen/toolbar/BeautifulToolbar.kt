@@ -1,4 +1,4 @@
-package williankl.bpProject.common.platform.design.components.toolbar
+package williankl.bpProject.common.platform.stateHandler.screen.toolbar
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -27,15 +27,16 @@ import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.design.core.text.TextSize
+import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig.ToolbarAction
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 public fun BeautifulToolbar(
     modifier: Modifier = Modifier,
     label: String? = null,
-    headingIcon: ToolbarHandler.ToolbarAction? = null,
+    headingIcon: ToolbarAction? = null,
     backgroundColor: BeautifulColor = BeautifulColor.BackgroundHigh,
-    trailingIcons: List<ToolbarHandler.ToolbarAction> = emptyList(),
+    trailingIcons: List<ToolbarAction> = emptyList(),
 ) {
     Box(
         modifier = modifier

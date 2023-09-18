@@ -11,14 +11,9 @@ import williankl.bpProject.common.application.AppContent
 import williankl.bpProject.common.data.imageRetrievalService.ImageCaptureHelper
 import williankl.bpProject.common.data.imageRetrievalService.controller.ImageRetrievalController
 import williankl.bpProject.common.data.imageRetrievalService.controller.RetrievalMode
-import williankl.bpProject.common.platform.design.components.toolbar.ToolbarHandler
 import android.net.Uri as AndroidUri
 
 internal class MainActivity : ComponentActivity() {
-
-    private val toolbarHandler by lazy {
-        ToolbarHandler()
-    }
 
     private val imageRetriever =
         registerForActivityResult(
@@ -66,7 +61,7 @@ internal class MainActivity : ComponentActivity() {
         )
 
         setContent {
-            AppContent(imageRetrievalController, toolbarHandler)
+            AppContent(imageRetrievalController)
         }
     }
 
