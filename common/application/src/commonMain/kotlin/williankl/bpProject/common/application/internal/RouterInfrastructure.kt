@@ -62,7 +62,13 @@ internal class RouterInfrastructure : Router {
         mutableSideBarContent = {
             destination
                 .mapToScreen()
-                .BeautifulContent()
+                .Content()
+        }
+    }
+
+    override fun showSidebar(destination: BeautifulScreen) {
+        mutableSideBarContent = {
+            destination.Content()
         }
     }
 

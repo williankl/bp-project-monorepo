@@ -1,8 +1,8 @@
-package williankl.bpProject.common.features.dashboard.pages.userProfile
+package williankl.bpProject.common.features.dashboard.pages.profile
 
 import kotlinx.coroutines.CoroutineDispatcher
 import williankl.bpProject.common.core.models.Place
-import williankl.bpProject.common.features.dashboard.pages.userProfile.UserProfileRunnerModel.UserProfilePresentation
+import williankl.bpProject.common.features.dashboard.pages.profile.UserProfileRunnerModel.UserProfilePresentation
 import williankl.bpProject.common.platform.stateHandler.RunnerModel
 
 internal class UserProfileRunnerModel(

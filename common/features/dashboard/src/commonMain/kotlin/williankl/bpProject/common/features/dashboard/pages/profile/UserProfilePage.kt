@@ -1,4 +1,4 @@
-package williankl.bpProject.common.features.dashboard.pages.userProfile
+package williankl.bpProject.common.features.dashboard.pages.profile
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,8 +24,10 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
+import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
-import williankl.bpProject.common.features.dashboard.pages.userProfile.UserProfileRunnerModel.UserProfilePresentation
+import williankl.bpProject.common.features.dashboard.pages.profile.UserProfileRunnerModel.UserProfilePresentation
+import williankl.bpProject.common.features.dashboard.pages.profile.options.menu.MenuSidebarScreen
 import williankl.bpProject.common.platform.design.components.AsyncImage
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
@@ -32,9 +35,31 @@ import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
 import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.design.core.text.TextSize
+import williankl.bpProject.common.platform.stateHandler.LocalRouter
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
+import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig
 
 internal object UserProfilePage : BeautifulScreen() {
+
+    override val toolbarConfig: ToolbarConfig
+        @Composable get() {
+            val router = LocalRouter.currentOrThrow
+            return remember {
+                ToolbarConfig(
+                    backgroundColor = BeautifulColor.Background,
+                    trailingIcons = listOf(
+                        ToolbarConfig.ToolbarAction(
+                            icon = SharedDesignCoreResources.images.ic_heart,
+                            onClick = { /* todo -> fix these */ }
+                        ),
+                        ToolbarConfig.ToolbarAction(
+                            icon = SharedDesignCoreResources.images.ic_horizontal_ellipsis,
+                            onClick = { router.showSidebar(MenuSidebarScreen) }
+                        ),
+                    ),
+                )
+            }
+        }
 
     @Composable
     override fun BeautifulContent() {

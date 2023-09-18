@@ -27,8 +27,7 @@ import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
 import williankl.bpProject.common.features.dashboard.models.DashboardActions
 import williankl.bpProject.common.features.dashboard.pages.home.HomePage
-import williankl.bpProject.common.features.dashboard.pages.userProfile.UserProfilePage
-import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
+import williankl.bpProject.common.features.dashboard.pages.profile.UserProfilePage
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
@@ -36,56 +35,19 @@ import williankl.bpProject.common.platform.stateHandler.LocalRouter
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Places.PlacePhotoSelection
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
-import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig
-import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig.ToolbarAction
 
 public data class DashboardScreen(
     private val initialTab: DashboardTab = DashboardTab.Home
 ) : BeautifulScreen() {
 
-    public enum class DashboardTab(
-        internal val toolbarConfig: @Composable () -> ToolbarConfig,
-    ) {
-        Home(
-            toolbarConfig = {
-                ToolbarConfig(
-                    label = LocalDashboardStrings.current.projectName,
-                    backgroundColor = BeautifulColor.BackgroundHigh,
-                )
-            }
-        ),
-        Profile(
-            toolbarConfig = {
-                ToolbarConfig(
-                    backgroundColor = BeautifulColor.Background,
-                    trailingIcons = listOf(
-                        ToolbarAction(
-                            icon = SharedDesignCoreResources.images.ic_profile,
-                            onClick = { /* todo -> fix these */ }
-                        ),
-                        ToolbarAction(
-                            icon = SharedDesignCoreResources.images.ic_profile,
-                            onClick = { /* todo -> fix these */ }
-                        ),
-                    ),
-                )
-            }
-        ),
+    public enum class DashboardTab {
+        Home,
+        Profile,
     }
 
     private val options by lazy {
         DashboardActions.entries.toList()
     }
-
-    override val toolbarConfig: ToolbarConfig
-        @Composable get() {
-            val runnerModel = rememberScreenModel<DashboardTab, DashboardRunnerModel>(arg = initialTab)
-            return when (runnerModel.currentTab) {
-                DashboardActions.Home -> DashboardTab.Home.toolbarConfig()
-                DashboardActions.Profile -> DashboardTab.Profile.toolbarConfig()
-                else -> ToolbarConfig()
-            }
-        }
 
     @Composable
     override fun BeautifulContent() {
@@ -142,7 +104,7 @@ public data class DashboardScreen(
                         else -> HomePage
                     },
                     content = { currentPage ->
-                        currentPage.BeautifulContent()
+                        currentPage.Content()
                     }
                 )
             }
