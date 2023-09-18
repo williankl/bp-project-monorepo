@@ -165,6 +165,11 @@ public sealed class BeautifulColor(
         darkColor = Color(0xff212121),
     )
 
+    public data object BackgroundHigh : BeautifulColor(
+        lightColor = Color(0xff141115),
+        darkColor = Color(0xff141115),
+    )
+
     public data object Border : BeautifulColor(
         lightColor = Color(0xff353535),
         darkColor = Color(0xff353535),

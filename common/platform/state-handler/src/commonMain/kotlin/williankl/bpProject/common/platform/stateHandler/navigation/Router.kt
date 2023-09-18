@@ -3,6 +3,7 @@ package williankl.bpProject.common.platform.stateHandler.navigation
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import williankl.bpProject.common.platform.stateHandler.navigation.models.NavigationDestination
+import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
 public interface Router {
     public val navigator: Navigator
@@ -14,5 +15,6 @@ public interface Router {
     public fun push(destination: NavigationDestination)
     public fun pop()
     public fun showSidebar(destination: NavigationDestination)
+    public fun showSidebar(destination: BeautifulScreen)
     public fun hideSidebar()
 }

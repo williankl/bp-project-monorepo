@@ -11,11 +11,12 @@ import williankl.bpProject.common.features.authentication.AuthenticationScreen
 import williankl.bpProject.common.features.authentication.modal.LoginRequiredBottomSheet
 import williankl.bpProject.common.features.dashboard.DashboardScreen
 import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionScreen
-import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
 import williankl.bpProject.common.platform.stateHandler.navigation.Router
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication
 import williankl.bpProject.common.platform.stateHandler.navigation.models.NavigationDestination
-import williankl.bpProject.common.platform.stateHandler.navigation.models.PlacesFlow
+import williankl.bpProject.common.platform.stateHandler.navigation.models.Places
+import williankl.bpProject.common.platform.stateHandler.navigation.models.Profile
+import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
 internal class RouterInfrastructure : Router {
 
@@ -30,7 +31,11 @@ internal class RouterInfrastructure : Router {
         get() = mutableBottomSheetNavigator ?: error("BottomSheetNavigator was not set")
 
     override val isBottomSheetVisible: Boolean by derivedStateOf {
-        bottomSheetNavigator.isVisible
+        runCatching { bottomSheetNavigator.isVisible }
+            .fold(
+                onSuccess = { it },
+                onFailure = { false }
+            )
     }
 
     override val isSidebarVisible: Boolean by derivedStateOf {
@@ -57,7 +62,13 @@ internal class RouterInfrastructure : Router {
         mutableSideBarContent = {
             destination
                 .mapToScreen()
-                .BeautifulContent()
+                .Content()
+        }
+    }
+
+    override fun showSidebar(destination: BeautifulScreen) {
+        mutableSideBarContent = {
+            destination.Content()
         }
     }
 
@@ -67,12 +78,13 @@ internal class RouterInfrastructure : Router {
 
     private fun NavigationDestination.mapToScreen(): BeautifulScreen {
         return when (this) {
-            is NavigationDestination.Dashboard -> DashboardScreen
+            is NavigationDestination.Dashboard -> DashboardScreen()
             is Authentication.Login -> AuthenticationScreen(startingFlow)
             is Authentication.LoginRequiredBottomSheet -> LoginRequiredBottomSheet()
-            is PlacesFlow.PlaceDataCreation -> TODO()
-            is PlacesFlow.PlaceLocalSearch -> TODO()
-            is PlacesFlow.PlacePhotoSelection -> PhotoSelectionScreen(uriList)
+            is Places.PlaceDataCreation -> TODO()
+            is Places.PlaceLocalSearch -> TODO()
+            is Places.PlacePhotoSelection -> PhotoSelectionScreen(uriList)
+            is Profile.UserProfile -> DashboardScreen(DashboardScreen.DashboardTab.Profile)
         }
     }
 }

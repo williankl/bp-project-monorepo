@@ -14,6 +14,7 @@ dependencies {
     commonMainImplementation(compose.material3)
     commonMainImplementation(libs.atomicfu)
     commonMainImplementation(libs.moko.resourcesCompose)
+    commonMainImplementation(libs.kamel)
 
     androidMainImplementation(libs.maps.android.compose)
     androidMainImplementation(libs.maps.android.composeUtils)

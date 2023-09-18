@@ -38,7 +38,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import kotlinx.coroutines.delay
@@ -51,7 +50,6 @@ import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunner
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.Companion.queryDebounce
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.PlaceSearchPresentation
 import williankl.bpProject.common.platform.design.components.maps.MapsComponent
-import williankl.bpProject.common.platform.design.components.toolbar.ToolbarHandler
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.button.Button
 import williankl.bpProject.common.platform.design.core.button.ButtonType
@@ -60,21 +58,23 @@ import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.input.Input
 import williankl.bpProject.common.platform.design.core.text.Text
-import williankl.bpProject.common.platform.stateHandler.bpScreen.BeautifulScreen
+import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
+import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig
 
 internal data class PlaceSearchScreen(
     private val placeCreationHandler: CreationHandler,
 ) : BeautifulScreen() {
 
-    @Composable
-    override fun initialToolbarConfig(
-        navigator: Navigator,
-        toolbarHandler: ToolbarHandler,
-    ) {
-        super.initialToolbarConfig(navigator, toolbarHandler)
-        val strings = LocalPlacesStrings.current
-        toolbarHandler.label = strings.placeSearchStrings.localizationLabel
-    }
+    override val toolbarConfig: ToolbarConfig
+        @Composable get() {
+            val defaultToolbar = super.toolbarConfig
+            val strings = LocalPlacesStrings.current
+            return remember {
+                defaultToolbar.copy(
+                    label = strings.placeSearchStrings.localizationLabel
+                )
+            }
+        }
 
     @Composable
     override fun BeautifulContent() {

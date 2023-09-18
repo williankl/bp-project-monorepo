@@ -1,4 +1,4 @@
-package williankl.bpProject.common.platform.design.components.toolbar
+package williankl.bpProject.common.platform.stateHandler.screen.toolbar
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -10,7 +10,9 @@ import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.with
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -27,15 +29,16 @@ import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.design.core.text.TextSize
+import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig.ToolbarAction
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 public fun BeautifulToolbar(
     modifier: Modifier = Modifier,
     label: String? = null,
-    headingIcon: ToolbarHandler.ToolbarAction? = null,
-    backgroundColor: BeautifulColor = BeautifulColor.Background,
-    trailingIcons: List<ToolbarHandler.ToolbarAction> = emptyList(),
+    headingIcon: ToolbarAction? = null,
+    backgroundColor: BeautifulColor = BeautifulColor.BackgroundHigh,
+    trailingIcons: List<ToolbarAction> = emptyList(),
 ) {
     Box(
         modifier = modifier
@@ -56,7 +59,7 @@ public fun BeautifulToolbar(
                     contentDescription = null,
                     modifier = Modifier
                         .clickableIcon { headingIcon.onClick() }
-                        .size(30.dp)
+                        .size(20.dp)
                 )
             }
         }
@@ -89,14 +92,19 @@ public fun BeautifulToolbar(
             transitionSpec = { fadeIn() with fadeOut() },
             modifier = Modifier.align(Alignment.CenterEnd),
         ) { shownIcons ->
-            shownIcons.forEach { icon ->
-                Image(
-                    painter = painterResource(icon.icon),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .clickableIcon { icon.onClick() }
-                        .size(30.dp)
-                )
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                shownIcons.forEach { icon ->
+                    Image(
+                        painter = painterResource(icon.icon),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .clickableIcon { icon.onClick() }
+                            .size(20.dp)
+                    )
+                }
             }
         }
     }
