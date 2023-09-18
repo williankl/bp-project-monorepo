@@ -67,9 +67,10 @@ internal data class PlaceSearchScreen(
 
     override val toolbarConfig: ToolbarConfig
         @Composable get() {
+            val defaultToolbar = super.toolbarConfig
             val strings = LocalPlacesStrings.current
             return remember {
-                ToolbarConfig(
+                defaultToolbar.copy(
                     label = strings.placeSearchStrings.localizationLabel
                 )
             }

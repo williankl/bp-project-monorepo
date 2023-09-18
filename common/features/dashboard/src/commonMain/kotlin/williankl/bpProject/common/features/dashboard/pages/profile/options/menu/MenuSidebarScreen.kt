@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,7 +15,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
@@ -24,10 +27,12 @@ import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.features.dashboard.LocalDashboardStrings
 import williankl.bpProject.common.features.dashboard.pages.profile.options.menu.MenuSidebarRunnerModel.MenuSidebarPresentation
+import williankl.bpProject.common.platform.design.components.AsyncImage
 import williankl.bpProject.common.platform.design.components.ComposableString
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
+import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
 import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.design.core.text.TextSize
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
@@ -70,7 +75,7 @@ internal object MenuSidebarScreen : BeautifulScreen() {
                 /* todo - handle selection */
             },
             modifier = Modifier
-                .background(BeautifulColor.BackgroundHigh.composeColor)
+                .background(BeautifulColor.Background.composeColor)
                 .fillMaxWidth(0.8f)
                 .fillMaxHeight()
         )
@@ -86,9 +91,22 @@ internal object MenuSidebarScreen : BeautifulScreen() {
             modifier = modifier,
         ) {
             Column(
-
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .shadow(12.dp)
+                    .background(BeautifulColor.Background.composeColor)
             ) {
+                ProfileHeader(
+                    presentation = presentation,
+                    modifier = Modifier.padding(32.dp),
+                )
 
+                Spacer(
+                    modifier = Modifier
+                        .background(BeautifulColor.Border.composeColor)
+                        .fillMaxWidth()
+                        .height(1.dp)
+                )
             }
 
             SidebarOptions.entries.forEach { option ->
@@ -100,6 +118,42 @@ internal object MenuSidebarScreen : BeautifulScreen() {
                         .fillMaxWidth()
                 )
             }
+        }
+    }
+
+    @Composable
+    private fun ProfileHeader(
+        presentation: MenuSidebarPresentation,
+        modifier: Modifier = Modifier,
+    ) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = modifier,
+        ) {
+            AsyncImage(
+                url = presentation.avatarUrl,
+                onError = {
+                    Image(
+                        painter = painterResource(SharedDesignCoreResources.images.ic_profile),
+                        colorFilter = ColorFilter.tint(BeautifulColor.NeutralHigh.composeColor),
+                        contentDescription = null,
+                    )
+                },
+                modifier = Modifier
+                    .clip(BeautifulShape.Rounded.Circle.composeShape)
+                    .background(BeautifulColor.Surface.composeColor)
+                    .size(90.dp)
+            )
+
+            Text(
+                text = presentation.userFullName,
+                size = TextSize.XLarge,
+            )
+
+            Text(
+                text = presentation.userTag,
+            )
         }
     }
 
@@ -122,6 +176,7 @@ internal object MenuSidebarScreen : BeautifulScreen() {
                 Image(
                     painter = painterResource(icon),
                     contentDescription = null,
+                    colorFilter = ColorFilter.tint(BeautifulColor.NeutralHigh.composeColor),
                     modifier = Modifier.size(26.dp),
                 )
 
