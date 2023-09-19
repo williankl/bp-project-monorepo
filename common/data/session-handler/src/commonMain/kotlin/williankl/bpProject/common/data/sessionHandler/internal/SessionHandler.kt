@@ -9,7 +9,7 @@ import williankl.bpProject.common.data.sessionHandler.Session
 
 internal class SessionHandler(
     private val client: HttpClient,
-): Session {
+) : Session {
 
     private companion object {
         const val USER_ENDPOINT = "/user"

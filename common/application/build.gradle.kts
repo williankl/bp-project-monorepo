@@ -13,6 +13,7 @@ dependencies {
     commonMainImplementation(projects.common.platform.design.components)
     commonMainImplementation(projects.common.platform.stateHandler)
 
+    commonMainImplementation(projects.common.data.cypher)
     commonMainImplementation(projects.common.data.firebaseIntegration)
     commonMainImplementation(projects.common.data.imageRetrievalService)
     commonMainImplementation(projects.common.data.networking)

@@ -7,7 +7,7 @@ import williankl.bpProject.common.data.sessionHandler.internal.SessionHandler
 
 internal expect val platformSessionHandlerDi: DI.Module
 
-public val sessionHandlerDi: DI.Module = DI.Module("williankl.bpProject.common.data.sessionHandler"){
+public val sessionHandlerDi: DI.Module = DI.Module("williankl.bpProject.common.data.sessionHandler") {
     import(platformSessionHandlerDi)
 
     bindSingleton<Session> {
