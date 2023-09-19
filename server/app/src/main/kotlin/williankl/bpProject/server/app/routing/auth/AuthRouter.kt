@@ -6,7 +6,6 @@ import io.ktor.server.application.call
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
-import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import org.kodein.di.instance
 import williankl.bpProject.common.core.models.User
@@ -69,7 +68,7 @@ internal object AuthRouter {
     }
 
     private fun Route.signupRoute() {
-        post("/signup") {
+        get("/signup") {
             val email = call.parameters["email"]
             val tag = call.parameters["tag"]
             val password = call.parameters["password"]
