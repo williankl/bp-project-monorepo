@@ -19,7 +19,6 @@ internal class DashboardRunnerModel(
     dispatcher = dispatcher,
     initialData = DashboardPresentation(),
 ) {
-
     internal data class DashboardPresentation(
         val user: User? = null,
     )
@@ -31,9 +30,11 @@ internal class DashboardRunnerModel(
         }
     )
 
-    fun refreshPresentation() = setContent {
+    fun refreshPresentation() = setContent(
+        onLoading = { /* Ignore loading */ }
+    ) {
         DashboardPresentation(
-            user = session.loggedInUser()
+            user = session.loggedInUser(true)
         )
     }
 }

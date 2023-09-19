@@ -35,6 +35,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
+import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.features.authentication.components.AccountCreationOption
 import williankl.bpProject.common.features.authentication.models.SocialLoginProvider
@@ -48,7 +49,9 @@ import williankl.bpProject.common.platform.design.core.input.Input
 import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.design.core.text.TextSize
 import williankl.bpProject.common.platform.design.core.themedLogoResource
+import williankl.bpProject.common.platform.stateHandler.LocalRouter
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication.Login.AuthenticationFlow
+import williankl.bpProject.common.platform.stateHandler.navigation.models.NavigationDestination
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
 public class AuthenticationScreen(
@@ -58,10 +61,19 @@ public class AuthenticationScreen(
     @Composable
     override fun BeautifulContent() {
         val runnerModel = rememberScreenModel<AuthenticationRunnerModel>()
+        val router = LocalRouter.currentOrThrow
 
         LoginScreenContent(
-            onLoginRequested = runnerModel::logIn,
-            onSignupRequested = runnerModel::signUp,
+            onLoginRequested = { login, password ->
+                runnerModel.logIn(login, password) {
+                    router.replaceAll(NavigationDestination.Dashboard)
+                }
+            },
+            onSignupRequested = { login, userName, password ->
+                runnerModel.signUp(userName, login, password) {
+                    router.replaceAll(NavigationDestination.Dashboard)
+                }
+            },
             onForgotPasswordClicked = { /* todo - handle action */ },
             onSocialLoginClicked = { /* todo - handle action */ },
             modifier = Modifier.fillMaxSize(),

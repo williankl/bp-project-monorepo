@@ -38,6 +38,10 @@ internal class PreferencesHandlerInfrastructure(
         return sharedPreferences.getString(BEARER_TOKEN_KEY, null)
     }
 
+    override fun clearPreferences() {
+        sharedPreferences.edit().clear().apply()
+    }
+
     private fun onSharedPreferences(
         action: SharedPreferences.Editor.() -> Unit
     ) {

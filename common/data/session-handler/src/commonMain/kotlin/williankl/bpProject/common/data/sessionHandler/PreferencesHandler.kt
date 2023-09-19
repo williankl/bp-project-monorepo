@@ -7,4 +7,5 @@ public interface PreferencesHandler {
     public fun userPreferredTheme(): PreferredTheme
     public fun setBearerToken(token: String)
     public fun userBearerToken(): String?
+    public fun clearPreferences()
 }

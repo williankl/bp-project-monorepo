@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
+import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.features.dashboard.LocalDashboardStrings
@@ -35,6 +36,8 @@ import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
 import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.design.core.text.TextSize
+import williankl.bpProject.common.platform.stateHandler.LocalRouter
+import williankl.bpProject.common.platform.stateHandler.navigation.models.NavigationDestination
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
 internal object MenuSidebarScreen : BeautifulScreen() {
@@ -68,11 +71,21 @@ internal object MenuSidebarScreen : BeautifulScreen() {
     override fun BeautifulContent() {
         val runnerModel = rememberScreenModel<MenuSidebarRunnerModel>()
         val presentation by runnerModel.currentData.collectAsState()
+        val router = LocalRouter.currentOrThrow
 
         MenuSidebaseContent(
             presentation = presentation,
-            onOptionSelected = {
-                /* todo - handle selection */
+            onOptionSelected = { option ->
+                when (option) {
+                    SidebarOptions.Edit -> Unit
+                    SidebarOptions.Settings -> Unit
+                    SidebarOptions.Support -> Unit
+                    SidebarOptions.Exit -> {
+                        runnerModel.logOutUser {
+                            router.replaceAll(NavigationDestination.Dashboard)
+                        }
+                    }
+                }
             },
             modifier = Modifier
                 .background(BeautifulColor.Background.composeColor)

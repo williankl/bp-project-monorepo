@@ -54,6 +54,10 @@ internal class RouterInfrastructure : Router {
         navigator.push(destination.mapToScreen())
     }
 
+    override fun replaceAll(destination: NavigationDestination) {
+        navigator.replaceAll(destination.mapToScreen())
+    }
+
     override fun pop() {
         navigator.pop()
     }

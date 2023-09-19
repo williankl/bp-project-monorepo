@@ -13,6 +13,7 @@ public interface Router {
     public fun showBottomSheet(destination: NavigationDestination)
     public fun hideBottomSheet()
     public fun push(destination: NavigationDestination)
+    public fun replaceAll(destination: NavigationDestination)
     public fun pop()
     public fun showSidebar(destination: NavigationDestination)
     public fun showSidebar(destination: BeautifulScreen)

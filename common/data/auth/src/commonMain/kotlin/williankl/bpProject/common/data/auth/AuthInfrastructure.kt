@@ -2,6 +2,7 @@ package williankl.bpProject.common.data.auth
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
@@ -15,6 +16,7 @@ internal class AuthInfrastructure(
 ) : AuthService {
 
     private companion object {
+        private const val BASE_AUTH_ENDPOINT = "/auth"
         private const val LOGIN_ENDPOINT = "/auth/login"
         private const val SIGNUP_ENDPOINT = "/auth/signup"
     }
@@ -24,6 +26,10 @@ internal class AuthInfrastructure(
             parameter("credential", loginData.userName ?: loginData.email)
             parameter("password", loginData.password)
         }.body()
+    }
+
+    override suspend fun logOut() {
+        client.delete(BASE_AUTH_ENDPOINT)
     }
 
     override suspend fun signUp(loginData: LoginData): UserCredentialResponse {
