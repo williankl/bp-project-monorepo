@@ -15,8 +15,8 @@ import williankl.bpProject.common.data.placeService.models.SavingPlace
 import williankl.bpProject.server.app.configuration.AuthenticationHandler
 import williankl.bpProject.server.app.generateId
 import williankl.bpProject.server.app.parseOrNull
-import williankl.bpProject.server.app.parseOrNullSuspend
 import williankl.bpProject.server.app.routing.places.PlaceMapper.toPlace
+import williankl.bpProject.server.app.runOrNull
 import williankl.bpProject.server.app.serverDi
 import williankl.bpProject.server.database.services.PlaceStorage
 import java.util.UUID
@@ -39,7 +39,7 @@ internal object PlaceRouter {
 
     private fun Route.savePlaceRoute() {
         post {
-            val received = parseOrNullSuspend { call.receive<SavingPlace>() }
+            val received = runOrNull<SavingPlace> { call.receive() }
             if (received != null) {
                 val generatedPlace = received.toPlace(generateId) // fixme - use user id once created
                 placesService.savePlace(generatedPlace)

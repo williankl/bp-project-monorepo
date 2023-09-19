@@ -5,7 +5,6 @@ import williankl.bpProject.common.data.auth.AuthService
 import williankl.bpProject.common.data.sessionHandler.Session
 import williankl.bpProject.common.features.dashboard.pages.profile.options.menu.MenuSidebarRunnerModel.MenuSidebarPresentation
 import williankl.bpProject.common.platform.stateHandler.RunnerModel
-import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication
 
 internal class MenuSidebarRunnerModel(
     private val authService: AuthService,

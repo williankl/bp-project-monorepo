@@ -8,8 +8,6 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import williankl.bpProject.common.data.sessionHandler.PreferencesHandler
@@ -60,7 +58,6 @@ internal class ClientConfigurationHelper(
         install(DefaultRequest) {
             bearerAuth()
             url(url)
-            contentType(ContentType.Application.Json)
             onDefaultRequest()
         }
     }

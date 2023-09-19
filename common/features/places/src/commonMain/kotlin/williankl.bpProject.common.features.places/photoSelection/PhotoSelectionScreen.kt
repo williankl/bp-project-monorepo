@@ -81,7 +81,6 @@ public data class PhotoSelectionScreen(
             onImagesConfirmed = {
                 navigator.push(PlaceCreationScreen(finalUriList))
             },
-            onBackRequested = navigator::pop,
             modifier = Modifier.fillMaxSize()
         )
     }
@@ -93,7 +92,6 @@ public data class PhotoSelectionScreen(
         onDeleteRequested: (Uri) -> Unit,
         onAddRequested: () -> Unit,
         onImagesConfirmed: () -> Unit,
-        onBackRequested: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
         val strings = LocalPlacesStrings.current
