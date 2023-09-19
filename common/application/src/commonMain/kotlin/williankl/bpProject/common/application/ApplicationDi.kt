@@ -9,7 +9,7 @@ import williankl.bpProject.common.data.imageRetrievalService.imageRetrievalServi
 import williankl.bpProject.common.data.networking.NetworkConstant
 import williankl.bpProject.common.data.networking.networkingDi
 import williankl.bpProject.common.data.placeService.placesServiceDi
-import williankl.bpProject.common.data.preferencesHandler.preferencesHandlerDi
+import williankl.bpProject.common.data.sessionHandler.sessionHandlerDi
 import williankl.bpProject.common.features.authentication.authenticationFeatureDi
 import williankl.bpProject.common.features.dashboard.dashboardDi
 import williankl.bpProject.common.features.places.placesDi
@@ -19,7 +19,7 @@ public val applicationDi: DI.Module = DI.Module("williankl.bpProject.common.appl
     import(imageRetrievalServiceDi)
     import(firebaseIntegrationDi)
     import(networkingDi)
-    import(preferencesHandlerDi)
+    import(sessionHandlerDi)
     import(authServiceDi)
     import(placesServiceDi)
     import(authenticationFeatureDi)

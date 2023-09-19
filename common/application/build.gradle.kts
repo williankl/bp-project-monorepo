@@ -17,7 +17,7 @@ dependencies {
     commonMainImplementation(projects.common.data.imageRetrievalService)
     commonMainImplementation(projects.common.data.networking)
     commonMainImplementation(projects.common.data.auth)
-    commonMainImplementation(projects.common.data.preferencesHandler)
+    commonMainImplementation(projects.common.data.sessionHandler)
     commonMainImplementation(projects.common.data.placeService.core)
     commonMainImplementation(projects.common.data.placeService.infrastructure)
 

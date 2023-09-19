@@ -4,7 +4,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import williankl.bpProject.common.core.models.network.response.UserCredentialResponse
 import williankl.bpProject.common.data.auth.AuthService
 import williankl.bpProject.common.data.auth.model.LoginData
-import williankl.bpProject.common.data.preferencesHandler.PreferencesHandler
+import williankl.bpProject.common.data.sessionHandler.PreferencesHandler
 import williankl.bpProject.common.platform.stateHandler.RunnerModel
 
 internal class AuthenticationRunnerModel(
