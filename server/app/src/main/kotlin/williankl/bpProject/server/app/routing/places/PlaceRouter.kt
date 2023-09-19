@@ -1,8 +1,11 @@
 package williankl.bpProject.server.app.routing.places
 
+import com.benasher44.uuid.uuidFrom
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
+import io.ktor.server.auth.UserIdPrincipal
 import io.ktor.server.auth.authenticate
+import io.ktor.server.auth.principal
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
@@ -39,9 +42,13 @@ internal object PlaceRouter {
 
     private fun Route.savePlaceRoute() {
         post {
-            val received = runOrNull<SavingPlace> { call.receive() }
-            if (received != null) {
-                val generatedPlace = received.toPlace(generateId) // fixme - use user id once created
+            val received = runOrNull { call.receive<SavingPlace>() }
+            val userId = call.principal<UserIdPrincipal>()
+                ?.name
+                ?.let(::uuidFrom)
+
+            if (received != null && userId != null) {
+                val generatedPlace = received.toPlace(userId)
                 placesService.savePlace(generatedPlace)
                 call.respond(HttpStatusCode.OK)
             } else {
