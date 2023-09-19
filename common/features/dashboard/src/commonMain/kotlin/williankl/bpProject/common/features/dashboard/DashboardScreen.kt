@@ -17,10 +17,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.lifecycle.LifecycleEffect
 import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
@@ -52,8 +56,13 @@ public data class DashboardScreen(
     @Composable
     override fun BeautifulContent() {
         val runnerModel = rememberScreenModel<DashboardTab, DashboardRunnerModel>(arg = initialTab)
+        val presentation by runnerModel.currentData.collectAsState()
         val imageRetrievalController = LocalImageRetrievalController.currentOrThrow
         val router = LocalRouter.currentOrThrow
+
+        LaunchedEffect(Unit){
+            runnerModel.refreshPresentation()
+        }
 
         DashboardScreenContent(
             currentAction = runnerModel.currentTab,
@@ -61,7 +70,7 @@ public data class DashboardScreen(
                 when (selectedAction) {
                     DashboardActions.Home -> runnerModel.currentTab = DashboardActions.Home
                     DashboardActions.Profile ->
-                        if (true) {
+                        if (presentation.user != null) {
                             runnerModel.currentTab = DashboardActions.Profile
                         } else {
                             router.showBottomSheet(

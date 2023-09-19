@@ -8,6 +8,7 @@ import io.ktor.server.auth.authenticate
 import io.ktor.server.auth.principal
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
+import io.ktor.server.routing.delete
 import io.ktor.server.routing.get
 import io.ktor.server.routing.route
 import org.kodein.di.instance
@@ -24,6 +25,7 @@ internal object UserRouter {
         route("/user") {
             authenticate(AuthenticationHandler.BEARER_KEY) {
                 currentUserRoute()
+                logUserOutRoute()
             }
         }
     }
@@ -55,6 +57,17 @@ internal object UserRouter {
                     )
                 }
             }
+        }
+    }
+
+    private fun Route.logUserOutRoute() {
+        delete {
+            call.respond(
+                status = HttpStatusCode.NotFound,
+                message = NetworkErrorResponse(
+                    message = "Bearer token invalidation not implemented"
+                )
+            )
         }
     }
 }

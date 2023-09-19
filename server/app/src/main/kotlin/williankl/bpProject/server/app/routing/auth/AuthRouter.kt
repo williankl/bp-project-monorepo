@@ -12,11 +12,13 @@ import org.kodein.di.instance
 import williankl.bpProject.common.core.models.User
 import williankl.bpProject.common.core.models.network.response.NetworkErrorResponse
 import williankl.bpProject.common.core.models.network.response.UserCredentialResponse
+import williankl.bpProject.common.data.cypher.BeautifulCypher
 import williankl.bpProject.server.app.serverDi
 import williankl.bpProject.server.database.services.UserStorage
 
 internal object AuthRouter {
 
+    private val cypher by serverDi.instance<BeautifulCypher>()
     private val userService by serverDi.instance<UserStorage>()
 
     fun Route.authRoutes() {
@@ -37,7 +39,7 @@ internal object AuthRouter {
 
             if (foundUser != null && password != null) {
                 val userPassword = userService.userEncryptedPassword(foundUser.id)
-                    ?.let(::decryptPassword)
+                    ?.let(cypher::decrypt)
 
                 if (userPassword == password) {
                     val generatedBearerToken = generateBearerToken()
@@ -88,7 +90,7 @@ internal object AuthRouter {
 
                 userService.createUser(
                     user = createdUser,
-                    encryptedPassword = encryptPassword(password),
+                    encryptedPassword = cypher.encrypt(password),
                 )
 
                 call.respond(
@@ -111,13 +113,5 @@ internal object AuthRouter {
 
     private fun generateBearerToken(): String {
         return uuid4().toString()
-    }
-
-    private fun encryptPassword(password: String): String {
-        return password
-    }
-
-    private fun decryptPassword(encryptedPassword: String): String {
-        return encryptedPassword
     }
 }

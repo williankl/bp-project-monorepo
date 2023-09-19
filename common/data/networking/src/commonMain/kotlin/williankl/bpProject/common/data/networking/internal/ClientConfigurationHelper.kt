@@ -10,10 +10,9 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import io.ktor.http.parameters
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import williankl.bpProject.common.data.preferencesHandler.PreferencesHandler
+import williankl.bpProject.common.data.sessionHandler.PreferencesHandler
 
 internal class ClientConfigurationHelper(
     private val bpBaseUrl: String,

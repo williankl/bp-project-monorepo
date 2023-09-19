@@ -4,11 +4,13 @@ import kotlinx.coroutines.CoroutineDispatcher
 import williankl.bpProject.common.core.models.network.response.UserCredentialResponse
 import williankl.bpProject.common.data.auth.AuthService
 import williankl.bpProject.common.data.auth.model.LoginData
-import williankl.bpProject.common.data.preferencesHandler.PreferencesHandler
+import williankl.bpProject.common.data.sessionHandler.PreferencesHandler
+import williankl.bpProject.common.data.sessionHandler.Session
 import williankl.bpProject.common.platform.stateHandler.RunnerModel
 
 internal class AuthenticationRunnerModel(
     private val authService: AuthService,
+    private val session: Session,
     private val preferencesHandler: PreferencesHandler,
     dispatcher: CoroutineDispatcher,
 ) : RunnerModel<Unit>(
@@ -18,7 +20,8 @@ internal class AuthenticationRunnerModel(
 
     fun logIn(
         login: String,
-        password: String
+        password: String,
+        onSuccessful: () -> Unit,
     ) = runAsync {
         authService.logIn(
             loginData = LoginData(
@@ -26,12 +29,14 @@ internal class AuthenticationRunnerModel(
                 password = password
             )
         ).handleSuccessfulLogin()
+        onSuccessful()
     }
 
     fun signUp(
         userName: String,
         login: String,
-        password: String
+        password: String,
+        onSuccessful: () -> Unit,
     ) = runAsync {
         authService.signUp(
             loginData = LoginData(
@@ -40,11 +45,11 @@ internal class AuthenticationRunnerModel(
                 password = password
             )
         ).handleSuccessfulLogin()
+        onSuccessful()
     }
 
-    private fun UserCredentialResponse.handleSuccessfulLogin() {
-        preferencesHandler.setBearerToken(
-            token = bearerToken,
-        )
+    private suspend fun UserCredentialResponse.handleSuccessfulLogin() {
+        preferencesHandler.setBearerToken(bearerToken)
+        session.loggedInUser(true)
     }
 }
