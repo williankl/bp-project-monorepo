@@ -5,12 +5,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.staggeredgrid.items
@@ -71,33 +75,42 @@ internal object HomePage : BeautifulScreen() {
         presentation: HomeRunnerModel.HomePresentation,
         modifier: Modifier = Modifier,
     ) {
-        Column(
+        LazyColumn(
             modifier = modifier,
         ) {
             if (presentation.nearestPlaces.isNotEmpty()) {
-                LabeledContent(
-                    label = "Bla bla 1", // fixme - use localization
-                    withAction = { /* todo - redirect to listing screen */ },
-                    modifier = Modifier,
-                ) {
-                    SampleStaggeredItem(
-                        places = presentation.nearestPlaces,
-                        modifier = Modifier.height(500.dp),
-                    )
+                item {
+                    LabeledContent(
+                        label = "Bla bla 1", // fixme - use localization
+                        withAction = { /* todo - redirect to listing screen */ },
+                        modifier = Modifier,
+                    ) {
+                        SampleStaggeredItem(
+                            places = presentation.nearestPlaces,
+                            modifier = Modifier
+                                .padding(12.dp)
+                                .height(400.dp),
+                        )
+                    }
                 }
             }
             if (presentation.favouritePlaces.isNotEmpty()) {
-                LabeledContent(
-                    label = "Bla bla 2", // fixme - use localization
-                    withAction = { /* todo - redirect to listing screen */ },
-                    modifier = Modifier,
-                ) {
-                    LazyRow {
-                        items(presentation.favouritePlaces) { place ->
-                            SimplePlaceDisplay(
-                                place = place,
-                                modifier = Modifier,
-                            )
+                item {
+                    LabeledContent(
+                        label = "Bla bla 2", // fixme - use localization
+                        modifier = Modifier,
+                    ) {
+                        LazyRow(
+                            contentPadding = PaddingValues(horizontal = 12.dp),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            modifier = Modifier.fillMaxWidth(),
+                        ) {
+                            items(presentation.favouritePlaces) { place ->
+                                SimplePlaceDisplay(
+                                    place = place,
+                                    modifier = Modifier,
+                                )
+                            }
                         }
                     }
                 }
@@ -117,6 +130,7 @@ internal object HomePage : BeautifulScreen() {
             modifier: Modifier = Modifier,
         ) {
             Column(
+                verticalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = modifier,
             ) {
                 places.forEachIndexed { index, place ->
@@ -140,13 +154,14 @@ internal object HomePage : BeautifulScreen() {
         }
 
         Row(
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
             modifier = modifier,
         ) {
             validColumns.forEachIndexed { index, columnPlaces ->
                 WeightedColumn(
                     firstBigger = index % 2 == 0,
                     places = columnPlaces,
-                    modifier = Modifier,
+                    modifier = Modifier.weight(1f),
                 )
             }
         }
@@ -173,6 +188,7 @@ internal object HomePage : BeautifulScreen() {
                 text = place.displayName,
                 size = TextSize.XSmall,
                 maxLines = 2,
+                modifier = Modifier.widthIn(max = 100.dp),
             )
         }
     }
@@ -189,7 +205,9 @@ internal object HomePage : BeautifulScreen() {
             AsyncImage(
                 url = place.imageUrls.firstOrNull().orEmpty(),
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.clip(BeautifulShape.Rounded.Regular.composeShape),
+                modifier = Modifier
+                    .clip(BeautifulShape.Rounded.Regular.composeShape)
+                    .weight(1f),
             )
 
             Row(
@@ -202,10 +220,7 @@ internal object HomePage : BeautifulScreen() {
                     weight = FontWeight.SemiBold,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 2,
-                )
-
-                Spacer(
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 )
 
                 Text(
@@ -237,7 +252,8 @@ internal object HomePage : BeautifulScreen() {
                 Text(
                     text = label,
                     maxLines = 1,
-                    weight = FontWeight.Bold
+                    weight = FontWeight.Bold,
+                    size = TextSize.XXLarge
                 )
 
                 Spacer(
