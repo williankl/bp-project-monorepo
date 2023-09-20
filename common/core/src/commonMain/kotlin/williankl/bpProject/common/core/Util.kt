@@ -1,22 +1,26 @@
-package williankl.bpProject.server.app
+package williankl.bpProject.common.core
 
 import com.benasher44.uuid.Uuid
+import com.benasher44.uuid.uuid4
 
-internal val generateId: Uuid
-    get() = Uuid.randomUUID()
+public val generateId: Uuid
+    get() = uuid4()
 
-internal fun <T> parseOrNull(
+public fun <T> runOrNull(
     action: () -> T
 ): T? {
     return runCatching {
         action()
     }.fold(
         onSuccess = { it },
-        onFailure = { null },
+        onFailure = { error ->
+            println(error.message)
+            null
+        },
     )
 }
 
-internal suspend fun <T> runOrNull(
+public suspend fun <T> runOrNullSuspend(
     action: suspend () -> T
 ): T? {
     return runCatching {
@@ -24,8 +28,7 @@ internal suspend fun <T> runOrNull(
     }.fold(
         onSuccess = { it },
         onFailure = { error ->
-            println(error.localizedMessage)
-            error.printStackTrace()
+            println(error.message)
             null
         },
     )

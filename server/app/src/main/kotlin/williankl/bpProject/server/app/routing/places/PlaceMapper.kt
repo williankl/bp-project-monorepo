@@ -1,8 +1,8 @@
 package williankl.bpProject.server.app.routing.places
 
+import williankl.bpProject.common.core.generateId
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.data.placeService.models.SavingPlace
-import williankl.bpProject.server.app.generateId
 import java.util.UUID
 
 internal object PlaceMapper {
