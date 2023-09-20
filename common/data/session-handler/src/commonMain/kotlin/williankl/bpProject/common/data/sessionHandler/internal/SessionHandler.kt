@@ -17,14 +17,14 @@ internal class SessionHandler(
         const val USER_ENDPOINT = "/user"
     }
 
-    private var currentCachedUser = MutableStateFlow<User?>(null)
+    private val currentCachedUser = MutableStateFlow<User?>(null)
 
     override suspend fun loggedInUser(
         refreshSession: Boolean,
     ): User? {
-        currentCachedUser =
+        currentCachedUser.value =
             if (currentCachedUser.value == null || refreshSession) client.get(USER_ENDPOINT).body()
-            else currentCachedUser
+            else currentCachedUser.value
 
         return currentCachedUser.value
     }

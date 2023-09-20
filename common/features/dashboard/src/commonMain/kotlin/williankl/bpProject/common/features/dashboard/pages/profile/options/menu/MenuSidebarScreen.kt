@@ -145,7 +145,7 @@ internal object MenuSidebarScreen : BeautifulScreen() {
             modifier = modifier,
         ) {
             AsyncImage(
-                url = presentation.avatarUrl,
+                url = presentation.avatarUrl.orEmpty(),
                 onError = {
                     Image(
                         painter = painterResource(SharedDesignCoreResources.images.ic_profile),
@@ -164,9 +164,11 @@ internal object MenuSidebarScreen : BeautifulScreen() {
                 size = TextSize.XLarge,
             )
 
-            Text(
-                text = presentation.userTag,
-            )
+            if (presentation.userTag != null) {
+                Text(
+                    text = presentation.userTag,
+                )
+            }
         }
     }
 

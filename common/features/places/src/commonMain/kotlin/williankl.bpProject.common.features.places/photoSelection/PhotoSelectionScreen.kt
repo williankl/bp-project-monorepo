@@ -95,7 +95,9 @@ public data class PhotoSelectionScreen(
         modifier: Modifier = Modifier,
     ) {
         val strings = LocalPlacesStrings.current
-        val pagerState = rememberPagerState()
+        val pagerState = rememberPagerState(
+            pageCount = { presentation.imageDataList.size }
+        )
 
         var currentPageColor by remember {
             mutableStateOf(defaultImageColor)

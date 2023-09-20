@@ -20,9 +20,9 @@ internal class MenuSidebarRunnerModel(
     }
 
     internal data class MenuSidebarPresentation(
-        val avatarUrl: String = "",
         val userFullName: String = "",
-        val userTag: String = "",
+        val userTag: String? = null,
+        val avatarUrl: String? = null,
     )
 
     public fun logOutUser(
@@ -32,13 +32,14 @@ internal class MenuSidebarRunnerModel(
         session.clearSession()
         onLoggedOut()
     }
+
     private fun refreshPresentation() = setContent {
         val user = session.loggedInUser()
             ?: error("User should be logged in this state")
 
         MenuSidebarPresentation(
-            avatarUrl = user.tag,
-            userFullName = user.tag,
+            userFullName = user.name,
+            avatarUrl = user.avatarUrl,
             userTag = user.tag,
         )
     }

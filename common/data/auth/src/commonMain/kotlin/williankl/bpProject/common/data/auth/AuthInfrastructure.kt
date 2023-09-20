@@ -34,7 +34,7 @@ internal class AuthInfrastructure(
     override suspend fun signUp(loginData: LoginData): UserCredentialResponse {
         return client.get(SIGNUP_ENDPOINT) {
             parameter("email", loginData.email)
-            parameter("tag", loginData.userName)
+            parameter("name", loginData.userName)
             parameter("password", cypher.encrypt(loginData.password))
         }.body()
     }

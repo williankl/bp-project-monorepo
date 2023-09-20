@@ -78,6 +78,12 @@ internal class UserStorageInfrastructure(
         }
     }
 
+    override suspend fun invalidateBearerToken(token: String) {
+        withDatabase(driver) {
+            userBearerCredentialQueries.invalidateBearerToken(token)
+        }
+    }
+
     override suspend fun findUserByBearer(token: String): User? {
         return withDatabase(driver) {
             val bearerCredential = userBearerCredentialQueries.findBearerCredentialByToken(token)
@@ -85,9 +91,11 @@ internal class UserStorageInfrastructure(
                 .maxByOrNull { credential -> credential.createdAt }
 
             bearerCredential?.let { credential ->
-                userDataQueries.findUserById(credential.ownerId)
-                    .executeAsOneOrNull()
-                    ?.let(::toDomain)
+                if (credential.valid) {
+                    userDataQueries.findUserById(credential.ownerId)
+                        .executeAsOneOrNull()
+                        ?.let(::toDomain)
+                } else null
             }
         }
     }

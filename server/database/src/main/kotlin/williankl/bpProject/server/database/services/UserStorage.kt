@@ -26,6 +26,10 @@ public interface UserStorage {
         token: String,
     )
 
+    public suspend fun invalidateBearerToken(
+        token: String,
+    )
+
     public suspend fun findUserByBearer(
         token: String
     ): User?

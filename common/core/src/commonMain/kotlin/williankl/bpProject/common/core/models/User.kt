@@ -8,5 +8,7 @@ import williankl.bpProject.common.core.serializers.UuidSerializer
 public data class User(
     @Serializable(UuidSerializer::class) val id: Uuid,
     val email: String,
-    val tag: String,
+    val name: String,
+    val tag: String?,
+    val avatarUrl: String?,
 )

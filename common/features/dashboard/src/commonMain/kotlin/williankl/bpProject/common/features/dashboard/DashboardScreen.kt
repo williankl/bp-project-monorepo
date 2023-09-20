@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.animation.with
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -106,7 +107,7 @@ public data class DashboardScreen(
             ) {
                 AnimatedContent(
                     modifier = Modifier.fillMaxSize(),
-                    transitionSpec = { fadeIn() with fadeOut() },
+                    transitionSpec = { fadeIn() togetherWith fadeOut() },
                     targetState = when (currentAction) {
                         DashboardActions.Profile -> UserProfilePage
                         else -> HomePage

@@ -47,7 +47,9 @@ import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
 public fun ImagePager(
     images: List<ImageBitmap>,
     modifier: Modifier = Modifier,
-    state: PagerState = rememberPagerState(),
+    state: PagerState = rememberPagerState(
+        pageCount = { images.size },
+    ),
     contentPadding: PaddingValues = PaddingValues(0.dp),
     pageSize: PageSize = PageSize.Fill,
     beyondBoundsPageCount: Int = 0,
@@ -84,7 +86,6 @@ public fun ImagePager(
             pageSpacing = pageSpacing,
             verticalAlignment = verticalAlignment,
             userScrollEnabled = userScrollEnabled,
-            pageCount = images.size,
             modifier = Modifier.weight(1f),
         ) { page ->
             Image(
@@ -114,7 +115,9 @@ public fun <T> ActionedImagePager(
     actionResource: ImageResource,
     onActionClicked: (T) -> Unit,
     modifier: Modifier = Modifier,
-    state: PagerState = rememberPagerState(),
+    state: PagerState = rememberPagerState(
+        pageCount = { imageMap.size }
+    ),
     contentPadding: PaddingValues = PaddingValues(0.dp),
     pageSize: PageSize = PageSize.Fill,
     beyondBoundsPageCount: Int = 0,

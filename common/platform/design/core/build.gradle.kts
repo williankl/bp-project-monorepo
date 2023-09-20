@@ -17,6 +17,8 @@ addJvmTarget()
 dependencies {
     commonMainApi(compose.runtime)
     commonMainApi(compose.foundation)
+    commonMainApi(compose.material)
+    commonMainApi(compose.material3)
     commonMainApi(libs.moko.resourcesCompose)
     commonMainImplementation(compose.material)
     commonMainImplementation(compose.material3)
