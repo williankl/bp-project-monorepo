@@ -17,9 +17,9 @@ internal object DriverProvider {
     }
 
     fun provideDriver(): JdbcDriver {
-        HikariConfig()
-        val dataSource = HikariDataSource(propertiesConfiguration)
-        return dataSource.asJdbcDriver()
+        val driver = HikariDataSource(propertiesConfiguration).asJdbcDriver()
+        initializeDriver(driver)
+        return driver
     }
 
     fun <T> withDatabase(
@@ -30,6 +30,16 @@ internal object DriverProvider {
             BpProject.invoke(driver)
         ) {
             action()
+        }
+    }
+
+    private fun initializeDriver(driver: JdbcDriver) {
+        withDatabase(driver) {
+            placeDataQueries.createTableIfNeeded()
+            placeAddressQueries.createTableIfNeeded()
+            userDataQueries.createTableIfNeeded()
+            userCredentialsQueries.createTableIfNeeded()
+            userBearerCredentialQueries.createTableIfNeeded()
         }
     }
 

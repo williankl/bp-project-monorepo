@@ -16,12 +16,12 @@ import williankl.bpProject.common.core.models.network.response.UserCredentialRes
 import williankl.bpProject.common.data.cypher.BeautifulCypher
 import williankl.bpProject.server.app.configuration.AuthenticationHandler
 import williankl.bpProject.server.app.serverDi
-import williankl.bpProject.server.database.services.UserStorage
+import williankl.bpProject.server.database.services.AuthStorage
 
 internal object AuthRouter {
 
     private val cypher by serverDi.instance<BeautifulCypher>()
-    private val userService by serverDi.instance<UserStorage>()
+    private val authService by serverDi.instance<AuthStorage>()
 
     fun Route.authRoutes() {
         route("/auth") {
@@ -40,17 +40,17 @@ internal object AuthRouter {
             val password = call.parameters["password"]
 
             val foundUser = credential?.let {
-                userService.retrieveUser(credential)
+                authService.retrieveUser(credential)
             }
 
             if (foundUser != null && password != null) {
-                val userPassword = userService.userEncryptedPassword(foundUser.id)
+                val userPassword = authService.userEncryptedPassword(foundUser.id)
                     ?.let(cypher::decrypt)
 
                 if (userPassword == password) {
                     val generatedBearerToken = generateBearerToken()
 
-                    userService.attachBearerToken(
+                    authService.attachBearerToken(
                         userId = foundUser.id,
                         token = generatedBearerToken,
                     )
@@ -91,12 +91,12 @@ internal object AuthRouter {
 
                 val generatedBearerToken = generateBearerToken()
 
-                userService.createUser(
+                authService.createUser(
                     user = createdUser,
                     encryptedPassword = cypher.encrypt(password),
                 )
 
-                userService.attachBearerToken(
+                authService.attachBearerToken(
                     userId = createdUser.id,
                     token = generatedBearerToken,
                 )
@@ -123,7 +123,7 @@ internal object AuthRouter {
         delete {
             val bearerToken = call.parameters["Authorization"]
             if (bearerToken != null) {
-                userService.invalidateBearerToken(bearerToken)
+                authService.invalidateBearerToken(bearerToken)
                 call.respond(HttpStatusCode.NoContent)
             } else {
                 call.respond(HttpStatusCode.NotAcceptable)

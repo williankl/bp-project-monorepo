@@ -13,13 +13,6 @@ internal class PlaceStorageInfrastructure(
     private val driver: JdbcDriver,
 ) : PlaceStorage {
 
-    init {
-        withDatabase(driver) {
-            placeDataQueries.createTableIfNeeded()
-            placeAddressQueries.createTableIfNeeded()
-        }
-    }
-
     override suspend fun savePlace(place: Place) {
         withDatabase(driver) {
             placeDataQueries.createFullPlace(toPlaceData(place))
