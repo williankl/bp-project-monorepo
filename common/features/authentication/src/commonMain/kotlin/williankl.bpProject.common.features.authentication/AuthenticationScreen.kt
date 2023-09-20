@@ -53,10 +53,14 @@ import williankl.bpProject.common.platform.stateHandler.LocalRouter
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication.Login.AuthenticationFlow
 import williankl.bpProject.common.platform.stateHandler.navigation.models.NavigationDestination
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
+import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig
 
 public class AuthenticationScreen(
     private val startingFlow: AuthenticationFlow = AuthenticationFlow.Login
 ) : BeautifulScreen() {
+
+    override val toolbarConfig: ToolbarConfig
+        @Composable get() = remember { ToolbarConfig() }
 
     @Composable
     override fun BeautifulContent() {
