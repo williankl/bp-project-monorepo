@@ -21,17 +21,17 @@ internal class UserStorageInfrastructure(
 
     override suspend fun findUserByBearer(token: String): User? {
         return withDatabase(driver) {
-            val bearerCredential = userBearerCredentialQueries.findBearerCredentialByToken(token)
+            val bearerCredentials = userBearerCredentialQueries.findBearerCredentialByToken(token)
                 .executeAsList()
-                .maxByOrNull { credential -> credential.createdAt }
 
-            bearerCredential?.let { credential ->
-                if (credential.valid) {
-                    userDataQueries.findUserById(credential.ownerId)
+            bearerCredentials
+                .firstOrNull { credential -> token == credential.token && credential.valid }
+                ?.ownerId
+                ?.let { ownerId ->
+                    userDataQueries.findUserById(ownerId)
                         .executeAsOneOrNull()
                         ?.let(::toDomain)
-                } else null
-            }
+                }
         }
     }
 }

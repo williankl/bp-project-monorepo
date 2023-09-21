@@ -1,5 +1,6 @@
 package williankl.bpProject.server.app.routing.places
 
+import java.util.Date
 import williankl.bpProject.common.core.generateId
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.data.placeService.models.SavingPlace
@@ -15,6 +16,9 @@ internal object PlaceMapper {
             address = address,
             imageUrls = imageUrls,
             seasons = seasons,
+            tags = tags,
+            state = state,
+            createdAt = Date().time,
         )
     }
 }

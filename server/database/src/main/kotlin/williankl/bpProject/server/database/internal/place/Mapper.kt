@@ -3,13 +3,12 @@ package williankl.bpProject.server.database.internal.place
 import place.PlaceAddressData
 import place.PlaceData
 import williankl.bpProject.common.core.models.Place
-import williankl.bpProject.common.core.models.Place.PlaceAddress
-import williankl.bpProject.common.core.models.Place.PlaceAddress.PlaceAddressCoordinate
+import williankl.bpProject.common.core.models.Place.*
 import williankl.bpProject.common.core.models.Season
 
 internal object Mapper {
 
-    private const val IMAGE_SEPARATOR = "|"
+    private const val LIST_SEPARATOR = "|"
 
     fun toDomain(
         from: PlaceData,
@@ -27,14 +26,17 @@ internal object Mapper {
                         street = street,
                         city = city,
                         country = country,
-                        coordinates = PlaceAddressCoordinate(
-                            latitude = latitude.toDouble(),
-                            longitude = longitude.toDouble(),
+                        coordinates = PlaceAddress.PlaceCoordinate(
+                            latitude = latitude,
+                            longitude = longitude,
                         )
                     )
                 },
-                imageUrls = images?.split(IMAGE_SEPARATOR).orEmpty(),
-                seasons = seasons.split(IMAGE_SEPARATOR).sanitizeSeasonList(),
+                imageUrls = images?.split(LIST_SEPARATOR).orEmpty(),
+                seasons = seasons.split(LIST_SEPARATOR).sanitizeSeasonList(),
+                tags = seasons.split(LIST_SEPARATOR).sanitizeTagList(),
+                state = state.sanitizeState(),
+                createdAt = createdAt,
             )
         }
     }
@@ -47,8 +49,11 @@ internal object Mapper {
                 name = displayName,
                 description = description,
                 addressId = address.id,
-                images = imageUrls.joinToString(IMAGE_SEPARATOR),
-                seasons = seasons.joinToString(IMAGE_SEPARATOR),
+                images = imageUrls.joinToString(LIST_SEPARATOR),
+                seasons = seasons.joinToString(LIST_SEPARATOR),
+                tags = tags.joinToString(LIST_SEPARATOR),
+                createdAt = createdAt,
+                state = state.name
             )
         }
     }
@@ -60,8 +65,8 @@ internal object Mapper {
                 city = city,
                 country = country,
                 street = street,
-                latitude = coordinates.latitude.toString(),
-                longitude = coordinates.longitude.toString(),
+                latitude = coordinates.latitude,
+                longitude = coordinates.longitude,
             )
         }
     }
@@ -70,5 +75,17 @@ internal object Mapper {
         return mapNotNull { code ->
             Season.entries.firstOrNull { season -> season.name == code }
         }
+    }
+
+    private fun List<String>.sanitizeTagList(): List<PlaceTag> {
+        return mapNotNull { code ->
+            PlaceTag.entries.firstOrNull { tag -> tag.name == code }
+        }
+    }
+
+    private fun String.sanitizeState(): PlaceState {
+        return PlaceState.entries
+            .firstOrNull { entry -> entry.name == this }
+            ?: error("$this not mapped as place state")
     }
 }

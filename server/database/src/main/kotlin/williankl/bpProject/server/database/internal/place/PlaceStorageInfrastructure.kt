@@ -1,6 +1,7 @@
 package williankl.bpProject.server.database.internal.place
 
 import app.cash.sqldelight.driver.jdbc.JdbcDriver
+import com.benasher44.uuid.Uuid
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.server.database.internal.DriverProvider.withDatabase
 import williankl.bpProject.server.database.internal.place.Mapper.toAddressData
@@ -8,6 +9,7 @@ import williankl.bpProject.server.database.internal.place.Mapper.toDomain
 import williankl.bpProject.server.database.internal.place.Mapper.toPlaceData
 import williankl.bpProject.server.database.services.PlaceStorage
 import java.util.*
+import williankl.bpProject.common.core.models.network.request.PlaceDistanceQuery
 
 internal class PlaceStorageInfrastructure(
     private val driver: JdbcDriver,
@@ -20,22 +22,25 @@ internal class PlaceStorageInfrastructure(
         }
     }
 
-    override suspend fun retrievePlaces(page: Int, limit: Int): List<Place> {
+    override suspend fun retrievePlaces(
+        page: Int,
+        limit: Int,
+        ownerId: Uuid?,
+        state: Place.PlaceState?,
+        distance: PlaceDistanceQuery?,
+    ): List<Place> {
         return withDatabase(driver) {
             val placeDataList = placeDataQueries.listPlaces(
+                ownerId,
+                state?.name,
+                distance?.coordinates?.latitude,
+                distance?.coordinates?.longitude,
+                distance?.coordinatePadding,
                 limit.toLong(),
                 (limit * page).toLong()
             )
-                .executeAsList()
 
-            placeDataList.mapNotNull { placeData ->
-                val addressData = placeAddressQueries.findAddressById(placeData.addressId)
-                    .executeAsOneOrNull()
-
-                if (addressData != null) {
-                    toDomain(placeData, addressData)
-                } else null
-            }
+            emptyList()
         }
     }
 
@@ -80,8 +85,8 @@ internal class PlaceStorageInfrastructure(
                     street = street,
                     city = city,
                     country = country,
-                    latitude = coordinates.latitude.toString(),
-                    longitude = coordinates.longitude.toString(),
+                    latitude = coordinates.latitude,
+                    longitude = coordinates.longitude,
                 )
             }
         }

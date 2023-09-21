@@ -6,7 +6,7 @@ import com.chrynan.uri.core.Uri
 import com.chrynan.uri.core.fromString
 import kotlinx.coroutines.CoroutineDispatcher
 import williankl.bpProject.common.core.models.Place.PlaceAddress
-import williankl.bpProject.common.core.models.Place.PlaceAddress.PlaceAddressCoordinate
+import williankl.bpProject.common.core.models.Place.PlaceAddress.PlaceCoordinate
 import williankl.bpProject.common.data.firebaseIntegration.FirebaseIntegration
 import williankl.bpProject.common.data.imageRetrievalService.retriever.ImageRetriever
 import williankl.bpProject.common.data.imageRetrievalService.toImageBitmap
@@ -69,7 +69,7 @@ internal class PlaceCreationRunnerModel(
                         street = address.street,
                         city = address.city,
                         country = address.country,
-                        coordinates = PlaceAddressCoordinate(
+                        coordinates = PlaceCoordinate(
                             latitude = coordinate.latitude,
                             longitude = coordinate.longitude
                         ),

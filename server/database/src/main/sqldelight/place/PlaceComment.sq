@@ -1,0 +1,22 @@
+createTableIfNeeded:
+CREATE TABLE IF NOT EXISTS PlaceComment (
+  id uuid PRIMARY KEY NOT NULL,
+  placeId uuid NOT NULL,
+  placedAt bigint NOT NULL,
+  rating int NOT NULL,
+  lastEditedAt bigint,
+  message text
+);
+
+createFullPlace:
+INSERT INTO PlaceComment(id, placeId, placedAt, rating, lastEditedAt, message)
+VALUES ?;
+
+findPlaceComment:
+SELECT * FROM PlaceComment
+WHERE id = ?;
+
+listPlaces:
+SELECT * FROM PlaceComment
+WHERE placeId = ?
+LIMIT ? OFFSET ?;

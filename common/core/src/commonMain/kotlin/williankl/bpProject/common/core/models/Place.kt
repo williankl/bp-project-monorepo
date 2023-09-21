@@ -12,11 +12,17 @@ public data class Place(
     val description: String?,
     val address: PlaceAddress,
     val imageUrls: List<String>,
+    val tags: List<PlaceTag>,
+    val state: PlaceState,
     val seasons: List<Season> = emptyList(),
-
+    val createdAt: Long,
 ) {
     public enum class PlaceTag {
         Nature, City, Beach, Mountains, CountrySide,
+    }
+
+    public enum class PlaceState {
+        Published, Private, Disabled
     }
 
     @Serializable
@@ -25,10 +31,10 @@ public data class Place(
         val street: String,
         val city: String,
         val country: String,
-        val coordinates: PlaceAddressCoordinate,
+        val coordinates: PlaceCoordinate,
     ) {
         @Serializable
-        public data class PlaceAddressCoordinate(
+        public data class PlaceCoordinate(
             val latitude: Double,
             val longitude: Double,
         )

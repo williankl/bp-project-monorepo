@@ -6,11 +6,14 @@ CREATE TABLE IF NOT EXISTS PlaceData (
   description text,
   addressId uuid NOT NULL,
   images text,
-  seasons text NOT NULL
+  seasons text NOT NULL,
+  tags text NOT NULL,
+  state text NOT NULL,
+  createdAt bigint NOT NULL
 );
 
 createFullPlace:
-INSERT INTO PlaceData(id, ownerId, name, description, addressId, images, seasons)
+INSERT INTO PlaceData(id, ownerId, name, description, addressId, images, seasons, tags, state, createdAt)
 VALUES ?;
 
 findPlaceById:
@@ -19,6 +22,15 @@ WHERE id = ?;
 
 listPlaces:
 SELECT * FROM PlaceData
+INNER JOIN PlaceAddressData ON PlaceAddressData.id = PlaceData.addressId
+WHERE (:owner = ownerId OR :owner IS NULL)
+AND (:state = state OR :state IS NULL)
+AND (
+    (
+        (latitude BETWEEN (CAST(:latitude AS double precision) - CAST(:padding AS double precision)) AND (CAST(:latitude AS double precision) + CAST(:padding AS double precision)))
+        AND (longitude BETWEEN (CAST(:longitude AS double precision) - CAST(:padding AS double precision)) AND (CAST(:longitude AS double precision) + CAST(:padding AS double precision)))
+    ) OR (CAST(:latitude AS double precision) IS NULL AND CAST(:longitude AS double precision) IS NULL AND CAST(:padding AS double precision) IS NULL)
+)
 LIMIT ? OFFSET ?;
 
 updatePlaceData:
