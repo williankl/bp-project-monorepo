@@ -30,7 +30,7 @@ internal class PlaceStorageInfrastructure(
         distance: PlaceDistanceQuery?,
     ): List<Place> {
         return withDatabase(driver) {
-            val placeDataList = placeDataQueries.listPlaces(
+            placeDataQueries.listPlaces(
                 ownerId,
                 state?.name,
                 distance?.coordinates?.latitude,
@@ -39,24 +39,16 @@ internal class PlaceStorageInfrastructure(
                 limit.toLong(),
                 (limit * page).toLong()
             )
-
-            emptyList()
+                .executeAsList()
+                .map(::toDomain)
         }
     }
 
     override suspend fun retrievePlace(id: UUID): Place? {
         return withDatabase(driver) {
-            val placeData = placeDataQueries.findPlaceById(id)
+            placeDataQueries.findPlaceById(id)
                 .executeAsOneOrNull()
-
-            val addressData =
-                placeData?.addressId
-                    ?.let(placeAddressQueries::findAddressById)
-                    ?.executeAsOneOrNull()
-
-            if (placeData != null && addressData != null) {
-                toDomain(placeData, addressData)
-            } else null
+                ?.let(::toDomain)
         }
     }
 

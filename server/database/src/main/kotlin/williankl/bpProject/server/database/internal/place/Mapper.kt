@@ -1,5 +1,7 @@
 package williankl.bpProject.server.database.internal.place
 
+import place.FindPlaceById
+import place.ListPlaces
 import place.PlaceAddressData
 import place.PlaceData
 import williankl.bpProject.common.core.models.Place
@@ -10,28 +12,51 @@ internal object Mapper {
 
     private const val LIST_SEPARATOR = "|"
 
-    fun toDomain(
-        from: PlaceData,
-        address: PlaceAddressData,
-    ): Place {
-        return with(from) {
+    fun toDomain(joinedData: ListPlaces): Place {
+        return with(joinedData) {
             Place(
                 id = id,
                 ownerId = ownerId,
                 displayName = name,
                 description = description,
-                address = with(address) {
-                    PlaceAddress(
-                        id = id,
-                        street = street,
-                        city = city,
-                        country = country,
-                        coordinates = PlaceAddress.PlaceCoordinate(
-                            latitude = latitude,
-                            longitude = longitude,
-                        )
+                address = PlaceAddress(
+                    id = id,
+                    street = street,
+                    city = city,
+                    country = country,
+                    coordinates = PlaceAddress.PlaceCoordinate(
+                        latitude = latitude,
+                        longitude = longitude,
                     )
-                },
+                ),
+                imageUrls = images?.split(LIST_SEPARATOR).orEmpty(),
+                seasons = seasons.split(LIST_SEPARATOR).sanitizeSeasonList(),
+                tags = seasons.split(LIST_SEPARATOR).sanitizeTagList(),
+                state = state.sanitizeState(),
+                createdAt = createdAt,
+            )
+        }
+    }
+
+    fun toDomain(
+        joinedData: FindPlaceById,
+    ): Place {
+        return with(joinedData) {
+            Place(
+                id = id,
+                ownerId = ownerId,
+                displayName = name,
+                description = description,
+                address = PlaceAddress(
+                    id = id,
+                    street = street,
+                    city = city,
+                    country = country,
+                    coordinates = PlaceAddress.PlaceCoordinate(
+                        latitude = latitude,
+                        longitude = longitude,
+                    )
+                ),
                 imageUrls = images?.split(LIST_SEPARATOR).orEmpty(),
                 seasons = seasons.split(LIST_SEPARATOR).sanitizeSeasonList(),
                 tags = seasons.split(LIST_SEPARATOR).sanitizeTagList(),

@@ -18,7 +18,8 @@ VALUES ?;
 
 findPlaceById:
 SELECT * FROM PlaceData
-WHERE id = ?;
+INNER JOIN PlaceAddressData ON PlaceAddressData.id = PlaceData.addressId
+WHERE PlaceData.id = ?;
 
 listPlaces:
 SELECT * FROM PlaceData
@@ -29,7 +30,7 @@ AND (
     (
         (latitude BETWEEN (CAST(:latitude AS double precision) - CAST(:padding AS double precision)) AND (CAST(:latitude AS double precision) + CAST(:padding AS double precision)))
         AND (longitude BETWEEN (CAST(:longitude AS double precision) - CAST(:padding AS double precision)) AND (CAST(:longitude AS double precision) + CAST(:padding AS double precision)))
-    ) OR (CAST(:latitude AS double precision) IS NULL AND CAST(:longitude AS double precision) IS NULL AND CAST(:padding AS double precision) IS NULL)
+    ) OR (:latitude IS NULL AND :longitude IS NULL AND :padding IS NULL)
 )
 LIMIT ? OFFSET ?;
 
