@@ -2,8 +2,6 @@ package williankl.bpProject.common.core.models
 
 import com.benasher44.uuid.Uuid
 import kotlinx.serialization.Serializable
-import williankl.bpProject.common.core.models.Place.PlaceAddress
-import williankl.bpProject.common.core.models.Season
 import williankl.bpProject.common.core.serializers.UuidSerializer
 
 @Serializable

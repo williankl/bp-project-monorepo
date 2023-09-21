@@ -17,6 +17,9 @@ import williankl.bpProject.common.core.models.network.response.NetworkErrorRespo
 import williankl.bpProject.common.core.runOrNullSuspend
 import williankl.bpProject.common.data.placeService.models.SavingPlace
 import williankl.bpProject.server.app.configuration.AuthenticationHandler
+import williankl.bpProject.server.app.routing.places.PlaceMapper.retrieveDistanceQuery
+import williankl.bpProject.server.app.routing.places.PlaceMapper.retrieveQueryOwnerId
+import williankl.bpProject.server.app.routing.places.PlaceMapper.retrieveStateQuery
 import williankl.bpProject.server.app.routing.places.PlaceMapper.toPlace
 import williankl.bpProject.server.app.serverDi
 import williankl.bpProject.server.database.services.PlaceStorage
@@ -66,7 +69,11 @@ internal object PlaceRouter {
             val limit = call.parameters["limit"]?.toIntOrNull()
 
             if (page != null && limit != null) {
-                val placesFound = placesService.retrievePlaces(page, limit)
+                val ownerId = retrieveQueryOwnerId()
+                val distanceQuery = retrieveDistanceQuery()
+                val state = retrieveStateQuery()
+
+                val placesFound = placesService.retrievePlaces(page, limit, ownerId, state, distanceQuery)
                 when {
                     placesFound.isEmpty() -> call.respond(HttpStatusCode.NoContent)
                     else -> call.respond(

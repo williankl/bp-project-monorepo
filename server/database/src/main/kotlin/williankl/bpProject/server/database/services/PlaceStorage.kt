@@ -3,8 +3,8 @@ package williankl.bpProject.server.database.services
 import com.benasher44.uuid.Uuid
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.Place.PlaceAddress
-import java.util.UUID
 import williankl.bpProject.common.core.models.network.request.PlaceDistanceQuery
+import java.util.UUID
 
 public interface PlaceStorage {
     public suspend fun savePlace(place: Place)

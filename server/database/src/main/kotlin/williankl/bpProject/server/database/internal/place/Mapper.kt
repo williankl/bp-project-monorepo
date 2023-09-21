@@ -1,13 +1,11 @@
 package williankl.bpProject.server.database.internal.place
 
 import com.benasher44.uuid.Uuid
-import java.util.Date
 import place.FindPlaceById
 import place.ListPlaces
 import place.ListPlacesComments
 import place.PlaceAddressData
 import place.PlaceData
-import place.PlaceRating as DBPlaceRating
 import williankl.bpProject.common.core.generateId
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.Place.*
@@ -15,6 +13,8 @@ import williankl.bpProject.common.core.models.PlaceRating
 import williankl.bpProject.common.core.models.Season
 import williankl.bpProject.common.core.models.User
 import williankl.bpProject.common.core.models.network.request.PlaceRatingRequest
+import java.util.Date
+import place.PlaceRating as DBPlaceRating
 
 internal object Mapper {
 

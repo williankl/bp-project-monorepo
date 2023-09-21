@@ -6,5 +6,5 @@ import williankl.bpProject.common.core.models.Place.PlaceAddress.PlaceCoordinate
 @Serializable
 public data class PlaceDistanceQuery(
     val coordinates: PlaceCoordinate,
-    val coordinatePadding: Double = 10.0,
+    val maxDistance: Double,
 )
