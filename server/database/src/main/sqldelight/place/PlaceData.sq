@@ -28,8 +28,8 @@ WHERE (:owner = ownerId OR :owner IS NULL)
 AND (:state = state OR :state IS NULL)
 AND (
     (
-        (latitude BETWEEN (CAST(:latitude AS double precision) - CAST(:padding AS double precision)) AND (CAST(:latitude AS double precision) + CAST(:padding AS double precision)))
-        AND (longitude BETWEEN (CAST(:longitude AS double precision) - CAST(:padding AS double precision)) AND (CAST(:longitude AS double precision) + CAST(:padding AS double precision)))
+        (latitude BETWEEN (:latitude - CAST(:padding AS double precision)) AND (:latitude + CAST(:padding AS double precision)))
+        AND (longitude BETWEEN (:longitude - CAST(:padding AS double precision)) AND (:longitude + CAST(:padding AS double precision)))
     ) OR (:latitude IS NULL AND :longitude IS NULL AND :padding IS NULL)
 )
 LIMIT ? OFFSET ?;
