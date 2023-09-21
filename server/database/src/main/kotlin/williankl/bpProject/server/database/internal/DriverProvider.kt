@@ -36,6 +36,7 @@ internal object DriverProvider {
     private fun initializeDriver(driver: JdbcDriver) {
         withDatabase(driver) {
             placeDataQueries.createTableIfNeeded()
+            placeRatingQueries.createTableIfNeeded()
             placeAddressQueries.createTableIfNeeded()
             userDataQueries.createTableIfNeeded()
             userCredentialsQueries.createTableIfNeeded()

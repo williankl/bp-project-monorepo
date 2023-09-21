@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS PlaceData (
   createdAt bigint NOT NULL
 );
 
-createFullPlace:
+create:
 INSERT INTO PlaceData(id, ownerId, name, description, addressId, images, seasons, tags, state, createdAt)
 VALUES ?;
 

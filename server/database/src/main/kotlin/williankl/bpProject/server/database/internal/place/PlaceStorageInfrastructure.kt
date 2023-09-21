@@ -17,8 +17,8 @@ internal class PlaceStorageInfrastructure(
 
     override suspend fun savePlace(place: Place) {
         withDatabase(driver) {
-            placeDataQueries.createFullPlace(toPlaceData(place))
-            placeAddressQueries.createFullAddress(toAddressData(place.address))
+            placeDataQueries.create(toPlaceData(place))
+            placeAddressQueries.create(toAddressData(place.address))
         }
     }
 

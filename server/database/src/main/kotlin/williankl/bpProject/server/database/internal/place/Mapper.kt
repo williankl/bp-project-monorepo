@@ -1,16 +1,64 @@
 package williankl.bpProject.server.database.internal.place
 
+import com.benasher44.uuid.Uuid
+import java.util.Date
 import place.FindPlaceById
 import place.ListPlaces
+import place.ListPlacesComments
 import place.PlaceAddressData
 import place.PlaceData
+import place.PlaceRating as DBPlaceRating
+import williankl.bpProject.common.core.generateId
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.Place.*
+import williankl.bpProject.common.core.models.PlaceRating
 import williankl.bpProject.common.core.models.Season
+import williankl.bpProject.common.core.models.User
+import williankl.bpProject.common.core.models.network.request.PlaceRatingRequest
 
 internal object Mapper {
 
     private const val LIST_SEPARATOR = "|"
+
+    fun toDomain(
+        ownerId: Uuid,
+        placeId: Uuid,
+        placeRatingRequest: PlaceRatingRequest
+    ): DBPlaceRating {
+        return with(placeRatingRequest) {
+            DBPlaceRating(
+                id = generateId,
+                placeId = placeId,
+                ownerId = ownerId,
+                message = comment,
+                rating = rating,
+                placedAt = Date().time,
+                lastEditedAt = null,
+            )
+        }
+    }
+
+    fun toDomain(
+        joinedData: ListPlacesComments,
+    ): PlaceRating {
+        return with(joinedData) {
+            PlaceRating(
+                id = generateId,
+                placeId = placeId,
+                comment = message,
+                rating = rating,
+                createdAt = placedAt,
+                updatedAt = lastEditedAt,
+                ownerData = User(
+                    id = id,
+                    name = name,
+                    email = email,
+                    tag = tag,
+                    avatarUrl = avatarUrl,
+                )
+            )
+        }
+    }
 
     fun toDomain(joinedData: ListPlaces): Place {
         return with(joinedData) {

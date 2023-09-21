@@ -21,7 +21,7 @@ internal class AuthenticationStorageInfrastructure(
         encryptedPassword: String,
     ) {
         withDatabase(driver) {
-            userDataQueries.createFullUser(fromDomain(user))
+            userDataQueries.create(fromDomain(user))
             userCredentialsQueries.createPassword(
                 UserCredentials(
                     ownerId = user.id,

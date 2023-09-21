@@ -7,6 +7,10 @@ CREATE TABLE IF NOT EXISTS UserData (
   avatarUrl text
 );
 
+create:
+INSERT INTO UserData(id, email, name, tag, avatarUrl)
+VALUES ?;
+
 findUserByEmail:
 SELECT * FROM UserData
 WHERE email = ?;
@@ -28,7 +32,3 @@ updateAvatarUrl:
 UPDATE UserData
 SET avatarUrl = ?
 WHERE id = ?;
-
-createFullUser:
-INSERT INTO UserData(id, email, name, tag, avatarUrl)
-VALUES ?;

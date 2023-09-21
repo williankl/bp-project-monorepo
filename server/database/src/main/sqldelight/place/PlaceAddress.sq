@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS PlaceAddressData (
   longitude double precision NOT NULL
 );
 
-createFullAddress:
+create:
 INSERT INTO PlaceAddressData(id, street, city, country, latitude, longitude)
 VALUES ?;
 
