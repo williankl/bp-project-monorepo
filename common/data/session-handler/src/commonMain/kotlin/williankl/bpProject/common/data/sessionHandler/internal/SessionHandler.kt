@@ -2,7 +2,6 @@ package williankl.bpProject.common.data.sessionHandler.internal
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import kotlinx.coroutines.flow.MutableStateFlow
 import williankl.bpProject.common.core.models.User
@@ -18,14 +17,14 @@ internal class SessionHandler(
         const val USER_ENDPOINT = "/user"
     }
 
-    private var currentCachedUser = MutableStateFlow<User?>(null)
+    private val currentCachedUser = MutableStateFlow<User?>(null)
 
     override suspend fun loggedInUser(
         refreshSession: Boolean,
     ): User? {
-        currentCachedUser =
+        currentCachedUser.value =
             if (currentCachedUser.value == null || refreshSession) client.get(USER_ENDPOINT).body()
-            else currentCachedUser
+            else currentCachedUser.value
 
         return currentCachedUser.value
     }

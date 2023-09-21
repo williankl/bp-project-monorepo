@@ -1,8 +1,11 @@
 package williankl.bpProject.server.app.routing.places
 
+import com.benasher44.uuid.uuidFrom
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
+import io.ktor.server.auth.UserIdPrincipal
 import io.ktor.server.auth.authenticate
+import io.ktor.server.auth.principal
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
@@ -11,11 +14,9 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import org.kodein.di.instance
 import williankl.bpProject.common.core.models.network.response.NetworkErrorResponse
+import williankl.bpProject.common.core.runOrNullSuspend
 import williankl.bpProject.common.data.placeService.models.SavingPlace
 import williankl.bpProject.server.app.configuration.AuthenticationHandler
-import williankl.bpProject.server.app.generateId
-import williankl.bpProject.server.app.parseOrNull
-import williankl.bpProject.server.app.parseOrNullSuspend
 import williankl.bpProject.server.app.routing.places.PlaceMapper.toPlace
 import williankl.bpProject.server.app.serverDi
 import williankl.bpProject.server.database.services.PlaceStorage
@@ -39,9 +40,13 @@ internal object PlaceRouter {
 
     private fun Route.savePlaceRoute() {
         post {
-            val received = parseOrNullSuspend { call.receive<SavingPlace>() }
-            if (received != null) {
-                val generatedPlace = received.toPlace(generateId) // fixme - use user id once created
+            val received = runOrNullSuspend { call.receive<SavingPlace>() }
+            val userId = call.principal<UserIdPrincipal>()
+                ?.name
+                ?.let(::uuidFrom)
+
+            if (received != null && userId != null) {
+                val generatedPlace = received.toPlace(userId)
                 placesService.savePlace(generatedPlace)
                 call.respond(HttpStatusCode.OK)
             } else {
@@ -76,7 +81,7 @@ internal object PlaceRouter {
     private fun Route.idRouting() {
         get {
             val id = call.parameters["id"]
-            val uuid = parseOrNull { UUID.fromString(id) }
+            val uuid = runOrNullSuspend { UUID.fromString(id) }
             if (uuid != null) {
                 val placeFound = placesService.retrievePlace(uuid)
                 when {

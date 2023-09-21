@@ -4,7 +4,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.lifecycle.LifecycleEffect
 import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
@@ -60,7 +59,7 @@ public data class DashboardScreen(
         val imageRetrievalController = LocalImageRetrievalController.currentOrThrow
         val router = LocalRouter.currentOrThrow
 
-        LaunchedEffect(Unit){
+        LaunchedEffect(Unit) {
             runnerModel.refreshPresentation()
         }
 
@@ -107,7 +106,7 @@ public data class DashboardScreen(
             ) {
                 AnimatedContent(
                     modifier = Modifier.fillMaxSize(),
-                    transitionSpec = { fadeIn() with fadeOut() },
+                    transitionSpec = { fadeIn() togetherWith fadeOut() },
                     targetState = when (currentAction) {
                         DashboardActions.Profile -> UserProfilePage
                         else -> HomePage

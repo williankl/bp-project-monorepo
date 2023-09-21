@@ -5,7 +5,6 @@ import williankl.bpProject.common.data.auth.AuthService
 import williankl.bpProject.common.data.sessionHandler.Session
 import williankl.bpProject.common.features.dashboard.pages.profile.options.menu.MenuSidebarRunnerModel.MenuSidebarPresentation
 import williankl.bpProject.common.platform.stateHandler.RunnerModel
-import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication
 
 internal class MenuSidebarRunnerModel(
     private val authService: AuthService,
@@ -21,9 +20,9 @@ internal class MenuSidebarRunnerModel(
     }
 
     internal data class MenuSidebarPresentation(
-        val avatarUrl: String = "",
         val userFullName: String = "",
-        val userTag: String = "",
+        val userTag: String? = null,
+        val avatarUrl: String? = null,
     )
 
     public fun logOutUser(
@@ -33,13 +32,14 @@ internal class MenuSidebarRunnerModel(
         session.clearSession()
         onLoggedOut()
     }
+
     private fun refreshPresentation() = setContent {
         val user = session.loggedInUser()
             ?: error("User should be logged in this state")
 
         MenuSidebarPresentation(
-            avatarUrl = user.tag,
-            userFullName = user.tag,
+            userFullName = user.name,
+            avatarUrl = user.avatarUrl,
             userTag = user.tag,
         )
     }

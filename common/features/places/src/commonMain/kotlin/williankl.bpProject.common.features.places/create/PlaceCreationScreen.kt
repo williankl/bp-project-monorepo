@@ -59,7 +59,6 @@ internal data class PlaceCreationScreen(
             PlaceCreationContent(
                 presentation = presentation,
                 images = presentation.images,
-                onBackRequested = navigator::pop,
                 onPublishRequested = { runnerModel.publishImage(imageUriList) },
                 modifier = Modifier
                     .fillMaxSize()
@@ -72,7 +71,6 @@ internal data class PlaceCreationScreen(
     private fun PlaceCreationContent(
         presentation: PlaceCreationPresentation,
         images: List<ImageBitmap>,
-        onBackRequested: () -> Unit,
         onPublishRequested: () -> Unit,
         modifier: Modifier = Modifier,
     ) {

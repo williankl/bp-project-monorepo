@@ -9,8 +9,10 @@ internal object Mapper {
         return with(from) {
             User(
                 id = id,
-                tag = tag,
+                name = name,
                 email = email,
+                avatarUrl = avatarUrl,
+                tag = tag,
             )
         }
     }
@@ -19,7 +21,9 @@ internal object Mapper {
         return with(from) {
             UserData(
                 id = id,
+                name = name,
                 email = email,
+                avatarUrl = avatarUrl,
                 tag = tag,
             )
         }

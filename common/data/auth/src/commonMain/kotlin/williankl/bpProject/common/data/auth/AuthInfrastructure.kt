@@ -5,7 +5,6 @@ import io.ktor.client.call.body
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
-import io.ktor.client.request.post
 import williankl.bpProject.common.core.models.network.response.UserCredentialResponse
 import williankl.bpProject.common.data.auth.model.LoginData
 import williankl.bpProject.common.data.cypher.BeautifulCypher
@@ -22,7 +21,7 @@ internal class AuthInfrastructure(
     }
 
     override suspend fun logIn(loginData: LoginData): UserCredentialResponse {
-        return client.post(LOGIN_ENDPOINT) {
+        return client.get(LOGIN_ENDPOINT) {
             parameter("credential", loginData.userName ?: loginData.email)
             parameter("password", loginData.password)
         }.body()
@@ -33,9 +32,9 @@ internal class AuthInfrastructure(
     }
 
     override suspend fun signUp(loginData: LoginData): UserCredentialResponse {
-        return client.post(SIGNUP_ENDPOINT) {
+        return client.get(SIGNUP_ENDPOINT) {
             parameter("email", loginData.email)
-            parameter("tag", loginData.userName)
+            parameter("name", loginData.userName)
             parameter("password", cypher.encrypt(loginData.password))
         }.body()
     }
