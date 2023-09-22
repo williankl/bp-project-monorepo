@@ -9,6 +9,7 @@ android {
 dependencies {
     commonMainImplementation(projects.common.core)
     commonMainImplementation(projects.common.data.imageRetrievalService)
+    commonMainImplementation(projects.common.data.sessionHandler)
     commonMainImplementation(libs.kodein.core)
 
     androidMainImplementation(platform(libs.firebase.bom))

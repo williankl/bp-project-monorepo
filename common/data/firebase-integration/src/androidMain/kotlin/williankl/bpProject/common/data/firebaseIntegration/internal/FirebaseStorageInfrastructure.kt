@@ -10,16 +10,21 @@ import korlibs.image.format.toAndroidBitmap
 import williankl.bpProject.common.data.firebaseIntegration.FirebaseIntegration
 import williankl.bpProject.common.data.imageRetrievalService.ImageTransformer
 import williankl.bpProject.common.data.placeService.internal.retrieve
+import williankl.bpProject.common.data.sessionHandler.Session
 
-internal actual class FirebaseStorageInfrastructure : FirebaseIntegration {
+internal actual class FirebaseStorageInfrastructure actual constructor(
+    private val session: Session,
+) : FirebaseIntegration {
 
     private val randomId: Uuid
         get() = uuid4()
 
     override suspend fun uploadPlacesImages(images: List<Bitmap>): List<String> {
-        val userId = uuid4() // fixme retrieve user id correctly
+        val user = session.loggedInUser()
+            ?: error("User not logged in")
+
         return images.map { image ->
-            uploadImage(userId, image)
+            uploadImage(user.id, image)
         }
     }
 
@@ -28,11 +33,12 @@ internal actual class FirebaseStorageInfrastructure : FirebaseIntegration {
         bitmap: Bitmap
     ): String {
         val encodedImage = ImageTransformer.encodeImage(bitmap.toAndroidBitmap())
-        val result = retrieveStorageReference(userId)
+        val storageReference = retrieveStorageReference(userId)
+        storageReference
             .putBytes(encodedImage)
             .retrieve()
 
-        return result.uploadSessionUri?.toString()
+        return storageReference.downloadUrl.retrieve()?.toString()
             ?: error("Could not retrieve file uri")
     }
 
