@@ -5,17 +5,19 @@ import williankl.bpProject.common.core.models.PlaceRating
 import williankl.bpProject.common.core.models.network.request.PlaceRatingRequest
 
 public interface PlaceRatingStorage {
-    public suspend fun createComment(
+    public suspend fun createRating(
         ownerId: Uuid,
         placeId: Uuid,
         data: PlaceRatingRequest,
     )
 
-    public suspend fun commentsForPlace(
-        id: Uuid,
+    public suspend fun ratingsForPlace(
+        placeId: Uuid,
         page: Int,
         limit: Int,
     ): List<PlaceRating>
 
-    public suspend fun deleteComment(id: Uuid)
+    public suspend fun deleteRating(id: Uuid)
+
+    public suspend fun retrieveRating(id: Uuid): PlaceRating?
 }

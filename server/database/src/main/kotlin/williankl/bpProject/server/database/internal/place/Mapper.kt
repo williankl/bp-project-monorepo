@@ -3,9 +3,10 @@ package williankl.bpProject.server.database.internal.place
 import com.benasher44.uuid.Uuid
 import place.FindPlaceById
 import place.ListPlaces
-import place.ListPlacesComments
+import place.ListPlacesRatings
 import place.PlaceAddressData
 import place.PlaceData
+import place.RetrieveRating
 import williankl.bpProject.common.core.generateId
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.Place.*
@@ -39,7 +40,29 @@ internal object Mapper {
     }
 
     fun toDomain(
-        joinedData: ListPlacesComments,
+        joinedData: ListPlacesRatings,
+    ): PlaceRating {
+        return with(joinedData) {
+            PlaceRating(
+                id = generateId,
+                placeId = placeId,
+                comment = message,
+                rating = rating,
+                createdAt = placedAt,
+                updatedAt = lastEditedAt,
+                ownerData = User(
+                    id = id,
+                    name = name,
+                    email = email,
+                    tag = tag,
+                    avatarUrl = avatarUrl,
+                )
+            )
+        }
+    }
+
+    fun toDomain(
+        joinedData: RetrieveRating,
     ): PlaceRating {
         return with(joinedData) {
             PlaceRating(

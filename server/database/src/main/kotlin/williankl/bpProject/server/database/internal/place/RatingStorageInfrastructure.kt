@@ -11,7 +11,7 @@ import williankl.bpProject.server.database.services.PlaceRatingStorage
 internal class RatingStorageInfrastructure(
     private val driver: JdbcDriver,
 ) : PlaceRatingStorage {
-    override suspend fun createComment(
+    override suspend fun createRating(
         ownerId: Uuid,
         placeId: Uuid,
         data: PlaceRatingRequest
@@ -23,14 +23,14 @@ internal class RatingStorageInfrastructure(
         }
     }
 
-    override suspend fun commentsForPlace(
-        id: Uuid,
+    override suspend fun ratingsForPlace(
+        placeId: Uuid,
         page: Int,
         limit: Int,
     ): List<PlaceRating> {
         return DriverProvider.withDatabase(driver) {
-            placeRatingQueries.listPlacesComments(
-                id,
+            placeRatingQueries.listPlacesRatings(
+                placeId,
                 page.toLong(),
                 (page * limit).toLong()
             )
@@ -39,9 +39,17 @@ internal class RatingStorageInfrastructure(
         }
     }
 
-    override suspend fun deleteComment(id: Uuid) {
+    override suspend fun deleteRating(id: Uuid) {
         DriverProvider.withDatabase(driver) {
-            placeRatingQueries.deletePlaceComment(id)
+            placeRatingQueries.deletePlaceRating(id)
+        }
+    }
+
+    override suspend fun retrieveRating(id: Uuid): PlaceRating? {
+        return DriverProvider.withDatabase(driver) {
+            placeRatingQueries.retrieveRating(id)
+                .executeAsOneOrNull()
+                ?.let(::toDomain)
         }
     }
 }

@@ -13,11 +13,16 @@ create:
 INSERT INTO PlaceRating(id, placeId, ownerId, placedAt, rating, lastEditedAt, message)
 VALUES ?;
 
-deletePlaceComment:
+retrieveRating:
+SELECT * FROM PlaceRating
+INNER JOIN UserData ON UserData.id = PlaceRating.ownerId
+WHERE PlaceRating.id = ?;
+
+deletePlaceRating:
 DELETE FROM PlaceRating
 WHERE id = ?;
 
-listPlacesComments:
+listPlacesRatings:
 SELECT * FROM PlaceRating
 INNER JOIN UserData ON UserData.id = PlaceRating.ownerId
 WHERE placeId = ?

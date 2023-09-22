@@ -1,11 +1,8 @@
 package williankl.bpProject.server.app.routing.user
 
-import com.benasher44.uuid.uuidFrom
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
-import io.ktor.server.auth.UserIdPrincipal
 import io.ktor.server.auth.authenticate
-import io.ktor.server.auth.principal
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
@@ -14,6 +11,7 @@ import org.kodein.di.instance
 import williankl.bpProject.common.core.models.network.response.NetworkErrorResponse
 import williankl.bpProject.server.app.configuration.AuthenticationHandler
 import williankl.bpProject.server.app.serverDi
+import williankl.bpProject.server.app.userId
 import williankl.bpProject.server.database.services.UserStorage
 
 internal object UserRouter {
@@ -30,9 +28,7 @@ internal object UserRouter {
 
     private fun Route.currentUserRoute() {
         get {
-            val userId = call.principal<UserIdPrincipal>()
-                ?.name
-                ?.let(::uuidFrom)
+            val userId = call.userId
 
             val foundUser = userId?.let {
                 userService.retrieveUser(userId)
