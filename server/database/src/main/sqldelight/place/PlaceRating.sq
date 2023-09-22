@@ -25,5 +25,5 @@ WHERE id = ?;
 listPlacesRatings:
 SELECT * FROM PlaceRating
 INNER JOIN UserData ON UserData.id = PlaceRating.ownerId
-WHERE placeId = ?
+WHERE PlaceRating.placeId = ?
 LIMIT ? OFFSET ?;

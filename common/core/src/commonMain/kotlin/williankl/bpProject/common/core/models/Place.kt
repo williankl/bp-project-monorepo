@@ -1,6 +1,7 @@
 package williankl.bpProject.common.core.models
 
 import com.benasher44.uuid.Uuid
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import williankl.bpProject.common.core.serializers.UuidSerializer
 
@@ -17,12 +18,35 @@ public data class Place(
     val seasons: List<Season> = emptyList(),
     val createdAt: Long,
 ) {
+
+    @Serializable
     public enum class PlaceTag {
-        Nature, City, Beach, Mountains, CountrySide,
+        @SerialName("nature")
+        Nature,
+
+        @SerialName("city")
+        City,
+
+        @SerialName("beach")
+        Beach,
+
+        @SerialName("mountains")
+        Mountains,
+
+        @SerialName("countrySide")
+        CountrySide,
     }
 
+    @Serializable
     public enum class PlaceState {
-        Published, Private, Disabled
+        @SerialName("published")
+        Published,
+
+        @SerialName("private")
+        Private,
+
+        @SerialName("disabled")
+        Disabled
     }
 
     @Serializable

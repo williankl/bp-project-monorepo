@@ -2,6 +2,7 @@ package williankl.bpProject.server.database.internal.place
 
 import app.cash.sqldelight.driver.jdbc.JdbcDriver
 import com.benasher44.uuid.Uuid
+import williankl.bpProject.common.core.inRangeOf
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.network.request.PlaceDistanceQuery
 import williankl.bpProject.server.database.internal.DriverProvider.withDatabase
@@ -31,16 +32,30 @@ internal class PlaceStorageInfrastructure(
     ): List<Place> {
         return withDatabase(driver) {
             placeDataQueries.listPlaces(
-                ownerId,
-                state?.name,
-                distance?.coordinates?.latitude,
-                distance?.coordinates?.longitude,
-                distance?.maxDistance,
                 limit.toLong(),
                 (limit * page).toLong()
             )
                 .executeAsList()
                 .map(::toDomain)
+                .filter { place ->
+                    val filterByOwner = ownerId
+                        ?.let { ownerId == place.ownerId }
+                        ?: true
+
+                    val filterByState = state
+                        ?.let { state == place.state }
+                        ?: true
+
+                    val filterByDistance = distance
+                        ?.let {
+                            place.address.coordinates.inRangeOf(
+                                other = distance.coordinates,
+                                padding = distance.maxDistance,
+                            )
+                        } ?: true
+
+                    filterByOwner && filterByState && filterByDistance
+                }
         }
     }
 

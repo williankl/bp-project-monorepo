@@ -1,7 +1,5 @@
 package williankl.bpProject.server.app.routing.places
 
-import com.benasher44.uuid.Uuid
-import com.benasher44.uuid.uuidFrom
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
 import io.ktor.util.pipeline.PipelineContext
@@ -9,13 +7,13 @@ import williankl.bpProject.common.core.generateId
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.Place.PlaceState
 import williankl.bpProject.common.core.models.network.request.PlaceDistanceQuery
+import williankl.bpProject.common.core.models.network.request.SavingPlaceRequest
 import williankl.bpProject.common.core.runOrNullSuspend
-import williankl.bpProject.common.data.placeService.models.SavingPlace
 import java.util.Date
 import java.util.UUID
 
 internal object PlaceMapper {
-    fun SavingPlace.toPlace(ownerId: UUID): Place {
+    fun SavingPlaceRequest.toPlace(ownerId: UUID): Place {
         return Place(
             id = generateId,
             ownerId = ownerId,
@@ -34,13 +32,6 @@ internal object PlaceMapper {
         return runOrNullSuspend {
             call.parameters["state"]
                 ?.let(PlaceState::valueOf)
-        }
-    }
-
-    suspend fun PipelineContext<*, ApplicationCall>.retrieveQueryOwnerId(): Uuid? {
-        return runOrNullSuspend {
-            call.parameters["ownerId"]
-                ?.let(::uuidFrom)
         }
     }
 

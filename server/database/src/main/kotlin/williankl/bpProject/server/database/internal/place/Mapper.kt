@@ -44,14 +44,14 @@ internal object Mapper {
     ): PlaceRating {
         return with(joinedData) {
             PlaceRating(
-                id = generateId,
+                id = id,
                 placeId = placeId,
                 comment = message,
                 rating = rating,
                 createdAt = placedAt,
                 updatedAt = lastEditedAt,
                 ownerData = User(
-                    id = id,
+                    id = id_,
                     name = name,
                     email = email,
                     tag = tag,
@@ -73,7 +73,7 @@ internal object Mapper {
                 createdAt = placedAt,
                 updatedAt = lastEditedAt,
                 ownerData = User(
-                    id = id,
+                    id = id_,
                     name = name,
                     email = email,
                     tag = tag,
@@ -91,7 +91,7 @@ internal object Mapper {
                 displayName = name,
                 description = description,
                 address = PlaceAddress(
-                    id = id,
+                    id = id_,
                     street = street,
                     city = city,
                     country = country,
@@ -119,7 +119,7 @@ internal object Mapper {
                 displayName = name,
                 description = description,
                 address = PlaceAddress(
-                    id = id,
+                    id = id_,
                     street = street,
                     city = city,
                     country = country,

@@ -1,6 +1,5 @@
 package williankl.bpProject.server.app.routing.places
 
-import com.benasher44.uuid.uuidFrom
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.auth.authenticate
@@ -12,11 +11,11 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import org.kodein.di.instance
-import williankl.bpProject.common.core.generateId
 import williankl.bpProject.common.core.models.network.request.PlaceRatingRequest
 import williankl.bpProject.common.core.models.network.response.NetworkErrorResponse
 import williankl.bpProject.common.core.runOrNullSuspend
 import williankl.bpProject.server.app.configuration.AuthenticationHandler
+import williankl.bpProject.server.app.idFromParameter
 import williankl.bpProject.server.app.serverDi
 import williankl.bpProject.server.app.userId
 import williankl.bpProject.server.database.services.PlaceRatingStorage
@@ -39,11 +38,12 @@ internal object RatingRouter {
         post {
             val received = runOrNullSuspend { call.receive<PlaceRatingRequest>() }
             val userId = call.userId
+            val placeId = idFromParameter("placeId")
 
-            if (received != null && userId != null) {
+            if (placeId != null && received != null && userId != null) {
                 placesRatingService.createRating(
+                    placeId = placeId,
                     ownerId = userId,
-                    placeId = generateId,
                     data = received,
                 )
 
@@ -63,10 +63,8 @@ internal object RatingRouter {
         get {
             val page = call.parameters["page"]?.toIntOrNull()
             val limit = call.parameters["limit"]?.toIntOrNull()
-            val placeId = runOrNullSuspend {
-                call.parameters["id"]
-                    ?.let(::uuidFrom)
-            }
+            val placeId = idFromParameter("placeId")
+
             if (placeId != null && page != null && limit != null) {
                 val result = placesRatingService.ratingsForPlace(placeId, page, limit)
                 when {
@@ -83,10 +81,7 @@ internal object RatingRouter {
     private fun Route.deleteRatingRoute() {
         delete {
             val userId = call.userId
-            val ratingId = runOrNullSuspend {
-                call.parameters["id"]
-                    ?.let(::uuidFrom)
-            }
+            val ratingId = idFromParameter("ratingId")
             val targetRating = ratingId?.let {
                 placesRatingService.retrieveRating(ratingId)
             }
@@ -106,7 +101,7 @@ internal object RatingRouter {
                 }
             } else {
                 call.respond(
-                    status = HttpStatusCode.BadRequest,
+                    status = HttpStatusCode.NotFound,
                     message = NetworkErrorResponse(
                         message = "Missing user id or rating id"
                     )

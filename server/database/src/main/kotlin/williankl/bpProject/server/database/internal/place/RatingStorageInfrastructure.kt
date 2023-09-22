@@ -31,8 +31,8 @@ internal class RatingStorageInfrastructure(
         return DriverProvider.withDatabase(driver) {
             placeRatingQueries.listPlacesRatings(
                 placeId,
-                page.toLong(),
-                (page * limit).toLong()
+                limit.toLong(),
+                (limit * page).toLong()
             )
                 .executeAsList()
                 .map(::toDomain)
