@@ -45,7 +45,6 @@ internal data class PlaceCreationScreen(
 ) : BeautifulScreen() {
     @Composable
     override fun BeautifulContent() {
-        val navigator = LocalNavigator.currentOrThrow
         val runnerModel = rememberScreenModel<PlaceCreationRunnerModel>()
         val presentation by runnerModel.currentData.collectAsState()
 

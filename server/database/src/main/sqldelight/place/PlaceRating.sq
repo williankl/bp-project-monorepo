@@ -1,0 +1,29 @@
+createTableIfNeeded:
+CREATE TABLE IF NOT EXISTS PlaceRating (
+  id uuid PRIMARY KEY NOT NULL,
+  placeId uuid NOT NULL,
+  ownerId uuid NOT NULL,
+  placedAt bigint NOT NULL,
+  rating int,
+  message text,
+  lastEditedAt bigint
+);
+
+create:
+INSERT INTO PlaceRating(id, placeId, ownerId, placedAt, rating, lastEditedAt, message)
+VALUES ?;
+
+retrieveRating:
+SELECT * FROM PlaceRating
+INNER JOIN UserData ON UserData.id = PlaceRating.ownerId
+WHERE PlaceRating.id = ?;
+
+deletePlaceRating:
+DELETE FROM PlaceRating
+WHERE id = ?;
+
+listPlacesRatings:
+SELECT * FROM PlaceRating
+INNER JOIN UserData ON UserData.id = PlaceRating.ownerId
+WHERE PlaceRating.placeId = ?
+LIMIT ? OFFSET ?;

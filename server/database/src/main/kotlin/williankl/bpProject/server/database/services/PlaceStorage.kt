@@ -1,7 +1,9 @@
 package williankl.bpProject.server.database.services
 
+import com.benasher44.uuid.Uuid
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.Place.PlaceAddress
+import williankl.bpProject.common.core.models.network.request.PlaceDistanceQuery
 import java.util.UUID
 
 public interface PlaceStorage {
@@ -10,6 +12,9 @@ public interface PlaceStorage {
     public suspend fun retrievePlaces(
         page: Int,
         limit: Int,
+        ownerId: Uuid? = null,
+        state: Place.PlaceState? = null,
+        distance: PlaceDistanceQuery? = null,
     ): List<Place>
 
     public suspend fun retrievePlace(id: UUID): Place?

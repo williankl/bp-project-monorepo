@@ -1,40 +1,138 @@
 package williankl.bpProject.server.database.internal.place
 
+import com.benasher44.uuid.Uuid
+import place.FindPlaceById
+import place.ListPlaces
+import place.ListPlacesRatings
 import place.PlaceAddressData
 import place.PlaceData
+import place.RetrieveRating
+import williankl.bpProject.common.core.generateId
 import williankl.bpProject.common.core.models.Place
-import williankl.bpProject.common.core.models.Place.PlaceAddress
-import williankl.bpProject.common.core.models.Place.PlaceAddress.PlaceAddressCoordinate
+import williankl.bpProject.common.core.models.Place.*
+import williankl.bpProject.common.core.models.PlaceRating
 import williankl.bpProject.common.core.models.Season
+import williankl.bpProject.common.core.models.User
+import williankl.bpProject.common.core.models.network.request.PlaceRatingRequest
+import java.util.Date
+import place.PlaceRating as DBPlaceRating
 
 internal object Mapper {
 
-    private const val IMAGE_SEPARATOR = "|"
+    private const val LIST_SEPARATOR = "|"
 
     fun toDomain(
-        from: PlaceData,
-        address: PlaceAddressData,
-    ): Place {
-        return with(from) {
+        ownerId: Uuid,
+        placeId: Uuid,
+        placeRatingRequest: PlaceRatingRequest
+    ): DBPlaceRating {
+        return with(placeRatingRequest) {
+            DBPlaceRating(
+                id = generateId,
+                placeId = placeId,
+                ownerId = ownerId,
+                message = comment,
+                rating = rating,
+                placedAt = Date().time,
+                lastEditedAt = null,
+            )
+        }
+    }
+
+    fun toDomain(
+        joinedData: ListPlacesRatings,
+    ): PlaceRating {
+        return with(joinedData) {
+            PlaceRating(
+                id = id,
+                placeId = placeId,
+                comment = message,
+                rating = rating,
+                createdAt = placedAt,
+                updatedAt = lastEditedAt,
+                ownerData = User(
+                    id = id_,
+                    name = name,
+                    email = email,
+                    tag = tag,
+                    avatarUrl = avatarUrl,
+                )
+            )
+        }
+    }
+
+    fun toDomain(
+        joinedData: RetrieveRating,
+    ): PlaceRating {
+        return with(joinedData) {
+            PlaceRating(
+                id = generateId,
+                placeId = placeId,
+                comment = message,
+                rating = rating,
+                createdAt = placedAt,
+                updatedAt = lastEditedAt,
+                ownerData = User(
+                    id = id_,
+                    name = name,
+                    email = email,
+                    tag = tag,
+                    avatarUrl = avatarUrl,
+                )
+            )
+        }
+    }
+
+    fun toDomain(joinedData: ListPlaces): Place {
+        return with(joinedData) {
             Place(
                 id = id,
                 ownerId = ownerId,
                 displayName = name,
                 description = description,
-                address = with(address) {
-                    PlaceAddress(
-                        id = id,
-                        street = street,
-                        city = city,
-                        country = country,
-                        coordinates = PlaceAddressCoordinate(
-                            latitude = latitude.toDouble(),
-                            longitude = longitude.toDouble(),
-                        )
+                address = PlaceAddress(
+                    id = id_,
+                    street = street,
+                    city = city,
+                    country = country,
+                    coordinates = PlaceAddress.PlaceCoordinate(
+                        latitude = latitude,
+                        longitude = longitude,
                     )
-                },
-                imageUrls = images?.split(IMAGE_SEPARATOR).orEmpty(),
-                seasons = seasons.split(IMAGE_SEPARATOR).sanitizeSeasonList(),
+                ),
+                imageUrls = images?.split(LIST_SEPARATOR).orEmpty(),
+                seasons = seasons.split(LIST_SEPARATOR).sanitizeSeasonList(),
+                tags = seasons.split(LIST_SEPARATOR).sanitizeTagList(),
+                state = state.sanitizeState(),
+                createdAt = createdAt,
+            )
+        }
+    }
+
+    fun toDomain(
+        joinedData: FindPlaceById,
+    ): Place {
+        return with(joinedData) {
+            Place(
+                id = id,
+                ownerId = ownerId,
+                displayName = name,
+                description = description,
+                address = PlaceAddress(
+                    id = id_,
+                    street = street,
+                    city = city,
+                    country = country,
+                    coordinates = PlaceAddress.PlaceCoordinate(
+                        latitude = latitude,
+                        longitude = longitude,
+                    )
+                ),
+                imageUrls = images?.split(LIST_SEPARATOR).orEmpty(),
+                seasons = seasons.split(LIST_SEPARATOR).sanitizeSeasonList(),
+                tags = seasons.split(LIST_SEPARATOR).sanitizeTagList(),
+                state = state.sanitizeState(),
+                createdAt = createdAt,
             )
         }
     }
@@ -47,8 +145,11 @@ internal object Mapper {
                 name = displayName,
                 description = description,
                 addressId = address.id,
-                images = imageUrls.joinToString(IMAGE_SEPARATOR),
-                seasons = seasons.joinToString(IMAGE_SEPARATOR),
+                images = imageUrls.joinToString(LIST_SEPARATOR),
+                seasons = seasons.joinToString(LIST_SEPARATOR),
+                tags = tags.joinToString(LIST_SEPARATOR),
+                createdAt = createdAt,
+                state = state.name
             )
         }
     }
@@ -60,8 +161,8 @@ internal object Mapper {
                 city = city,
                 country = country,
                 street = street,
-                latitude = coordinates.latitude.toString(),
-                longitude = coordinates.longitude.toString(),
+                latitude = coordinates.latitude,
+                longitude = coordinates.longitude,
             )
         }
     }
@@ -70,5 +171,17 @@ internal object Mapper {
         return mapNotNull { code ->
             Season.entries.firstOrNull { season -> season.name == code }
         }
+    }
+
+    private fun List<String>.sanitizeTagList(): List<PlaceTag> {
+        return mapNotNull { code ->
+            PlaceTag.entries.firstOrNull { tag -> tag.name == code }
+        }
+    }
+
+    private fun String.sanitizeState(): PlaceState {
+        return PlaceState.entries
+            .firstOrNull { entry -> entry.name == this }
+            ?: error("$this not mapped as place state")
     }
 }

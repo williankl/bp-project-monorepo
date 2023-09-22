@@ -1,7 +1,10 @@
 package williankl.bpProject.server.database.internal.place
 
 import app.cash.sqldelight.driver.jdbc.JdbcDriver
+import com.benasher44.uuid.Uuid
+import williankl.bpProject.common.core.inRangeOf
 import williankl.bpProject.common.core.models.Place
+import williankl.bpProject.common.core.models.network.request.PlaceDistanceQuery
 import williankl.bpProject.server.database.internal.DriverProvider.withDatabase
 import williankl.bpProject.server.database.internal.place.Mapper.toAddressData
 import williankl.bpProject.server.database.internal.place.Mapper.toDomain
@@ -15,43 +18,52 @@ internal class PlaceStorageInfrastructure(
 
     override suspend fun savePlace(place: Place) {
         withDatabase(driver) {
-            placeDataQueries.createFullPlace(toPlaceData(place))
-            placeAddressQueries.createFullAddress(toAddressData(place.address))
+            placeDataQueries.create(toPlaceData(place))
+            placeAddressQueries.create(toAddressData(place.address))
         }
     }
 
-    override suspend fun retrievePlaces(page: Int, limit: Int): List<Place> {
+    override suspend fun retrievePlaces(
+        page: Int,
+        limit: Int,
+        ownerId: Uuid?,
+        state: Place.PlaceState?,
+        distance: PlaceDistanceQuery?,
+    ): List<Place> {
         return withDatabase(driver) {
-            val placeDataList = placeDataQueries.listPlaces(
+            placeDataQueries.listPlaces(
                 limit.toLong(),
                 (limit * page).toLong()
             )
                 .executeAsList()
+                .map(::toDomain)
+                .filter { place ->
+                    val filterByOwner = ownerId
+                        ?.let { ownerId == place.ownerId }
+                        ?: true
 
-            placeDataList.mapNotNull { placeData ->
-                val addressData = placeAddressQueries.findAddressById(placeData.addressId)
-                    .executeAsOneOrNull()
+                    val filterByState = state
+                        ?.let { state == place.state }
+                        ?: true
 
-                if (addressData != null) {
-                    toDomain(placeData, addressData)
-                } else null
-            }
+                    val filterByDistance = distance
+                        ?.let {
+                            place.address.coordinates.inRangeOf(
+                                other = distance.coordinates,
+                                padding = distance.maxDistance,
+                            )
+                        } ?: true
+
+                    filterByOwner && filterByState && filterByDistance
+                }
         }
     }
 
     override suspend fun retrievePlace(id: UUID): Place? {
         return withDatabase(driver) {
-            val placeData = placeDataQueries.findPlaceById(id)
+            placeDataQueries.findPlaceById(id)
                 .executeAsOneOrNull()
-
-            val addressData =
-                placeData?.addressId
-                    ?.let(placeAddressQueries::findAddressById)
-                    ?.executeAsOneOrNull()
-
-            if (placeData != null && addressData != null) {
-                toDomain(placeData, addressData)
-            } else null
+                ?.let(::toDomain)
         }
     }
 
@@ -80,8 +92,8 @@ internal class PlaceStorageInfrastructure(
                     street = street,
                     city = city,
                     country = country,
-                    latitude = coordinates.latitude.toString(),
-                    longitude = coordinates.longitude.toString(),
+                    latitude = coordinates.latitude,
+                    longitude = coordinates.longitude,
                 )
             }
         }

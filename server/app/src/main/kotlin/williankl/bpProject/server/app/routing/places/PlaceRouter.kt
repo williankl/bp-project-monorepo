@@ -1,11 +1,8 @@
 package williankl.bpProject.server.app.routing.places
 
-import com.benasher44.uuid.uuidFrom
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
-import io.ktor.server.auth.UserIdPrincipal
 import io.ktor.server.auth.authenticate
-import io.ktor.server.auth.principal
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
@@ -13,14 +10,17 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import org.kodein.di.instance
+import williankl.bpProject.common.core.models.network.request.SavingPlaceRequest
 import williankl.bpProject.common.core.models.network.response.NetworkErrorResponse
 import williankl.bpProject.common.core.runOrNullSuspend
-import williankl.bpProject.common.data.placeService.models.SavingPlace
 import williankl.bpProject.server.app.configuration.AuthenticationHandler
+import williankl.bpProject.server.app.idFromParameter
+import williankl.bpProject.server.app.routing.places.PlaceMapper.retrieveDistanceQuery
+import williankl.bpProject.server.app.routing.places.PlaceMapper.retrieveStateQuery
 import williankl.bpProject.server.app.routing.places.PlaceMapper.toPlace
 import williankl.bpProject.server.app.serverDi
+import williankl.bpProject.server.app.userId
 import williankl.bpProject.server.database.services.PlaceStorage
-import java.util.UUID
 
 internal object PlaceRouter {
 
@@ -40,10 +40,8 @@ internal object PlaceRouter {
 
     private fun Route.savePlaceRoute() {
         post {
-            val received = runOrNullSuspend { call.receive<SavingPlace>() }
-            val userId = call.principal<UserIdPrincipal>()
-                ?.name
-                ?.let(::uuidFrom)
+            val received = runOrNullSuspend { call.receive<SavingPlaceRequest>() }
+            val userId = call.userId
 
             if (received != null && userId != null) {
                 val generatedPlace = received.toPlace(userId)
@@ -66,7 +64,11 @@ internal object PlaceRouter {
             val limit = call.parameters["limit"]?.toIntOrNull()
 
             if (page != null && limit != null) {
-                val placesFound = placesService.retrievePlaces(page, limit)
+                val ownerId = idFromParameter("ownerId")
+                val distanceQuery = retrieveDistanceQuery()
+                val state = retrieveStateQuery()
+
+                val placesFound = placesService.retrievePlaces(page, limit, ownerId, state, distanceQuery)
                 when {
                     placesFound.isEmpty() -> call.respond(HttpStatusCode.NoContent)
                     else -> call.respond(
@@ -80,8 +82,7 @@ internal object PlaceRouter {
 
     private fun Route.idRouting() {
         get {
-            val id = call.parameters["id"]
-            val uuid = runOrNullSuspend { UUID.fromString(id) }
+            val uuid = idFromParameter("placeId")
             if (uuid != null) {
                 val placeFound = placesService.retrievePlace(uuid)
                 when {
