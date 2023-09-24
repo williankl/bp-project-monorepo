@@ -87,7 +87,7 @@ import williankl.bpProject.common.platform.design.core.text.TextSize
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig
 
-internal class PlaceDetailsScreen(
+public class PlaceDetailsScreen(
     private val place: Place,
 ) : BeautifulScreen() {
 
@@ -100,6 +100,15 @@ internal class PlaceDetailsScreen(
         PlaceDetailsContent(
             place = place,
             presentation = presentation,
+            onOptionSelected = { option ->
+                when (option) {
+                    is DetailsOptions.AddRoute -> Unit
+                    is DetailsOptions.Address -> Unit
+                    is DetailsOptions.Favourite -> Unit
+                    is DetailsOptions.Owner -> Unit
+                    is DetailsOptions.Season -> Unit
+                }
+            },
             modifier = Modifier.fillMaxSize()
         )
     }
@@ -108,6 +117,7 @@ internal class PlaceDetailsScreen(
     private fun PlaceDetailsContent(
         presentation: PlaceDetailsPresentation,
         place: Place,
+        onOptionSelected: (DetailsOptions) -> Unit,
         modifier: Modifier = Modifier,
     ) {
         Column(
@@ -121,6 +131,7 @@ internal class PlaceDetailsScreen(
 
             OptionsContainer(
                 place = place,
+                onOptionSelected = onOptionSelected,
                 modifier = Modifier,
             )
         }
@@ -199,6 +210,7 @@ internal class PlaceDetailsScreen(
     @Composable
     private fun OptionsContainer(
         place: Place,
+        onOptionSelected: (DetailsOptions) -> Unit,
         modifier: Modifier = Modifier
     ) {
         val options = remember(place) {
@@ -231,6 +243,9 @@ internal class PlaceDetailsScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                     modifier = Modifier
+                        .clickable { onOptionSelected(option) }
+                        .padding(12.dp)
+                        .fillMaxWidth()
                 ) {
                     option.header()
 
@@ -249,6 +264,13 @@ internal class PlaceDetailsScreen(
                     )
                 }
             }
+
+            Spacer(
+                modifier = Modifier
+                    .background(BeautifulColor.Border.composeColor)
+                    .fillMaxWidth()
+                    .height(1.dp)
+            )
         }
     }
 }

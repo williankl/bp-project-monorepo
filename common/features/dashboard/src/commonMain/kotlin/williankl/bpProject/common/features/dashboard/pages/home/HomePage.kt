@@ -30,17 +30,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
+import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.features.dashboard.LocalDashboardStrings
 import williankl.bpProject.common.platform.design.components.AsyncImage
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
+import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.modifyIf
 import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
 import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.design.core.text.TextSize
+import williankl.bpProject.common.platform.stateHandler.LocalRouter
+import williankl.bpProject.common.platform.stateHandler.navigation.models.Places
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig
 
@@ -61,9 +65,13 @@ internal object HomePage : BeautifulScreen() {
     override fun BeautifulContent() {
         val runnerModel = rememberScreenModel<HomeRunnerModel>()
         val presentation by runnerModel.currentData.collectAsState()
+        val router = LocalRouter.currentOrThrow
 
         HomeContent(
             presentation = presentation,
+            onPlaceSelected = { place ->
+                router.push(Places.PlaceDetails(place))
+            },
             modifier = Modifier
                 .background(BeautifulColor.Background.composeColor)
                 .fillMaxSize()
@@ -73,6 +81,7 @@ internal object HomePage : BeautifulScreen() {
     @Composable
     private fun HomeContent(
         presentation: HomeRunnerModel.HomePresentation,
+        onPlaceSelected: (Place) -> Unit,
         modifier: Modifier = Modifier,
     ) {
         LazyColumn(
@@ -87,6 +96,7 @@ internal object HomePage : BeautifulScreen() {
                     ) {
                         SampleStaggeredItem(
                             places = presentation.nearestPlaces,
+                            onPlaceSelected = onPlaceSelected,
                             modifier = Modifier
                                 .padding(12.dp)
                                 .height(400.dp),
@@ -108,7 +118,7 @@ internal object HomePage : BeautifulScreen() {
                             items(presentation.favouritePlaces) { place ->
                                 SimplePlaceDisplay(
                                     place = place,
-                                    modifier = Modifier,
+                                    modifier = Modifier.clickableIcon(0.dp) { onPlaceSelected(place) },
                                 )
                             }
                         }
@@ -121,6 +131,7 @@ internal object HomePage : BeautifulScreen() {
     @Composable
     private fun SampleStaggeredItem(
         places: List<Place>,
+        onPlaceSelected: (Place) -> Unit,
         modifier: Modifier = Modifier,
     ) {
         @Composable
@@ -142,7 +153,9 @@ internal object HomePage : BeautifulScreen() {
 
                     PlaceDisplay(
                         place = place,
-                        modifier = Modifier.weight(weight),
+                        modifier = Modifier
+                            .clickableIcon(0.dp) { onPlaceSelected(place) }
+                            .weight(weight),
                     )
                 }
             }

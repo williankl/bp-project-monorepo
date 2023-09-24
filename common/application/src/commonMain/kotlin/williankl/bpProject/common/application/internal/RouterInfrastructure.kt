@@ -10,6 +10,7 @@ import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import williankl.bpProject.common.features.authentication.AuthenticationScreen
 import williankl.bpProject.common.features.authentication.modal.LoginRequiredBottomSheet
 import williankl.bpProject.common.features.dashboard.DashboardScreen
+import williankl.bpProject.common.features.places.details.PlaceDetailsScreen
 import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionScreen
 import williankl.bpProject.common.platform.stateHandler.navigation.Router
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication
@@ -88,6 +89,7 @@ internal class RouterInfrastructure : Router {
             is Places.PlaceDataCreation -> TODO()
             is Places.PlaceLocalSearch -> TODO()
             is Places.PlacePhotoSelection -> PhotoSelectionScreen(uriList)
+            is Places.PlaceDetails -> PlaceDetailsScreen(place)
             is Profile.UserProfile -> DashboardScreen(DashboardScreen.DashboardTab.Profile)
         }
     }

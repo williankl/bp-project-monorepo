@@ -1,7 +1,6 @@
 package williankl.bpProject.common.features.dashboard
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -89,7 +88,6 @@ public data class DashboardScreen(
         )
     }
 
-    @OptIn(ExperimentalAnimationApi::class)
     @Composable
     private fun DashboardScreenContent(
         currentAction: DashboardActions?,
