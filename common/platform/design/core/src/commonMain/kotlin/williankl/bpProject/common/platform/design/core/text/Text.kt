@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -32,6 +33,7 @@ public fun Text(
     textAlign: TextAlign = TextAlign.Start,
     overflow: TextOverflow = TextOverflow.Clip,
     maxLines: Int = Int.MAX_VALUE,
+    onTextLayout: (TextLayoutResult) -> Unit = {},
     ignoreMarkdown: Boolean = false,
 ) {
     CoreText(
@@ -52,6 +54,7 @@ public fun Text(
         textAlign = textAlign,
         overflow = overflow,
         maxLines = maxLines,
+        onTextLayout = onTextLayout,
     )
 }
 
@@ -66,6 +69,7 @@ internal fun CoreText(
     decoration: TextDecoration = TextDecoration.None,
     textAlign: TextAlign = TextAlign.Start,
     overflow: TextOverflow = TextOverflow.Clip,
+    onTextLayout: (TextLayoutResult) -> Unit = {},
     maxLines: Int = Int.MAX_VALUE,
 ) {
     val animatedSize by animateFloatAsState(size.textUnit.value)
@@ -82,7 +86,7 @@ internal fun CoreText(
         overflow = overflow,
         maxLines = maxLines,
         softWrap = true,
-        onTextLayout = { /* Nothing */ },
+        onTextLayout = onTextLayout,
         style = LocalTextStyle.current,
         letterSpacing = TextUnit.Unspecified,
         fontFamily = retrieveBPFontFamily(),
