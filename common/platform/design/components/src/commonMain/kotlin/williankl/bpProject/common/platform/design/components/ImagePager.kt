@@ -44,6 +44,50 @@ import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
+public fun AsyncImagePager(
+    urls: List<String>,
+    modifier: Modifier = Modifier,
+    state: PagerState = rememberPagerState(
+        pageCount = { urls.size },
+    ),
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+    pageSize: PageSize = PageSize.Fill,
+    beyondBoundsPageCount: Int = 0,
+    pageSpacing: Dp = 0.dp,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
+    userScrollEnabled: Boolean = true,
+    bottomContent: @Composable () -> Unit = {
+        DefaultBulletPageCount(
+            count = state.pageCount,
+            currentSelectedIndex = state.currentPage,
+            modifier = Modifier.padding(top = 6.dp),
+        )
+    },
+) {
+    CorePager(
+        modifier = modifier,
+        state = state,
+        contentPadding = contentPadding,
+        pageSize = pageSize,
+        beyondBoundsPageCount = beyondBoundsPageCount,
+        pageSpacing = pageSpacing,
+        verticalAlignment = verticalAlignment,
+        userScrollEnabled = userScrollEnabled,
+        bottomContent = bottomContent,
+        content = { page ->
+            AsyncImage(
+                url = urls[page],
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .clip(BeautifulShape.Rounded.Large.composeShape)
+                    .fillMaxSize()
+            )
+        }
+    )
+}
+
+@Composable
+@OptIn(ExperimentalFoundationApi::class)
 public fun ImagePager(
     images: List<ImageBitmap>,
     modifier: Modifier = Modifier,
@@ -57,37 +101,24 @@ public fun ImagePager(
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     userScrollEnabled: Boolean = true,
     bottomContent: @Composable () -> Unit = {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(6.dp),
+        DefaultBulletPageCount(
+            count = state.pageCount,
+            currentSelectedIndex = state.currentPage,
             modifier = Modifier.padding(top = 6.dp),
-        ) {
-            repeat(images.size) { index ->
-                Spacer(
-                    modifier = Modifier
-                        .background(
-                            shape = BeautifulShape.Rounded.Circle.composeShape,
-                            color = BeautifulColor.Secondary.composeColor(state.currentPage != index),
-                        )
-                        .size(6.dp)
-                )
-            }
-        }
+        )
     },
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+    CorePager(
         modifier = modifier,
-    ) {
-        HorizontalPager(
-            state = state,
-            contentPadding = contentPadding,
-            pageSize = pageSize,
-            beyondBoundsPageCount = beyondBoundsPageCount,
-            pageSpacing = pageSpacing,
-            verticalAlignment = verticalAlignment,
-            userScrollEnabled = userScrollEnabled,
-            modifier = Modifier.weight(1f),
-        ) { page ->
+        state = state,
+        contentPadding = contentPadding,
+        pageSize = pageSize,
+        beyondBoundsPageCount = beyondBoundsPageCount,
+        pageSpacing = pageSpacing,
+        verticalAlignment = verticalAlignment,
+        userScrollEnabled = userScrollEnabled,
+        bottomContent = bottomContent,
+        content = { page ->
             Image(
                 bitmap = images[page],
                 contentDescription = null,
@@ -97,15 +128,7 @@ public fun ImagePager(
                     .fillMaxSize()
             )
         }
-
-        AnimatedVisibility(
-            label = "bullet-visibility-animation",
-            visible = images.size > 1,
-            content = {
-                bottomContent()
-            }
-        )
-    }
+    )
 }
 
 @Composable
@@ -202,4 +225,67 @@ public fun <T> ActionedImagePager(
             }
         }
     )
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun CorePager(
+    state: PagerState,
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+    pageSize: PageSize = PageSize.Fill,
+    beyondBoundsPageCount: Int = 0,
+    pageSpacing: Dp = 0.dp,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
+    userScrollEnabled: Boolean = true,
+    bottomContent: @Composable () -> Unit,
+    content: @Composable (page: Int) -> Unit,
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier,
+    ) {
+        HorizontalPager(
+            state = state,
+            contentPadding = contentPadding,
+            pageSize = pageSize,
+            beyondBoundsPageCount = beyondBoundsPageCount,
+            pageSpacing = pageSpacing,
+            verticalAlignment = verticalAlignment,
+            userScrollEnabled = userScrollEnabled,
+            modifier = Modifier.weight(1f),
+            pageContent = { page -> content(page) },
+        )
+
+        AnimatedVisibility(
+            label = "bullet-visibility-animation",
+            visible = state.pageCount > 1,
+            content = {
+                bottomContent()
+            }
+        )
+    }
+}
+
+@Composable
+private fun DefaultBulletPageCount(
+    count: Int,
+    currentSelectedIndex: Int,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+        modifier = modifier,
+    ) {
+        repeat(count) { index ->
+            Spacer(
+                modifier = Modifier
+                    .background(
+                        shape = BeautifulShape.Rounded.Circle.composeShape,
+                        color = BeautifulColor.Secondary.composeColor(currentSelectedIndex != index),
+                    )
+                    .size(6.dp)
+            )
+        }
+    }
 }
