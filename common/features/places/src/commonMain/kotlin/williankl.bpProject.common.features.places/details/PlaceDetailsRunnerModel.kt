@@ -1,8 +1,6 @@
 package williankl.bpProject.common.features.places.details
 
 import androidx.compose.ui.graphics.Color
-import com.chrynan.uri.core.Uri
-import korlibs.image.bitmap.Bitmap
 import kotlinx.coroutines.CoroutineDispatcher
 import williankl.bpProject.common.features.places.details.PlaceDetailsRunnerModel.PlaceDetailsPresentation
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor

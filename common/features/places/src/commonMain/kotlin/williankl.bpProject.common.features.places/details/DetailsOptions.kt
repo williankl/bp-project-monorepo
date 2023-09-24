@@ -9,7 +9,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.core.models.Place
-import williankl.bpProject.common.core.models.Season as CoreSeason
 import williankl.bpProject.common.core.models.User
 import williankl.bpProject.common.features.places.LocalPlacesStrings
 import williankl.bpProject.common.platform.design.components.AsyncImage
@@ -18,6 +17,7 @@ import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
+import williankl.bpProject.common.core.models.Season as CoreSeason
 
 internal sealed class DetailsOptions(
     val header: @Composable () -> Unit,
