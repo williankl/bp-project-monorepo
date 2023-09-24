@@ -39,7 +39,7 @@ internal class PlaceStorageInfrastructure(
                 .map(::toDomain)
                 .filter { place ->
                     val filterByOwner = ownerId
-                        ?.let { ownerId == place.ownerId }
+                        ?.let { ownerId == place.owner.id }
                         ?: true
 
                     val filterByState = state
