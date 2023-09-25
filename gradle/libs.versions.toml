@@ -26,12 +26,12 @@ uri = "0.4.0"
 korim = "4.0.10"
 hikari = "5.0.1"
 postgres = "42.6.0"
-atomicfu = "0.21.0"
 cashApp-sqlDelight = "2.0.0"
 moko = "0.23.0"
 
 kotlinx-serialization = "1.5.1"
 kotlinx-coroutines = "1.7.3"
+kotlinx-datetime = "0.4.1"
 
 android-firebase-bom = "32.3.1"
 android-compose-activity = "1.7.2"
@@ -122,6 +122,7 @@ kodein-compose = { module = "org.kodein.di:kodein-di-framework-compose", version
 # Kotlinx
 
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
@@ -146,4 +147,3 @@ kmm-bitmap = { module = "com.soywiz.korlibs.korim:korim", version.ref = "korim" 
 kamel = { module = "media.kamel:kamel-image", version.ref = "kamel" }
 hikari = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
 postgres = { module = "org.postgresql:postgresql", version.ref = "postgres" }
-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu" }

@@ -3,18 +3,24 @@ package williankl.bpProject.common.features.places.details
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,33 +31,54 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
+import com.benasher44.uuid.Uuid
+import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.core.models.Place
+import williankl.bpProject.common.core.models.PlaceRating
+import williankl.bpProject.common.features.places.LocalPlacesStrings
 import williankl.bpProject.common.features.places.details.PlaceDetailsRunnerModel.PlaceDetailsPresentation
+import williankl.bpProject.common.platform.design.components.AsyncImage
 import williankl.bpProject.common.platform.design.components.AsyncImagePager
+import williankl.bpProject.common.platform.design.components.CommentBubble
+import williankl.bpProject.common.platform.design.components.CommentBubbleAction
 import williankl.bpProject.common.platform.design.components.TextContainer
+import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
+import williankl.bpProject.common.platform.design.core.input.Input
+import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
 import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.design.core.text.TextSize
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
+import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig
 
 public class PlaceDetailsScreen(
     private val place: Place,
 ) : BeautifulScreen() {
 
+    override val toolbarConfig: ToolbarConfig
+        @Composable get() = super.toolbarConfig.copy(
+            label = LocalPlacesStrings.current.placeDetailsStrings.title
+        )
+
     @Composable
     override fun BeautifulContent() {
-        val runnerModel = rememberScreenModel<PlaceDetailsRunnerModel>()
+        val runnerModel = rememberScreenModel<Uuid, PlaceDetailsRunnerModel>(arg = place.id)
         val presentation by runnerModel.currentData.collectAsState()
 
         PlaceDetailsContent(
             place = place,
             presentation = presentation,
+            ratings = runnerModel.ratingPaging.items,
+            onRatingOptionsRequested = { ratingId ->
+            },
             onOptionSelected = { option ->
                 when (option) {
                     is DetailsOptions.AddRoute -> Unit
@@ -61,30 +88,46 @@ public class PlaceDetailsScreen(
                     is DetailsOptions.Season -> Unit
                 }
             },
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .background(BeautifulColor.Background.composeColor)
+                .fillMaxSize()
         )
     }
 
     @Composable
     private fun PlaceDetailsContent(
         presentation: PlaceDetailsPresentation,
+        ratings: List<PlaceRating>,
         place: Place,
+        onRatingOptionsRequested: (Uuid) -> Unit,
         onOptionSelected: (DetailsOptions) -> Unit,
         modifier: Modifier = Modifier,
     ) {
-        Column(
+        LazyColumn(
+            contentPadding = PaddingValues(bottom = 100.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = modifier,
         ) {
-            PlaceDetailsHeader(
-                place = place,
-                presentation = presentation,
-                modifier = Modifier,
-            )
+            item {
+                PlaceDetailsHeader(
+                    place = place,
+                    presentation = presentation,
+                    modifier = Modifier,
+                )
+            }
 
-            OptionsContainer(
-                place = place,
-                onOptionSelected = onOptionSelected,
-                modifier = Modifier,
+            item {
+                OptionsContainer(
+                    place = place,
+                    onOptionSelected = onOptionSelected,
+                    modifier = Modifier,
+                )
+            }
+
+            commentItems(
+                ratings = ratings,
+                onRatingOptionsRequested = onRatingOptionsRequested,
+                presentation = presentation,
             )
         }
     }
@@ -134,7 +177,11 @@ public class PlaceDetailsScreen(
                 AsyncImagePager(
                     urls = place.imageUrls,
                     state = pagerState,
-                    modifier = Modifier,
+                    pageSpacing = 34.dp,
+                    contentPadding = PaddingValues(horizontal = 32.dp),
+                    modifier = Modifier
+                        .heightIn(300.dp)
+                        .padding(top = 16.dp),
                 )
             }
 
@@ -166,9 +213,10 @@ public class PlaceDetailsScreen(
         modifier: Modifier = Modifier
     ) {
         val options = remember(place) {
-            listOf(
+            listOfNotNull(
                 DetailsOptions.Owner(place.owner),
-                DetailsOptions.Season(place.seasons),
+                if (place.seasons.isNotEmpty()) DetailsOptions.Season(place.seasons)
+                else null,
                 DetailsOptions.Address(place.address),
                 DetailsOptions.Favourite,
                 DetailsOptions.AddRoute,
@@ -189,7 +237,6 @@ public class PlaceDetailsScreen(
                     )
                 }
             }
-
             options.forEachIndexed { index, option ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -207,9 +254,10 @@ public class PlaceDetailsScreen(
                     )
                 }
 
-                if (index == options.lastIndex) {
+                if (index != options.lastIndex) {
                     Spacer(
                         modifier = Modifier
+                            .padding(horizontal = 12.dp)
                             .background(BeautifulColor.Border.composeColor)
                             .fillMaxWidth()
                             .height(1.dp)
@@ -223,6 +271,87 @@ public class PlaceDetailsScreen(
                     .fillMaxWidth()
                     .height(1.dp)
             )
+        }
+    }
+
+    private fun LazyListScope.commentItems(
+        presentation: PlaceDetailsPresentation,
+        ratings: List<PlaceRating>,
+        onRatingOptionsRequested: (Uuid) -> Unit,
+    ) {
+        item {
+            Text(
+                text = LocalPlacesStrings.current.placeDetailsStrings.inAppRatingLabel,
+                weight = FontWeight.Bold,
+                size = TextSize.XLarge,
+                modifier = Modifier.padding(vertical = 16.dp),
+            )
+        }
+
+        items(ratings) { rating ->
+            CommentBubble(
+                rating = rating,
+                modifier = Modifier,
+                endAction = CommentBubbleAction(
+                    icon = SharedDesignCoreResources.images.ic_chat_bubble,
+                    onClick = { onRatingOptionsRequested(rating.id) },
+                ),
+            )
+        }
+
+        item {
+            Spacer(
+                modifier = Modifier
+                    .padding(
+                        vertical = 16.dp,
+                        horizontal = 12.dp
+                    )
+                    .background(BeautifulColor.Border.composeColor)
+                    .fillMaxWidth()
+                    .height(1.dp)
+            )
+        }
+
+        item {
+            var writtenComment by remember {
+                mutableStateOf("")
+            }
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .padding(horizontal = 12.dp),
+            ) {
+                AsyncImage(
+                    url = presentation.currentUser?.avatarUrl.orEmpty(),
+                    onError = {
+                        Image(
+                            painter = painterResource(SharedDesignCoreResources.images.ic_profile),
+                            colorFilter = ColorFilter.tint(BeautifulColor.NeutralHigh.composeColor),
+                            contentDescription = null,
+                        )
+                    },
+                    modifier = Modifier
+                        .clip(BeautifulShape.Rounded.Circle.composeShape)
+                        .size(24.dp)
+                )
+
+                Input(
+                    text = writtenComment,
+                    onTextChange = { writtenComment = it },
+                    hint = LocalPlacesStrings.current.placeDetailsStrings.commentHint,
+                    startContent = {
+                        Image(
+                            painter = painterResource(SharedDesignCoreResources.images.ic_chat_bubble),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(BeautifulColor.NeutralHigh.composeColor),
+                            modifier = Modifier.size(20.dp)
+                        )
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
         }
     }
 }

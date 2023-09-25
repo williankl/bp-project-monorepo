@@ -1,7 +1,6 @@
 package williankl.bpProject.common.features.places.searchScreen
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -120,7 +119,6 @@ internal data class PlaceSearchScreen(
         )
     }
 
-    @OptIn(ExperimentalAnimationApi::class)
     @Composable
     private fun PlaceSearchContent(
         presentation: PlaceSearchPresentation,

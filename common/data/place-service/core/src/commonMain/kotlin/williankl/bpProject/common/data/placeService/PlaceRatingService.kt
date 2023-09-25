@@ -13,7 +13,7 @@ public interface PlaceRatingService {
     public suspend fun ratingsForPlace(
         placeId: Uuid,
         page: Int,
-        limit: Int,
+        limit: Int = 10,
     ): List<PlaceRating>
 
     public suspend fun deleteRating(

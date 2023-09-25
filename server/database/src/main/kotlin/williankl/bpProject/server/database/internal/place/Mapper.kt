@@ -90,7 +90,7 @@ internal object Mapper {
                 owner = User(
                     id = id__,
                     email = email,
-                    name = name,
+                    name = name_,
                     tag = tag,
                     avatarUrl = avatarUrl,
                 ),

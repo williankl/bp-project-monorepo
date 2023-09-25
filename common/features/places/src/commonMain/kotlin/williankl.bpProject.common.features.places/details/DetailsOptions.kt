@@ -27,6 +27,13 @@ internal sealed class DetailsOptions(
         header = {
             AsyncImage(
                 url = user.avatarUrl.orEmpty(),
+                onError = {
+                    Image(
+                        painter = painterResource(SharedDesignCoreResources.images.ic_profile),
+                        colorFilter = ColorFilter.tint(BeautifulColor.NeutralHigh.composeColor),
+                        contentDescription = null,
+                    )
+                },
                 modifier = Modifier
                     .clip(BeautifulShape.Rounded.Circle.composeShape)
                     .size(24.dp),
@@ -84,6 +91,12 @@ internal sealed class DetailsOptions(
                 modifier = Modifier.size(24.dp),
             )
         },
-        label = { seasons.joinToString(separator = " | ") { season -> season.label() } },
+        label = {
+            var resultStr = ""
+            seasons.forEachIndexed { index, season ->
+                resultStr += "${if (index == 0) "" else " | "}${season.label()}"
+            }
+            resultStr
+        },
     )
 }

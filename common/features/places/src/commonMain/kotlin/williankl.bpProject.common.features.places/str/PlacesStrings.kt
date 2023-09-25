@@ -10,6 +10,8 @@ internal data class PlacesStrings(
         val title: String,
         val favouriteLabel: String,
         val addToRouteLabel: String,
+        val inAppRatingLabel: String,
+        val commentHint: String,
     )
 
     internal data class PhotoSelectionStrings(
