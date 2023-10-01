@@ -12,14 +12,14 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import williankl.bpProject.common.data.sessionHandler.PreferencesHandler
+import williankl.bpProject.common.data.networking.NetworkClientSession
 
 internal class ClientConfigurationHelper(
     private val bpBaseUrl: String,
     private val googlePlacesBaseUrl: String,
     private val googleMapsBaseUrl: String,
     private val googleMapsKey: String,
-    private val preferencesHandler: PreferencesHandler,
+    private val networkClientSession: NetworkClientSession,
     private val json: Json,
 ) {
 
@@ -66,7 +66,7 @@ internal class ClientConfigurationHelper(
     }
 
     private fun DefaultRequest.DefaultRequestBuilder.bearerAuth() {
-        preferencesHandler.userBearerToken()
+        networkClientSession.currentToken()
             ?.let { token ->
                 headers.append(AUTHORIZATION_HEADER_KEY, "$BEARER_HEADER_KEY $token")
             }

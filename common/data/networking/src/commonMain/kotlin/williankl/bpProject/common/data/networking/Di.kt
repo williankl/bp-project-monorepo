@@ -7,6 +7,7 @@ import org.kodein.di.instance
 import williankl.bpProject.common.data.networking.internal.ClientConfigurationHelper
 import williankl.bpProject.common.data.networking.internal.ClientEngineProvider
 import williankl.bpProject.common.data.networking.internal.HttpClientProvider
+import williankl.bpProject.common.data.networking.internal.NetworkClientSessionHandler
 
 public val networkingDi: DI.Module = DI.Module("williankl.bpProject.common.data.networking") {
     bindSingleton<ClientConfigurationHelper> {
@@ -15,9 +16,13 @@ public val networkingDi: DI.Module = DI.Module("williankl.bpProject.common.data.
             googlePlacesBaseUrl = instance(NetworkConstant.GooglePlacesBaseUrl),
             googleMapsBaseUrl = instance(NetworkConstant.GoogleMapsBaseUrl),
             googleMapsKey = instance(NetworkConstant.GooglePlacesApiKey),
-            preferencesHandler = instance(),
+            networkClientSession = instance(),
             json = instance(),
         )
+    }
+
+    bindSingleton<NetworkClientSession> {
+        NetworkClientSessionHandler()
     }
 
     bindSingleton {
