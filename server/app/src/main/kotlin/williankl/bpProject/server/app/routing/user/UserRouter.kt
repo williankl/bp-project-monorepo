@@ -10,15 +10,17 @@ import io.ktor.server.routing.route
 import org.kodein.di.instance
 import williankl.bpProject.common.core.models.network.response.NetworkErrorResponse
 import williankl.bpProject.server.app.configuration.AuthenticationHandler
+import williankl.bpProject.server.app.routing.BPRoute
 import williankl.bpProject.server.app.serverDi
 import williankl.bpProject.server.app.userId
 import williankl.bpProject.server.database.services.UserStorage
 
-internal object UserRouter {
+internal class UserRouter(
+    private val userStorage: UserStorage,
+) : BPRoute {
 
-    private val userService by serverDi.instance<UserStorage>()
-
-    fun Route.userRoutes() {
+    context (Route)
+    override suspend fun route() {
         route("/user") {
             authenticate(AuthenticationHandler.BEARER_KEY) {
                 currentUserRoute()
@@ -31,7 +33,7 @@ internal object UserRouter {
             val userId = call.userId
 
             val foundUser = userId?.let {
-                userService.retrieveUser(userId)
+                userStorage.retrieveUser(userId)
             }
 
             when {
