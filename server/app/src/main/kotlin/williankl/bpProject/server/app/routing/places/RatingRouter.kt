@@ -26,7 +26,7 @@ internal class RatingRouter(
 ) : BPRoute {
 
     context (Route)
-    override suspend fun route() {
+    override fun route() {
         route("/places/rating") {
             listRatings()
             authenticate(AuthenticationHandler.BEARER_KEY) {

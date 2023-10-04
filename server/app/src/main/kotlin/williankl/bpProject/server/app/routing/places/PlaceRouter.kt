@@ -30,7 +30,7 @@ internal class PlaceRouter(
 ): BPRoute {
 
     context (Route)
-    override suspend fun route() {
+    override fun route() {
         route("/places") {
             pagingRouting()
             idRouting()

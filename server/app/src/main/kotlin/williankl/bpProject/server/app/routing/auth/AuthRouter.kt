@@ -25,7 +25,7 @@ internal class AuthRouter(
 ) : BPRoute {
 
     context (Route)
-    override suspend fun route() {
+    override fun route() {
         route("/auth") {
             formLoginRoute()
             signupRoute()

@@ -20,7 +20,7 @@ internal class UserRouter(
 ) : BPRoute {
 
     context (Route)
-    override suspend fun route() {
+    override fun route() {
         route("/user") {
             authenticate(AuthenticationHandler.BEARER_KEY) {
                 currentUserRoute()
