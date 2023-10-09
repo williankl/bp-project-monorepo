@@ -77,11 +77,12 @@ public class PlaceDetailsScreen(
         val router = LocalRouter.currentOrThrow
         val runnerModel = rememberScreenModel<Uuid, PlaceDetailsRunnerModel>(arg = place.id)
         val presentation by runnerModel.currentData.collectAsState()
+        val ratingPaging by runnerModel.ratingPaging.collectAsState()
 
         PlaceDetailsContent(
             place = place,
             presentation = presentation,
-            ratings = runnerModel.ratingPaging.items,
+            ratings = ratingPaging.items,
             onRatingOptionsRequested = { ratingId ->
             },
             onOptionSelected = { option ->
@@ -99,7 +100,7 @@ public class PlaceDetailsScreen(
                                         user = user,
                                         onRating = { rating, comment ->
                                             router.hideBottomSheet()
-                                            // todo - apply comment
+                                            runnerModel.ratePlace(rating, comment)
                                         },
                                     )
                                 )

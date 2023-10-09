@@ -33,7 +33,7 @@ import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
 internal class RatingContent(
     private val user: User,
-    private val onRating: (Int, String) -> Unit,
+    private val onRating: (Int, String?) -> Unit,
 ) : BeautifulScreen() {
     @Composable
     override fun BeautifulContent() {
@@ -104,7 +104,7 @@ internal class RatingContent(
                 enabled = selectedRating != null,
                 onClick = {
                     selectedRating?.let { rating ->
-                        onRating(rating, writtenComment)
+                        onRating(rating, writtenComment.ifBlank { null })
                     }
                 },
                 modifier = Modifier.fillMaxWidth()

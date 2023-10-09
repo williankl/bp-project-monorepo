@@ -24,13 +24,14 @@ public fun StarRating(
     onRating: ((Int) -> Unit)? = null,
     starSize: Dp = 24.dp,
     spacing: Dp = 6.dp,
+    starCount: Int = 5,
 ) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(spacing),
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier,
     ) {
-        repeat(5) { index ->
+        repeat(starCount) { index ->
             val paddedIndex = index + 1
             val resource = when {
                 rating < paddedIndex && rating > index -> SharedDesignCoreResources.images.ic_star_half

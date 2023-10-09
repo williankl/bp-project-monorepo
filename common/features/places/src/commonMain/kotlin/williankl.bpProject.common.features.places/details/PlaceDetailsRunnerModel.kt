@@ -6,8 +6,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import com.benasher44.uuid.Uuid
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import williankl.bpProject.common.core.models.PlaceRating
 import williankl.bpProject.common.core.models.User
+import williankl.bpProject.common.core.models.network.request.PlaceRatingRequest
 import williankl.bpProject.common.data.networking.models.PagingResult
 import williankl.bpProject.common.data.placeService.PlaceRatingService
 import williankl.bpProject.common.data.sessionHandler.Session
@@ -29,13 +33,14 @@ internal class PlaceDetailsRunnerModel(
         val defaultImageColor = BeautifulColor.Secondary.nonComposableColor()
     }
 
+    private val mutableRatingPaging = MutableStateFlow(PagingResult<PlaceRating>())
+    val ratingPaging: StateFlow<PagingResult<PlaceRating>> = mutableRatingPaging
+
     init {
         fetchNextCommentPage()
         updatePresentation()
     }
 
-    var ratingPaging by mutableStateOf<PagingResult<PlaceRating>>(PagingResult())
-        private set
 
     internal data class PlaceDetailsPresentation(
         val currentUser: User? = null,
@@ -49,18 +54,33 @@ internal class PlaceDetailsRunnerModel(
     }
 
     fun fetchNextCommentPage() = runAsync {
-        if (ratingPaging.hasReachedFinalPage) return@runAsync
-        ratingPaging = with(ratingPaging) {
-            val nextPage = ratingService.ratingsForPlace(
-                placeId = placeId,
-                page = currentPage + 1
-            )
+        mutableRatingPaging.update { paging ->
+            if (paging.hasReachedFinalPage) return@runAsync
+            with(paging) {
+                val nextPage = ratingService.ratingsForPlace(
+                    placeId = placeId,
+                    page = currentPage + 1
+                )
 
-            copy(
-                currentPage = currentPage + 1,
-                hasReachedFinalPage = nextPage.isEmpty(),
-                items = items + nextPage,
-            )
+                copy(
+                    currentPage = currentPage + 1,
+                    hasReachedFinalPage = nextPage.isEmpty(),
+                    items = items + nextPage,
+                )
+            }
         }
+    }
+
+    fun ratePlace(
+        rating: Int,
+        comment: String?,
+    ) = runAsync {
+        ratingService.ratePlace(
+            placeId = placeId,
+            rateRequest = PlaceRatingRequest(
+                comment = comment,
+                rating = rating,
+            )
+        )
     }
 }
