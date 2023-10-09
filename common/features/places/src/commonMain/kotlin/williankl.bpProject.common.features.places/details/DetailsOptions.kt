@@ -99,4 +99,16 @@ internal sealed class DetailsOptions(
             resultStr
         },
     )
+
+    internal data object Comment : DetailsOptions(
+        header = {
+            Image(
+                painter = painterResource(SharedDesignCoreResources.images.ic_chat_bubble),
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(BeautifulColor.NeutralHigh.composeColor),
+                modifier = Modifier.size(24.dp),
+            )
+        },
+        label = { LocalPlacesStrings.current.placeDetailsStrings.addRatingLabel },
+    )
 }

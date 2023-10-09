@@ -11,6 +11,8 @@ internal data class PlacesStrings(
         val favouriteLabel: String,
         val addToRouteLabel: String,
         val inAppRatingLabel: String,
+        val addRatingLabel: String,
+        val addRatingActionLabel: String,
         val commentHint: String,
     )
 

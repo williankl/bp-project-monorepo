@@ -38,12 +38,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.benasher44.uuid.Uuid
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.PlaceRating
 import williankl.bpProject.common.features.places.LocalPlacesStrings
 import williankl.bpProject.common.features.places.details.PlaceDetailsRunnerModel.PlaceDetailsPresentation
+import williankl.bpProject.common.features.places.details.modal.RatingContent
 import williankl.bpProject.common.platform.design.components.AsyncImage
 import williankl.bpProject.common.platform.design.components.AsyncImagePager
 import williankl.bpProject.common.platform.design.components.CommentBubble
@@ -56,6 +58,8 @@ import williankl.bpProject.common.platform.design.core.input.Input
 import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
 import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.design.core.text.TextSize
+import williankl.bpProject.common.platform.stateHandler.LocalRouter
+import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig
 
@@ -70,6 +74,7 @@ public class PlaceDetailsScreen(
 
     @Composable
     override fun BeautifulContent() {
+        val router = LocalRouter.currentOrThrow
         val runnerModel = rememberScreenModel<Uuid, PlaceDetailsRunnerModel>(arg = place.id)
         val presentation by runnerModel.currentData.collectAsState()
 
@@ -86,6 +91,22 @@ public class PlaceDetailsScreen(
                     is DetailsOptions.Favourite -> Unit
                     is DetailsOptions.Owner -> Unit
                     is DetailsOptions.Season -> Unit
+                    is DetailsOptions.Comment -> {
+                        presentation.currentUser
+                            ?.let { user ->
+                                router.bottomSheetNavigator.show(
+                                    RatingContent(
+                                        user = user,
+                                        onRating = { rating, comment ->
+                                            router.hideBottomSheet()
+                                            // todo - apply comment
+                                        },
+                                    )
+                                )
+                            }
+                            ?: router.push(Authentication.LoginRequiredBottomSheet)
+
+                    }
                 }
             },
             modifier = Modifier
@@ -220,6 +241,7 @@ public class PlaceDetailsScreen(
                 DetailsOptions.Address(place.address),
                 DetailsOptions.Favourite,
                 DetailsOptions.AddRoute,
+                DetailsOptions.Comment,
             )
         }
 
@@ -326,11 +348,7 @@ public class PlaceDetailsScreen(
                 AsyncImage(
                     url = presentation.currentUser?.avatarUrl.orEmpty(),
                     onError = {
-                        Image(
-                            painter = painterResource(SharedDesignCoreResources.images.ic_profile),
-                            colorFilter = ColorFilter.tint(BeautifulColor.NeutralHigh.composeColor),
-                            contentDescription = null,
-                        )
+
                     },
                     modifier = Modifier
                         .clip(BeautifulShape.Rounded.Circle.composeShape)
