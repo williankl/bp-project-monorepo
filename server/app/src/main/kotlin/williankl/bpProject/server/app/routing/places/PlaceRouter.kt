@@ -21,9 +21,11 @@ import williankl.bpProject.server.app.routing.places.PlaceMapper.toPlace
 import williankl.bpProject.server.app.serverDi
 import williankl.bpProject.server.app.userId
 import williankl.bpProject.server.database.services.PlaceStorage
+import williankl.bpProject.server.database.services.UserStorage
 
 internal object PlaceRouter {
 
+    private val userService by serverDi.instance<UserStorage>()
     private val placesService by serverDi.instance<PlaceStorage>()
 
     fun Route.placesRoute() {
@@ -41,10 +43,11 @@ internal object PlaceRouter {
     private fun Route.savePlaceRoute() {
         post {
             val received = runOrNullSuspend { call.receive<SavingPlaceRequest>() }
-            val userId = call.userId
+            val user = call.userId
+                ?.let { userId -> userService.retrieveUser(userId) }
 
-            if (received != null && userId != null) {
-                val generatedPlace = received.toPlace(userId)
+            if (received != null && user != null) {
+                val generatedPlace = received.toPlace(user)
                 placesService.savePlace(generatedPlace)
                 call.respond(HttpStatusCode.OK)
             } else {

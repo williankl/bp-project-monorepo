@@ -19,11 +19,13 @@ VALUES ?;
 findPlaceById:
 SELECT * FROM PlaceData
 INNER JOIN PlaceAddressData ON PlaceAddressData.id = PlaceData.addressId
+INNER JOIN UserData ON UserData.id = PlaceData.ownerId
 WHERE PlaceData.id = ?;
 
 listPlaces:
 SELECT * FROM PlaceData
 INNER JOIN PlaceAddressData ON PlaceAddressData.id = PlaceData.addressId
+INNER JOIN UserData ON UserData.id = PlaceData.ownerId
 LIMIT ? OFFSET ?;
 
 updatePlaceData:

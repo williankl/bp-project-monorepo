@@ -6,17 +6,23 @@ import io.ktor.util.pipeline.PipelineContext
 import williankl.bpProject.common.core.generateId
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.Place.PlaceState
+import williankl.bpProject.common.core.models.User
 import williankl.bpProject.common.core.models.network.request.PlaceDistanceQuery
 import williankl.bpProject.common.core.models.network.request.SavingPlaceRequest
 import williankl.bpProject.common.core.runOrNullSuspend
 import java.util.Date
-import java.util.UUID
 
 internal object PlaceMapper {
-    fun SavingPlaceRequest.toPlace(ownerId: UUID): Place {
+    fun SavingPlaceRequest.toPlace(user: User): Place {
         return Place(
             id = generateId,
-            ownerId = ownerId,
+            owner = User(
+                id = user.id,
+                email = user.email,
+                name = user.name,
+                tag = user.tag,
+                avatarUrl = user.avatarUrl,
+            ),
             displayName = name,
             description = description,
             address = address,

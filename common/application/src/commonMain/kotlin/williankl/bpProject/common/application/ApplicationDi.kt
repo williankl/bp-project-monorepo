@@ -39,6 +39,6 @@ public val applicationDi: DI.Module = DI.Module("williankl.bpProject.common.appl
     }
 
     bindConstant(NetworkConstant.BeautifulPlacesBaseUrl) {
-        "http://stgbpp.eu-west-3.elasticbeanstalk.com/"
+        "http://testbpp.eu-north-1.elasticbeanstalk.com/"
     }
 }

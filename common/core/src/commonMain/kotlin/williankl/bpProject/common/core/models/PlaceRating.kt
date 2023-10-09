@@ -10,7 +10,7 @@ public data class PlaceRating(
     @Serializable(UuidSerializer::class) val placeId: Uuid,
     val ownerData: User,
     val comment: String?,
-    val rating: Int?,
+    val rating: Int,
     val createdAt: Long,
     val updatedAt: Long?,
 )

@@ -87,7 +87,13 @@ internal object Mapper {
         return with(joinedData) {
             Place(
                 id = id,
-                ownerId = ownerId,
+                owner = User(
+                    id = id__,
+                    email = email,
+                    name = name_,
+                    tag = tag,
+                    avatarUrl = avatarUrl,
+                ),
                 displayName = name,
                 description = description,
                 address = PlaceAddress(
@@ -115,7 +121,13 @@ internal object Mapper {
         return with(joinedData) {
             Place(
                 id = id,
-                ownerId = ownerId,
+                owner = User(
+                    id = id__,
+                    email = email,
+                    name = name,
+                    tag = tag,
+                    avatarUrl = avatarUrl,
+                ),
                 displayName = name,
                 description = description,
                 address = PlaceAddress(
@@ -141,7 +153,7 @@ internal object Mapper {
         return with(from) {
             PlaceData(
                 id = id,
-                ownerId = ownerId,
+                ownerId = owner.id,
                 name = displayName,
                 description = description,
                 addressId = address.id,

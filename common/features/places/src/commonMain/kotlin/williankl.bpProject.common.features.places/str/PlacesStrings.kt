@@ -4,7 +4,19 @@ internal data class PlacesStrings(
     val photoSelectionStrings: PhotoSelectionStrings,
     val placeCreationStrings: PlaceCreationStrings,
     val placeSearchStrings: PlaceSearchStrings,
+    val placeDetailsStrings: PlaceDetailsStrings,
 ) {
+    internal data class PlaceDetailsStrings(
+        val title: String,
+        val favouriteLabel: String,
+        val ratingsLabel: (Int) -> String?,
+        val addToRouteLabel: String,
+        val inAppRatingLabel: String,
+        val addRatingLabel: String,
+        val addRatingActionLabel: String,
+        val commentHint: String,
+    )
+
     internal data class PhotoSelectionStrings(
         val nextActionLabel: String,
     )
