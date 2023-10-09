@@ -5,6 +5,7 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 import kotlinx.coroutines.flow.MutableStateFlow
 import williankl.bpProject.common.core.models.User
+import williankl.bpProject.common.core.runOrNullSuspend
 import williankl.bpProject.common.data.sessionHandler.PreferencesHandler
 import williankl.bpProject.common.data.sessionHandler.Session
 
@@ -23,8 +24,11 @@ internal class SessionHandler(
         refreshSession: Boolean,
     ): User? {
         currentCachedUser.value =
-            if (currentCachedUser.value == null || refreshSession) client.get(USER_ENDPOINT).body()
-            else currentCachedUser.value
+            if (currentCachedUser.value == null || refreshSession) {
+                runOrNullSuspend { client.get(USER_ENDPOINT).body() }
+            } else {
+                currentCachedUser.value
+            }
 
         return currentCachedUser.value
     }

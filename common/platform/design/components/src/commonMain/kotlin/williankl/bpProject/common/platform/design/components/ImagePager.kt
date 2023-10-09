@@ -5,7 +5,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -201,7 +201,7 @@ public fun <T> ActionedImagePager(
 
                         AnimatedContent(
                             targetState = index == state.currentPage,
-                            transitionSpec = { fadeIn() with fadeOut() }
+                            transitionSpec = { fadeIn() togetherWith fadeOut() }
                         ) { isCurrentPage ->
                             if (isCurrentPage) {
                                 Spacer(

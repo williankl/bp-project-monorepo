@@ -2,7 +2,6 @@ package williankl.bpProject.common.application
 
 import org.kodein.di.DI
 import org.kodein.di.bindConstant
-import williankl.bpProject.common.application.internal.attachClientBearerToken
 import williankl.bpProject.common.core.commonCoreDi
 import williankl.bpProject.common.data.auth.authServiceDi
 import williankl.bpProject.common.data.cypher.cypherDi
@@ -30,10 +29,6 @@ public val applicationDi: DI.Module = DI.Module("williankl.bpProject.common.appl
     import(authenticationFeatureDi)
     import(dashboardDi)
     import(placesDi)
-
-    onReady {
-        attachClientBearerToken()
-    }
 
     bindConstant(NetworkConstant.GooglePlacesBaseUrl) {
         "https://places.googleapis.com/"
