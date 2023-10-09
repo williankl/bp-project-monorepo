@@ -37,7 +37,7 @@ internal class RatingRouter(
     }
 
     private fun Route.metadataRoute() {
-        get("/places/rating/metadata") {
+        get("/metadata") {
             val placeId = idFromParameter("placeId")
 
             if (placeId != null) {
@@ -48,10 +48,11 @@ internal class RatingRouter(
                 )
 
                 call.respond(
+                    status = HttpStatusCode.OK,
                     message = PlaceRatingData(
                         ratingCount = ratings.size,
                         rating = ratings.sumOf { rating -> rating.rating } / ratings.size.toFloat(),
-                    )
+                    ),
                 )
             } else {
                 call.respond(
