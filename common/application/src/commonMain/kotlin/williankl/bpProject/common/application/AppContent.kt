@@ -31,7 +31,9 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.transitions.SlideTransition
+import org.kodein.di.compose.localDI
 import williankl.bpProject.common.application.internal.RouterInfrastructure
+import williankl.bpProject.common.application.internal.attachClientBearerToken
 import williankl.bpProject.common.data.imageRetrievalService.controller.ImageRetrievalController
 import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
 import williankl.bpProject.common.features.dashboard.DashboardScreen
@@ -43,13 +45,21 @@ import williankl.bpProject.common.platform.stateHandler.LocalRouter
 import williankl.bpProject.common.platform.stateHandler.navigation.Router
 
 @Composable
-@OptIn(ExperimentalAnimationApi::class)
 public fun AppContent(
     imageRetrievalController: ImageRetrievalController,
 ) {
+    val localDi = localDI()
+
+    LaunchedEffect(Unit) {
+        with(localDi) {
+            attachClientBearerToken()
+        }
+    }
+
     val router = remember {
         RouterInfrastructure()
     }
+
     BeautifulThemeContent {
         CompositionLocalProvider(
             LocalImageRetrievalController provides imageRetrievalController,

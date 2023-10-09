@@ -99,7 +99,7 @@ public class PlaceDetailsScreen(
                                     )
                                 )
                             }
-                            ?: router.push(Authentication.LoginRequiredBottomSheet)
+                            ?: router.showBottomSheet(Authentication.LoginRequiredBottomSheet)
                     }
                 }
             },
@@ -218,18 +218,23 @@ public class PlaceDetailsScreen(
                 visible = presentation.placeRatingData != null
             ) {
                 if (presentation.placeRatingData != null) {
-                    StarRating(
-                        rating = presentation.placeRatingData.rating,
-                        starSize = 14.dp,
-                        modifier = Modifier
-                    )
-
-                    val label = strings.placeDetailsStrings.ratingsLabel(presentation.placeRatingData.ratingCount)
-                    if (label != null) {
-                        Text(
-                            text = label,
-                            size = TextSize.XSmall,
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        StarRating(
+                            rating = presentation.placeRatingData.rating,
+                            starSize = 14.dp,
+                            modifier = Modifier
                         )
+
+                        val label = strings.placeDetailsStrings.ratingsLabel(presentation.placeRatingData.ratingCount)
+                        if (label != null) {
+                            Text(
+                                text = label,
+                                size = TextSize.XSmall,
+                            )
+                        }
                     }
                 }
             }

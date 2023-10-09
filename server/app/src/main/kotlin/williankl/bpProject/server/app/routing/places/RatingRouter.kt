@@ -47,12 +47,21 @@ internal class RatingRouter(
                     limit = Int.MAX_VALUE,
                 )
 
-                call.respond(
-                    status = HttpStatusCode.OK,
-                    message = PlaceRatingData(
+                val result = if (ratings.isNotEmpty()) {
+                    PlaceRatingData(
                         ratingCount = ratings.size,
                         rating = ratings.sumOf { rating -> rating.rating } / ratings.size.toFloat(),
-                    ),
+                    )
+                } else {
+                    PlaceRatingData(
+                        ratingCount = 0,
+                        rating = 0f,
+                    )
+                }
+
+                call.respond(
+                    status = HttpStatusCode.OK,
+                    message = result,
                 )
             } else {
                 call.respond(
