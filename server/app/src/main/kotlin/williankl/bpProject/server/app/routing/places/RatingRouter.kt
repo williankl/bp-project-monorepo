@@ -13,6 +13,7 @@ import io.ktor.server.routing.route
 import williankl.bpProject.common.core.models.network.request.PlaceRatingRequest
 import williankl.bpProject.common.core.models.network.response.NetworkErrorResponse
 import williankl.bpProject.common.core.runOrNullSuspend
+import williankl.bpProject.common.data.placeService.models.PlaceRatingData
 import williankl.bpProject.server.app.configuration.AuthenticationHandler
 import williankl.bpProject.server.app.idFromParameter
 import williankl.bpProject.server.app.routing.BPRoute
@@ -26,10 +27,39 @@ internal class RatingRouter(
     context (Route)
     override fun route() {
         route("/places/rating") {
+            metadataRoute()
             listRatings()
             authenticate(AuthenticationHandler.BEARER_KEY) {
                 rateRoute()
                 deleteRatingRoute()
+            }
+        }
+    }
+
+    private fun Route.metadataRoute() {
+        get("/places/rating/metadata") {
+            val placeId = idFromParameter("placeId")
+
+            if (placeId != null) {
+                val ratings = placesRatingStorage.ratingsForPlace(
+                    placeId = placeId,
+                    page = 0,
+                    limit = Int.MAX_VALUE,
+                )
+
+                call.respond(
+                    message = PlaceRatingData(
+                        ratingCount = ratings.size,
+                        rating = ratings.sumOf { rating -> rating.rating } / ratings.size.toFloat(),
+                    )
+                )
+            } else {
+                call.respond(
+                    status = HttpStatusCode.BadRequest,
+                    message = NetworkErrorResponse(
+                        message = "Could not find 'placeId' parameter"
+                    )
+                )
             }
         }
     }
