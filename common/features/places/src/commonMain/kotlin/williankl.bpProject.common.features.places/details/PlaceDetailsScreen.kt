@@ -146,11 +146,12 @@ public class PlaceDetailsScreen(
                 )
             }
 
-            commentItems(
-                ratings = ratings,
-                onRatingOptionsRequested = onRatingOptionsRequested,
-                presentation = presentation,
-            )
+            if (ratings.isNotEmpty()) {
+                commentItems(
+                    ratings = ratings,
+                    onRatingOptionsRequested = onRatingOptionsRequested,
+                )
+            }
         }
     }
 
@@ -298,7 +299,6 @@ public class PlaceDetailsScreen(
     }
 
     private fun LazyListScope.commentItems(
-        presentation: PlaceDetailsPresentation,
         ratings: List<PlaceRating>,
         onRatingOptionsRequested: (Uuid) -> Unit,
     ) {
@@ -314,63 +314,15 @@ public class PlaceDetailsScreen(
         items(ratings) { rating ->
             CommentBubble(
                 rating = rating,
-                modifier = Modifier,
+                modifier = Modifier.padding(
+                    horizontal = 12.dp,
+                    vertical = 6.dp,
+                ),
                 endAction = CommentBubbleAction(
-                    icon = SharedDesignCoreResources.images.ic_chat_bubble,
+                    icon = SharedDesignCoreResources.images.ic_horizontal_ellipsis,
                     onClick = { onRatingOptionsRequested(rating.id) },
                 ),
             )
-        }
-
-        item {
-            Spacer(
-                modifier = Modifier
-                    .padding(
-                        vertical = 16.dp,
-                        horizontal = 12.dp
-                    )
-                    .background(BeautifulColor.Border.composeColor)
-                    .fillMaxWidth()
-                    .height(1.dp)
-            )
-        }
-
-        item {
-            var writtenComment by remember {
-                mutableStateOf("")
-            }
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .padding(horizontal = 12.dp),
-            ) {
-                AsyncImage(
-                    url = presentation.currentUser?.avatarUrl.orEmpty(),
-                    onError = {
-
-                    },
-                    modifier = Modifier
-                        .clip(BeautifulShape.Rounded.Circle.composeShape)
-                        .size(24.dp)
-                )
-
-                Input(
-                    text = writtenComment,
-                    onTextChange = { writtenComment = it },
-                    hint = LocalPlacesStrings.current.placeDetailsStrings.commentHint,
-                    startContent = {
-                        Image(
-                            painter = painterResource(SharedDesignCoreResources.images.ic_chat_bubble),
-                            contentDescription = null,
-                            colorFilter = ColorFilter.tint(BeautifulColor.NeutralHigh.composeColor),
-                            modifier = Modifier.size(20.dp)
-                        )
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
         }
     }
 }

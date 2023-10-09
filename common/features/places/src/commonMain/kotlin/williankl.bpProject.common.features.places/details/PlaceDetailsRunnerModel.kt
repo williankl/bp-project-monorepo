@@ -44,6 +44,8 @@ internal class PlaceDetailsRunnerModel(
 
     internal data class PlaceDetailsPresentation(
         val currentUser: User? = null,
+        val rating: Float = 0f,
+        val ratingCount: Long = 0,
         val averageColorList: List<Color> = emptyList(),
     )
 

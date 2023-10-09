@@ -3,6 +3,7 @@ package williankl.bpProject.common.platform.design.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -47,13 +49,14 @@ public fun CommentBubble(
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp),
         modifier = modifier
-            .background(
+            .border(
+                width = 1.dp,
                 color = BeautifulColor.Primary.composeColor,
                 shape = BeautifulShape.Rounded.Regular.composeShape,
             )
-            .padding(14.dp),
+            .padding(6.dp),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -71,15 +74,24 @@ public fun CommentBubble(
                 },
                 modifier = Modifier
                     .clip(BeautifulShape.Rounded.Circle.composeShape)
-                    .size(24.dp)
+                    .size(30.dp)
             )
 
-            Text(
-                text = rating.ownerData.tag ?: rating.ownerData.name,
-                size = TextSize.Small,
-                weight = FontWeight.SemiBold,
+            Column(
+                verticalArrangement = Arrangement.spacedBy(2.dp),
                 modifier = Modifier.weight(1f),
-            )
+            ) {
+                Text(
+                    text = rating.ownerData.tag ?: rating.ownerData.name,
+                    size = TextSize.Small,
+                    weight = FontWeight.SemiBold,
+                )
+
+                StarRating(
+                    rating = rating.rating.toFloat(),
+                    starSize = 8.dp
+                )
+            }
 
             Text(
                 text = strings.bubbleStrings.timePassed(rating.updatedAt ?: rating.createdAt),
@@ -91,8 +103,7 @@ public fun CommentBubble(
         if (rating.comment != null) {
             Text(
                 text = rating.comment.orEmpty(),
-                size = TextSize.Large,
-                weight = FontWeight.SemiBold,
+                modifier = Modifier.align(Alignment.Start),
             )
         }
 
@@ -102,21 +113,21 @@ public fun CommentBubble(
             Spacer(
                 modifier = Modifier
                     .background(BeautifulColor.Border.composeColor)
-                    .fillMaxWidth()
+                    .width(60.dp)
                     .height(1.dp)
             )
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier,
+                modifier = Modifier.padding(top = 6.dp),
             ) {
                 actions.forEach { action ->
                     Image(
                         painter = painterResource(action.icon),
                         contentDescription = null,
                         modifier = Modifier
-                            .clickableIcon { action.onClick() }
+                            .clickableIcon(padding = 0.dp) { action.onClick() }
                             .size(24.dp)
                     )
                 }
@@ -130,7 +141,7 @@ public fun CommentBubble(
                         painter = painterResource(endAction.icon),
                         contentDescription = null,
                         modifier = Modifier
-                            .clickableIcon { endAction.onClick() }
+                            .clickableIcon(padding = 0.dp) { endAction.onClick() }
                             .size(24.dp)
                     )
                 }

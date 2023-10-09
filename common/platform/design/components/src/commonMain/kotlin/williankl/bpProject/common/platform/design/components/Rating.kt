@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
+import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.modifyIf
@@ -45,7 +46,7 @@ public fun StarRating(
                 colorFilter = ColorFilter.tint(BeautifulColor.NeutralHigh.composeColor),
                 modifier = Modifier
                     .modifyIf(onRating != null) {
-                        clickable { onRating?.invoke(paddedIndex) }
+                        clickableIcon(padding = 0.dp) { onRating?.invoke(paddedIndex) }
                     }
                     .size(starSize)
             )
