@@ -9,14 +9,12 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.delete
 import io.ktor.server.routing.get
 import io.ktor.server.routing.route
-import org.kodein.di.instance
 import williankl.bpProject.common.core.models.User
 import williankl.bpProject.common.core.models.network.response.NetworkErrorResponse
 import williankl.bpProject.common.core.models.network.response.UserCredentialResponse
 import williankl.bpProject.common.data.cypher.BeautifulCypher
 import williankl.bpProject.server.app.configuration.AuthenticationHandler
 import williankl.bpProject.server.app.routing.BPRoute
-import williankl.bpProject.server.app.serverDi
 import williankl.bpProject.server.database.services.AuthStorage
 
 internal class AuthRouter(

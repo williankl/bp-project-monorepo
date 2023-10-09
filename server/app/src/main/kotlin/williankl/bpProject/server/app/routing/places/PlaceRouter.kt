@@ -27,7 +27,7 @@ import williankl.bpProject.server.database.services.UserStorage
 internal class PlaceRouter(
     private val placeStorage: PlaceStorage,
     private val userStorage: UserStorage,
-): BPRoute {
+) : BPRoute {
 
     context (Route)
     override fun route() {

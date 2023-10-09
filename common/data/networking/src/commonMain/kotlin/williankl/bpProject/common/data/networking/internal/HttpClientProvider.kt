@@ -6,7 +6,7 @@ internal class HttpClientProvider(
     private val configurationHelper: ClientConfigurationHelper,
     private val engineProvider: ClientEngineProvider,
 ) {
-   fun provideBpClient(): HttpClient {
+    fun provideBpClient(): HttpClient {
         return HttpClient(engineProvider.provide()) {
             with(configurationHelper) {
                 commonConfiguration()
