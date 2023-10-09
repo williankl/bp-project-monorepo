@@ -50,6 +50,7 @@ import williankl.bpProject.common.platform.design.components.AsyncImage
 import williankl.bpProject.common.platform.design.components.AsyncImagePager
 import williankl.bpProject.common.platform.design.components.CommentBubble
 import williankl.bpProject.common.platform.design.components.CommentBubbleAction
+import williankl.bpProject.common.platform.design.components.StarRating
 import williankl.bpProject.common.platform.design.components.TextContainer
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
@@ -162,6 +163,7 @@ public class PlaceDetailsScreen(
         presentation: PlaceDetailsPresentation,
         modifier: Modifier = Modifier,
     ) {
+        val strings = LocalPlacesStrings.current
         val pagerState = rememberPagerState { place.imageUrls.size }
         var currentPageColor by remember {
             mutableStateOf(PlaceDetailsRunnerModel.defaultImageColor)
@@ -219,6 +221,26 @@ public class PlaceDetailsScreen(
                 size = TextSize.Small,
                 textAlign = TextAlign.Center,
             )
+
+            AnimatedVisibility(
+                visible = presentation.placeRatingData != null
+            ) {
+                if (presentation.placeRatingData != null) {
+                    StarRating(
+                        rating = presentation.placeRatingData.rating,
+                        starSize = 14.dp,
+                        modifier = Modifier
+                    )
+
+                    val label = strings.placeDetailsStrings.ratingsLabel(presentation.placeRatingData.ratingCount)
+                    if (label != null) {
+                        Text(
+                            text = label,
+                            size = TextSize.XSmall,
+                        )
+                    }
+                }
+            }
 
             Spacer(
                 modifier = Modifier

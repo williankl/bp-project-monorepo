@@ -21,6 +21,10 @@ internal val ptBrStrings = PlacesStrings(
     ),
     placeDetailsStrings = PlaceDetailsStrings(
         title = "Postagem",
+        ratingsLabel = { quantity ->
+            if (quantity > 1) "($quantity Avaliações)"
+            else null
+        },
         addToRouteLabel = "Adicionar no meu roteiro",
         favouriteLabel = "Favoritar",
         inAppRatingLabel = "Avaliações",

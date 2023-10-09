@@ -9,6 +9,7 @@ internal data class PlacesStrings(
     internal data class PlaceDetailsStrings(
         val title: String,
         val favouriteLabel: String,
+        val ratingsLabel: (Int) -> String?,
         val addToRouteLabel: String,
         val inAppRatingLabel: String,
         val addRatingLabel: String,
