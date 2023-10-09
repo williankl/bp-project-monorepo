@@ -14,6 +14,7 @@ import williankl.bpProject.common.core.models.User
 import williankl.bpProject.common.core.models.network.request.PlaceRatingRequest
 import williankl.bpProject.common.data.networking.models.PagingResult
 import williankl.bpProject.common.data.placeService.PlaceRatingService
+import williankl.bpProject.common.data.placeService.models.PlaceRatingData
 import williankl.bpProject.common.data.sessionHandler.Session
 import williankl.bpProject.common.features.places.details.PlaceDetailsRunnerModel.PlaceDetailsPresentation
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
@@ -44,14 +45,14 @@ internal class PlaceDetailsRunnerModel(
 
     internal data class PlaceDetailsPresentation(
         val currentUser: User? = null,
-        val rating: Float = 0f,
-        val ratingCount: Long = 0,
+        val placeRatingData: PlaceRatingData? = null,
         val averageColorList: List<Color> = emptyList(),
     )
 
     fun updatePresentation() = setContent {
-        PlaceDetailsPresentation(
-            currentUser = session.loggedInUser()
+        currentData.value.copy(
+            currentUser = session.loggedInUser(),
+            placeRatingData = ratingService.placeRatingData(placeId)
         )
     }
 

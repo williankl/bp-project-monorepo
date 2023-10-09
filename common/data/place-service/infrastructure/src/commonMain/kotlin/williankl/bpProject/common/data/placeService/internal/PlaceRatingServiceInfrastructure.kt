@@ -11,6 +11,7 @@ import io.ktor.client.request.setBody
 import williankl.bpProject.common.core.models.PlaceRating
 import williankl.bpProject.common.core.models.network.request.PlaceRatingRequest
 import williankl.bpProject.common.data.placeService.PlaceRatingService
+import williankl.bpProject.common.data.placeService.models.PlaceRatingData
 
 internal class PlaceRatingServiceInfrastructure(
     private val client: HttpClient,
@@ -18,6 +19,7 @@ internal class PlaceRatingServiceInfrastructure(
 
     private companion object {
         const val PLACES_ENDPOINT = "/places/rating"
+        const val PLACES_METADATA_ENDPOINT = "/places/rating/metadata"
     }
 
     override suspend fun ratePlace(
@@ -28,6 +30,12 @@ internal class PlaceRatingServiceInfrastructure(
             parameter("placeId", placeId.toString())
             setBody(rateRequest)
         }
+    }
+
+    override suspend fun placeRatingData(placeId: Uuid): PlaceRatingData {
+        return client.get(PLACES_METADATA_ENDPOINT) {
+            parameter("placeId", placeId.toString())
+        }.body()
     }
 
     override suspend fun ratingsForPlace(
