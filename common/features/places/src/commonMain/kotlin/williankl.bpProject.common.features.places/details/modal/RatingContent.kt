@@ -111,5 +111,4 @@ internal class RatingContent(
             )
         }
     }
-
 }

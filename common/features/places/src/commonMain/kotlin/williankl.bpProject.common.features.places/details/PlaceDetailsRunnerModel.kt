@@ -1,7 +1,6 @@
 package williankl.bpProject.common.features.places.details
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import com.benasher44.uuid.Uuid
@@ -41,7 +40,6 @@ internal class PlaceDetailsRunnerModel(
         fetchNextCommentPage()
         updatePresentation()
     }
-
 
     internal data class PlaceDetailsPresentation(
         val currentUser: User? = null,
