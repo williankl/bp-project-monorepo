@@ -9,7 +9,6 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
-import org.kodein.di.instance
 import williankl.bpProject.common.core.models.network.request.SavingPlaceRequest
 import williankl.bpProject.common.core.models.network.response.NetworkErrorResponse
 import williankl.bpProject.common.core.runOrNullSuspend
@@ -19,7 +18,6 @@ import williankl.bpProject.server.app.routing.BPRoute
 import williankl.bpProject.server.app.routing.places.PlaceMapper.retrieveDistanceQuery
 import williankl.bpProject.server.app.routing.places.PlaceMapper.retrieveStateQuery
 import williankl.bpProject.server.app.routing.places.PlaceMapper.toPlace
-import williankl.bpProject.server.app.serverDi
 import williankl.bpProject.server.app.userId
 import williankl.bpProject.server.database.services.PlaceStorage
 import williankl.bpProject.server.database.services.UserStorage
@@ -45,10 +43,10 @@ internal class PlaceRouter(
     private fun Route.savePlaceRoute() {
         post {
             val received = runOrNullSuspend { call.receive<SavingPlaceRequest>() }
-            val userId = call.userId
+            val user = call.userId?.let { id -> userStorage.retrieveUser(id) }
 
-            if (received != null && userId != null) {
-                val generatedPlace = received.toPlace(userId)
+            if (received != null && user != null) {
+                val generatedPlace = received.toPlace(user)
                 placeStorage.savePlace(generatedPlace)
                 call.respond(HttpStatusCode.OK)
             } else {

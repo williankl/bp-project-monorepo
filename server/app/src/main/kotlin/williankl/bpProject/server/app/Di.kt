@@ -25,6 +25,7 @@ internal val serverDi = DI {
             ),
             PlaceRouter(
                 placeStorage = instance(),
+                userStorage = instance(),
             ),
             RatingRouter(
                 placesRatingStorage = instance(),
