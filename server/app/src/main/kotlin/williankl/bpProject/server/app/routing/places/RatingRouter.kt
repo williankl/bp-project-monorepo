@@ -10,21 +10,21 @@ import io.ktor.server.routing.delete
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
-import org.kodein.di.instance
 import williankl.bpProject.common.core.models.network.request.PlaceRatingRequest
 import williankl.bpProject.common.core.models.network.response.NetworkErrorResponse
 import williankl.bpProject.common.core.runOrNullSuspend
 import williankl.bpProject.server.app.configuration.AuthenticationHandler
 import williankl.bpProject.server.app.idFromParameter
-import williankl.bpProject.server.app.serverDi
+import williankl.bpProject.server.app.routing.BPRoute
 import williankl.bpProject.server.app.userId
 import williankl.bpProject.server.database.services.PlaceRatingStorage
 
-internal object RatingRouter {
+internal class RatingRouter(
+    private val placesRatingStorage: PlaceRatingStorage
+) : BPRoute {
 
-    private val placesRatingService by serverDi.instance<PlaceRatingStorage>()
-
-    fun Route.ratingRoute() {
+    context (Route)
+    override fun route() {
         route("/places/rating") {
             listRatings()
             authenticate(AuthenticationHandler.BEARER_KEY) {
@@ -41,7 +41,7 @@ internal object RatingRouter {
             val placeId = idFromParameter("placeId")
 
             if (placeId != null && received != null && userId != null) {
-                placesRatingService.createRating(
+                placesRatingStorage.createRating(
                     placeId = placeId,
                     ownerId = userId,
                     data = received,
@@ -66,7 +66,7 @@ internal object RatingRouter {
             val placeId = idFromParameter("placeId")
 
             if (placeId != null && page != null && limit != null) {
-                val result = placesRatingService.ratingsForPlace(placeId, page, limit)
+                val result = placesRatingStorage.ratingsForPlace(placeId, page, limit)
                 when {
                     result.isEmpty() -> call.respond(HttpStatusCode.NoContent)
                     else -> call.respond(
@@ -83,12 +83,12 @@ internal object RatingRouter {
             val userId = call.userId
             val ratingId = idFromParameter("ratingId")
             val targetRating = ratingId?.let {
-                placesRatingService.retrieveRating(ratingId)
+                placesRatingStorage.retrieveRating(ratingId)
             }
 
             if (targetRating != null && userId != null) {
                 if (targetRating.ownerData.id == userId) {
-                    placesRatingService.deleteRating(ratingId)
+                    placesRatingStorage.deleteRating(ratingId)
                     call.respond(HttpStatusCode.OK)
                 } else {
                     call.respond(

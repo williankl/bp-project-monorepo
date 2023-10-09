@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class PlaceRatingRequest(
     val comment: String?,
-    val rating: Int?,
+    val rating: Int,
 )

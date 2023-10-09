@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS PlaceRating (
   placeId uuid NOT NULL,
   ownerId uuid NOT NULL,
   placedAt bigint NOT NULL,
-  rating int,
+  rating int NOT NULL,
   message text,
   lastEditedAt bigint
 );
