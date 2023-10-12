@@ -25,12 +25,9 @@ internal val serverDi = DI {
     import(placesServiceDi)
     import(serverDatabaseDi)
 
-    bindConstant(NetworkConstant.GooglePlacesBaseUrl) {
-        "https://places.googleapis.com/"
-    }
-
-    bindConstant(NetworkConstant.GoogleMapsBaseUrl) {
-        "https://maps.googleapis.com/"
+    bindConstant(NetworkConstant.GooglePlacesApiKey) {
+        retrieveFromEnv("MAPS_API_KEY")
+            ?: error("Could not retrieve maps key from environment")
     }
 
     bindSingleton {

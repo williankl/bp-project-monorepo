@@ -8,7 +8,12 @@ import io.ktor.server.application.call
 import io.ktor.server.auth.UserIdPrincipal
 import io.ktor.server.auth.principal
 import io.ktor.util.pipeline.PipelineContext
+import williankl.bpProject.common.core.runOrNull
 import williankl.bpProject.common.core.runOrNullSuspend
+import java.io.File
+import java.io.FileInputStream
+import java.io.InputStreamReader
+import java.util.*
 
 internal val ApplicationCall.userId: Uuid?
     get() = principal<UserIdPrincipal>()
@@ -23,4 +28,20 @@ internal suspend fun PipelineContext<*, ApplicationCall>.idFromParameter(
 ): Uuid? = runOrNullSuspend {
     call.parameters[label]
         ?.let(::uuidFrom)
+}
+
+internal fun retrieveFromEnv(key: String): String? {
+    return retrieveFromLocalProperties(key)
+        ?: System.getenv(key)
+}
+
+internal fun retrieveFromLocalProperties(key: String): String? {
+    val properties = Properties()
+    val localProperties = File("local.properties")
+    return runOrNull {
+        val fileInputStream = FileInputStream(localProperties)
+        val streamReader = InputStreamReader(fileInputStream, Charsets.UTF_8)
+        properties.load(streamReader)
+        properties.getProperty(key)
+    }
 }
