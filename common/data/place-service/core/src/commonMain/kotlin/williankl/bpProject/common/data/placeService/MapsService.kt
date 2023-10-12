@@ -12,4 +12,9 @@ public interface MapsService {
     public suspend fun placeFromCoordinates(
         coordinates: MapCoordinate,
     ): List<MapPlaceResult>
+
+    public suspend fun distanceBetween(
+        from: MapCoordinate,
+        vararg to: MapCoordinate,
+    ): List<Long>
 }
