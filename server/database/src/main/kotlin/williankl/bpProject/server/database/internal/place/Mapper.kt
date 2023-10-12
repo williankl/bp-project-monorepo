@@ -19,8 +19,6 @@ import place.PlaceRating as DBPlaceRating
 
 internal object Mapper {
 
-    private const val LIST_SEPARATOR = "|"
-
     fun toDomain(
         ownerId: Uuid,
         placeId: Uuid,
@@ -106,9 +104,9 @@ internal object Mapper {
                         longitude = longitude,
                     )
                 ),
-                imageUrls = images?.split(LIST_SEPARATOR).orEmpty(),
-                seasons = seasons.split(LIST_SEPARATOR).sanitizeSeasonList(),
-                tags = seasons.split(LIST_SEPARATOR).sanitizeTagList(),
+                imageUrls = images.toList(),
+                seasons = seasons.map { seasonName -> seasonName.sanitizeSeason() },
+                tags = seasons.map { tagName -> tagName.sanitizeTag() },
                 state = state.sanitizeState(),
                 createdAt = createdAt,
             )
@@ -140,9 +138,9 @@ internal object Mapper {
                         longitude = longitude,
                     )
                 ),
-                imageUrls = images?.split(LIST_SEPARATOR).orEmpty(),
-                seasons = seasons.split(LIST_SEPARATOR).sanitizeSeasonList(),
-                tags = seasons.split(LIST_SEPARATOR).sanitizeTagList(),
+                imageUrls = images.toList(),
+                seasons = seasons.map { seasonName -> seasonName.sanitizeSeason() },
+                tags = seasons.map { tagName -> tagName.sanitizeTag() },
                 state = state.sanitizeState(),
                 createdAt = createdAt,
             )
@@ -157,9 +155,13 @@ internal object Mapper {
                 name = displayName,
                 description = description,
                 addressId = address.id,
-                images = imageUrls.joinToString(LIST_SEPARATOR),
-                seasons = seasons.joinToString(LIST_SEPARATOR),
-                tags = tags.joinToString(LIST_SEPARATOR),
+                images = imageUrls.toTypedArray(),
+                seasons = seasons
+                    .map { season -> season.name }
+                    .toTypedArray(),
+                tags = tags
+                    .map { tag -> tag.name }
+                    .toTypedArray(),
                 createdAt = createdAt,
                 state = state.name
             )
@@ -179,16 +181,16 @@ internal object Mapper {
         }
     }
 
-    private fun List<String>.sanitizeSeasonList(): List<Season> {
-        return mapNotNull { code ->
-            Season.entries.firstOrNull { season -> season.name == code }
-        }
+    private fun String.sanitizeSeason(): Season {
+        return Season.entries
+            .firstOrNull { entry -> entry.name == this }
+            ?: error("$this not mapped as season")
     }
 
-    private fun List<String>.sanitizeTagList(): List<PlaceTag> {
-        return mapNotNull { code ->
-            PlaceTag.entries.firstOrNull { tag -> tag.name == code }
-        }
+    private fun String.sanitizeTag(): PlaceTag {
+        return PlaceTag.entries
+            .firstOrNull { entry -> entry.name == this }
+            ?: error("$this not mapped as a place tag")
     }
 
     private fun String.sanitizeState(): PlaceState {

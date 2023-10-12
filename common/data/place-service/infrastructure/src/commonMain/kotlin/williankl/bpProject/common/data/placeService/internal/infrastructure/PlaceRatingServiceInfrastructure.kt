@@ -1,4 +1,4 @@
-package williankl.bpProject.common.data.placeService.internal
+package williankl.bpProject.common.data.placeService.internal.infrastructure
 
 import com.benasher44.uuid.Uuid
 import io.ktor.client.HttpClient

@@ -6,6 +6,7 @@ import org.kodein.di.DI
 import org.kodein.di.bindMultiton
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
+import williankl.bpProject.common.data.placeService.models.MapServiceType
 import williankl.bpProject.common.features.places.create.PlaceCreationRunnerModel
 import williankl.bpProject.common.features.places.details.PlaceDetailsRunnerModel
 import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionRunnerModel
@@ -30,7 +31,7 @@ public val placesDi: DI.Module = DI.Module("williankl.bpProject.common.features.
 
     bindProvider {
         PlaceSearchRunnerModel(
-            mapsService = instance(),
+            mapsService = instance(MapServiceType.Client),
             dispatcher = Dispatchers.Default,
         )
     }

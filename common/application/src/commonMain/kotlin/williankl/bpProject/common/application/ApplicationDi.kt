@@ -1,13 +1,11 @@
 package williankl.bpProject.common.application
 
 import org.kodein.di.DI
-import org.kodein.di.bindConstant
 import williankl.bpProject.common.core.commonCoreDi
 import williankl.bpProject.common.data.auth.authServiceDi
 import williankl.bpProject.common.data.cypher.cypherDi
 import williankl.bpProject.common.data.firebaseIntegration.firebaseIntegrationDi
 import williankl.bpProject.common.data.imageRetrievalService.imageRetrievalServiceDi
-import williankl.bpProject.common.data.networking.NetworkConstant
 import williankl.bpProject.common.data.networking.networkingDi
 import williankl.bpProject.common.data.placeService.placesServiceDi
 import williankl.bpProject.common.data.sessionHandler.platformSessionHandlerDi
@@ -29,16 +27,4 @@ public val applicationDi: DI.Module = DI.Module("williankl.bpProject.common.appl
     import(authenticationFeatureDi)
     import(dashboardDi)
     import(placesDi)
-
-    bindConstant(NetworkConstant.GooglePlacesBaseUrl) {
-        "https://places.googleapis.com/"
-    }
-
-    bindConstant(NetworkConstant.GoogleMapsBaseUrl) {
-        "https://maps.googleapis.com/"
-    }
-
-    bindConstant(NetworkConstant.BeautifulPlacesBaseUrl) {
-        "http://testbpp.eu-north-1.elasticbeanstalk.com/"
-    }
 }

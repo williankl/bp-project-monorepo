@@ -5,7 +5,6 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
-import io.ktor.http.parameters
 import williankl.bpProject.common.core.models.MapCoordinate
 import williankl.bpProject.common.data.placeService.MapsService
 import williankl.bpProject.common.data.placeService.models.AddressComponentType
@@ -14,7 +13,7 @@ import williankl.bpProject.common.data.placeService.models.request.MapTextQueryR
 import williankl.bpProject.common.data.placeService.models.response.GeoLocateResultResponse
 import williankl.bpProject.common.data.placeService.models.response.MapTextQueryResponse
 
-internal class MapsServiceInfrastructure(
+internal class ServerMapsServiceInfrastructure(
     private val placesClient: HttpClient,
     private val mapsClient: HttpClient,
 ) : MapsService {

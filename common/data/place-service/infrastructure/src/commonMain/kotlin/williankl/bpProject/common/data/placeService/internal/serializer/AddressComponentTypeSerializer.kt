@@ -1,4 +1,4 @@
-package williankl.bpProject.common.data.placeService.internal
+package williankl.bpProject.common.data.placeService.internal.serializer
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind

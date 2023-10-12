@@ -5,8 +5,10 @@ plugins {
 
 dependencies {
     implementation(projects.common.core)
-    implementation(projects.common.data.placeService.core)
     implementation(projects.common.data.cypher)
+    implementation(projects.common.data.networking)
+    implementation(projects.common.data.placeService.core)
+    implementation(projects.common.data.placeService.infrastructure)
     implementation(projects.server.database)
 
     implementation(libs.kodein.core)

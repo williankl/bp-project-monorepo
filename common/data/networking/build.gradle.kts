@@ -1,3 +1,5 @@
+import williankl.bpProject.buildSrc.helpers.addJvmTarget
+
 plugins {
     id("bp.multiplatform")
 }
@@ -5,6 +7,8 @@ plugins {
 android {
     namespace = "williankl.bpProject.common.data.networking"
 }
+
+addJvmTarget()
 
 dependencies {
     commonMainImplementation(projects.common.core)
@@ -18,4 +22,14 @@ dependencies {
 
     androidMainImplementation(libs.ktor.client.okHttp)
     iosMainImplementation(libs.ktor.client.darwin)
+}
+
+kotlin {
+    sourceSets {
+        val jvmMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.okHttp)
+            }
+        }
+    }
 }
