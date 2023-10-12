@@ -4,15 +4,9 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
 import williankl.bpProject.common.core.models.MapCoordinate
 import williankl.bpProject.common.data.placeService.MapsService
-import williankl.bpProject.common.data.placeService.models.AddressComponentType
 import williankl.bpProject.common.data.placeService.models.MapPlaceResult
-import williankl.bpProject.common.data.placeService.models.request.MapTextQueryRequest
-import williankl.bpProject.common.data.placeService.models.response.GeoLocateResultResponse
-import williankl.bpProject.common.data.placeService.models.response.MapTextQueryResponse
 
 internal class ClientMapsServiceInfrastructure(
     private val client: HttpClient

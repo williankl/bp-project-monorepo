@@ -31,7 +31,7 @@ internal class ClientConfigurationHelper(
     }
 
     fun <T : HttpClientEngineConfig> HttpClientConfig<T>.commonConfiguration() {
-        defaultConfigWithUrl(bpBaseUrl){
+        defaultConfigWithUrl(bpBaseUrl) {
             bearerAuth()
         }
     }

@@ -2,7 +2,6 @@ package williankl.bpProject.server.database.internal.place
 
 import app.cash.sqldelight.driver.jdbc.JdbcDriver
 import com.benasher44.uuid.Uuid
-import williankl.bpProject.common.core.inRangeOf
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.network.request.PlaceDistanceQuery
 import williankl.bpProject.server.database.internal.DriverProvider.withDatabase
