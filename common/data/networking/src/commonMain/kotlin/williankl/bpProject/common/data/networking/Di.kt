@@ -29,7 +29,7 @@ public val networkingDi: DI.Module = DI.Module("williankl.bpProject.common.data.
         ClientEngineProvider()
     }
 
-    bindSingleton<HttpClient>(ClientType.Application) {
+    bindSingleton<HttpClient> {
         HttpClientProvider(
             configurationHelper = instance(),
             engineProvider = instance(),
