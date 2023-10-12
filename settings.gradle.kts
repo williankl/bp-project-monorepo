@@ -39,6 +39,7 @@ include(":common:data:auth")
 include(":common:data:session-handler")
 include(":common:data:place-service")
 include(":common:data:place-service:core")
+include(":common:data:place-service:device-location")
 include(":common:data:place-service:infrastructure")
 
 include(":common:platform")

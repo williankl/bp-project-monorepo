@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.gms.location.LocationServices
 import williankl.bpProject.common.application.AppContent
 import williankl.bpProject.common.data.imageRetrievalService.ImageCaptureHelper
 import williankl.bpProject.common.data.imageRetrievalService.controller.ImageRetrievalController

@@ -40,5 +40,4 @@ dependencies {
     implementation(libs.voyager.bottomSheetNavigator)
     implementation(libs.voyager.transitions)
     implementation(libs.android.splashScreen)
-
 }
