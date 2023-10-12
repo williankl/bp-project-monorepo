@@ -23,3 +23,13 @@ dependencies {
     androidMainImplementation(libs.ktor.client.okHttp)
     iosMainImplementation(libs.ktor.client.darwin)
 }
+
+kotlin {
+    sourceSets {
+        val jvmMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.okHttp)
+            }
+        }
+    }
+}

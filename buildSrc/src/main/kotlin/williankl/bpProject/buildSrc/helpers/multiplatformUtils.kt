@@ -66,7 +66,7 @@ private fun Project.applyAndroidTarget() {
 
 private fun Project.applyJvmTarget() {
     extensions.configure<KotlinMultiplatformExtension>() {
-        jvm()
+        jvm("jvm")
     }
 }
 
