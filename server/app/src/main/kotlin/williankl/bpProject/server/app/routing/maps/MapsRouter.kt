@@ -27,7 +27,7 @@ internal class MapsRouter(
     }
 
     private fun Route.queryRouting() {
-        get("/query") {
+        get("/search") {
             val queryString = call.parameters["query"]
             if (queryString != null && queryString.length > 3) {
                 call.respond(

@@ -9,7 +9,7 @@ import williankl.bpProject.common.platform.stateHandler.RunnerModel
 import kotlin.time.Duration.Companion.seconds
 
 internal class PlaceSearchRunnerModel(
-    private val mapsService: MapsService,
+
     dispatcher: CoroutineDispatcher,
 ) : RunnerModel<PlaceSearchPresentation>(
     dispatcher = dispatcher,

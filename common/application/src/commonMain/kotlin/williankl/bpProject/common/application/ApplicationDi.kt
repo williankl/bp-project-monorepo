@@ -30,14 +30,6 @@ public val applicationDi: DI.Module = DI.Module("williankl.bpProject.common.appl
     import(dashboardDi)
     import(placesDi)
 
-    bindConstant(NetworkConstant.GooglePlacesBaseUrl) {
-        "https://places.googleapis.com/"
-    }
-
-    bindConstant(NetworkConstant.GoogleMapsBaseUrl) {
-        "https://maps.googleapis.com/"
-    }
-
     bindConstant(NetworkConstant.BeautifulPlacesBaseUrl) {
         "http://testbpp.eu-north-1.elasticbeanstalk.com/"
     }
