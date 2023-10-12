@@ -1,3 +1,5 @@
+import williankl.bpProject.buildSrc.helpers.addJvmTarget
+
 plugins {
     id("bp.multiplatform")
 }
@@ -5,6 +7,8 @@ plugins {
 android {
     namespace = "williankl.bpProject.common.data.networking"
 }
+
+addJvmTarget()
 
 dependencies {
     commonMainImplementation(projects.common.core)

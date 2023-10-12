@@ -31,7 +31,9 @@ internal class ClientConfigurationHelper(
     }
 
     fun <T : HttpClientEngineConfig> HttpClientConfig<T>.commonConfiguration() {
-        defaultConfigWithUrl(bpBaseUrl)
+        defaultConfigWithUrl(bpBaseUrl){
+            bearerAuth()
+        }
     }
 
     fun <T : HttpClientEngineConfig> HttpClientConfig<T>.googlePlacesConfiguration() {
@@ -59,7 +61,6 @@ internal class ClientConfigurationHelper(
         }
         install(DefaultRequest) {
             contentType(ContentType.Application.Json)
-            bearerAuth()
             url(url)
             onDefaultRequest()
         }
