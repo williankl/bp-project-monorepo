@@ -3,6 +3,7 @@ package williankl.bpProject.common.data.placeService.internal
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import williankl.bpProject.common.core.models.MapCoordinate
@@ -10,6 +11,7 @@ import williankl.bpProject.common.data.placeService.MapsService
 import williankl.bpProject.common.data.placeService.models.AddressComponentType
 import williankl.bpProject.common.data.placeService.models.MapPlaceResult
 import williankl.bpProject.common.data.placeService.models.request.MapTextQueryRequest
+import williankl.bpProject.common.data.placeService.models.response.DistanceMatrixResponse
 import williankl.bpProject.common.data.placeService.models.response.GeoLocateResultResponse
 import williankl.bpProject.common.data.placeService.models.response.MapTextQueryResponse
 
@@ -33,6 +35,7 @@ internal class ServerMapsServiceInfrastructure(
         const val LAT_LNG_PARAMETER_KEY = "latlng"
         const val TEXT_SEARCH_ENDPOINT = "/v1/places:searchText"
         const val GEO_LOCATE_ENDPOINT = "/maps/api/geocode/json"
+        const val DISTANCE_MATRIX_ENDPOINT = "/maps/api/distancematrix/json"
     }
 
     override suspend fun placeFromCoordinates(coordinates: MapCoordinate): List<MapPlaceResult> {
@@ -77,11 +80,28 @@ internal class ServerMapsServiceInfrastructure(
             }
     }
 
+    override suspend fun distanceBetween(
+        from: MapCoordinate,
+        vararg to: MapCoordinate
+    ): List<Long> {
+        val destinationsStr = to.joinToString(separator = "|") { destination ->
+            "${destination.latitude},${destination.longitude}"
+        }
+
+        val response = mapsClient.get(DISTANCE_MATRIX_ENDPOINT) {
+            parameter("origins", "${from.latitude},${from.longitude}")
+            parameter("destinations", destinationsStr)
+        }.body<DistanceMatrixResponse>()
+
+        return response.rows.firstOrNull()
+            ?.elements
+            ?.map { matrixElement -> matrixElement.distance.value }
+            .orEmpty()
+    }
+
     private suspend fun retrieveAddressFromCoordinate(coordinates: MapCoordinate): GeoLocateResultResponse {
         return mapsClient.get(GEO_LOCATE_ENDPOINT) {
-            val parameterValue = listOf(coordinates.latitude, coordinates.longitude)
-                .joinToString(separator = ",")
-            url.parameters.append(LAT_LNG_PARAMETER_KEY, parameterValue)
+            parameter(LAT_LNG_PARAMETER_KEY, "${coordinates.latitude},${coordinates.longitude}")
         }.body()
     }
 

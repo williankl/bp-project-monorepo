@@ -33,7 +33,8 @@ public val placesServiceDi: DI.Module = DI.Module("williankl.bpProject.common.da
 
     bindSingleton<MapsService>(MapServiceType.Client) {
         ClientMapsServiceInfrastructure(
-            client = instance()
+            client = instance(),
+            userLocationService = instance(),
         )
     }
 }

@@ -3,13 +3,17 @@ package williankl.bpProject.server.app.routing.maps
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.auth.authenticate
+import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
+import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import williankl.bpProject.common.core.models.MapCoordinate
 import williankl.bpProject.common.core.runOrNull
+import williankl.bpProject.common.core.runOrNullSuspend
 import williankl.bpProject.common.data.placeService.MapsService
+import williankl.bpProject.common.data.placeService.models.DistanceRequest
 import williankl.bpProject.server.app.configuration.AuthenticationHandler
 import williankl.bpProject.server.app.routing.BPRoute
 
@@ -19,6 +23,7 @@ internal class MapsRouter(
     context(Route)
     override fun route() {
         route("/maps") {
+            distanceRouting()
             authenticate(AuthenticationHandler.BEARER_KEY) {
                 queryRouting()
                 coordinatesRouting()
@@ -51,6 +56,27 @@ internal class MapsRouter(
                         coordinates = MapCoordinate(latitude, longitude)
                     ),
                     status = HttpStatusCode.OK,
+                )
+            }
+        }
+    }
+
+    private fun Route.distanceRouting() {
+        post("/distance") {
+            val distanceRequest = runOrNullSuspend { call.receive<DistanceRequest>() }
+
+            if (distanceRequest != null) {
+                call.respond(
+                    status = HttpStatusCode.OK,
+                    message = mapsService.distanceBetween(
+                        from = distanceRequest.userCoordinate,
+                        to = distanceRequest.destinationCoordinates.toTypedArray(),
+                    )
+                )
+            } else {
+                call.respond(
+                    status = HttpStatusCode.BadRequest,
+                    message = "The distance request was not found or was incorrectly built",
                 )
             }
         }
