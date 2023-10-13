@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class DistanceMatrixResponse(
-    @SerialName("destination_address") val destinationAddress: List<String>,
+    @SerialName("destination_addresses") val destinationAddress: List<String>,
     @SerialName("origin_addresses") val originAddresses: List<String>,
     val rows: List<DistanceMatrixRow>,
 ) {
