@@ -2,9 +2,6 @@ package williankl.bpProject.common.data.placeService.models.response
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import williankl.bpProject.common.core.models.MapCoordinate
-import williankl.bpProject.common.data.placeService.internal.serializer.AddressComponentTypeSerializer
-import williankl.bpProject.common.data.placeService.models.AddressComponentType
 
 @Serializable
 internal data class DistanceMatrixResponse(

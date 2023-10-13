@@ -4,16 +4,22 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
 import williankl.bpProject.common.core.models.MapCoordinate
 import williankl.bpProject.common.data.placeService.MapsService
+import williankl.bpProject.common.data.placeService.UserLocationService
+import williankl.bpProject.common.data.placeService.models.DistanceRequest
 import williankl.bpProject.common.data.placeService.models.MapPlaceResult
 
 internal class ClientMapsServiceInfrastructure(
-    private val client: HttpClient
+    private val client: HttpClient,
+    private val userLocationService: UserLocationService,
 ) : MapsService {
 
     companion object {
         const val SEARCH_ENDPOINT = "/maps/search"
+        const val DISTANCE_ENDPOINT = "/maps/distance"
         const val COORDINATES_ENDPOINT = "/maps"
     }
 
@@ -34,6 +40,16 @@ internal class ClientMapsServiceInfrastructure(
         from: MapCoordinate,
         vararg to: MapCoordinate
     ): List<Long> {
-        TODO("Not yet implemented")
+        return userLocationService.lastUserCoordinates()
+            ?.let { userCoordinate ->
+                client.post(DISTANCE_ENDPOINT) {
+                    setBody(
+                        DistanceRequest(
+                            userCoordinate = userCoordinate,
+                            destinationCoordinates = to.toList()
+                        )
+                    )
+                }.body<List<Long>>()
+            }.orEmpty()
     }
 }
