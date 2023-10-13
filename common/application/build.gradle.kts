@@ -20,6 +20,7 @@ dependencies {
     commonMainImplementation(projects.common.data.auth)
     commonMainImplementation(projects.common.data.sessionHandler)
     commonMainImplementation(projects.common.data.placeService.core)
+    commonMainImplementation(projects.common.data.placeService.deviceLocation)
     commonMainImplementation(projects.common.data.placeService.infrastructure)
 
     commonMainImplementation(projects.common.features.authentication)

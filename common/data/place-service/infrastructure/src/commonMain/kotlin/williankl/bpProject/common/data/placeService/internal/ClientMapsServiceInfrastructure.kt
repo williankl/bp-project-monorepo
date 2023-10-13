@@ -29,4 +29,11 @@ internal class ClientMapsServiceInfrastructure(
             parameter("longitude", coordinates.longitude)
         }.body()
     }
+
+    override suspend fun distanceBetween(
+        from: MapCoordinate,
+        vararg to: MapCoordinate
+    ): List<Long> {
+        TODO("Not yet implemented")
+    }
 }
