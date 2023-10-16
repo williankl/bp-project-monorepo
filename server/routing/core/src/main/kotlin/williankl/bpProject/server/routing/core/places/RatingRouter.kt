@@ -16,8 +16,8 @@ import williankl.bpProject.common.core.runOrNullSuspend
 import williankl.bpProject.common.data.placeService.models.PlaceRatingData
 import williankl.bpProject.server.core.BPRoute
 import williankl.bpProject.server.core.ServerConstants.BEARER_KEY
-import williankl.bpProject.server.core.userId
 import williankl.bpProject.server.core.idFromParameter
+import williankl.bpProject.server.core.userId
 import williankl.bpProject.server.database.services.PlaceRatingStorage
 
 internal class RatingRouter(

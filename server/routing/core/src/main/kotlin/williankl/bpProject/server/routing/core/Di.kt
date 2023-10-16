@@ -11,7 +11,6 @@ import williankl.bpProject.server.routing.core.places.PlaceRouter
 import williankl.bpProject.server.routing.core.places.RatingRouter
 import williankl.bpProject.server.routing.core.user.UserRouter
 
-
 public val routingCoreDi: DI.Module = DI.Module("williankl.bpProject.server.routing.core") {
     bindSingleton(Routers.Core) {
         listOf(

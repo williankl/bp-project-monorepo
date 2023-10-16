@@ -14,8 +14,8 @@ import williankl.bpProject.common.core.models.network.response.NetworkErrorRespo
 import williankl.bpProject.common.core.models.network.response.UserCredentialResponse
 import williankl.bpProject.common.data.cypher.BeautifulCypher
 import williankl.bpProject.server.core.BPRoute
-import williankl.bpProject.server.core.bearer
 import williankl.bpProject.server.core.ServerConstants.BEARER_KEY
+import williankl.bpProject.server.core.bearer
 import williankl.bpProject.server.database.services.AuthStorage
 
 internal class AuthRouter(
