@@ -9,6 +9,10 @@ dependencies {
     implementation(projects.common.data.networking)
     implementation(projects.common.data.placeService.core)
     implementation(projects.common.data.placeService.infrastructure)
+
+    implementation(projects.server.core)
+    implementation(projects.server.routing.core)
+    implementation(projects.server.routing.bff)
     implementation(projects.server.database)
 
     implementation(libs.kodein.core)
