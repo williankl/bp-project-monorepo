@@ -104,7 +104,7 @@ internal object Mapper {
                         longitude = longitude,
                     )
                 ),
-                imageUrls = images.toList(),
+                images = images.toList(),
                 seasons = seasons.map { seasonName -> seasonName.sanitizeSeason() },
                 tags = seasons.map { tagName -> tagName.sanitizeTag() },
                 state = state.sanitizeState(),
@@ -138,7 +138,7 @@ internal object Mapper {
                         longitude = longitude,
                     )
                 ),
-                imageUrls = images.toList(),
+                images = images.toList(),
                 seasons = seasons.map { seasonName -> seasonName.sanitizeSeason() },
                 tags = seasons.map { tagName -> tagName.sanitizeTag() },
                 state = state.sanitizeState(),
@@ -155,7 +155,7 @@ internal object Mapper {
                 name = displayName,
                 description = description,
                 addressId = address.id,
-                images = imageUrls.toTypedArray(),
+                images = images.toTypedArray(),
                 seasons = seasons
                     .map { season -> season.name }
                     .toTypedArray(),

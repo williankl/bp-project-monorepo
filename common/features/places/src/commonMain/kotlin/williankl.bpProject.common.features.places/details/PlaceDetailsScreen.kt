@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
@@ -156,7 +155,7 @@ public class PlaceDetailsScreen(
         modifier: Modifier = Modifier,
     ) {
         val strings = LocalPlacesStrings.current
-        val pagerState = rememberPagerState { place.imageUrls.size }
+        val pagerState = rememberPagerState { place.images.size }
         var currentPageColor by remember {
             mutableStateOf(PlaceDetailsRunnerModel.defaultImageColor)
         }
@@ -192,7 +191,7 @@ public class PlaceDetailsScreen(
                 )
 
                 AsyncImagePager(
-                    urls = place.imageUrls,
+                    urls = place.images,
                     state = pagerState,
                     pageSpacing = 34.dp,
                     contentPadding = PaddingValues(horizontal = 32.dp),

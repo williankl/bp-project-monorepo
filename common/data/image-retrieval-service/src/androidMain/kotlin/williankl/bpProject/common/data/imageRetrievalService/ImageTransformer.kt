@@ -7,11 +7,19 @@ import java.io.ByteArrayOutputStream
 
 public object ImageTransformer {
 
+    public enum class EncodeQuality (
+        internal val factor: Int,
+    ) {
+        Original(100),
+        LowQuality(30),
+    }
+
     public suspend fun encodeImage(
         image: Bitmap,
+        quality: EncodeQuality,
     ): ByteArray {
         val stream = ByteArrayOutputStream()
-        image.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        image.compress(Bitmap.CompressFormat.JPEG, quality.factor, stream)
         return stream.toByteArray()
     }
 

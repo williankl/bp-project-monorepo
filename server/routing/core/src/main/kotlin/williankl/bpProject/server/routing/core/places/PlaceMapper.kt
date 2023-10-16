@@ -26,7 +26,7 @@ internal object PlaceMapper {
             displayName = name,
             description = description,
             address = address,
-            imageUrls = imageUrls,
+            images = imageUrls,
             seasons = seasons,
             tags = tags,
             state = state,
