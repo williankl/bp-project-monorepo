@@ -25,9 +25,7 @@ listPlaces:
 SELECT * FROM PlaceData
 INNER JOIN PlaceAddressData ON PlaceAddressData.id = PlaceData.addressId
 INNER JOIN UserData ON UserData.id = PlaceData.ownerId
-WHERE PlaceData.ownerId IS NOT DISTINCT FROM :ownerId OR :ownerId IS NULL
-OR PlaceData.state IS NOT DISTINCT FROM :stateTag OR :stateTag IS NULL
-OR ((:lat BETWEEN PlaceAddressData.latitude - :padding AND PlaceAddressData.latitude + :padding) AND :lon BETWEEN PlaceAddressData.longitude - :padding AND PlaceAddressData.longitude + :padding)
+WHERE ((:lat BETWEEN PlaceAddressData.latitude - :padding AND PlaceAddressData.latitude + :padding) AND :lon BETWEEN PlaceAddressData.longitude - :padding AND PlaceAddressData.longitude + :padding)
 OR (:lat IS NULL OR :lon IS NULL OR :padding IS NULL)
 LIMIT :limit OFFSET :offset;
 

@@ -36,8 +36,6 @@ internal class PlaceStorageInfrastructure(
     ): List<Place> {
         return withDatabase(driver) {
             placeDataQueries.listPlaces(
-                ownerId = ownerId,
-                stateTag = state?.name,
                 lat = distance?.coordinates?.latitude,
                 lon = distance?.coordinates?.longitude,
                 padding = distance?.maxDistance,

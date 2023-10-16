@@ -110,7 +110,7 @@ internal object Mapper {
                 ),
                 images = images,
                 seasons = seasons.map { seasonName -> seasonName.sanitizeSeason() },
-                tags = seasons.map { tagName -> tagName.sanitizeTag() },
+                tags = tags.map { tagName -> tagName.sanitizeTag() },
                 state = state.sanitizeState(),
                 createdAt = createdAt,
             )
@@ -145,7 +145,7 @@ internal object Mapper {
                 ),
                 images = images,
                 seasons = seasons.map { seasonName -> seasonName.sanitizeSeason() },
-                tags = seasons.map { tagName -> tagName.sanitizeTag() },
+                tags = tags.map { tagName -> tagName.sanitizeTag() },
                 state = state.sanitizeState(),
                 createdAt = createdAt,
             )
