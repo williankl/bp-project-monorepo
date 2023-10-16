@@ -1,13 +1,14 @@
-package williankl.bpProject.server.app.routing
+package williankl.bpProject.server.routing.core
 
 import io.ktor.server.application.Application
 import io.ktor.server.routing.routing
+import williankl.bpProject.server.core.BPRoute
 
-internal class MasterRouter(
+public class MasterRouter(
     private val routes: List<BPRoute>,
 ) {
     context (Application)
-    fun applyAppRoutes() {
+    public fun applyAppRoutes() {
         routing {
             routes.forEach { route -> route.route() }
         }

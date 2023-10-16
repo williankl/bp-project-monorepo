@@ -1,4 +1,4 @@
-package williankl.bpProject.server.app
+package williankl.bpProject.server.core
 
 import com.benasher44.uuid.Uuid
 import com.benasher44.uuid.uuidFrom
@@ -15,27 +15,27 @@ import java.io.FileInputStream
 import java.io.InputStreamReader
 import java.util.*
 
-internal val ApplicationCall.userId: Uuid?
+public val ApplicationCall.userId: Uuid?
     get() = principal<UserIdPrincipal>()
         ?.name
         ?.let(::uuidFrom)
 
-internal val PipelineContext<*, ApplicationCall>.bearer: String?
+public val PipelineContext<*, ApplicationCall>.bearer: String?
     get() = call.request.headers["authorization"]
 
-internal suspend fun PipelineContext<*, ApplicationCall>.idFromParameter(
+public suspend fun PipelineContext<*, ApplicationCall>.idFromParameter(
     label: String
 ): Uuid? = runOrNullSuspend {
     call.parameters[label]
         ?.let(::uuidFrom)
 }
 
-internal fun retrieveFromEnv(key: String): String? {
+public fun retrieveFromEnv(key: String): String? {
     return retrieveFromLocalProperties(key)
         ?: System.getenv(key)
 }
 
-internal fun retrieveFromLocalProperties(key: String): String? {
+public fun retrieveFromLocalProperties(key: String): String? {
     val properties = Properties()
     val localProperties = File("local.properties")
     return runOrNull {

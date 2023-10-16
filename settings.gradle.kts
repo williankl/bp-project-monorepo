@@ -24,7 +24,11 @@ rootProject.name = "bp-project"
 include(":android")
 include(":server")
 include(":server:app")
+include(":server:core")
 include(":server:database")
+include(":server:routing")
+include(":server:routing:core")
+include(":server:routing:bff")
 
 include(":common")
 include(":common:application")

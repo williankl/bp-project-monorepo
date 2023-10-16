@@ -5,7 +5,7 @@ import io.ktor.server.netty.EngineMain
 import io.ktor.server.routing.routing
 import org.kodein.di.instance
 import williankl.bpProject.server.app.configuration.ConfigurationRunner.configure
-import williankl.bpProject.server.app.routing.MasterRouter
+import williankl.bpProject.server.routing.core.MasterRouter
 
 public fun main(args: Array<String>): Unit = EngineMain.main(args)
 

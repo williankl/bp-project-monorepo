@@ -1,4 +1,4 @@
-package williankl.bpProject.server.app.routing.places
+package williankl.bpProject.server.routing.core.places
 
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call

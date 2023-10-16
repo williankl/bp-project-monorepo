@@ -1,4 +1,4 @@
-package williankl.bpProject.server.app.routing.auth
+package williankl.bpProject.server.routing.core.auth
 
 import com.benasher44.uuid.uuid4
 import io.ktor.http.HttpStatusCode
@@ -13,9 +13,9 @@ import williankl.bpProject.common.core.models.User
 import williankl.bpProject.common.core.models.network.response.NetworkErrorResponse
 import williankl.bpProject.common.core.models.network.response.UserCredentialResponse
 import williankl.bpProject.common.data.cypher.BeautifulCypher
-import williankl.bpProject.server.app.bearer
-import williankl.bpProject.server.app.configuration.AuthenticationHandler
-import williankl.bpProject.server.app.routing.BPRoute
+import williankl.bpProject.server.core.BPRoute
+import williankl.bpProject.server.core.bearer
+import williankl.bpProject.server.core.ServerConstants.BEARER_KEY
 import williankl.bpProject.server.database.services.AuthStorage
 
 internal class AuthRouter(
@@ -29,7 +29,7 @@ internal class AuthRouter(
             formLoginRoute()
             signupRoute()
 
-            authenticate(AuthenticationHandler.BEARER_KEY) {
+            authenticate(BEARER_KEY) {
                 loggingOutRoute()
             }
         }

@@ -1,4 +1,4 @@
-package williankl.bpProject.server.app.routing.places
+package williankl.bpProject.server.routing.core.places
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
@@ -14,10 +14,10 @@ import williankl.bpProject.common.core.models.network.request.PlaceRatingRequest
 import williankl.bpProject.common.core.models.network.response.NetworkErrorResponse
 import williankl.bpProject.common.core.runOrNullSuspend
 import williankl.bpProject.common.data.placeService.models.PlaceRatingData
-import williankl.bpProject.server.app.configuration.AuthenticationHandler
-import williankl.bpProject.server.app.idFromParameter
-import williankl.bpProject.server.app.routing.BPRoute
-import williankl.bpProject.server.app.userId
+import williankl.bpProject.server.core.BPRoute
+import williankl.bpProject.server.core.ServerConstants.BEARER_KEY
+import williankl.bpProject.server.core.userId
+import williankl.bpProject.server.core.idFromParameter
 import williankl.bpProject.server.database.services.PlaceRatingStorage
 
 internal class RatingRouter(
@@ -29,7 +29,7 @@ internal class RatingRouter(
         route("/places/rating") {
             metadataRoute()
             listRatings()
-            authenticate(AuthenticationHandler.BEARER_KEY) {
+            authenticate(BEARER_KEY) {
                 rateRoute()
                 deleteRatingRoute()
             }
