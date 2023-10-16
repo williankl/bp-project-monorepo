@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -34,6 +33,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.features.dashboard.LocalDashboardStrings
+import williankl.bpProject.common.features.dashboard.pages.home.HomeRunnerModel.HomePresentation.PlacePresentation
 import williankl.bpProject.common.platform.design.components.AsyncImage
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.clickableIcon
@@ -84,13 +84,15 @@ internal object HomePage : BeautifulScreen() {
         onPlaceSelected: (Place) -> Unit,
         modifier: Modifier = Modifier,
     ) {
+        val strings = LocalDashboardStrings.current.homeStrings
+
         LazyColumn(
             modifier = modifier,
         ) {
             if (presentation.nearestPlaces.isNotEmpty()) {
                 item {
                     LabeledContent(
-                        label = "Bla bla 1", // fixme - use localization
+                        label = strings.nearestLabel,
                         withAction = { /* todo - redirect to listing screen */ },
                         modifier = Modifier,
                     ) {
@@ -107,7 +109,7 @@ internal object HomePage : BeautifulScreen() {
             if (presentation.favouritePlaces.isNotEmpty()) {
                 item {
                     LabeledContent(
-                        label = "Bla bla 2", // fixme - use localization
+                        label = strings.recentLabel,
                         modifier = Modifier,
                     ) {
                         LazyRow(
@@ -130,21 +132,21 @@ internal object HomePage : BeautifulScreen() {
 
     @Composable
     private fun SampleStaggeredItem(
-        places: List<Place>,
+        places: List<PlacePresentation>,
         onPlaceSelected: (Place) -> Unit,
         modifier: Modifier = Modifier,
     ) {
         @Composable
         fun WeightedColumn(
             firstBigger: Boolean,
-            places: List<Place>,
+            places: List<PlacePresentation>,
             modifier: Modifier = Modifier,
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = modifier,
             ) {
-                places.forEachIndexed { index, place ->
+                places.forEachIndexed { index, placePresentation ->
                     val weight = when {
                         index == 0 && firstBigger -> 1f
                         index != 0 && firstBigger.not() -> 1f
@@ -152,9 +154,9 @@ internal object HomePage : BeautifulScreen() {
                     }
 
                     PlaceDisplay(
-                        place = place,
+                        placePresentation = placePresentation,
                         modifier = Modifier
-                            .clickableIcon(0.dp) { onPlaceSelected(place) }
+                            .clickableIcon(0.dp) { onPlaceSelected(placePresentation.place) }
                             .weight(weight),
                     )
                 }
@@ -208,15 +210,16 @@ internal object HomePage : BeautifulScreen() {
 
     @Composable
     private fun PlaceDisplay(
-        place: Place,
+        placePresentation: PlacePresentation,
         modifier: Modifier = Modifier,
     ) {
+        val strings = LocalDashboardStrings.current.homeStrings
         Column(
             verticalArrangement = Arrangement.spacedBy(4.dp),
             modifier = modifier,
         ) {
             AsyncImage(
-                url = place.imageUrls.firstOrNull().orEmpty(),
+                url = placePresentation.place.imageUrls.firstOrNull().orEmpty(),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .clip(BeautifulShape.Rounded.Regular.composeShape)
@@ -228,7 +231,7 @@ internal object HomePage : BeautifulScreen() {
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
-                    text = place.displayName,
+                    text = placePresentation.place.displayName,
                     size = TextSize.Large,
                     weight = FontWeight.SemiBold,
                     overflow = TextOverflow.Ellipsis,
@@ -236,10 +239,12 @@ internal object HomePage : BeautifulScreen() {
                     modifier = Modifier.weight(1f),
                 )
 
-                Text(
-                    text = "(1.0km)", // todo - fix the used value
-                    size = TextSize.Small,
-                )
+                placePresentation.distanceLabel?.let { distance ->
+                    Text(
+                        text = "(${strings.distanceLabel(distance)})",
+                        size = TextSize.Small,
+                    )
+                }
             }
         }
     }
