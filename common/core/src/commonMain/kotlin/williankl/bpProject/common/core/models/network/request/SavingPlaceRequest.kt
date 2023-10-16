@@ -1,7 +1,6 @@
 package williankl.bpProject.common.core.models.network.request
 
 import kotlinx.serialization.Serializable
-import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.Place.*
 import williankl.bpProject.common.core.models.Season
 

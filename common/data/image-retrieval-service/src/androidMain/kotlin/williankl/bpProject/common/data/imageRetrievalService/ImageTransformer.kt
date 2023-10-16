@@ -7,7 +7,7 @@ import java.io.ByteArrayOutputStream
 
 public object ImageTransformer {
 
-    public enum class EncodeQuality (
+    public enum class EncodeQuality(
         internal val factor: Int,
     ) {
         Original(100),

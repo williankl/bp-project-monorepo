@@ -7,9 +7,6 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import korlibs.image.bitmap.Bitmap
 import korlibs.image.format.toAndroidBitmap
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
 import williankl.bpProject.common.data.firebaseIntegration.FirebaseIntegration
 import williankl.bpProject.common.data.firebaseIntegration.models.ImageUploadResult
 import williankl.bpProject.common.data.imageRetrievalService.ImageTransformer

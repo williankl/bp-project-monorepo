@@ -20,6 +20,7 @@ public data class Place(
 ) {
     @Serializable
     public data class ImageData(
+        @Serializable(UuidSerializer::class) val id: Uuid,
         val url: String,
         val originalUrl: String,
         val position: Int,

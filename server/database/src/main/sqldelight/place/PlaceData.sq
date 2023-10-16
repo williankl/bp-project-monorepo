@@ -5,7 +5,6 @@ CREATE TABLE IF NOT EXISTS PlaceData (
   name text NOT NULL,
   description text,
   addressId uuid NOT NULL,
-  images text[] NOT NULL,
   seasons text[] NOT NULL,
   tags text[] NOT NULL,
   state text NOT NULL,
@@ -13,7 +12,7 @@ CREATE TABLE IF NOT EXISTS PlaceData (
 );
 
 create:
-INSERT INTO PlaceData(id, ownerId, name, description, addressId, images, seasons, tags, state, createdAt)
+INSERT INTO PlaceData(id, ownerId, name, description, addressId, seasons, tags, state, createdAt)
 VALUES ?;
 
 findPlaceById:
@@ -35,9 +34,4 @@ LIMIT :limit OFFSET :offset;
 updatePlaceData:
 UPDATE PlaceData
 SET name = ?, description = ?
-WHERE id = ?;
-
-updateImageUrls:
-UPDATE PlaceData
-SET images = ?
 WHERE id = ?;

@@ -9,7 +9,6 @@ import williankl.bpProject.common.data.cypher.cypherDi
 import williankl.bpProject.common.data.networking.NetworkConstant
 import williankl.bpProject.common.data.networking.networkingDi
 import williankl.bpProject.common.data.placeService.placesServiceDi
-import williankl.bpProject.server.core.BPRoute
 import williankl.bpProject.server.core.Routers
 import williankl.bpProject.server.core.retrieveFromEnv
 import williankl.bpProject.server.database.serverDatabaseDi
@@ -32,8 +31,7 @@ internal val serverDi = DI {
 
     bindSingleton {
         MasterRouter(
-            routes = instance<List<BPRoute>>(Routers.Core) +
-                instance<List<BPRoute>>(Routers.BFF)
+            routes = instance(Routers.Core)
         )
     }
 }

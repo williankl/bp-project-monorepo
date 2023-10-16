@@ -8,6 +8,7 @@ import place.PlaceAddressData
 import place.PlaceData
 import place.RetrieveRating
 import williankl.bpProject.common.core.generateId
+import williankl.bpProject.common.core.models.MapCoordinate
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.Place.*
 import williankl.bpProject.common.core.models.PlaceRating
@@ -81,7 +82,10 @@ internal object Mapper {
         }
     }
 
-    fun toDomain(joinedData: ListPlaces): Place {
+    fun toDomain(
+        joinedData: ListPlaces,
+        images: List<ImageData>,
+    ): Place {
         return with(joinedData) {
             Place(
                 id = id,
@@ -99,12 +103,12 @@ internal object Mapper {
                     street = street,
                     city = city,
                     country = country,
-                    coordinates = PlaceAddress.PlaceCoordinate(
+                    coordinates = MapCoordinate(
                         latitude = latitude,
                         longitude = longitude,
                     )
                 ),
-                images = images.toList(),
+                images = images,
                 seasons = seasons.map { seasonName -> seasonName.sanitizeSeason() },
                 tags = seasons.map { tagName -> tagName.sanitizeTag() },
                 state = state.sanitizeState(),
@@ -115,6 +119,7 @@ internal object Mapper {
 
     fun toDomain(
         joinedData: FindPlaceById,
+        images: List<ImageData>,
     ): Place {
         return with(joinedData) {
             Place(
@@ -133,12 +138,12 @@ internal object Mapper {
                     street = street,
                     city = city,
                     country = country,
-                    coordinates = PlaceAddress.PlaceCoordinate(
+                    coordinates = MapCoordinate(
                         latitude = latitude,
                         longitude = longitude,
                     )
                 ),
-                images = images.toList(),
+                images = images,
                 seasons = seasons.map { seasonName -> seasonName.sanitizeSeason() },
                 tags = seasons.map { tagName -> tagName.sanitizeTag() },
                 state = state.sanitizeState(),
@@ -155,7 +160,6 @@ internal object Mapper {
                 name = displayName,
                 description = description,
                 addressId = address.id,
-                images = images.toTypedArray(),
                 seasons = seasons
                     .map { season -> season.name }
                     .toTypedArray(),
