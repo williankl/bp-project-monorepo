@@ -79,6 +79,7 @@ internal class PlaceCreationRunnerModel(
                 },
                 images = imageUploadResults.mapIndexed { index, result ->
                     ImageData(
+                        id = uuid4(),
                         url = result.url,
                         originalUrl = result.originalImageUrl,
                         position = index,

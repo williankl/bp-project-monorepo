@@ -93,7 +93,7 @@ internal object UserProfilePage : BeautifulScreen() {
                 columns = StaggeredGridCells.Fixed(2),
                 content = {
                     items(presentation.posts) { post ->
-                        post.images.firstOrNull()
+                        post.images.firstOrNull()?.url
                             ?.let { imageUrl ->
                                 AsyncImage(
                                     url = imageUrl,

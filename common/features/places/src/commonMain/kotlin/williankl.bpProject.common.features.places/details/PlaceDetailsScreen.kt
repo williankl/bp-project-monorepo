@@ -191,7 +191,7 @@ public class PlaceDetailsScreen(
                 )
 
                 AsyncImagePager(
-                    urls = place.images,
+                    urls = place.images.map { imageData -> imageData.url },
                     state = pagerState,
                     pageSpacing = 34.dp,
                     contentPadding = PaddingValues(horizontal = 32.dp),

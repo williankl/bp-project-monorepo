@@ -192,7 +192,7 @@ internal object HomePage : BeautifulScreen() {
             modifier = modifier,
         ) {
             AsyncImage(
-                url = place.images.firstOrNull().orEmpty(),
+                url = place.images.firstOrNull()?.url.orEmpty(),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .clip(BeautifulShape.Rounded.Regular.composeShape)
@@ -219,7 +219,7 @@ internal object HomePage : BeautifulScreen() {
             modifier = modifier,
         ) {
             AsyncImage(
-                url = placePresentation.place.images.firstOrNull().orEmpty(),
+                url = placePresentation.place.images.firstOrNull()?.url.orEmpty(),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .clip(BeautifulShape.Rounded.Regular.composeShape)
