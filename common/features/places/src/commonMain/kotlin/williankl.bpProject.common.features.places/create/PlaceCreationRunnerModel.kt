@@ -5,9 +5,9 @@ import com.benasher44.uuid.uuid4
 import com.chrynan.uri.core.Uri
 import com.chrynan.uri.core.fromString
 import kotlinx.coroutines.CoroutineDispatcher
+import williankl.bpProject.common.core.models.MapCoordinate
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.Place.PlaceAddress
-import williankl.bpProject.common.core.models.Place.PlaceAddress.PlaceCoordinate
 import williankl.bpProject.common.core.models.network.request.SavingPlaceRequest
 import williankl.bpProject.common.data.firebaseIntegration.FirebaseIntegration
 import williankl.bpProject.common.data.imageRetrievalService.retriever.ImageRetriever
@@ -70,7 +70,7 @@ internal class PlaceCreationRunnerModel(
                         street = address.street,
                         city = address.city,
                         country = address.country,
-                        coordinates = PlaceCoordinate(
+                        coordinates = MapCoordinate(
                             latitude = coordinate.latitude,
                             longitude = coordinate.longitude
                         ),

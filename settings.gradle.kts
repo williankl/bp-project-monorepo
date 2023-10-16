@@ -28,7 +28,6 @@ include(":server:core")
 include(":server:database")
 include(":server:routing")
 include(":server:routing:core")
-include(":server:routing:bff")
 
 include(":common")
 include(":common:application")
