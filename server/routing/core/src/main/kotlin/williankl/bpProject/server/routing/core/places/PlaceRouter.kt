@@ -12,10 +12,10 @@ import io.ktor.server.routing.route
 import williankl.bpProject.common.core.models.network.request.SavingPlaceRequest
 import williankl.bpProject.common.core.models.network.response.NetworkErrorResponse
 import williankl.bpProject.common.core.runOrNullSuspend
-import williankl.bpProject.server.core.userId
-import williankl.bpProject.server.core.idFromParameter
 import williankl.bpProject.server.core.BPRoute
 import williankl.bpProject.server.core.ServerConstants.BEARER_KEY
+import williankl.bpProject.server.core.idFromParameter
+import williankl.bpProject.server.core.userId
 import williankl.bpProject.server.database.services.PlaceStorage
 import williankl.bpProject.server.database.services.UserStorage
 import williankl.bpProject.server.routing.core.places.PlaceMapper.retrieveDistanceQuery
