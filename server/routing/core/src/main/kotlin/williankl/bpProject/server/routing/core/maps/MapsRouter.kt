@@ -1,4 +1,4 @@
-package williankl.bpProject.server.app.routing.maps
+package williankl.bpProject.server.routing.core.maps
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
@@ -14,8 +14,8 @@ import williankl.bpProject.common.core.runOrNull
 import williankl.bpProject.common.core.runOrNullSuspend
 import williankl.bpProject.common.data.placeService.MapsService
 import williankl.bpProject.common.data.placeService.models.DistanceRequest
-import williankl.bpProject.server.app.configuration.AuthenticationHandler
-import williankl.bpProject.server.app.routing.BPRoute
+import williankl.bpProject.server.core.BPRoute
+import williankl.bpProject.server.core.ServerConstants.BEARER_KEY
 
 internal class MapsRouter(
     private val mapsService: MapsService
@@ -24,7 +24,7 @@ internal class MapsRouter(
     override fun route() {
         route("/maps") {
             distanceRouting()
-            authenticate(AuthenticationHandler.BEARER_KEY) {
+            authenticate(BEARER_KEY) {
                 queryRouting()
                 coordinatesRouting()
             }

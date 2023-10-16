@@ -5,6 +5,7 @@ import org.kodein.di.DI
 import org.kodein.di.bindMultiton
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
+import williankl.bpProject.common.data.placeService.models.MapServiceType
 import williankl.bpProject.common.features.dashboard.DashboardScreen.DashboardTab
 import williankl.bpProject.common.features.dashboard.pages.home.HomeRunnerModel
 import williankl.bpProject.common.features.dashboard.pages.profile.UserProfileRunnerModel
@@ -28,6 +29,8 @@ public val dashboardDi: DI.Module = DI.Module("williankl.bpProject.common.featur
     bindProvider {
         HomeRunnerModel(
             placeService = instance(),
+            mapsService = instance(MapServiceType.Client),
+            userLocationService = instance(),
             dispatcher = Dispatchers.Default,
         )
     }

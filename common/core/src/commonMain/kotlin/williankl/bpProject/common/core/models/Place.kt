@@ -55,12 +55,6 @@ public data class Place(
         val street: String,
         val city: String,
         val country: String,
-        val coordinates: PlaceCoordinate,
-    ) {
-        @Serializable
-        public data class PlaceCoordinate(
-            val latitude: Double,
-            val longitude: Double,
-        )
-    }
+        val coordinates: MapCoordinate,
+    )
 }

@@ -2,13 +2,13 @@ package williankl.bpProject.common.core
 
 import com.benasher44.uuid.Uuid
 import com.benasher44.uuid.uuid4
-import williankl.bpProject.common.core.models.Place.PlaceAddress.PlaceCoordinate
+import williankl.bpProject.common.core.models.MapCoordinate
 
 public val generateId: Uuid
     get() = uuid4()
 
-public fun PlaceCoordinate.inRangeOf(
-    other: PlaceCoordinate,
+public fun MapCoordinate.inRangeOf(
+    other: MapCoordinate,
     padding: Double,
 ): Boolean {
     val latRange = (other.latitude - padding)..(other.latitude + padding)

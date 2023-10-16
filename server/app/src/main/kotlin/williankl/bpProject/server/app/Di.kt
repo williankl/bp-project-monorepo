@@ -8,21 +8,21 @@ import williankl.bpProject.common.core.commonCoreDi
 import williankl.bpProject.common.data.cypher.cypherDi
 import williankl.bpProject.common.data.networking.NetworkConstant
 import williankl.bpProject.common.data.networking.networkingDi
-import williankl.bpProject.common.data.placeService.models.MapServiceType
 import williankl.bpProject.common.data.placeService.placesServiceDi
-import williankl.bpProject.server.app.routing.MasterRouter
-import williankl.bpProject.server.app.routing.auth.AuthRouter
-import williankl.bpProject.server.app.routing.maps.MapsRouter
-import williankl.bpProject.server.app.routing.places.PlaceRouter
-import williankl.bpProject.server.app.routing.places.RatingRouter
-import williankl.bpProject.server.app.routing.user.UserRouter
+import williankl.bpProject.server.core.BPRoute
+import williankl.bpProject.server.core.Routers
+import williankl.bpProject.server.core.retrieveFromEnv
 import williankl.bpProject.server.database.serverDatabaseDi
+import williankl.bpProject.server.routing.core.MasterRouter
+import williankl.bpProject.server.routing.core.routingCoreDi
 
 internal val serverDi = DI {
     import(commonCoreDi)
     import(cypherDi)
     import(networkingDi)
     import(placesServiceDi)
+
+    import(routingCoreDi)
     import(serverDatabaseDi)
 
     bindConstant(NetworkConstant.GooglePlacesApiKey) {
@@ -31,30 +31,9 @@ internal val serverDi = DI {
     }
 
     bindSingleton {
-        listOf(
-            MapsRouter(
-                mapsService = instance(MapServiceType.Server)
-            ),
-            AuthRouter(
-                authStorage = instance(),
-                cypher = instance(),
-            ),
-            PlaceRouter(
-                placeStorage = instance(),
-                userStorage = instance(),
-            ),
-            RatingRouter(
-                placesRatingStorage = instance(),
-            ),
-            UserRouter(
-                userStorage = instance(),
-            ),
-        )
-    }
-
-    bindSingleton {
         MasterRouter(
-            routes = instance()
+            routes = instance<List<BPRoute>>(Routers.Core) +
+                instance<List<BPRoute>>(Routers.BFF)
         )
     }
 }
