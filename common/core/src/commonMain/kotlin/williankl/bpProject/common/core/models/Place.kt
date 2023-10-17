@@ -12,12 +12,19 @@ public data class Place(
     val displayName: String,
     val description: String?,
     val address: PlaceAddress,
-    val imageUrls: List<String>,
+    val images: List<ImageData>,
     val tags: List<PlaceTag>,
     val state: PlaceState,
     val seasons: List<Season> = emptyList(),
     val createdAt: Long,
 ) {
+    @Serializable
+    public data class ImageData(
+        @Serializable(UuidSerializer::class) val id: Uuid,
+        val url: String,
+        val originalUrl: String,
+        val position: Int,
+    )
 
     @Serializable
     public enum class PlaceTag {

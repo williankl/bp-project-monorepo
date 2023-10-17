@@ -7,7 +7,7 @@ import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -50,7 +50,7 @@ public fun BeautifulToolbar(
     ) {
         AnimatedContent(
             targetState = headingIcon != null,
-            transitionSpec = { fadeIn() + expandHorizontally() with fadeOut() + shrinkHorizontally() },
+            transitionSpec = { fadeIn() + expandHorizontally() togetherWith fadeOut() + shrinkHorizontally() },
             modifier = Modifier.align(Alignment.CenterStart),
         ) { shouldShowHeadingIcon ->
             if (shouldShowHeadingIcon && headingIcon != null) {
@@ -73,7 +73,7 @@ public fun BeautifulToolbar(
 
         AnimatedContent(
             targetState = label.orEmpty(),
-            transitionSpec = { fadeIn() with fadeOut() },
+            transitionSpec = { fadeIn() togetherWith fadeOut() },
             modifier = Modifier.align(alignment),
         ) { toolbarLabel ->
             Text(
@@ -89,7 +89,7 @@ public fun BeautifulToolbar(
 
         AnimatedContent(
             targetState = trailingIcons,
-            transitionSpec = { fadeIn() with fadeOut() },
+            transitionSpec = { fadeIn() togetherWith fadeOut() },
             modifier = Modifier.align(Alignment.CenterEnd),
         ) { shownIcons ->
             Row(

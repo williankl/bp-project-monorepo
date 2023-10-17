@@ -22,7 +22,7 @@ internal actual class UserLocationRetriever(
     @SuppressLint("MissingPermission")
     override suspend fun currentUserCoordinates(): MapCoordinate? {
         return withPermissionOrNull {
-            val result = locationClient.getCurrentLocation(PRIORITY_HIGH_ACCURACY, null).result
+            val result = locationClient.getCurrentLocation(PRIORITY_HIGH_ACCURACY, null).retrieve()
             MapCoordinate(
                 latitude = result.latitude,
                 longitude = result.longitude,
@@ -33,7 +33,7 @@ internal actual class UserLocationRetriever(
     @SuppressLint("MissingPermission")
     override suspend fun lastUserCoordinates(): MapCoordinate? {
         return withPermissionOrNull {
-            val result = locationClient.lastLocation.result
+            val result = locationClient.lastLocation.retrieve()
             MapCoordinate(
                 latitude = result.latitude,
                 longitude = result.longitude,

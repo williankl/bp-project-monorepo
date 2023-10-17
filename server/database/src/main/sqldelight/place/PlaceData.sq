@@ -5,7 +5,6 @@ CREATE TABLE IF NOT EXISTS PlaceData (
   name text NOT NULL,
   description text,
   addressId uuid NOT NULL,
-  images text[] NOT NULL,
   seasons text[] NOT NULL,
   tags text[] NOT NULL,
   state text NOT NULL,
@@ -13,7 +12,7 @@ CREATE TABLE IF NOT EXISTS PlaceData (
 );
 
 create:
-INSERT INTO PlaceData(id, ownerId, name, description, addressId, images, seasons, tags, state, createdAt)
+INSERT INTO PlaceData(id, ownerId, name, description, addressId, seasons, tags, state, createdAt)
 VALUES ?;
 
 findPlaceById:
@@ -26,18 +25,11 @@ listPlaces:
 SELECT * FROM PlaceData
 INNER JOIN PlaceAddressData ON PlaceAddressData.id = PlaceData.addressId
 INNER JOIN UserData ON UserData.id = PlaceData.ownerId
-WHERE PlaceData.ownerId IS NOT DISTINCT FROM :ownerId OR :ownerId IS NULL
-OR PlaceData.state IS NOT DISTINCT FROM :stateTag OR :stateTag IS NULL
-OR ((:lat BETWEEN PlaceAddressData.latitude - :padding AND PlaceAddressData.latitude + :padding) AND :lon BETWEEN PlaceAddressData.longitude - :padding AND PlaceAddressData.longitude + :padding)
+WHERE ((:lat BETWEEN PlaceAddressData.latitude - :padding AND PlaceAddressData.latitude + :padding) AND :lon BETWEEN PlaceAddressData.longitude - :padding AND PlaceAddressData.longitude + :padding)
 OR (:lat IS NULL OR :lon IS NULL OR :padding IS NULL)
 LIMIT :limit OFFSET :offset;
 
 updatePlaceData:
 UPDATE PlaceData
 SET name = ?, description = ?
-WHERE id = ?;
-
-updateImageUrls:
-UPDATE PlaceData
-SET images = ?
 WHERE id = ?;

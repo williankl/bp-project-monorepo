@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
@@ -156,7 +155,7 @@ public class PlaceDetailsScreen(
         modifier: Modifier = Modifier,
     ) {
         val strings = LocalPlacesStrings.current
-        val pagerState = rememberPagerState { place.imageUrls.size }
+        val pagerState = rememberPagerState { place.images.size }
         var currentPageColor by remember {
             mutableStateOf(PlaceDetailsRunnerModel.defaultImageColor)
         }
@@ -192,7 +191,7 @@ public class PlaceDetailsScreen(
                 )
 
                 AsyncImagePager(
-                    urls = place.imageUrls,
+                    urls = place.images.map { imageData -> imageData.url },
                     state = pagerState,
                     pageSpacing = 34.dp,
                     contentPadding = PaddingValues(horizontal = 32.dp),
@@ -215,9 +214,9 @@ public class PlaceDetailsScreen(
             )
 
             AnimatedVisibility(
-                visible = presentation.placeRatingData != null
+                visible = presentation.placeRatingData != null && presentation.placeRatingData.ratingCount > 0
             ) {
-                if (presentation.placeRatingData != null) {
+                if (presentation.placeRatingData != null && presentation.placeRatingData.ratingCount > 0) {
                     Column(
                         verticalArrangement = Arrangement.spacedBy(4.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -268,6 +267,7 @@ public class PlaceDetailsScreen(
 
         Column(
             modifier = modifier,
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             AnimatedVisibility(
                 visible = place.description != null,
@@ -277,9 +277,13 @@ public class PlaceDetailsScreen(
                     TextContainer(
                         text = description,
                         preOverflowMaxLines = 2,
+                        modifier = Modifier
+                            .padding(12.dp)
+                            .fillMaxWidth()
                     )
                 }
             }
+
             options.forEachIndexed { index, option ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,

@@ -4,6 +4,7 @@ import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
 import io.ktor.util.pipeline.PipelineContext
 import williankl.bpProject.common.core.generateId
+import williankl.bpProject.common.core.models.MapCoordinate
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.Place.PlaceState
 import williankl.bpProject.common.core.models.User
@@ -26,7 +27,7 @@ internal object PlaceMapper {
             displayName = name,
             description = description,
             address = address,
-            imageUrls = imageUrls,
+            images = images,
             seasons = seasons,
             tags = tags,
             state = state,
@@ -50,7 +51,7 @@ internal object PlaceMapper {
             if (latitude != null && longitude != null) {
                 PlaceDistanceQuery(
                     maxDistance = distance ?: 10.0,
-                    coordinates = Place.PlaceAddress.PlaceCoordinate(
+                    coordinates = MapCoordinate(
                         latitude = latitude,
                         longitude = longitude,
                     )

@@ -3,7 +3,7 @@ package williankl.bpProject.common.platform.design.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -66,9 +66,10 @@ public fun TextContainer(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(4.dp),
         modifier = modifier
-            .background(
+            .border(
                 color = BeautifulColor.Primary.composeColor,
                 shape = BeautifulShape.Rounded.Regular.composeShape,
+                width = 1.dp,
             )
             .padding(14.dp),
     ) {

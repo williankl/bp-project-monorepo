@@ -8,8 +8,9 @@ import com.google.firebase.storage.ktx.storage
 import korlibs.image.bitmap.Bitmap
 import korlibs.image.format.toAndroidBitmap
 import williankl.bpProject.common.data.firebaseIntegration.FirebaseIntegration
+import williankl.bpProject.common.data.firebaseIntegration.models.ImageUploadResult
 import williankl.bpProject.common.data.imageRetrievalService.ImageTransformer
-import williankl.bpProject.common.data.placeService.internal.retrieve
+import williankl.bpProject.common.data.imageRetrievalService.ImageTransformer.EncodeQuality
 import williankl.bpProject.common.data.sessionHandler.Session
 
 internal actual class FirebaseStorageInfrastructure actual constructor(
@@ -19,20 +20,24 @@ internal actual class FirebaseStorageInfrastructure actual constructor(
     private val randomId: Uuid
         get() = uuid4()
 
-    override suspend fun uploadPlacesImages(images: List<Bitmap>): List<String> {
+    override suspend fun uploadPlacesImages(images: List<Bitmap>): List<ImageUploadResult> {
         val user = session.loggedInUser()
             ?: error("User not logged in")
 
         return images.map { image ->
-            uploadImage(user.id, image)
+            ImageUploadResult(
+                originalImageUrl = uploadImage(user.id, image, EncodeQuality.Original),
+                url = uploadImage(user.id, image, EncodeQuality.LowQuality),
+            )
         }
     }
 
     private suspend fun uploadImage(
         userId: Uuid,
-        bitmap: Bitmap
+        bitmap: Bitmap,
+        quality: EncodeQuality,
     ): String {
-        val encodedImage = ImageTransformer.encodeImage(bitmap.toAndroidBitmap())
+        val encodedImage = ImageTransformer.encodeImage(bitmap.toAndroidBitmap(), quality)
         val storageReference = retrieveStorageReference(userId)
         storageReference
             .putBytes(encodedImage)

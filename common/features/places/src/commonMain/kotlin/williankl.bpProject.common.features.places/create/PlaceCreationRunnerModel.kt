@@ -7,6 +7,7 @@ import com.chrynan.uri.core.fromString
 import kotlinx.coroutines.CoroutineDispatcher
 import williankl.bpProject.common.core.models.MapCoordinate
 import williankl.bpProject.common.core.models.Place
+import williankl.bpProject.common.core.models.Place.ImageData
 import williankl.bpProject.common.core.models.Place.PlaceAddress
 import williankl.bpProject.common.core.models.network.request.SavingPlaceRequest
 import williankl.bpProject.common.data.firebaseIntegration.FirebaseIntegration
@@ -58,7 +59,7 @@ internal class PlaceCreationRunnerModel(
             imageRetriever.retrieveImageFromUri(uri)
         }
 
-        val imageUrls = firebaseIntegration.uploadPlacesImages(imageBitmaps)
+        val imageUploadResults = firebaseIntegration.uploadPlacesImages(imageBitmaps)
 
         placesService.saveNewPlace(
             place = SavingPlaceRequest(
@@ -76,7 +77,14 @@ internal class PlaceCreationRunnerModel(
                         ),
                     )
                 },
-                imageUrls = imageUrls,
+                images = imageUploadResults.mapIndexed { index, result ->
+                    ImageData(
+                        id = uuid4(),
+                        url = result.url,
+                        originalUrl = result.originalImageUrl,
+                        position = index,
+                    )
+                },
                 seasons = creationHandler.selectedSeasons,
                 state = Place.PlaceState.Published,
                 tags = emptyList(),

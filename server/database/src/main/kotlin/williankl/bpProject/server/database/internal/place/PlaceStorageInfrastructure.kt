@@ -8,17 +8,22 @@ import williankl.bpProject.server.database.internal.DriverProvider.withDatabase
 import williankl.bpProject.server.database.internal.place.Mapper.toAddressData
 import williankl.bpProject.server.database.internal.place.Mapper.toDomain
 import williankl.bpProject.server.database.internal.place.Mapper.toPlaceData
+import williankl.bpProject.server.database.services.ImageStorage
 import williankl.bpProject.server.database.services.PlaceStorage
 import java.util.*
 
 internal class PlaceStorageInfrastructure(
     private val driver: JdbcDriver,
+    private val imageStorage: ImageStorage,
 ) : PlaceStorage {
 
     override suspend fun savePlace(place: Place) {
         withDatabase(driver) {
             placeDataQueries.create(toPlaceData(place))
             placeAddressQueries.create(toAddressData(place.address))
+            place.images.forEach { imageData ->
+                imageStorage.storeImage(place.id, imageData)
+            }
         }
     }
 
@@ -31,8 +36,6 @@ internal class PlaceStorageInfrastructure(
     ): List<Place> {
         return withDatabase(driver) {
             placeDataQueries.listPlaces(
-                ownerId = ownerId,
-                stateTag = state?.name,
                 lat = distance?.coordinates?.latitude,
                 lon = distance?.coordinates?.longitude,
                 padding = distance?.maxDistance,
@@ -40,7 +43,12 @@ internal class PlaceStorageInfrastructure(
                 offset = (limit * page).toLong()
             )
                 .executeAsList()
-                .map(::toDomain)
+                .map { joinedData ->
+                    toDomain(
+                        joinedData = joinedData,
+                        images = imageStorage.imagesFromPlace(joinedData.id),
+                    )
+                }
         }
     }
 
@@ -48,7 +56,12 @@ internal class PlaceStorageInfrastructure(
         return withDatabase(driver) {
             placeDataQueries.findPlaceById(id)
                 .executeAsOneOrNull()
-                ?.let(::toDomain)
+                ?.let { joinedData ->
+                    toDomain(
+                        joinedData = joinedData,
+                        images = imageStorage.imagesFromPlace(joinedData.id),
+                    )
+                }
         }
     }
 
