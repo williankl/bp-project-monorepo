@@ -7,11 +7,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import williankl.bpProject.common.features.authentication.AuthenticationScreen
 import williankl.bpProject.common.features.authentication.modal.LoginRequiredBottomSheet
 import williankl.bpProject.common.features.dashboard.DashboardScreen
 import williankl.bpProject.common.features.places.details.PlaceDetailsScreen
 import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionScreen
+import williankl.bpProject.common.platform.stateHandler.models.ModelState
 import williankl.bpProject.common.platform.stateHandler.navigation.Router
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication
 import williankl.bpProject.common.platform.stateHandler.navigation.models.NavigationDestination
@@ -24,6 +28,9 @@ internal class RouterInfrastructure : Router {
     internal var mutableSideBarContent by mutableStateOf<(@Composable () -> Unit)?>(null)
     internal var mutableNavigator by mutableStateOf<Navigator?>(null)
     internal var mutableBottomSheetNavigator by mutableStateOf<BottomSheetNavigator?>(null)
+    private val mutableModelState = MutableStateFlow<ModelState>(ModelState.Content)
+
+    override val state: StateFlow<ModelState> = mutableModelState
 
     override val navigator: Navigator
         get() = mutableNavigator ?: error("Navigator was not set")
@@ -79,6 +86,10 @@ internal class RouterInfrastructure : Router {
 
     override fun hideSidebar() {
         mutableSideBarContent = null
+    }
+
+    override fun updateUIState(modelState: ModelState) {
+        mutableModelState.update { modelState }
     }
 
     private fun NavigationDestination.mapToScreen(): BeautifulScreen {

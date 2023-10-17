@@ -48,7 +48,7 @@ internal class PlaceDetailsRunnerModel(
     )
 
     fun updatePresentation() = setContent {
-        currentData.value.copy(
+        currentData.copy(
             currentUser = session.loggedInUser(),
             placeRatingData = ratingService.placeRatingData(placeId)
         )
@@ -56,7 +56,7 @@ internal class PlaceDetailsRunnerModel(
 
     fun fetchNextCommentPage(resetting: Boolean = false) = runAsync {
         mutableRatingPaging.update { paging ->
-            if(resetting) return@update PagingResult<PlaceRating>()
+            if (resetting) return@update PagingResult<PlaceRating>()
             if (paging.hasReachedFinalPage) return@runAsync
 
             with(paging) {

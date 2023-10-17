@@ -42,9 +42,7 @@ import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.colors.composeHoverColor
 import williankl.bpProject.common.platform.design.core.theme.BeautifulThemeContent
 import williankl.bpProject.common.platform.stateHandler.LocalRouter
-import williankl.bpProject.common.platform.stateHandler.UIState
 import williankl.bpProject.common.platform.stateHandler.navigation.Router
-import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
 @Composable
 public fun AppContent(
@@ -112,12 +110,8 @@ private fun WithNavigators(
     ) { bottomSheetNavigator ->
         Navigator(
             screen = DashboardScreen(),
-            onBackPressed = { currentScreen ->
+            onBackPressed = { _ ->
                 when {
-                    currentScreen is BeautifulScreen && currentScreen.state != UIState.Content -> {
-                        currentScreen.resetState()
-                        false
-                    }
                     router.isSidebarVisible -> {
                         router.hideSidebar()
                         false
