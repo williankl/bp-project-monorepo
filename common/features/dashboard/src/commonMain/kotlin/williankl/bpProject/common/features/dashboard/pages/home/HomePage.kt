@@ -33,6 +33,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.features.dashboard.LocalDashboardStrings
+import williankl.bpProject.common.features.dashboard.pages.home.HomePage.collectData
 import williankl.bpProject.common.features.dashboard.pages.home.HomeRunnerModel.HomePresentation.PlacePresentation
 import williankl.bpProject.common.platform.design.components.AsyncImage
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
@@ -64,7 +65,7 @@ internal object HomePage : BeautifulScreen() {
     @Composable
     override fun BeautifulContent() {
         val runnerModel = rememberScreenModel<HomeRunnerModel>()
-        val presentation by runnerModel.currentData.collectAsState()
+        val presentation by runnerModel.collectData()
         val router = LocalRouter.currentOrThrow
 
         HomeContent(

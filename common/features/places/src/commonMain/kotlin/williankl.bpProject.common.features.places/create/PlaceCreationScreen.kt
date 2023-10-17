@@ -46,7 +46,7 @@ internal data class PlaceCreationScreen(
     @Composable
     override fun BeautifulContent() {
         val runnerModel = rememberScreenModel<PlaceCreationRunnerModel>()
-        val presentation by runnerModel.currentData.collectAsState()
+        val presentation by runnerModel.collectData()
 
         LaunchedEffect(imageUriList) {
             runnerModel.retrievePresentation(imageUriList)

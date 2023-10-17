@@ -65,6 +65,7 @@ public class AuthenticationScreen(
     @Composable
     override fun BeautifulContent() {
         val runnerModel = rememberScreenModel<AuthenticationRunnerModel>()
+        val data by runnerModel.collectData()
         val router = LocalRouter.currentOrThrow
 
         LoginScreenContent(

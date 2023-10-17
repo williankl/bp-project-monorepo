@@ -64,7 +64,7 @@ internal object UserProfilePage : BeautifulScreen() {
     @Composable
     override fun BeautifulContent() {
         val runnerModel = rememberScreenModel<UserProfileRunnerModel>()
-        val presentation by runnerModel.currentData.collectAsState()
+        val presentation by runnerModel.collectData()
 
         UserProfileContent(
             presentation = presentation,

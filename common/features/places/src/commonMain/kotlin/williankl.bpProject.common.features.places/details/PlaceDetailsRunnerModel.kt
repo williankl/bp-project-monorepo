@@ -54,9 +54,11 @@ internal class PlaceDetailsRunnerModel(
         )
     }
 
-    fun fetchNextCommentPage() = runAsync {
+    fun fetchNextCommentPage(resetting: Boolean = false) = runAsync {
         mutableRatingPaging.update { paging ->
+            if(resetting) return@update PagingResult<PlaceRating>()
             if (paging.hasReachedFinalPage) return@runAsync
+
             with(paging) {
                 val nextPage = ratingService.ratingsForPlace(
                     placeId = placeId,

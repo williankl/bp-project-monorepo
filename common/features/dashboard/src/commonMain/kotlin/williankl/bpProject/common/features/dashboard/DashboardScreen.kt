@@ -29,6 +29,7 @@ import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
 import williankl.bpProject.common.features.dashboard.models.DashboardActions
 import williankl.bpProject.common.features.dashboard.pages.home.HomePage
+import williankl.bpProject.common.features.dashboard.pages.home.HomePage.collectData
 import williankl.bpProject.common.features.dashboard.pages.profile.UserProfilePage
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
@@ -54,7 +55,7 @@ public data class DashboardScreen(
     @Composable
     override fun BeautifulContent() {
         val runnerModel = rememberScreenModel<DashboardTab, DashboardRunnerModel>(arg = initialTab)
-        val presentation by runnerModel.currentData.collectAsState()
+        val presentation by runnerModel.collectData()
         val imageRetrievalController = LocalImageRetrievalController.currentOrThrow
         val router = LocalRouter.currentOrThrow
 

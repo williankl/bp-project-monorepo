@@ -79,7 +79,7 @@ internal data class PlaceSearchScreen(
     @Composable
     override fun BeautifulContent() {
         val runnerModel = rememberScreenModel<PlaceSearchRunnerModel>()
-        val presentation by runnerModel.currentData.collectAsState()
+        val presentation by runnerModel.collectData()
         val navigator = LocalNavigator.currentOrThrow
 
         var searchQuery by remember {

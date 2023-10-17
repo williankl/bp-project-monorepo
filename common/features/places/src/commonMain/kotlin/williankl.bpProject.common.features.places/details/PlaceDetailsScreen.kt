@@ -69,7 +69,7 @@ public class PlaceDetailsScreen(
     override fun BeautifulContent() {
         val router = LocalRouter.currentOrThrow
         val runnerModel = rememberScreenModel<Uuid, PlaceDetailsRunnerModel>(arg = place.id)
-        val presentation by runnerModel.currentData.collectAsState()
+        val presentation by runnerModel.collectData()
         val ratingPaging by runnerModel.ratingPaging.collectAsState()
 
         PlaceDetailsContent(

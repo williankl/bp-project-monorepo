@@ -1,5 +1,6 @@
 package williankl.bpProject.common.platform.stateHandler.screen
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -70,17 +71,23 @@ public abstract class BeautifulScreen : Screen {
             ) {
                 BeautifulContent()
 
-                when (val currentState = state) {
-                    is UIState.Content -> Unit
-                    is UIState.Error -> ErrorScreen(
-                        reason = currentState.reason,
-                        modifier = Modifier.fillMaxSize()
-                    )
+                AnimatedContent(
+                    targetState = state,
+                    modifier = Modifier.fillMaxSize(),
+                    content = { uiState ->
+                        when (uiState) {
+                            is UIState.Content -> Unit
+                            is UIState.Error -> ErrorScreen(
+                                reason = uiState.reason,
+                                modifier = Modifier.fillMaxSize()
+                            )
 
-                    is UIState.Loading -> LoadingScreen(
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
+                            is UIState.Loading -> LoadingScreen(
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
+                    }
+                )
             }
         }
     }

@@ -60,7 +60,7 @@ public data class PhotoSelectionScreen(
         val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val navigator = LocalNavigator.currentOrThrow
         val runnerModel = rememberScreenModel<PhotoSelectionRunnerModel>()
-        val presentation by runnerModel.currentData.collectAsState()
+        val presentation by runnerModel.collectData()
 
         var finalUriList by remember {
             mutableStateOf(imageUriList)

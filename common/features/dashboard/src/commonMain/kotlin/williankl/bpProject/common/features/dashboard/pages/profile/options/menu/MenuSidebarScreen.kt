@@ -70,7 +70,7 @@ internal object MenuSidebarScreen : BeautifulScreen() {
     @Composable
     override fun BeautifulContent() {
         val runnerModel = rememberScreenModel<MenuSidebarRunnerModel>()
-        val presentation by runnerModel.currentData.collectAsState()
+        val presentation by runnerModel.collectData()
         val router = LocalRouter.currentOrThrow
 
         MenuSidebaseContent(
