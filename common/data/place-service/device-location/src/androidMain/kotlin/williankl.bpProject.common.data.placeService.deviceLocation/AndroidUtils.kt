@@ -1,4 +1,4 @@
-package williankl.bpProject.common.data.firebaseIntegration.internal
+package williankl.bpProject.common.data.placeService.deviceLocation
 
 import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.channels.awaitClose

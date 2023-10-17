@@ -11,7 +11,6 @@ import williankl.bpProject.common.data.firebaseIntegration.FirebaseIntegration
 import williankl.bpProject.common.data.firebaseIntegration.models.ImageUploadResult
 import williankl.bpProject.common.data.imageRetrievalService.ImageTransformer
 import williankl.bpProject.common.data.imageRetrievalService.ImageTransformer.EncodeQuality
-import williankl.bpProject.common.data.placeService.internal.retrieve
 import williankl.bpProject.common.data.sessionHandler.Session
 
 internal actual class FirebaseStorageInfrastructure actual constructor(
