@@ -214,9 +214,9 @@ public class PlaceDetailsScreen(
             )
 
             AnimatedVisibility(
-                visible = presentation.placeRatingData != null
+                visible = presentation.placeRatingData != null && presentation.placeRatingData.ratingCount > 0
             ) {
-                if (presentation.placeRatingData != null) {
+                if (presentation.placeRatingData != null && presentation.placeRatingData.ratingCount > 0) {
                     Column(
                         verticalArrangement = Arrangement.spacedBy(4.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -267,6 +267,7 @@ public class PlaceDetailsScreen(
 
         Column(
             modifier = modifier,
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             AnimatedVisibility(
                 visible = place.description != null,
@@ -276,9 +277,13 @@ public class PlaceDetailsScreen(
                     TextContainer(
                         text = description,
                         preOverflowMaxLines = 2,
+                        modifier = Modifier
+                            .padding(12.dp)
+                            .fillMaxWidth()
                     )
                 }
             }
+
             options.forEachIndexed { index, option ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
