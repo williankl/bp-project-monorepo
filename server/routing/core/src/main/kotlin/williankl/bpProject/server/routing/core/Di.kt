@@ -7,6 +7,7 @@ import williankl.bpProject.common.data.placeService.models.MapServiceType
 import williankl.bpProject.server.core.Routers
 import williankl.bpProject.server.routing.core.auth.AuthRouter
 import williankl.bpProject.server.routing.core.maps.MapsRouter
+import williankl.bpProject.server.routing.core.places.FavouriteRouter
 import williankl.bpProject.server.routing.core.places.PlaceRouter
 import williankl.bpProject.server.routing.core.places.RatingRouter
 import williankl.bpProject.server.routing.core.user.UserRouter
@@ -30,6 +31,9 @@ public val routingCoreDi: DI.Module = DI.Module("williankl.bpProject.server.rout
             ),
             UserRouter(
                 userStorage = instance(),
+            ),
+            FavouriteRouter(
+                favouriteStorage = instance(),
             ),
         )
     }
