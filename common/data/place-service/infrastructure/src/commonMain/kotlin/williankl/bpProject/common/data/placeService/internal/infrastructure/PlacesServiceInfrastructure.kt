@@ -17,6 +17,7 @@ internal class PlacesServiceInfrastructure(
 
     private companion object {
         const val PLACES_ENDPOINT = "/places"
+        const val PLACES_FAVOURITE_ENDPOINT = "/places/favourite"
     }
 
     override suspend fun saveNewPlace(place: SavingPlaceRequest) {
@@ -31,8 +32,29 @@ internal class PlacesServiceInfrastructure(
         }.body()
     }
 
-    override suspend fun retrievePlaces(page: Int, limit: Int): List<Place> {
-        return client.get(PLACES_ENDPOINT) {
+    override suspend fun isPlaceFavourite(id: Uuid): Boolean {
+        return client.get(PLACES_FAVOURITE_ENDPOINT) {
+            parameter("placeId", id)
+        }.body()
+    }
+
+    override suspend fun toggleFavouriteTo(id: Uuid, to: Boolean) {
+        client.post(PLACES_FAVOURITE_ENDPOINT) {
+            parameter("placeId", id)
+            parameter("settingTo", to)
+        }
+    }
+
+    override suspend fun retrievePlaces(
+        page: Int,
+        limit: Int,
+        filterFavourites: Boolean,
+    ): List<Place> {
+        val actualUrl =
+            if (filterFavourites) PLACES_FAVOURITE_ENDPOINT
+            else PLACES_ENDPOINT
+
+        return client.get(actualUrl) {
             parameter("page", page)
             parameter("limit", limit)
         }.body()
