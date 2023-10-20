@@ -13,6 +13,7 @@ import williankl.bpProject.common.core.models.User
 import williankl.bpProject.common.core.models.network.request.PlaceRatingRequest
 import williankl.bpProject.common.data.networking.models.PagingResult
 import williankl.bpProject.common.data.placeService.PlaceRatingService
+import williankl.bpProject.common.data.placeService.PlacesService
 import williankl.bpProject.common.data.placeService.models.PlaceRatingData
 import williankl.bpProject.common.data.sessionHandler.Session
 import williankl.bpProject.common.features.places.details.PlaceDetailsRunnerModel.PlaceDetailsPresentation
@@ -23,6 +24,7 @@ import williankl.bpProject.common.platform.stateHandler.RunnerModel
 internal class PlaceDetailsRunnerModel(
     private val placeId: Uuid,
     private val session: Session,
+    private val placesService: PlacesService,
     private val ratingService: PlaceRatingService,
     dispatcher: CoroutineDispatcher,
 ) : RunnerModel<PlaceDetailsPresentation>(
@@ -45,12 +47,23 @@ internal class PlaceDetailsRunnerModel(
         val currentUser: User? = null,
         val placeRatingData: PlaceRatingData? = null,
         val averageColorList: List<Color> = emptyList(),
+        val isPlaceFavourite: Boolean = false,
     )
 
     fun updatePresentation() = setContent {
         currentData.copy(
             currentUser = session.loggedInUser(),
-            placeRatingData = ratingService.placeRatingData(placeId)
+            placeRatingData = ratingService.placeRatingData(placeId),
+            isPlaceFavourite = placesService.isPlaceFavourite(placeId),
+        )
+    }
+
+    fun setToFavourite(settingTo: Boolean) = setContent(
+        onLoading = { /* Nothing to load */ }
+    ) {
+        placesService.toggleFavouriteTo(placeId, settingTo)
+        currentData.copy(
+            isPlaceFavourite = settingTo
         )
     }
 
