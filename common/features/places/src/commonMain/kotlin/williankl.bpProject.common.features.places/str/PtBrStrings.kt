@@ -27,6 +27,7 @@ internal val ptBrStrings = PlacesStrings(
         },
         addToRouteLabel = "Adicionar no meu roteiro",
         favouriteLabel = "Favoritar",
+        unFavouriteLabel = "Remover dos favoritos",
         inAppRatingLabel = "Avaliações",
         addRatingLabel = "Fazer comentário",
         addRatingActionLabel = "Enviar",
