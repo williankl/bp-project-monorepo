@@ -1,6 +1,5 @@
 package williankl.bpProject.common.features.places.details
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -319,17 +318,11 @@ public class PlaceDetailsScreen(
                         .padding(12.dp)
                         .fillMaxWidth()
                 ) {
-                    AnimatedContent(
-                        label = "favourite-toggle-animation",
-                        targetState = presentation.isPlaceFavourite,
-                        content = { isFavourite ->
-                            option.header(isFavourite)
+                    option.header(presentation.isPlaceFavourite)
 
-                            Text(
-                                text = option.label(isFavourite),
-                                size = TextSize.Large,
-                            )
-                        }
+                    Text(
+                        text = option.label(presentation.isPlaceFavourite),
+                        size = TextSize.Large,
                     )
                 }
 
