@@ -39,6 +39,7 @@ internal object DriverProvider {
             placeDataQueries.createTableIfNeeded()
             placeRatingQueries.createTableIfNeeded()
             placeAddressQueries.createTableIfNeeded()
+            favouriteDataQueries.createTableIfNeeded()
             userDataQueries.createTableIfNeeded()
             userCredentialsQueries.createTableIfNeeded()
             userBearerCredentialQueries.createTableIfNeeded()

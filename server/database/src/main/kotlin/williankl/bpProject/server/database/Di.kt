@@ -5,11 +5,13 @@ import org.kodein.di.bindSingleton
 import org.kodein.di.instance
 import williankl.bpProject.server.database.internal.DriverProvider
 import williankl.bpProject.server.database.internal.auth.AuthenticationStorageInfrastructure
+import williankl.bpProject.server.database.internal.favourite.FavouriteStorageInfrastructure
 import williankl.bpProject.server.database.internal.image.ImageStorageInfrastructure
 import williankl.bpProject.server.database.internal.place.PlaceStorageInfrastructure
 import williankl.bpProject.server.database.internal.place.RatingStorageInfrastructure
 import williankl.bpProject.server.database.internal.user.UserStorageInfrastructure
 import williankl.bpProject.server.database.services.AuthStorage
+import williankl.bpProject.server.database.services.FavouriteStorage
 import williankl.bpProject.server.database.services.ImageStorage
 import williankl.bpProject.server.database.services.PlaceRatingStorage
 import williankl.bpProject.server.database.services.PlaceStorage
@@ -34,6 +36,13 @@ public val serverDatabaseDi: DI.Module = DI.Module("williankl.bpProject.server.d
 
     bindSingleton<PlaceStorage> {
         PlaceStorageInfrastructure(
+            driver = instance(),
+            imageStorage = instance(),
+        )
+    }
+
+    bindSingleton<FavouriteStorage> {
+        FavouriteStorageInfrastructure(
             driver = instance(),
             imageStorage = instance(),
         )
