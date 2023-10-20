@@ -2,8 +2,6 @@ package williankl.bpProject.server.database.services
 
 import com.benasher44.uuid.Uuid
 import williankl.bpProject.common.core.models.Place
-import williankl.bpProject.common.core.models.PlaceRating
-import williankl.bpProject.common.core.models.network.request.PlaceRatingRequest
 
 public interface FavouriteStorage {
 
