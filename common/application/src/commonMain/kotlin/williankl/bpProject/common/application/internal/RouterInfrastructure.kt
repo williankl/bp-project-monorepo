@@ -5,6 +5,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -78,7 +79,7 @@ internal class RouterInfrastructure : Router {
         }
     }
 
-    override fun showSidebar(destination: BeautifulScreen) {
+    override fun showSidebar(destination: Screen) {
         mutableSideBarContent = {
             destination.Content()
         }
@@ -92,7 +93,7 @@ internal class RouterInfrastructure : Router {
         mutableModelState.update { modelState }
     }
 
-    private fun NavigationDestination.mapToScreen(): BeautifulScreen {
+    private fun NavigationDestination.mapToScreen(): Screen {
         return when (this) {
             is NavigationDestination.Dashboard -> DashboardScreen()
             is Authentication.Login -> AuthenticationScreen(startingFlow)

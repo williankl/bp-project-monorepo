@@ -28,12 +28,12 @@ import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
 import williankl.bpProject.common.features.dashboard.models.DashboardActions
 import williankl.bpProject.common.features.dashboard.pages.home.HomePage
-import williankl.bpProject.common.features.dashboard.pages.home.HomePage.collectData
 import williankl.bpProject.common.features.dashboard.pages.profile.UserProfilePage
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.stateHandler.LocalRouter
+import williankl.bpProject.common.platform.stateHandler.collectData
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Places.PlacePhotoSelection
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen

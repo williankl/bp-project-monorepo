@@ -51,8 +51,8 @@ public abstract class BeautifulScreen : Screen {
         val router = LocalRouter.currentOrThrow
         val modelState by router.state.collectAsState()
         val hasToolbarContent = toolbarConfig.label != null ||
-            toolbarConfig.headingIcon != null ||
-            toolbarConfig.trailingIcons.isNotEmpty()
+                toolbarConfig.headingIcon != null ||
+                toolbarConfig.trailingIcons.isNotEmpty()
 
         Column {
             AnimatedVisibility(
@@ -71,7 +71,7 @@ public abstract class BeautifulScreen : Screen {
                 LocalToolbarConfig provides toolbarConfig
             ) {
                 Box(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier,
                     contentAlignment = Alignment.Center,
                 ) {
                     BeautifulContent()
@@ -81,7 +81,10 @@ public abstract class BeautifulScreen : Screen {
                         modifier = Modifier,
                         content = { uiState ->
                             when (uiState) {
-                                is ModelState.Content -> Unit
+                                is ModelState.Content -> Box(
+                                    modifier = Modifier.fillMaxSize()
+                                )
+
                                 is ModelState.Error -> ErrorScreen(
                                     reason = uiState.reason,
                                     modifier = Modifier.fillMaxSize()
@@ -101,17 +104,4 @@ public abstract class BeautifulScreen : Screen {
     @Composable
     public abstract fun BeautifulContent()
 
-    @Composable
-    protected fun <T> RunnerModel<T>.collectData(): State<T> {
-        val router = LocalRouter.currentOrThrow
-        val modelUIState by currentUIState.collectAsState()
-
-        LaunchedEffect(modelUIState.modelState) {
-            router.updateUIState(modelUIState.modelState)
-        }
-
-        return remember {
-            derivedStateOf { modelUIState.content }
-        }
-    }
 }

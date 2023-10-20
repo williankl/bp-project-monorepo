@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.ImageResource
@@ -36,10 +37,11 @@ import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
 import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.design.core.text.TextSize
 import williankl.bpProject.common.platform.stateHandler.LocalRouter
+import williankl.bpProject.common.platform.stateHandler.collectData
 import williankl.bpProject.common.platform.stateHandler.navigation.models.NavigationDestination
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
-internal object MenuSidebarScreen : BeautifulScreen() {
+internal object MenuSidebarScreen : Screen {
 
     internal enum class SidebarOptions(
         val label: ComposableString,
@@ -67,7 +69,7 @@ internal object MenuSidebarScreen : BeautifulScreen() {
     }
 
     @Composable
-    override fun BeautifulContent() {
+    override fun Content() {
         val runnerModel = rememberScreenModel<MenuSidebarRunnerModel>()
         val presentation by runnerModel.collectData()
         val router = LocalRouter.currentOrThrow

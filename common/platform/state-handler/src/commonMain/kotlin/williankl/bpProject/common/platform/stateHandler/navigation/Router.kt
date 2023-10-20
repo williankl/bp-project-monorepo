@@ -1,5 +1,6 @@
 package williankl.bpProject.common.platform.stateHandler.navigation
 
+import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +20,7 @@ public interface Router {
     public fun replaceAll(destination: NavigationDestination)
     public fun pop()
     public fun showSidebar(destination: NavigationDestination)
-    public fun showSidebar(destination: BeautifulScreen)
+    public fun showSidebar(destination: Screen)
     public fun hideSidebar()
     public fun updateUIState(modelState: ModelState)
 }
