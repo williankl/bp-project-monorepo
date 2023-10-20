@@ -7,6 +7,7 @@ import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.animation.with
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -110,11 +111,14 @@ private fun WithNavigators(
     ) { bottomSheetNavigator ->
         Navigator(
             screen = DashboardScreen(),
-            onBackPressed = {
-                if (router.isSidebarVisible) {
-                    router.hideSidebar()
-                    false
-                } else true
+            onBackPressed = { _ ->
+                when {
+                    router.isSidebarVisible -> {
+                        router.hideSidebar()
+                        false
+                    }
+                    else -> true
+                }
             },
             content = { navigator -> content(navigator, bottomSheetNavigator) },
         )
@@ -128,7 +132,7 @@ private fun BoxScope.HandleSideBar(
 ) {
     AnimatedContent(
         targetState = routerInfrastructure.isSidebarVisible,
-        transitionSpec = { fadeIn() with fadeOut() },
+        transitionSpec = { fadeIn() togetherWith fadeOut() },
         modifier = Modifier.fillMaxSize(),
     ) { showScrim ->
         Spacer(

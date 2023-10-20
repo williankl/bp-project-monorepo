@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.screen.Screen
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.data.imageRetrievalService.LocalImageRetrievalServiceStrings
@@ -26,11 +27,10 @@ import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.text.Text
-import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
 internal class ImageRequestBottomSheet(
     private val onOptionSelected: (ImageRequestOptions) -> Unit,
-) : BeautifulScreen() {
+) : Screen {
 
     internal enum class ImageRequestOptions(
         val label: ComposeString,
@@ -47,7 +47,7 @@ internal class ImageRequestBottomSheet(
     }
 
     @Composable
-    override fun BeautifulContent() {
+    override fun Content() {
         ImageRequestBottomSheetContent(
             onOptionSelected = onOptionSelected,
             modifier = Modifier,

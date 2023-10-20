@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -38,6 +37,7 @@ import williankl.bpProject.common.platform.design.core.button.Button
 import williankl.bpProject.common.platform.design.core.button.ButtonVariant
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
+import williankl.bpProject.common.platform.stateHandler.collectData
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
 internal data class PlaceCreationScreen(
@@ -46,7 +46,7 @@ internal data class PlaceCreationScreen(
     @Composable
     override fun BeautifulContent() {
         val runnerModel = rememberScreenModel<PlaceCreationRunnerModel>()
-        val presentation by runnerModel.currentData.collectAsState()
+        val presentation by runnerModel.collectData()
 
         LaunchedEffect(imageUriList) {
             runnerModel.retrievePresentation(imageUriList)

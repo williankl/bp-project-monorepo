@@ -20,7 +20,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,6 +57,7 @@ import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.input.Input
 import williankl.bpProject.common.platform.design.core.text.Text
+import williankl.bpProject.common.platform.stateHandler.collectData
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig
 
@@ -79,7 +79,7 @@ internal data class PlaceSearchScreen(
     @Composable
     override fun BeautifulContent() {
         val runnerModel = rememberScreenModel<PlaceSearchRunnerModel>()
-        val presentation by runnerModel.currentData.collectAsState()
+        val presentation by runnerModel.collectData()
         val navigator = LocalNavigator.currentOrThrow
 
         var searchQuery by remember {

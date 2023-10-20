@@ -1,7 +1,5 @@
 package williankl.bpProject.common.platform.stateHandler
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
 import kotlinx.coroutines.CoroutineDispatcher
@@ -9,28 +7,50 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import williankl.bpProject.common.platform.stateHandler.models.ModelState
+import williankl.bpProject.common.platform.stateHandler.models.UIState
 
 public abstract class RunnerModel<T>(
     initialData: T,
     private val dispatcher: CoroutineDispatcher,
 ) : ScreenModel {
 
-    private val mutableUiState: MutableStateFlow<UIState> = MutableStateFlow(UIState.Content)
-    public val uiState: StateFlow<UIState> = mutableUiState
+    private val mutableUIState: MutableStateFlow<UIState<T>> = MutableStateFlow(
+        UIState(
+            modelState = ModelState.Content,
+            content = initialData,
+        )
+    )
 
-    private val mutableCurrentData: MutableStateFlow<T> = MutableStateFlow(initialData)
-    public val currentData: StateFlow<T> = mutableCurrentData
+    public val currentUIState: StateFlow<UIState<T>> = mutableUIState
+
+    public val currentData: T
+        get() = currentUIState.value.content
 
     public fun setContent(
         onContent: (T) -> Unit = { result ->
-            mutableCurrentData.update { result }
-            mutableUiState.update { UIState.Content }
+            mutableUIState.update {
+                UIState(
+                    modelState = ModelState.Content,
+                    content = result
+                )
+            }
         },
         onError: (Throwable) -> Unit = { reason ->
-            mutableUiState.update { UIState.Error(reason) }
+            mutableUIState.update { currentData ->
+                UIState(
+                    modelState = ModelState.Error(reason),
+                    content = currentData.content
+                )
+            }
         },
         onLoading: () -> Unit = {
-            mutableUiState.update { UIState.Loading }
+            mutableUIState.update { currentData ->
+                UIState(
+                    modelState = ModelState.Loading,
+                    content = currentData.content
+                )
+            }
         },
         action: suspend () -> T,
     ) {
@@ -46,13 +66,28 @@ public abstract class RunnerModel<T>(
 
     public fun runAsync(
         onContent: () -> Unit = {
-            mutableUiState.update { UIState.Content }
+            mutableUIState.update { currentData ->
+                UIState(
+                    modelState = ModelState.Content,
+                    content = currentData.content
+                )
+            }
         },
         onError: (Throwable) -> Unit = { reason ->
-            mutableUiState.update { UIState.Error(reason) }
+            mutableUIState.update { currentData ->
+                UIState(
+                    modelState = ModelState.Error(reason),
+                    content = currentData.content
+                )
+            }
         },
         onLoading: () -> Unit = {
-            mutableUiState.update { UIState.Loading }
+            mutableUIState.update { currentData ->
+                UIState(
+                    modelState = ModelState.Loading,
+                    content = currentData.content
+                )
+            }
         },
         action: suspend () -> Unit,
     ) {
@@ -69,7 +104,12 @@ public abstract class RunnerModel<T>(
     public fun updateData(
         action: (T) -> T,
     ) {
-        mutableCurrentData.update { action(currentData.value) }
+        mutableUIState.update { currentData ->
+            UIState(
+                modelState = ModelState.Content,
+                content = action(currentData.content)
+            )
+        }
     }
 
     private suspend fun <R> runCatchingOnModel(

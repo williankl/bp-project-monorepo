@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,6 +33,7 @@ import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.stateHandler.LocalRouter
+import williankl.bpProject.common.platform.stateHandler.collectData
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Places.PlacePhotoSelection
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
@@ -54,7 +54,7 @@ public data class DashboardScreen(
     @Composable
     override fun BeautifulContent() {
         val runnerModel = rememberScreenModel<DashboardTab, DashboardRunnerModel>(arg = initialTab)
-        val presentation by runnerModel.currentData.collectAsState()
+        val presentation by runnerModel.collectData()
         val imageRetrievalController = LocalImageRetrievalController.currentOrThrow
         val router = LocalRouter.currentOrThrow
 

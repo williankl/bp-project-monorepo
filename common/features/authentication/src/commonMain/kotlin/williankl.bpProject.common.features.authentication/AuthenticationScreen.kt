@@ -50,6 +50,7 @@ import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.design.core.text.TextSize
 import williankl.bpProject.common.platform.design.core.themedLogoResource
 import williankl.bpProject.common.platform.stateHandler.LocalRouter
+import williankl.bpProject.common.platform.stateHandler.collectData
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication.Login.AuthenticationFlow
 import williankl.bpProject.common.platform.stateHandler.navigation.models.NavigationDestination
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
@@ -65,6 +66,7 @@ public class AuthenticationScreen(
     @Composable
     override fun BeautifulContent() {
         val runnerModel = rememberScreenModel<AuthenticationRunnerModel>()
+        val data by runnerModel.collectData()
         val router = LocalRouter.currentOrThrow
 
         LoginScreenContent(

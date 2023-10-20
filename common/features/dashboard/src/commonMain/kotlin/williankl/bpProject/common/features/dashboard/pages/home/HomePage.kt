@@ -18,7 +18,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -44,6 +43,7 @@ import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
 import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.design.core.text.TextSize
 import williankl.bpProject.common.platform.stateHandler.LocalRouter
+import williankl.bpProject.common.platform.stateHandler.collectData
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Places
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig
@@ -64,7 +64,7 @@ internal object HomePage : BeautifulScreen() {
     @Composable
     override fun BeautifulContent() {
         val runnerModel = rememberScreenModel<HomeRunnerModel>()
-        val presentation by runnerModel.currentData.collectAsState()
+        val presentation by runnerModel.collectData()
         val router = LocalRouter.currentOrThrow
 
         HomeContent(

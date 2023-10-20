@@ -52,6 +52,7 @@ import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.design.core.text.TextSize
 import williankl.bpProject.common.platform.stateHandler.LocalRouter
+import williankl.bpProject.common.platform.stateHandler.collectData
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig
@@ -69,7 +70,7 @@ public class PlaceDetailsScreen(
     override fun BeautifulContent() {
         val router = LocalRouter.currentOrThrow
         val runnerModel = rememberScreenModel<Uuid, PlaceDetailsRunnerModel>(arg = place.id)
-        val presentation by runnerModel.currentData.collectAsState()
+        val presentation by runnerModel.collectData()
         val ratingPaging by runnerModel.ratingPaging.collectAsState()
 
         PlaceDetailsContent(

@@ -25,7 +25,7 @@ internal class MenuSidebarRunnerModel(
         val avatarUrl: String? = null,
     )
 
-    public fun logOutUser(
+    fun logOutUser(
         onLoggedOut: () -> Unit,
     ) = runAsync {
         authService.logOut()

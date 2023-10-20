@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,6 +47,7 @@ import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.models.IconConfig
+import williankl.bpProject.common.platform.stateHandler.collectData
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
 public data class PhotoSelectionScreen(
@@ -60,7 +60,7 @@ public data class PhotoSelectionScreen(
         val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val navigator = LocalNavigator.currentOrThrow
         val runnerModel = rememberScreenModel<PhotoSelectionRunnerModel>()
-        val presentation by runnerModel.currentData.collectAsState()
+        val presentation by runnerModel.collectData()
 
         var finalUriList by remember {
             mutableStateOf(imageUriList)

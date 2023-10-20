@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.compose.painterResource
@@ -30,12 +31,11 @@ import williankl.bpProject.common.platform.design.core.text.TextSize
 import williankl.bpProject.common.platform.stateHandler.LocalRouter
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication.Login.AuthenticationFlow
-import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
-public class LoginRequiredBottomSheet : BeautifulScreen() {
+public class LoginRequiredBottomSheet : Screen {
 
     @Composable
-    override fun BeautifulContent() {
+    override fun Content() {
         val router = LocalRouter.currentOrThrow
 
         LoginRequiredContent(

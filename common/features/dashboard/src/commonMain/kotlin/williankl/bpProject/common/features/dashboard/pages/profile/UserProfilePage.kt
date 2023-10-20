@@ -1,6 +1,5 @@
 package williankl.bpProject.common.features.dashboard.pages.profile
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +13,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -36,6 +34,7 @@ import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
 import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.design.core.text.TextSize
 import williankl.bpProject.common.platform.stateHandler.LocalRouter
+import williankl.bpProject.common.platform.stateHandler.collectData
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig
 
@@ -64,7 +63,7 @@ internal object UserProfilePage : BeautifulScreen() {
     @Composable
     override fun BeautifulContent() {
         val runnerModel = rememberScreenModel<UserProfileRunnerModel>()
-        val presentation by runnerModel.currentData.collectAsState()
+        val presentation by runnerModel.collectData()
 
         UserProfileContent(
             presentation = presentation,
@@ -74,7 +73,6 @@ internal object UserProfilePage : BeautifulScreen() {
         )
     }
 
-    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun UserProfileContent(
         presentation: UserProfilePresentation,

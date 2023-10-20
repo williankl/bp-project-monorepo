@@ -30,7 +30,7 @@ internal class PlaceSearchRunnerModel(
         onLoading = { /* Nothing */ },
     ) {
         val result = mapsService.queryForPlace(query)
-        currentData.value.copy(
+        currentData.copy(
             queryResults = result
         )
     }
@@ -38,7 +38,7 @@ internal class PlaceSearchRunnerModel(
     fun updateFromCoordinate(coordinate: MapCoordinate) = setContent(
         onLoading = { /* Nothing */ },
     ) {
-        currentData.value.copy(
+        currentData.copy(
             selectedAddress = mapsService.placeFromCoordinates(coordinate)
                 .firstOrNull()
         )
@@ -47,7 +47,7 @@ internal class PlaceSearchRunnerModel(
     fun updateAddressValue(place: MapPlaceResult?) = setContent(
         onLoading = { /* Nothing */ },
     ) {
-        currentData.value.copy(
+        currentData.copy(
             selectedAddress = place
         )
     }
