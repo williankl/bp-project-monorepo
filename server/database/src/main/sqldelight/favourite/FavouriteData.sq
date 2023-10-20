@@ -1,0 +1,27 @@
+createTableIfNeeded:
+CREATE TABLE IF NOT EXISTS FavouriteData (
+  placeId uuid NOT NULL,
+  ownerId uuid NOT NULL
+);
+
+create:
+INSERT INTO FavouriteData(placeId, ownerId)
+VALUES ?;
+
+retrieveFavouritePlaces:
+SELECT * FROM FavouriteData
+INNER JOIN UserData ON UserData.id = FavouriteData.ownerId
+INNER JOIN PlaceData ON PlaceData.id = FavouriteData.placeId
+INNER JOIN PlaceAddressData ON PlaceAddressData.id = PlaceData.addressId
+WHERE FavouriteData.ownerId = :userId
+LIMIT :limit OFFSET :offset;
+
+isPlaceFavourite:
+SELECT * FROM FavouriteData
+WHERE FavouriteData.ownerId = :userId AND FavouriteData.placeId = :placeId;
+
+dropFavouritePlace:
+DELETE FROM FavouriteData
+WHERE FavouriteData.placeId = :placeID AND FavouriteData.ownerId = :userId;
+
+

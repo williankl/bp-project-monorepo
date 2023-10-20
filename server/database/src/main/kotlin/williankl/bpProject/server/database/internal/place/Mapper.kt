@@ -185,19 +185,19 @@ internal object Mapper {
         }
     }
 
-    private fun String.sanitizeSeason(): Season {
+    internal fun String.sanitizeSeason(): Season {
         return Season.entries
             .firstOrNull { entry -> entry.name == this }
             ?: error("$this not mapped as season")
     }
 
-    private fun String.sanitizeTag(): PlaceTag {
+    internal fun String.sanitizeTag(): PlaceTag {
         return PlaceTag.entries
             .firstOrNull { entry -> entry.name == this }
             ?: error("$this not mapped as a place tag")
     }
 
-    private fun String.sanitizeState(): PlaceState {
+    internal fun String.sanitizeState(): PlaceState {
         return PlaceState.entries
             .firstOrNull { entry -> entry.name == this }
             ?: error("$this not mapped as place state")

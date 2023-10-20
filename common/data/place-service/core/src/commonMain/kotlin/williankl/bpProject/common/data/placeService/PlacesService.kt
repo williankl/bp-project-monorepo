@@ -10,8 +10,16 @@ public interface PlacesService {
 
     public suspend fun retrievePlace(id: Uuid): Place
 
+    public suspend fun isPlaceFavourite(id: Uuid): Boolean
+
+    public suspend fun toggleFavouriteTo(
+        id: Uuid,
+        to: Boolean,
+    )
+
     public suspend fun retrievePlaces(
         page: Int,
         limit: Int,
+        filterFavourites: Boolean = false,
     ): List<Place>
 }

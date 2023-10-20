@@ -53,6 +53,7 @@ import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.design.core.text.TextSize
 import williankl.bpProject.common.platform.stateHandler.LocalRouter
 import williankl.bpProject.common.platform.stateHandler.collectData
+import williankl.bpProject.common.platform.stateHandler.navigation.Router
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig
@@ -81,32 +82,53 @@ public class PlaceDetailsScreen(
             },
             onOptionSelected = { option ->
                 when (option) {
-                    is DetailsOptions.AddRoute -> Unit
-                    is DetailsOptions.Address -> Unit
-                    is DetailsOptions.Favourite -> Unit
                     is DetailsOptions.Owner -> Unit
                     is DetailsOptions.Season -> Unit
-                    is DetailsOptions.Comment -> {
-                        presentation.currentUser
-                            ?.let { user ->
-                                router.bottomSheetNavigator.show(
-                                    RatingContent(
-                                        user = user,
-                                        onRating = { rating, comment ->
-                                            router.hideBottomSheet()
-                                            runnerModel.ratePlace(rating, comment)
-                                        },
-                                    )
-                                )
-                            }
-                            ?: router.showBottomSheet(Authentication.LoginRequiredBottomSheet)
-                    }
+                    is DetailsOptions.AddRoute -> Unit
+                    is DetailsOptions.Address -> Unit
+                    is DetailsOptions.Favourite -> handleFavouriteToggle(presentation, router, runnerModel)
+                    is DetailsOptions.Comment -> handleComment(presentation, router, runnerModel)
                 }
             },
             modifier = Modifier
                 .background(BeautifulColor.Background.composeColor)
                 .fillMaxSize()
         )
+    }
+
+    private fun handleFavouriteToggle(
+        presentation: PlaceDetailsPresentation,
+        router: Router,
+        runnerModel: PlaceDetailsRunnerModel,
+    ) {
+        if (presentation.currentUser != null) {
+            runnerModel.setToFavourite(
+                settingTo = presentation.isPlaceFavourite.not()
+            )
+        } else {
+            router.showBottomSheet(Authentication.LoginRequiredBottomSheet)
+        }
+    }
+
+    private fun handleComment(
+        presentation: PlaceDetailsPresentation,
+        router: Router,
+        runnerModel: PlaceDetailsRunnerModel,
+    ) {
+        val currentUser = presentation.currentUser
+        if (currentUser != null) {
+            router.bottomSheetNavigator.show(
+                RatingContent(
+                    user = currentUser,
+                    onRating = { rating, comment ->
+                        router.hideBottomSheet()
+                        runnerModel.ratePlace(rating, comment)
+                    },
+                )
+            )
+        } else {
+            router.showBottomSheet(Authentication.LoginRequiredBottomSheet)
+        }
     }
 
     @Composable
@@ -134,6 +156,7 @@ public class PlaceDetailsScreen(
             item {
                 OptionsContainer(
                     place = place,
+                    presentation = presentation,
                     onOptionSelected = onOptionSelected,
                     modifier = Modifier,
                 )
@@ -251,6 +274,7 @@ public class PlaceDetailsScreen(
     @Composable
     private fun OptionsContainer(
         place: Place,
+        presentation: PlaceDetailsPresentation,
         onOptionSelected: (DetailsOptions) -> Unit,
         modifier: Modifier = Modifier
     ) {
@@ -294,10 +318,10 @@ public class PlaceDetailsScreen(
                         .padding(12.dp)
                         .fillMaxWidth()
                 ) {
-                    option.header()
+                    option.header(presentation.isPlaceFavourite)
 
                     Text(
-                        text = option.label(),
+                        text = option.label(presentation.isPlaceFavourite),
                         size = TextSize.Large,
                     )
                 }
