@@ -8,10 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -23,7 +20,6 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.stateHandler.LocalRouter
 import williankl.bpProject.common.platform.stateHandler.LocalToolbarConfig
-import williankl.bpProject.common.platform.stateHandler.RunnerModel
 import williankl.bpProject.common.platform.stateHandler.models.ModelState
 import williankl.bpProject.common.platform.stateHandler.screen.toolbar.BeautifulToolbar
 import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig
@@ -51,8 +47,8 @@ public abstract class BeautifulScreen : Screen {
         val router = LocalRouter.currentOrThrow
         val modelState by router.state.collectAsState()
         val hasToolbarContent = toolbarConfig.label != null ||
-                toolbarConfig.headingIcon != null ||
-                toolbarConfig.trailingIcons.isNotEmpty()
+            toolbarConfig.headingIcon != null ||
+            toolbarConfig.trailingIcons.isNotEmpty()
 
         Column {
             AnimatedVisibility(
@@ -103,5 +99,4 @@ public abstract class BeautifulScreen : Screen {
 
     @Composable
     public abstract fun BeautifulContent()
-
 }

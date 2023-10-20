@@ -27,7 +27,6 @@ import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.text.Text
-import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
 internal class ImageRequestBottomSheet(
     private val onOptionSelected: (ImageRequestOptions) -> Unit,

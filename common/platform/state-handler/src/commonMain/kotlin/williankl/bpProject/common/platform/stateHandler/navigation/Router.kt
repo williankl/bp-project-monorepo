@@ -6,7 +6,6 @@ import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import kotlinx.coroutines.flow.StateFlow
 import williankl.bpProject.common.platform.stateHandler.models.ModelState
 import williankl.bpProject.common.platform.stateHandler.navigation.models.NavigationDestination
-import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
 public interface Router {
     public val state: StateFlow<ModelState>

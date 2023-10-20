@@ -3,12 +3,14 @@ package williankl.bpProject.common.platform.stateHandler
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import williankl.bpProject.common.platform.stateHandler.models.ModelState
 import williankl.bpProject.common.platform.stateHandler.models.UIState
+import kotlin.time.Duration.Companion.seconds
 
 public abstract class RunnerModel<T>(
     initialData: T,
@@ -120,6 +122,7 @@ public abstract class RunnerModel<T>(
     ) {
         return runCatching {
             onLoading()
+            delay(5.seconds)
             action()
         }.fold(
             onSuccess = { result ->

@@ -22,7 +22,6 @@ import williankl.bpProject.common.platform.stateHandler.navigation.models.Authen
 import williankl.bpProject.common.platform.stateHandler.navigation.models.NavigationDestination
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Places
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Profile
-import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
 internal class RouterInfrastructure : Router {
 

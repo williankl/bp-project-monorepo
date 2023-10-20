@@ -39,7 +39,6 @@ import williankl.bpProject.common.platform.design.core.text.TextSize
 import williankl.bpProject.common.platform.stateHandler.LocalRouter
 import williankl.bpProject.common.platform.stateHandler.collectData
 import williankl.bpProject.common.platform.stateHandler.navigation.models.NavigationDestination
-import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
 internal object MenuSidebarScreen : Screen {
 

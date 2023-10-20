@@ -132,7 +132,7 @@ private fun BoxScope.HandleSideBar(
 ) {
     AnimatedContent(
         targetState = routerInfrastructure.isSidebarVisible,
-        transitionSpec = { fadeIn() togetherWith  fadeOut() },
+        transitionSpec = { fadeIn() togetherWith fadeOut() },
         modifier = Modifier.fillMaxSize(),
     ) { showScrim ->
         Spacer(
