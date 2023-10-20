@@ -1,5 +1,6 @@
 package williankl.bpProject.common.features.places.details
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -156,6 +157,7 @@ public class PlaceDetailsScreen(
             item {
                 OptionsContainer(
                     place = place,
+                    presentation = presentation,
                     onOptionSelected = onOptionSelected,
                     modifier = Modifier,
                 )
@@ -273,6 +275,7 @@ public class PlaceDetailsScreen(
     @Composable
     private fun OptionsContainer(
         place: Place,
+        presentation: PlaceDetailsPresentation,
         onOptionSelected: (DetailsOptions) -> Unit,
         modifier: Modifier = Modifier
     ) {
@@ -316,11 +319,17 @@ public class PlaceDetailsScreen(
                         .padding(12.dp)
                         .fillMaxWidth()
                 ) {
-                    option.header()
+                    AnimatedContent(
+                        label = "favourite-toggle-animation",
+                        targetState = presentation.isPlaceFavourite,
+                        content = { isFavourite ->
+                            option.header(isFavourite)
 
-                    Text(
-                        text = option.label(),
-                        size = TextSize.Large,
+                            Text(
+                                text = option.label(isFavourite),
+                                size = TextSize.Large,
+                            )
+                        }
                     )
                 }
 

@@ -12,7 +12,6 @@ import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.User
 import williankl.bpProject.common.features.places.LocalPlacesStrings
 import williankl.bpProject.common.platform.design.components.AsyncImage
-import williankl.bpProject.common.platform.design.components.ComposableString
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
@@ -20,8 +19,8 @@ import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
 import williankl.bpProject.common.core.models.Season as CoreSeason
 
 internal sealed class DetailsOptions(
-    val header: @Composable () -> Unit,
-    val label: ComposableString,
+    val header: @Composable (isFavourite: Boolean) -> Unit,
+    val label: @Composable (isFavourite: Boolean) -> String,
 ) {
     internal class Owner(user: User) : DetailsOptions(
         header = {
@@ -43,15 +42,19 @@ internal sealed class DetailsOptions(
     )
 
     internal data object Favourite : DetailsOptions(
-        header = {
+        header = { isFavourite ->
+            val tint = if (isFavourite) BeautifulColor.PrimaryHigh else BeautifulColor.NeutralHigh
             Image(
                 painter = painterResource(SharedDesignCoreResources.images.ic_heart),
                 contentDescription = null,
-                colorFilter = ColorFilter.tint(BeautifulColor.NeutralHigh.composeColor),
+                colorFilter = ColorFilter.tint(tint.composeColor),
                 modifier = Modifier.size(24.dp),
             )
         },
-        label = { LocalPlacesStrings.current.placeDetailsStrings.favouriteLabel },
+        label = { isFavourite ->
+            val strings = LocalPlacesStrings.current.placeDetailsStrings
+            if (isFavourite) strings.unFavouriteLabel else strings.favouriteLabel
+        },
     )
 
     internal data object AddRoute : DetailsOptions(
