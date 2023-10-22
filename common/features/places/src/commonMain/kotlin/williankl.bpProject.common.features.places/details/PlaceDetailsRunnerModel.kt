@@ -49,6 +49,7 @@ internal class PlaceDetailsRunnerModel(
 
     internal data class PlaceDetailsPresentation(
         val currentUser: User? = null,
+        val place: Place? = null,
         val placeRatingData: PlaceRatingData? = null,
         val averageColorList: List<Color> = emptyList(),
         val isPlaceFavourite: Boolean = false,
@@ -57,6 +58,7 @@ internal class PlaceDetailsRunnerModel(
     fun updatePresentation() = setContent {
         val user = session.loggedInUser()
         currentData.copy(
+            place = placesService.retrievePlace(placeId),
             currentUser = user,
             placeRatingData = ratingService.placeRatingData(placeId),
             isPlaceFavourite = if (user != null) {
@@ -74,7 +76,10 @@ internal class PlaceDetailsRunnerModel(
         )
     }
 
-    fun fetchNextCommentPage(resetting: Boolean = false) = runAsync {
+    fun fetchNextCommentPage(resetting: Boolean = false) = runAsync(
+        onLoading = { /* todo - show comment only loading */ },
+        onContent = { /* todo - hide comment only loading */ }
+    ) {
         mutableRatingPaging.update { paging ->
             if (resetting) return@update PagingResult<PlaceRating>()
             if (paging.hasReachedFinalPage) return@runAsync

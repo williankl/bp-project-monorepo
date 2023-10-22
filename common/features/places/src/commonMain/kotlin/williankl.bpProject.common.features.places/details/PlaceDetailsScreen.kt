@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.benasher44.uuid.Uuid
+import com.benasher44.uuid.uuidFrom
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.PlaceRating
 import williankl.bpProject.common.features.places.LocalPlacesStrings
@@ -59,7 +60,7 @@ import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig
 
 public class PlaceDetailsScreen(
-    private val place: Place,
+    private val placeId: String,
 ) : BeautifulScreen() {
 
     override val toolbarConfig: ToolbarConfig
@@ -70,30 +71,35 @@ public class PlaceDetailsScreen(
     @Composable
     override fun BeautifulContent() {
         val router = LocalRouter.currentOrThrow
-        val runnerModel = rememberScreenModel<Uuid, PlaceDetailsRunnerModel>(arg = place.id)
+        val runnerModel = rememberScreenModel<Uuid, PlaceDetailsRunnerModel>(
+            arg = uuidFrom(placeId)
+        )
         val presentation by runnerModel.collectData()
         val ratingPaging by runnerModel.ratingPaging.collectAsState()
 
-        PlaceDetailsContent(
-            place = place,
-            presentation = presentation,
-            ratings = ratingPaging.items,
-            onRatingOptionsRequested = { ratingId ->
-            },
-            onOptionSelected = { option ->
-                when (option) {
-                    is DetailsOptions.Owner -> Unit
-                    is DetailsOptions.Season -> Unit
-                    is DetailsOptions.AddRoute -> Unit
-                    is DetailsOptions.Address -> runnerModel.openPlaceOnGoogleMaps(place)
-                    is DetailsOptions.Favourite -> handleFavouriteToggle(presentation, router, runnerModel)
-                    is DetailsOptions.Comment -> handleComment(presentation, router, runnerModel)
-                }
-            },
-            modifier = Modifier
-                .background(BeautifulColor.Background.composeColor)
-                .fillMaxSize()
-        )
+        val place = presentation.place
+        if (place != null) {
+            PlaceDetailsContent(
+                place = place,
+                presentation = presentation,
+                ratings = ratingPaging.items,
+                onRatingOptionsRequested = { ratingId ->
+                },
+                onOptionSelected = { option ->
+                    when (option) {
+                        is DetailsOptions.Owner -> Unit
+                        is DetailsOptions.Season -> Unit
+                        is DetailsOptions.AddRoute -> Unit
+                        is DetailsOptions.Address -> runnerModel.openPlaceOnGoogleMaps(place)
+                        is DetailsOptions.Favourite -> handleFavouriteToggle(presentation, router, runnerModel)
+                        is DetailsOptions.Comment -> handleComment(presentation, router, runnerModel)
+                    }
+                },
+                modifier = Modifier
+                    .background(BeautifulColor.Background.composeColor)
+                    .fillMaxSize()
+            )
+        }
     }
 
     private fun handleFavouriteToggle(
