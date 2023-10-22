@@ -9,7 +9,7 @@ import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
 import williankl.bpProject.common.core.models.MapCoordinate
-import williankl.bpProject.common.data.placeService.UserLocationService
+import williankl.bpProject.common.data.placeService.services.UserLocationService
 
 internal actual class UserLocationRetriever(
     private val context: Context,

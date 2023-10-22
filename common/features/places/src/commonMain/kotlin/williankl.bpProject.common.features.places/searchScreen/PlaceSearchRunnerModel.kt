@@ -2,7 +2,7 @@ package williankl.bpProject.common.features.places.searchScreen
 
 import kotlinx.coroutines.CoroutineDispatcher
 import williankl.bpProject.common.core.models.MapCoordinate
-import williankl.bpProject.common.data.placeService.MapsService
+import williankl.bpProject.common.data.placeService.services.MapsService
 import williankl.bpProject.common.data.placeService.models.MapPlaceResult
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.PlaceSearchPresentation
 import williankl.bpProject.common.platform.stateHandler.RunnerModel

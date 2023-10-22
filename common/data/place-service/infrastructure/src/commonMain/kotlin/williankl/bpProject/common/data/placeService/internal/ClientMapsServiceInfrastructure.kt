@@ -7,8 +7,8 @@ import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import williankl.bpProject.common.core.models.MapCoordinate
-import williankl.bpProject.common.data.placeService.MapsService
-import williankl.bpProject.common.data.placeService.UserLocationService
+import williankl.bpProject.common.data.placeService.services.MapsService
+import williankl.bpProject.common.data.placeService.services.UserLocationService
 import williankl.bpProject.common.data.placeService.models.DistanceRequest
 import williankl.bpProject.common.data.placeService.models.MapPlaceResult
 

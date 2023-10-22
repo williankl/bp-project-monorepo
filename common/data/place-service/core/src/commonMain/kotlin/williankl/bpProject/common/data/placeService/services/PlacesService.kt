@@ -1,4 +1,4 @@
-package williankl.bpProject.common.data.placeService
+package williankl.bpProject.common.data.placeService.services
 
 import com.benasher44.uuid.Uuid
 import williankl.bpProject.common.core.models.Place

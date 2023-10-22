@@ -13,7 +13,7 @@ import williankl.bpProject.common.core.models.network.request.SavingPlaceRequest
 import williankl.bpProject.common.data.firebaseIntegration.FirebaseIntegration
 import williankl.bpProject.common.data.imageRetrievalService.retriever.ImageRetriever
 import williankl.bpProject.common.data.imageRetrievalService.toImageBitmap
-import williankl.bpProject.common.data.placeService.PlacesService
+import williankl.bpProject.common.data.placeService.services.PlacesService
 import williankl.bpProject.common.data.placeService.models.MapPlaceResult
 import williankl.bpProject.common.features.places.create.PlaceCreationRunnerModel.PlaceCreationPresentation
 import williankl.bpProject.common.features.places.create.handler.CreationHandler

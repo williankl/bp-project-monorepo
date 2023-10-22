@@ -46,6 +46,7 @@ include(":common:data:place-service:device-location")
 include(":common:data:place-service:infrastructure")
 
 include(":common:platform")
+include(":common:platform:uri-navigator")
 include(":common:platform:design")
 include(":common:platform:design:core")
 include(":common:platform:design:components")

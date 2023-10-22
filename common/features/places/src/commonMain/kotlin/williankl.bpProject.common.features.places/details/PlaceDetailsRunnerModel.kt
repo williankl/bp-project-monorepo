@@ -1,7 +1,5 @@
 package williankl.bpProject.common.features.places.details
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import com.benasher44.uuid.Uuid
 import kotlinx.coroutines.CoroutineDispatcher
@@ -12,8 +10,8 @@ import williankl.bpProject.common.core.models.PlaceRating
 import williankl.bpProject.common.core.models.User
 import williankl.bpProject.common.core.models.network.request.PlaceRatingRequest
 import williankl.bpProject.common.data.networking.models.PagingResult
-import williankl.bpProject.common.data.placeService.PlaceRatingService
-import williankl.bpProject.common.data.placeService.PlacesService
+import williankl.bpProject.common.data.placeService.services.PlaceRatingService
+import williankl.bpProject.common.data.placeService.services.PlacesService
 import williankl.bpProject.common.data.placeService.models.PlaceRatingData
 import williankl.bpProject.common.data.sessionHandler.Session
 import williankl.bpProject.common.features.places.details.PlaceDetailsRunnerModel.PlaceDetailsPresentation
