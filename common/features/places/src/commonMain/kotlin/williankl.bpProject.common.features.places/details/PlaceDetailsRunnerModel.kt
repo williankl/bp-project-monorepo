@@ -10,9 +10,9 @@ import williankl.bpProject.common.core.models.PlaceRating
 import williankl.bpProject.common.core.models.User
 import williankl.bpProject.common.core.models.network.request.PlaceRatingRequest
 import williankl.bpProject.common.data.networking.models.PagingResult
+import williankl.bpProject.common.data.placeService.models.PlaceRatingData
 import williankl.bpProject.common.data.placeService.services.PlaceRatingService
 import williankl.bpProject.common.data.placeService.services.PlacesService
-import williankl.bpProject.common.data.placeService.models.PlaceRatingData
 import williankl.bpProject.common.data.sessionHandler.Session
 import williankl.bpProject.common.features.places.details.PlaceDetailsRunnerModel.PlaceDetailsPresentation
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
