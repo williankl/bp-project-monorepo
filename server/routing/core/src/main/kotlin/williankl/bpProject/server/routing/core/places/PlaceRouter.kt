@@ -72,7 +72,11 @@ internal class PlaceRouter(
 
                 val placesFound = placeStorage.retrievePlaces(page, limit, ownerId, state, distanceQuery)
                 when {
-                    placesFound.isEmpty() -> call.respond(HttpStatusCode.NoContent)
+                    placesFound.isEmpty() -> call.respond(
+                        status = HttpStatusCode.NoContent,
+                        message = placesFound
+                    )
+
                     else -> call.respond(
                         status = HttpStatusCode.OK,
                         message = placesFound
@@ -88,12 +92,7 @@ internal class PlaceRouter(
             if (uuid != null) {
                 val placeFound = placeStorage.retrievePlace(uuid)
                 when {
-                    placeFound == null -> call.respond(
-                        status = HttpStatusCode.NoContent,
-                        message = NetworkErrorResponse(
-                            message = "No content found"
-                        )
-                    )
+                    placeFound == null -> call.respond(HttpStatusCode.NotFound)
 
                     else -> call.respond(
                         status = HttpStatusCode.OK,

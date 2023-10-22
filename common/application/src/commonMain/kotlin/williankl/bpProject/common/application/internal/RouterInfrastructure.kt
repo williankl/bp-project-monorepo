@@ -100,7 +100,7 @@ internal class RouterInfrastructure : Router {
             is Places.PlaceDataCreation -> TODO()
             is Places.PlaceLocalSearch -> TODO()
             is Places.PlacePhotoSelection -> PhotoSelectionScreen(uriList)
-            is Places.PlaceDetails -> PlaceDetailsScreen(place)
+            is Places.PlaceDetails -> PlaceDetailsScreen(place.id.toString())
             is Profile.UserProfile -> DashboardScreen(DashboardScreen.DashboardTab.Profile)
         }
     }

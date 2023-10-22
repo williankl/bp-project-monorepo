@@ -1,7 +1,7 @@
 package williankl.bpProject.common.data.placeService.deviceLocation
 
 import williankl.bpProject.common.core.models.MapCoordinate
-import williankl.bpProject.common.data.placeService.UserLocationService
+import williankl.bpProject.common.data.placeService.services.UserLocationService
 
 internal actual class UserLocationRetriever : UserLocationService {
     override suspend fun currentUserCoordinates(): MapCoordinate {

@@ -42,6 +42,8 @@ public val placesDi: DI.Module = DI.Module("williankl.bpProject.common.features.
             session = instance(),
             ratingService = instance(),
             placesService = instance(),
+            uriNavigator = instance(),
+            userLocationService = instance(),
             dispatcher = Dispatchers.Default,
         )
     }

@@ -14,6 +14,7 @@ import williankl.bpProject.common.data.sessionHandler.sessionHandlerDi
 import williankl.bpProject.common.features.authentication.authenticationFeatureDi
 import williankl.bpProject.common.features.dashboard.dashboardDi
 import williankl.bpProject.common.features.places.placesDi
+import williankl.bpProject.common.platform.uriNavigator.uriNavigatorDi
 
 public val applicationDi: DI.Module = DI.Module("williankl.bpProject.common.application") {
     import(cypherDi)
@@ -29,4 +30,5 @@ public val applicationDi: DI.Module = DI.Module("williankl.bpProject.common.appl
     import(dashboardDi)
     import(placesDi)
     import(deviceLocationDi)
+    import(uriNavigatorDi)
 }

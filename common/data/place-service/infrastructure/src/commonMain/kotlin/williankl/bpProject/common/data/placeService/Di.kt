@@ -9,6 +9,9 @@ import williankl.bpProject.common.data.placeService.internal.ServerMapsServiceIn
 import williankl.bpProject.common.data.placeService.internal.infrastructure.PlaceRatingServiceInfrastructure
 import williankl.bpProject.common.data.placeService.internal.infrastructure.PlacesServiceInfrastructure
 import williankl.bpProject.common.data.placeService.models.MapServiceType
+import williankl.bpProject.common.data.placeService.services.MapsService
+import williankl.bpProject.common.data.placeService.services.PlaceRatingService
+import williankl.bpProject.common.data.placeService.services.PlacesService
 
 public val placesServiceDi: DI.Module = DI.Module("williankl.bpProject.common.data.placeService") {
 
