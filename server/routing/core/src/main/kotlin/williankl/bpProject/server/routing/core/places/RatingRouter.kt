@@ -108,7 +108,11 @@ internal class RatingRouter(
             if (placeId != null && page != null && limit != null) {
                 val result = placesRatingStorage.ratingsForPlace(placeId, page, limit)
                 when {
-                    result.isEmpty() -> call.respond(HttpStatusCode.NoContent)
+                    result.isEmpty() -> call.respond(
+                        status = HttpStatusCode.NoContent,
+                        message = result,
+                    )
+
                     else -> call.respond(
                         status = HttpStatusCode.OK,
                         message = result,

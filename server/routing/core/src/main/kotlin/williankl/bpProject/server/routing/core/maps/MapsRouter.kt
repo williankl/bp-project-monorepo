@@ -13,6 +13,7 @@ import williankl.bpProject.common.core.models.MapCoordinate
 import williankl.bpProject.common.core.runOrNull
 import williankl.bpProject.common.core.runOrNullSuspend
 import williankl.bpProject.common.data.placeService.models.DistanceRequest
+import williankl.bpProject.common.data.placeService.models.MapPlaceResult
 import williankl.bpProject.common.data.placeService.services.MapsService
 import williankl.bpProject.server.core.BPRoute
 import williankl.bpProject.server.core.ServerConstants.BEARER_KEY
@@ -40,7 +41,10 @@ internal class MapsRouter(
                     status = HttpStatusCode.OK,
                 )
             } else {
-                call.respond(HttpStatusCode.NoContent)
+                call.respond(
+                    status = HttpStatusCode.NoContent,
+                    message = emptyList<MapPlaceResult>(),
+                )
             }
         }
     }

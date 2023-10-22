@@ -125,7 +125,7 @@ internal class AuthRouter(
             val bearerToken = bearer
             if (bearerToken != null) {
                 this@AuthRouter.authStorage.invalidateBearerToken(bearerToken)
-                call.respond(HttpStatusCode.NoContent)
+                call.respond(HttpStatusCode.OK)
             } else {
                 call.respond(HttpStatusCode.NotAcceptable)
             }
