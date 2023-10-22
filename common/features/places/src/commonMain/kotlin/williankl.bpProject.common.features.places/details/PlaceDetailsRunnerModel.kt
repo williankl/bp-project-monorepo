@@ -55,10 +55,13 @@ internal class PlaceDetailsRunnerModel(
     )
 
     fun updatePresentation() = setContent {
+        val user = session.loggedInUser()
         currentData.copy(
-            currentUser = session.loggedInUser(),
+            currentUser = user,
             placeRatingData = ratingService.placeRatingData(placeId),
-            isPlaceFavourite = placesService.isPlaceFavourite(placeId),
+            isPlaceFavourite = if (user != null) {
+                placesService.isPlaceFavourite(placeId)
+            } else false,
         )
     }
 
