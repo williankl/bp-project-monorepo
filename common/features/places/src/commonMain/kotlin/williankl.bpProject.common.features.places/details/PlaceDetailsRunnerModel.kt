@@ -6,24 +6,30 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.PlaceRating
 import williankl.bpProject.common.core.models.User
 import williankl.bpProject.common.core.models.network.request.PlaceRatingRequest
 import williankl.bpProject.common.data.networking.models.PagingResult
+import williankl.bpProject.common.data.placeService.GoogleUriBuilder
 import williankl.bpProject.common.data.placeService.models.PlaceRatingData
 import williankl.bpProject.common.data.placeService.services.PlaceRatingService
 import williankl.bpProject.common.data.placeService.services.PlacesService
+import williankl.bpProject.common.data.placeService.services.UserLocationService
 import williankl.bpProject.common.data.sessionHandler.Session
 import williankl.bpProject.common.features.places.details.PlaceDetailsRunnerModel.PlaceDetailsPresentation
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.nonComposableColor
 import williankl.bpProject.common.platform.stateHandler.RunnerModel
+import williankl.bpProject.common.platform.uriNavigator.UriNavigator
 
 internal class PlaceDetailsRunnerModel(
     private val placeId: Uuid,
     private val session: Session,
     private val placesService: PlacesService,
     private val ratingService: PlaceRatingService,
+    private val uriNavigator: UriNavigator,
+    private val userLocationService: UserLocationService,
     dispatcher: CoroutineDispatcher,
 ) : RunnerModel<PlaceDetailsPresentation>(
     initialData = PlaceDetailsPresentation(),
@@ -94,6 +100,17 @@ internal class PlaceDetailsRunnerModel(
             rateRequest = PlaceRatingRequest(
                 comment = comment,
                 rating = rating,
+            )
+        )
+    }
+
+    fun openPlaceOnGoogleMaps(place: Place) = runAsync(
+        onLoading = { /* Nothing */ }
+    ) {
+        uriNavigator.redirectFromString(
+            GoogleUriBuilder.buildRouteUri(
+                userLocationService.lastUserCoordinates(),
+                place.address.coordinates
             )
         )
     }

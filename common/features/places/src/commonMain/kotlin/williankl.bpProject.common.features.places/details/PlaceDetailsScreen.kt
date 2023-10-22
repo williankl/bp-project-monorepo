@@ -85,7 +85,7 @@ public class PlaceDetailsScreen(
                     is DetailsOptions.Owner -> Unit
                     is DetailsOptions.Season -> Unit
                     is DetailsOptions.AddRoute -> Unit
-                    is DetailsOptions.Address -> Unit
+                    is DetailsOptions.Address -> runnerModel.openPlaceOnGoogleMaps(place)
                     is DetailsOptions.Favourite -> handleFavouriteToggle(presentation, router, runnerModel)
                     is DetailsOptions.Comment -> handleComment(presentation, router, runnerModel)
                 }
