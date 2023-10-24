@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.screen.Screen
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.core.models.User
 import williankl.bpProject.common.features.places.LocalPlacesStrings
@@ -29,17 +30,16 @@ import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.input.Input
 import williankl.bpProject.common.platform.design.core.input.InputVariant
 import williankl.bpProject.common.platform.design.core.text.Text
-import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
 internal class RatingContent(
     private val user: User,
     private val onRating: (Int, String?) -> Unit,
-) : BeautifulScreen() {
+) : Screen {
     @Composable
-    override fun BeautifulContent() {
+    override fun Content() {
         RatingScreenContent(
             user = user,
-            onRating = onRating,
+            onRatingRequested = onRating,
             modifier = Modifier.padding(16.dp),
         )
     }
@@ -47,7 +47,7 @@ internal class RatingContent(
     @Composable
     private fun RatingScreenContent(
         user: User,
-        onRating: (Int, String) -> Unit,
+        onRatingRequested: (Int, String?) -> Unit,
         modifier: Modifier = Modifier,
     ) {
         val strings = LocalPlacesStrings.current.placeDetailsStrings
@@ -104,7 +104,7 @@ internal class RatingContent(
                 enabled = selectedRating != null,
                 onClick = {
                     selectedRating?.let { rating ->
-                        onRating(rating, writtenComment.ifBlank { null })
+                        onRatingRequested(rating, writtenComment.ifBlank { null })
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
