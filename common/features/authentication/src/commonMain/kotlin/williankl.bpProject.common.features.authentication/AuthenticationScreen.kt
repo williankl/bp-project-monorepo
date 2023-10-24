@@ -75,8 +75,8 @@ public class AuthenticationScreen(
                     router.replaceAll(NavigationDestination.Dashboard)
                 }
             },
-            onSignupRequested = { login, userName, password ->
-                runnerModel.signUp(userName, login, password) {
+            onSignupRequested = { userName, email, password ->
+                runnerModel.signUp(userName, email, password) {
                     router.replaceAll(NavigationDestination.Dashboard)
                 }
             },
@@ -89,7 +89,7 @@ public class AuthenticationScreen(
     @Composable
     private fun LoginScreenContent(
         onLoginRequested: (String, String) -> Unit,
-        onSignupRequested: (String, String, String) -> Unit,
+        onSignupRequested: (usr: String, email: String, password: String) -> Unit,
         onForgotPasswordClicked: () -> Unit,
         onSocialLoginClicked: (SocialLoginProvider) -> Unit,
         modifier: Modifier = Modifier,
@@ -149,7 +149,7 @@ public class AuthenticationScreen(
     private fun LoginOptions(
         authenticationFlow: AuthenticationFlow,
         onLoginRequested: (String, String) -> Unit,
-        onSignupRequested: (String, String, String) -> Unit,
+        onSignupRequested: (usr: String, email: String, password: String) -> Unit,
         onForgotPasswordClicked: () -> Unit,
         onSocialLoginClicked: (SocialLoginProvider) -> Unit,
         onSignupClicked: () -> Unit,
@@ -195,11 +195,10 @@ public class AuthenticationScreen(
     }
 
     @Composable
-    @OptIn(ExperimentalAnimationApi::class)
     private fun InputLoginOptions(
         authenticationFlow: AuthenticationFlow,
         onLoginRequested: (String, String) -> Unit,
-        onSignupRequested: (String, String, String) -> Unit,
+        onSignupRequested: (usr: String, email: String, password: String) -> Unit,
         onForgotPasswordClicked: () -> Unit,
         modifier: Modifier = Modifier,
     ) {

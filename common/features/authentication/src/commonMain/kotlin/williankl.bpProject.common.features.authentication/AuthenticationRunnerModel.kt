@@ -34,14 +34,14 @@ internal class AuthenticationRunnerModel(
 
     fun signUp(
         userName: String,
-        login: String,
+        email: String,
         password: String,
         onSuccessful: () -> Unit,
     ) = runAsync {
         authService.signUp(
             loginData = LoginData(
                 userName = userName,
-                email = login,
+                email = email,
                 password = password
             )
         ).handleSuccessfulLogin()
