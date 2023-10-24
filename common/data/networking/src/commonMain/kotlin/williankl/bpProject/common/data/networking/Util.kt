@@ -3,8 +3,6 @@ package williankl.bpProject.common.data.networking
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpStatusCode
-import williankl.bpProject.common.core.runOrNull
-import williankl.bpProject.common.core.runOrNullSuspend
 
 public suspend inline fun <reified T> HttpResponse.handleResponse(): T? {
     return when (status) {
