@@ -6,12 +6,12 @@ internal data class DashboardStrings(
     val homeStrings: HomeStrings,
 ) {
     internal data class HomeStrings(
-        val distanceLabel: (Long) -> String,
         val nearestLabel: String,
         val recentLabel: String,
     )
 
     internal data class ProfileStrings(
+        val favouritesLabel: String,
         val menuStrings: MenuStrings,
     ) {
         internal data class MenuStrings(

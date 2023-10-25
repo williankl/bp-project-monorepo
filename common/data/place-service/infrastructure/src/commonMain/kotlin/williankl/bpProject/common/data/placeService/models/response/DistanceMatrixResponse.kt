@@ -15,8 +15,8 @@ internal data class DistanceMatrixResponse(
     ) {
         @Serializable
         internal data class DistanceMatrixRowElement(
-            val distance: ElementContent,
-            val duration: ElementContent,
+            val distance: ElementContent? = null,
+            val duration: ElementContent? = null,
             val status: String,
         ) {
             @Serializable

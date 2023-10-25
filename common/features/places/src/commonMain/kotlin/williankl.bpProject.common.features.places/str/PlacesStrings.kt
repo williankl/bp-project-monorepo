@@ -1,6 +1,7 @@
 package williankl.bpProject.common.features.places.str
 
 internal data class PlacesStrings(
+    val distanceLabel: (Long) -> String,
     val photoSelectionStrings: PhotoSelectionStrings,
     val placeCreationStrings: PlaceCreationStrings,
     val placeSearchStrings: PlaceSearchStrings,

@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -22,24 +21,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.core.models.Place
+import williankl.bpProject.common.core.models.PlaceQualifier
 import williankl.bpProject.common.features.dashboard.LocalDashboardStrings
-import williankl.bpProject.common.features.dashboard.pages.home.HomeRunnerModel.HomePresentation.PlacePresentation
-import williankl.bpProject.common.platform.design.components.AsyncImage
+import williankl.bpProject.common.features.places.components.PlaceDisplay
+import williankl.bpProject.common.features.places.components.PlaceDisplayPresentation
+import williankl.bpProject.common.features.places.components.SimplePlaceDisplay
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.modifyIf
-import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
 import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.design.core.text.TextSize
 import williankl.bpProject.common.platform.stateHandler.LocalRouter
@@ -66,9 +63,18 @@ internal object HomePage : BeautifulScreen() {
         val runnerModel = rememberScreenModel<HomeRunnerModel>()
         val presentation by runnerModel.collectData()
         val router = LocalRouter.currentOrThrow
+        val strings = LocalDashboardStrings.current
 
         HomeContent(
             presentation = presentation,
+            onPlaceListingRequested = { qualifier ->
+                router.push(
+                    destination = Places.PlaceListing(
+                        label = strings.homeStrings.nearestLabel,
+                        qualifier = qualifier,
+                    )
+                )
+            },
             onPlaceSelected = { place ->
                 router.push(Places.PlaceDetails(place))
             },
@@ -81,6 +87,7 @@ internal object HomePage : BeautifulScreen() {
     @Composable
     private fun HomeContent(
         presentation: HomeRunnerModel.HomePresentation,
+        onPlaceListingRequested: (PlaceQualifier) -> Unit,
         onPlaceSelected: (Place) -> Unit,
         modifier: Modifier = Modifier,
     ) {
@@ -93,7 +100,7 @@ internal object HomePage : BeautifulScreen() {
                 item {
                     LabeledContent(
                         label = strings.nearestLabel,
-                        withAction = { /* todo - redirect to listing screen */ },
+                        withAction = { onPlaceListingRequested(PlaceQualifier.Nearby) },
                         modifier = Modifier,
                     ) {
                         SampleStaggeredItem(
@@ -132,14 +139,14 @@ internal object HomePage : BeautifulScreen() {
 
     @Composable
     private fun SampleStaggeredItem(
-        places: List<PlacePresentation>,
+        places: List<PlaceDisplayPresentation>,
         onPlaceSelected: (Place) -> Unit,
         modifier: Modifier = Modifier,
     ) {
         @Composable
         fun WeightedColumn(
             firstBigger: Boolean,
-            places: List<PlacePresentation>,
+            places: List<PlaceDisplayPresentation>,
             modifier: Modifier = Modifier,
         ) {
             Column(
@@ -154,7 +161,8 @@ internal object HomePage : BeautifulScreen() {
                     }
 
                     PlaceDisplay(
-                        placePresentation = placePresentation,
+                        placeDisplayPresentation = placePresentation,
+                        imageModifier = Modifier.weight(1f),
                         modifier = Modifier
                             .clickableIcon(0.dp) { onPlaceSelected(placePresentation.place) }
                             .weight(weight),
@@ -178,73 +186,6 @@ internal object HomePage : BeautifulScreen() {
                     places = columnPlaces,
                     modifier = Modifier.weight(1f),
                 )
-            }
-        }
-    }
-
-    @Composable
-    private fun SimplePlaceDisplay(
-        place: Place,
-        modifier: Modifier = Modifier,
-    ) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-            modifier = modifier,
-        ) {
-            AsyncImage(
-                url = place.images.firstOrNull()?.url.orEmpty(),
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .clip(BeautifulShape.Rounded.Regular.composeShape)
-                    .size(100.dp),
-            )
-
-            Text(
-                text = place.displayName,
-                size = TextSize.XSmall,
-                maxLines = 2,
-                modifier = Modifier.widthIn(max = 100.dp),
-            )
-        }
-    }
-
-    @Composable
-    private fun PlaceDisplay(
-        placePresentation: PlacePresentation,
-        modifier: Modifier = Modifier,
-    ) {
-        val strings = LocalDashboardStrings.current.homeStrings
-        Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-            modifier = modifier,
-        ) {
-            AsyncImage(
-                url = placePresentation.place.images.firstOrNull()?.url.orEmpty(),
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .clip(BeautifulShape.Rounded.Regular.composeShape)
-                    .weight(1f),
-            )
-
-            Row(
-                verticalAlignment = Alignment.Top,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                Text(
-                    text = placePresentation.place.displayName,
-                    size = TextSize.Large,
-                    weight = FontWeight.SemiBold,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 2,
-                    modifier = Modifier.weight(1f),
-                )
-
-                placePresentation.distanceLabel?.let { distance ->
-                    Text(
-                        text = "(${strings.distanceLabel(distance)})",
-                        size = TextSize.Small,
-                    )
-                }
             }
         }
     }

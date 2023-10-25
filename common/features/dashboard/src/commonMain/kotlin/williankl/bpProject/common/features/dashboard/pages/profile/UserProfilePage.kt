@@ -2,8 +2,10 @@ package williankl.bpProject.common.features.dashboard.pages.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,6 +29,9 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
+import williankl.bpProject.common.core.models.Place
+import williankl.bpProject.common.core.models.PlaceQualifier
+import williankl.bpProject.common.features.dashboard.LocalDashboardStrings
 import williankl.bpProject.common.features.dashboard.pages.profile.UserProfileRunnerModel.UserProfilePresentation
 import williankl.bpProject.common.features.dashboard.pages.profile.options.menu.MenuSidebarScreen
 import williankl.bpProject.common.platform.design.components.AsyncImage
@@ -38,6 +43,7 @@ import williankl.bpProject.common.platform.design.core.text.Text
 import williankl.bpProject.common.platform.design.core.text.TextSize
 import williankl.bpProject.common.platform.stateHandler.LocalRouter
 import williankl.bpProject.common.platform.stateHandler.collectData
+import williankl.bpProject.common.platform.stateHandler.navigation.models.Places
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 import williankl.bpProject.common.platform.stateHandler.screen.toolbar.ToolbarConfig
 
@@ -46,13 +52,22 @@ internal object UserProfilePage : BeautifulScreen() {
     override val toolbarConfig: ToolbarConfig
         @Composable get() {
             val router = LocalRouter.currentOrThrow
+            val strings = LocalDashboardStrings.current
+
             return remember {
                 ToolbarConfig(
                     backgroundColor = BeautifulColor.Background,
                     trailingIcons = listOf(
                         ToolbarConfig.ToolbarAction(
                             icon = SharedDesignCoreResources.images.ic_heart,
-                            onClick = { /* todo -> fix these */ }
+                            onClick = {
+                                router.push(
+                                    destination = Places.PlaceListing(
+                                        label = strings.profileStrings.favouritesLabel,
+                                        qualifier = PlaceQualifier.Favourite,
+                                    )
+                                )
+                            }
                         ),
                         ToolbarConfig.ToolbarAction(
                             icon = SharedDesignCoreResources.images.ic_horizontal_ellipsis,
@@ -67,6 +82,7 @@ internal object UserProfilePage : BeautifulScreen() {
     override fun BeautifulContent() {
         val runnerModel = rememberScreenModel<UserProfileRunnerModel>()
         val presentation by runnerModel.collectData()
+        val router = LocalRouter.currentOrThrow
 
         UserProfileContent(
             presentation = presentation,
@@ -74,6 +90,11 @@ internal object UserProfilePage : BeautifulScreen() {
                 if (runnerModel.hasLoadedAllPages.not()) {
                     runnerModel.loadNextPage()
                 }
+            },
+            onPostSelected = { place ->
+                router.push(
+                    destination = Places.PlaceDetails(place)
+                )
             },
             modifier = Modifier
                 .background(BeautifulColor.Background.composeColor)
@@ -84,6 +105,7 @@ internal object UserProfilePage : BeautifulScreen() {
     @Composable
     private fun UserProfileContent(
         presentation: UserProfilePresentation,
+        onPostSelected: (Place) -> Unit,
         onNextPageRequested: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
@@ -109,6 +131,9 @@ internal object UserProfilePage : BeautifulScreen() {
 
             LazyVerticalStaggeredGrid(
                 state = state,
+                contentPadding = PaddingValues(20.dp),
+                verticalItemSpacing = 20.dp,
+                horizontalArrangement = Arrangement.spacedBy(20.dp),
                 columns = StaggeredGridCells.Fixed(2),
                 content = {
                     items(presentation.posts) { post ->
@@ -116,7 +141,9 @@ internal object UserProfilePage : BeautifulScreen() {
                             ?.let { imageUrl ->
                                 AsyncImage(
                                     url = imageUrl,
-                                    modifier = Modifier.clip(BeautifulShape.Rounded.Large.composeShape)
+                                    modifier = Modifier
+                                        .clip(BeautifulShape.Rounded.Large.composeShape)
+                                        .clickable { onPostSelected(post) }
                                 )
                             }
                     }

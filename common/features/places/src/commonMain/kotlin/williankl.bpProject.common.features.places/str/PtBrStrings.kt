@@ -8,6 +8,13 @@ import williankl.bpProject.common.features.places.str.PlacesStrings.PlaceDetails
 
 @LyricistStrings(languageTag = "pt-BR", default = true)
 internal val ptBrStrings = PlacesStrings(
+    distanceLabel = { distanceInMeters ->
+        if (distanceInMeters > 1000) {
+            "${(distanceInMeters / 1000)}km"
+        } else {
+            "${distanceInMeters}m"
+        }
+    },
     photoSelectionStrings = PhotoSelectionStrings(
         nextActionLabel = "Próximo",
     ),

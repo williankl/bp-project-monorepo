@@ -6,9 +6,11 @@ import org.kodein.di.DI
 import org.kodein.di.bindMultiton
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
+import williankl.bpProject.common.core.models.PlaceQualifier
 import williankl.bpProject.common.data.placeService.models.MapServiceType
 import williankl.bpProject.common.features.places.create.PlaceCreationRunnerModel
 import williankl.bpProject.common.features.places.details.PlaceDetailsRunnerModel
+import williankl.bpProject.common.features.places.lisitng.PlaceListingRunnerModel
 import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionRunnerModel
 import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel
 
@@ -43,6 +45,16 @@ public val placesDi: DI.Module = DI.Module("williankl.bpProject.common.features.
             ratingService = instance(),
             placesService = instance(),
             uriNavigator = instance(),
+            userLocationService = instance(),
+            dispatcher = Dispatchers.Default,
+        )
+    }
+
+    bindMultiton<PlaceQualifier, PlaceListingRunnerModel> { qualifier ->
+        PlaceListingRunnerModel(
+            placeQualifier = qualifier,
+            placesService = instance(),
+            mapsService = instance(MapServiceType.Client),
             userLocationService = instance(),
             dispatcher = Dispatchers.Default,
         )

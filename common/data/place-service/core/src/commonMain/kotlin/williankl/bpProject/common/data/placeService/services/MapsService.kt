@@ -16,5 +16,5 @@ public interface MapsService {
     public suspend fun distanceBetween(
         from: MapCoordinate,
         vararg to: MapCoordinate,
-    ): List<Long>
+    ): List<Long?>
 }
