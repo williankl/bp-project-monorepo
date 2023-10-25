@@ -37,13 +37,16 @@ internal class PhotoSelectionRunnerModel(
     fun retrievePresentation(uriList: List<String>) = setContent {
         val parsedUriList = uriList.map { uriString ->
             val uri = Uri.fromString(uriString)
-            val image = imageRetriever.retrieveImageFromUri(uri)
-            val averageImageColor = image.averageColor()
+            val hardwareImage = imageRetriever.retrieveImageFromUri(uri)
+            val image = imageRetriever.retrieveImageFromUri(
+                uri = uri,
+                allowHardware = false,
+            )
 
             PhotoSelectionPresentation.SelectedImageData(
                 uri = uri,
-                image = image,
-                averageColor = averageImageColor,
+                image = hardwareImage,
+                averageColor = image.averageColor(),
             )
         }
 

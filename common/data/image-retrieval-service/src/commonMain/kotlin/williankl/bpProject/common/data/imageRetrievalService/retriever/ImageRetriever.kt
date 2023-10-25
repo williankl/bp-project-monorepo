@@ -5,5 +5,8 @@ import korlibs.image.bitmap.Bitmap
 
 public expect class ImageRetriever {
 
-    public fun retrieveImageFromUri(uri: Uri): Bitmap
+    public fun retrieveImageFromUri(
+        uri: Uri,
+        allowHardware: Boolean = true,
+    ): Bitmap
 }

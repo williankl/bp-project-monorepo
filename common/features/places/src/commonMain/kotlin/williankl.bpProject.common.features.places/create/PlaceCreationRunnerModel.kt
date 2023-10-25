@@ -43,7 +43,7 @@ internal class PlaceCreationRunnerModel(
 
         PlaceCreationPresentation(
             images = parsedUriList
-                .map(imageRetriever::retrieveImageFromUri)
+                .map { imageRetriever.retrieveImageFromUri(it) }
                 .map { bitmap -> bitmap.toImageBitmap() }
         )
     }
@@ -56,7 +56,10 @@ internal class PlaceCreationRunnerModel(
 
         val imageBitmaps = imageUriList.map { uriString ->
             val uri = Uri.fromString(uriString)
-            imageRetriever.retrieveImageFromUri(uri)
+            imageRetriever.retrieveImageFromUri(
+                uri = uri,
+                allowHardware = false
+            )
         }
 
         val imageUploadResults = firebaseIntegration.uploadPlacesImages(imageBitmaps)

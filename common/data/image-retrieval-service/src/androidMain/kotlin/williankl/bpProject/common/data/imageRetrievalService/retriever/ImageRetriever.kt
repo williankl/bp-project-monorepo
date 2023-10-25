@@ -10,10 +10,14 @@ import williankl.bpProject.common.data.imageRetrievalService.toAndroidUri
 public actual class ImageRetriever(
     private val context: Context,
 ) {
-    public actual fun retrieveImageFromUri(uri: Uri): Bitmap {
+    public actual fun retrieveImageFromUri(
+        uri: Uri,
+        allowHardware: Boolean,
+    ): Bitmap {
         val bitmap = ImageUriHandler.retrieveImageFromUri(
             uri = uri.toAndroidUri(),
-            contentResolver = context.contentResolver
+            contentResolver = context.contentResolver,
+            mutable = allowHardware.not()
         )
 
         return AndroidNativeImage(bitmap)

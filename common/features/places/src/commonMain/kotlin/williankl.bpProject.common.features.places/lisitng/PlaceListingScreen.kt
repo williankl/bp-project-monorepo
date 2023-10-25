@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -45,13 +46,14 @@ public data class PlaceListingScreen(
     override fun BeautifulContent() {
         val runnerModel = rememberScreenModel<PlaceQualifier, PlaceListingRunnerModel>(arg = placeQualifier)
         val presentation by runnerModel.collectData()
+        val placePaging by runnerModel.placePagingResult.collectAsState()
         val router = LocalRouter.currentOrThrow
 
         PlaceListingContent(
-            displayPresentationList = runnerModel.placePagingResult.items,
+            displayPresentationList = placePaging.pagingResult.items,
             onNextPageRequested = {
-                val shouldMakeRequest = runnerModel.placePagingResult.hasReachedFinalPage.not() &&
-                    runnerModel.isPagingLoading.not()
+                val shouldMakeRequest = placePaging.pagingResult.hasReachedFinalPage.not() &&
+                        placePaging.isLoading.not()
 
                 if (shouldMakeRequest) {
                     runnerModel.requestNextPage()

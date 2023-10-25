@@ -4,8 +4,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import williankl.bpProject.common.core.models.PlaceQualifier
+import williankl.bpProject.common.data.networking.currentPage
 import williankl.bpProject.common.data.networking.models.PagingResult
+import williankl.bpProject.common.data.networking.models.PagingState
+import williankl.bpProject.common.data.networking.setLoading
+import williankl.bpProject.common.data.networking.updateResult
 import williankl.bpProject.common.data.placeService.services.MapsService
 import williankl.bpProject.common.data.placeService.services.PlacesService
 import williankl.bpProject.common.data.placeService.services.UserLocationService
@@ -23,18 +29,15 @@ internal class PlaceListingRunnerModel(
     initialData = Unit,
 ) {
 
-    var isPagingLoading by mutableStateOf(false)
-        private set
-    var placePagingResult by mutableStateOf(PagingResult<PlaceDisplayPresentation>())
-        private set
+    val placePagingResult = MutableStateFlow(PagingState<PlaceDisplayPresentation>())
 
     init {
         requestNextPage()
     }
 
     fun requestNextPage() = runAsync(
-        onLoading = { isPagingLoading = true },
-        onContent = { isPagingLoading = false },
+        onLoading = { placePagingResult.setLoading(true) },
+        onContent = { placePagingResult.setLoading(false) },
     ) {
         val places = placesService.retrievePlaces(
             qualifier = placeQualifier,
@@ -57,7 +60,7 @@ internal class PlaceListingRunnerModel(
             )
         }
 
-        placePagingResult = with(placePagingResult) {
+        placePagingResult.updateResult {
             copy(
                 currentPage = currentPage + 1,
                 items = items + result,
