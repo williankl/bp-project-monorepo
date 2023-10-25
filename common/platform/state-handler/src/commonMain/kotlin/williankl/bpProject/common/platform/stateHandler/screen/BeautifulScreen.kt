@@ -52,7 +52,7 @@ public abstract class BeautifulScreen : Screen {
 
         Column {
             AnimatedVisibility(
-                visible = hasToolbarContent,
+                visible = hasToolbarContent && modelState is ModelState.Content,
             ) {
                 BeautifulToolbar(
                     label = toolbarConfig.label,

@@ -1,6 +1,7 @@
 package williankl.bpProject.common.platform.stateHandler.navigation.models
 
 import williankl.bpProject.common.core.models.Place
+import williankl.bpProject.common.core.models.PlaceQualifier
 
 public sealed class Places : NavigationDestination() {
     public data class PlacePhotoSelection(
@@ -11,5 +12,10 @@ public sealed class Places : NavigationDestination() {
 
     public data class PlaceDetails(
         val place: Place
+    ) : Places()
+
+    public data class PlaceListing(
+        val label: String,
+        val qualifier: PlaceQualifier,
     ) : Places()
 }
