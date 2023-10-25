@@ -27,6 +27,7 @@ import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.core.models.Place
+import williankl.bpProject.common.core.models.PlaceQualifier
 import williankl.bpProject.common.features.dashboard.LocalDashboardStrings
 import williankl.bpProject.common.features.places.components.PlaceDisplay
 import williankl.bpProject.common.features.places.components.PlaceDisplayPresentation
@@ -62,9 +63,18 @@ internal object HomePage : BeautifulScreen() {
         val runnerModel = rememberScreenModel<HomeRunnerModel>()
         val presentation by runnerModel.collectData()
         val router = LocalRouter.currentOrThrow
+        val strings = LocalDashboardStrings.current
 
         HomeContent(
             presentation = presentation,
+            onPlaceListingRequested = { qualifier ->
+                router.push(
+                    destination = Places.PlaceListing(
+                        label = strings.homeStrings.nearestLabel,
+                        qualifier = qualifier,
+                    )
+                )
+            },
             onPlaceSelected = { place ->
                 router.push(Places.PlaceDetails(place))
             },
@@ -77,6 +87,7 @@ internal object HomePage : BeautifulScreen() {
     @Composable
     private fun HomeContent(
         presentation: HomeRunnerModel.HomePresentation,
+        onPlaceListingRequested: (PlaceQualifier) -> Unit,
         onPlaceSelected: (Place) -> Unit,
         modifier: Modifier = Modifier,
     ) {
@@ -89,7 +100,7 @@ internal object HomePage : BeautifulScreen() {
                 item {
                     LabeledContent(
                         label = strings.nearestLabel,
-                        withAction = { /* todo - redirect to listing screen */ },
+                        withAction = { onPlaceListingRequested(PlaceQualifier.Nearby) },
                         modifier = Modifier,
                     ) {
                         SampleStaggeredItem(

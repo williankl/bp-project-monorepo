@@ -15,6 +15,7 @@ import williankl.bpProject.common.features.authentication.AuthenticationScreen
 import williankl.bpProject.common.features.authentication.modal.LoginRequiredBottomSheet
 import williankl.bpProject.common.features.dashboard.DashboardScreen
 import williankl.bpProject.common.features.places.details.PlaceDetailsScreen
+import williankl.bpProject.common.features.places.lisitng.PlaceListingScreen
 import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionScreen
 import williankl.bpProject.common.platform.stateHandler.models.ModelState
 import williankl.bpProject.common.platform.stateHandler.navigation.Router
@@ -100,6 +101,7 @@ internal class RouterInfrastructure : Router {
             is Places.PlaceDataCreation -> TODO()
             is Places.PlaceLocalSearch -> TODO()
             is Places.PlacePhotoSelection -> PhotoSelectionScreen(uriList)
+            is Places.PlaceListing -> PlaceListingScreen(label, qualifier)
             is Places.PlaceDetails -> PlaceDetailsScreen(place.id.toString())
             is Profile.UserProfile -> DashboardScreen(DashboardScreen.DashboardTab.Profile)
         }

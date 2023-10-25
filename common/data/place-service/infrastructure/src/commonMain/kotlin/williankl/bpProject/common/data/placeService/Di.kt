@@ -18,6 +18,7 @@ public val placesServiceDi: DI.Module = DI.Module("williankl.bpProject.common.da
     bindSingleton<PlacesService> {
         PlacesServiceInfrastructure(
             client = instance(),
+            userLocationService = instance(),
         )
     }
 

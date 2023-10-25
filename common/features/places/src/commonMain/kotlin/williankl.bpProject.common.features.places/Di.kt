@@ -54,7 +54,7 @@ public val placesDi: DI.Module = DI.Module("williankl.bpProject.common.features.
         PlaceListingRunnerModel(
             placeQualifier = qualifier,
             placesService = instance(),
-            mapsService = instance(),
+            mapsService = instance(MapServiceType.Client),
             userLocationService = instance(),
             dispatcher = Dispatchers.Default,
         )

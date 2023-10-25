@@ -8,17 +8,11 @@ import williankl.bpProject.common.features.dashboard.str.DashboardStrings.Profil
 internal val ptBrStrings = DashboardStrings(
     projectName = "Beautiful Places",
     homeStrings = DashboardStrings.HomeStrings(
-        distanceLabel = { distanceInMeters ->
-            if (distanceInMeters > 1000) {
-                "${(distanceInMeters / 1000)}km"
-            } else {
-                "${distanceInMeters}m"
-            }
-        },
         nearestLabel = "Perto de você",
         recentLabel = "Rencentes",
     ),
     profileStrings = ProfileStrings(
+        favouritesLabel = "Favoritos",
         menuStrings = MenuStrings(
             editLabel = "Editar",
             settingsLabel = "Configurações",

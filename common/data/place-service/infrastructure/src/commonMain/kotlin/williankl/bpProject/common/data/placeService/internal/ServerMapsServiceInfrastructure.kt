@@ -83,7 +83,7 @@ internal class ServerMapsServiceInfrastructure(
     override suspend fun distanceBetween(
         from: MapCoordinate,
         vararg to: MapCoordinate
-    ): List<Long> {
+    ): List<Long?> {
         val destinationsStr = to.joinToString(separator = "|") { destination ->
             "${destination.latitude},${destination.longitude}"
         }
@@ -95,7 +95,7 @@ internal class ServerMapsServiceInfrastructure(
 
         return response.rows.firstOrNull()
             ?.elements
-            ?.map { matrixElement -> matrixElement.distance.value }
+            ?.map { matrixElement -> matrixElement.distance?.value }
             .orEmpty()
     }
 

@@ -30,6 +30,8 @@ import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.core.models.Place
+import williankl.bpProject.common.core.models.PlaceQualifier
+import williankl.bpProject.common.features.dashboard.LocalDashboardStrings
 import williankl.bpProject.common.features.dashboard.pages.profile.UserProfileRunnerModel.UserProfilePresentation
 import williankl.bpProject.common.features.dashboard.pages.profile.options.menu.MenuSidebarScreen
 import williankl.bpProject.common.platform.design.components.AsyncImage
@@ -51,13 +53,22 @@ internal object UserProfilePage : BeautifulScreen() {
     override val toolbarConfig: ToolbarConfig
         @Composable get() {
             val router = LocalRouter.currentOrThrow
+            val strings = LocalDashboardStrings.current
+
             return remember {
                 ToolbarConfig(
                     backgroundColor = BeautifulColor.Background,
                     trailingIcons = listOf(
                         ToolbarConfig.ToolbarAction(
                             icon = SharedDesignCoreResources.images.ic_heart,
-                            onClick = { /* todo -> fix these */ }
+                            onClick = {
+                                router.push(
+                                    destination = Places.PlaceListing(
+                                        label = strings.profileStrings.favouritesLabel,
+                                        qualifier = PlaceQualifier.Favourite,
+                                    )
+                                )
+                            }
                         ),
                         ToolbarConfig.ToolbarAction(
                             icon = SharedDesignCoreResources.images.ic_horizontal_ellipsis,
