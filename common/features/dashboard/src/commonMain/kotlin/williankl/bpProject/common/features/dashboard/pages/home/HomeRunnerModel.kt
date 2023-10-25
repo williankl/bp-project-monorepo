@@ -8,7 +8,7 @@ import williankl.bpProject.common.data.placeService.services.MapsService
 import williankl.bpProject.common.data.placeService.services.PlacesService
 import williankl.bpProject.common.data.placeService.services.UserLocationService
 import williankl.bpProject.common.features.dashboard.pages.home.HomeRunnerModel.HomePresentation
-import williankl.bpProject.common.features.dashboard.pages.home.HomeRunnerModel.HomePresentation.PlacePresentation
+import williankl.bpProject.common.features.places.components.PlaceDisplayPresentation
 import williankl.bpProject.common.platform.stateHandler.RunnerModel
 
 internal class HomeRunnerModel(
@@ -22,14 +22,9 @@ internal class HomeRunnerModel(
 ) {
 
     internal data class HomePresentation(
-        val nearestPlaces: List<PlacePresentation> = emptyList(),
+        val nearestPlaces: List<PlaceDisplayPresentation> = emptyList(),
         val favouritePlaces: List<Place> = emptyList(),
-    ) {
-        internal data class PlacePresentation(
-            val distanceLabel: Long?,
-            val place: Place,
-        )
-    }
+    )
 
     init {
         setContent { refreshPresentation() }
@@ -58,7 +53,7 @@ internal class HomeRunnerModel(
         }
     }
 
-    private suspend fun mapToPresentation(places: List<Place>): List<PlacePresentation> {
+    private suspend fun mapToPresentation(places: List<Place>): List<PlaceDisplayPresentation> {
         val lastUserCoordinates = userLocationService.lastUserCoordinates()
         val placesCoordinates = places.map { place -> place.address.coordinates }
 
@@ -71,7 +66,7 @@ internal class HomeRunnerModel(
             }.orEmpty()
 
         return places.mapIndexed { index, place ->
-            PlacePresentation(
+            PlaceDisplayPresentation(
                 place = place,
                 distanceLabel = distanceList.getOrNull(index),
             )

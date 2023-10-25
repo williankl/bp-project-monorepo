@@ -1,13 +1,28 @@
 package williankl.bpProject.common.features.places.lisitng
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.currentOrThrow
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.PlaceQualifier
+import williankl.bpProject.common.features.places.components.PlaceDisplay
+import williankl.bpProject.common.features.places.components.PlaceDisplayPresentation
+import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
 import williankl.bpProject.common.platform.stateHandler.LocalRouter
 import williankl.bpProject.common.platform.stateHandler.collectData
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Places
@@ -33,9 +48,12 @@ public data class PlaceListingScreen(
         val router = LocalRouter.currentOrThrow
 
         PlaceListingContent(
-            places = runnerModel.placePagingResult.items,
+            displayPresentationList = runnerModel.placePagingResult.items,
             onNextPageRequested = {
-                if (runnerModel.placePagingResult.hasReachedFinalPage.not()) {
+                val shouldMakeRequest = runnerModel.placePagingResult.hasReachedFinalPage.not() &&
+                        runnerModel.isPagingLoading.not()
+
+                if (shouldMakeRequest) {
                     runnerModel.requestNextPage()
                 }
             },
@@ -50,11 +68,37 @@ public data class PlaceListingScreen(
 
     @Composable
     private fun PlaceListingContent(
-        places: List<Place>,
+        displayPresentationList: List<PlaceDisplayPresentation>,
         onNextPageRequested: () -> Unit,
         onPlaceSelected: (Place) -> Unit,
         modifier: Modifier = Modifier,
     ) {
+        val state = rememberLazyStaggeredGridState()
+        val shouldRequestNextPage by remember {
+            derivedStateOf { state.firstVisibleItemIndex > displayPresentationList.size - 10 }
+        }
 
+        LaunchedEffect(shouldRequestNextPage) {
+            onNextPageRequested()
+        }
+
+        LazyVerticalStaggeredGrid(
+            modifier = modifier,
+            state = state,
+            verticalItemSpacing = 20.dp,
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
+            contentPadding = PaddingValues(20.dp),
+            columns = StaggeredGridCells.Fixed(2),
+            content = {
+                items(displayPresentationList) { displayPresentation ->
+                    PlaceDisplay(
+                        placeDisplayPresentation = displayPresentation,
+                        modifier = Modifier
+                            .clip(BeautifulShape.Rounded.Circle.composeShape)
+                            .clickable { onPlaceSelected(displayPresentation.place) },
+                    )
+                }
+            }
+        )
     }
 }
