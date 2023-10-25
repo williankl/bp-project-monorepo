@@ -1,6 +1,5 @@
 package williankl.bpProject.common.features.places.lisitng
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,8 +13,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -23,7 +22,7 @@ import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.PlaceQualifier
 import williankl.bpProject.common.features.places.components.PlaceDisplay
 import williankl.bpProject.common.features.places.components.PlaceDisplayPresentation
-import williankl.bpProject.common.platform.design.core.shapes.BeautifulShape
+import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.stateHandler.LocalRouter
 import williankl.bpProject.common.platform.stateHandler.collectData
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Places
@@ -53,7 +52,7 @@ public data class PlaceListingScreen(
             displayPresentationList = placePaging.pagingResult.items,
             onNextPageRequested = {
                 val shouldMakeRequest = placePaging.pagingResult.hasReachedFinalPage.not() &&
-                        placePaging.isLoading.not()
+                    placePaging.isLoading.not()
 
                 if (shouldMakeRequest) {
                     runnerModel.requestNextPage()
@@ -95,9 +94,9 @@ public data class PlaceListingScreen(
                 items(displayPresentationList) { displayPresentation ->
                     PlaceDisplay(
                         placeDisplayPresentation = displayPresentation,
+                        imageModifier = Modifier,
                         modifier = Modifier
-                            .clip(BeautifulShape.Rounded.Circle.composeShape)
-                            .clickable { onPlaceSelected(displayPresentation.place) },
+                            .clickableIcon { onPlaceSelected(displayPresentation.place) },
                     )
                 }
             }

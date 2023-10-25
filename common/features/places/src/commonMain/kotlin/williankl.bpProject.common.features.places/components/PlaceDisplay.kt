@@ -26,6 +26,7 @@ public data class PlaceDisplayPresentation(
 @Composable
 public fun PlaceDisplay(
     placeDisplayPresentation: PlaceDisplayPresentation,
+    imageModifier: Modifier = Modifier,
     modifier: Modifier = Modifier,
 ) {
     val strings = LocalPlacesStrings.current
@@ -35,9 +36,7 @@ public fun PlaceDisplay(
         AsyncImage(
             url = placeDisplayPresentation.place.images.firstOrNull()?.url.orEmpty(),
             contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .clip(BeautifulShape.Rounded.Regular.composeShape)
-                .weight(1f),
+            modifier = imageModifier.clip(BeautifulShape.Rounded.Regular.composeShape),
         )
 
         Row(

@@ -162,6 +162,7 @@ internal object HomePage : BeautifulScreen() {
 
                     PlaceDisplay(
                         placeDisplayPresentation = placePresentation,
+                        imageModifier = Modifier.weight(1f),
                         modifier = Modifier
                             .clickableIcon(0.dp) { onPlaceSelected(placePresentation.place) }
                             .weight(weight),

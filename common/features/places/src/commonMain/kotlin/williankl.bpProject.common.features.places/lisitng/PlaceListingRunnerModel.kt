@@ -1,14 +1,11 @@
 package williankl.bpProject.common.features.places.lisitng
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 import williankl.bpProject.common.core.models.PlaceQualifier
 import williankl.bpProject.common.data.networking.currentPage
-import williankl.bpProject.common.data.networking.models.PagingResult
 import williankl.bpProject.common.data.networking.models.PagingState
 import williankl.bpProject.common.data.networking.setLoading
 import williankl.bpProject.common.data.networking.updateResult
