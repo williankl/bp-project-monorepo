@@ -39,6 +39,7 @@ internal object PlaceMapper {
         return runOrNullSuspend {
             call.parameters["state"]
                 ?.let(PlaceState::valueOf)
+                ?: PlaceState.Published
         }
     }
 

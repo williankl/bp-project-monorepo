@@ -12,7 +12,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -67,6 +70,11 @@ internal object UserProfilePage : BeautifulScreen() {
 
         UserProfileContent(
             presentation = presentation,
+            onNextPageRequested = {
+                if (runnerModel.hasLoadedAllPages.not()) {
+                    runnerModel.loadNextPage()
+                }
+            },
             modifier = Modifier
                 .background(BeautifulColor.Background.composeColor)
                 .fillMaxSize(),
@@ -76,8 +84,20 @@ internal object UserProfilePage : BeautifulScreen() {
     @Composable
     private fun UserProfileContent(
         presentation: UserProfilePresentation,
+        onNextPageRequested: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
+        val state = rememberLazyStaggeredGridState()
+        val shouldRequestNextPage by remember {
+            derivedStateOf {
+                state.firstVisibleItemIndex > presentation.posts.size || presentation.posts.isEmpty()
+            }
+        }
+
+        LaunchedEffect(shouldRequestNextPage) {
+            onNextPageRequested()
+        }
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = modifier,
@@ -88,6 +108,7 @@ internal object UserProfilePage : BeautifulScreen() {
             )
 
             LazyVerticalStaggeredGrid(
+                state = state,
                 columns = StaggeredGridCells.Fixed(2),
                 content = {
                     items(presentation.posts) { post ->
@@ -138,10 +159,12 @@ internal object UserProfilePage : BeautifulScreen() {
                     size = TextSize.Large,
                 )
 
-                Text(
-                    text = presentation.userTag,
-                    size = TextSize.Small,
-                )
+                if (presentation.userTag != null) {
+                    Text(
+                        text = presentation.userTag,
+                        size = TextSize.Small,
+                    )
+                }
             }
 
             Spacer(

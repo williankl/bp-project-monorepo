@@ -8,7 +8,9 @@ import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import williankl.bpProject.common.core.models.Place
+import williankl.bpProject.common.core.models.network.request.PlaceDistanceQuery
 import williankl.bpProject.common.core.models.network.request.SavingPlaceRequest
+import williankl.bpProject.common.data.networking.handleListResponse
 import williankl.bpProject.common.data.placeService.services.PlacesService
 
 internal class PlacesServiceInfrastructure(
@@ -47,8 +49,11 @@ internal class PlacesServiceInfrastructure(
 
     override suspend fun retrievePlaces(
         page: Int,
+        state: Place.PlaceState,
+        fromUser: Uuid?,
+        distance: PlaceDistanceQuery?,
         limit: Int,
-        filterFavourites: Boolean,
+        filterFavourites: Boolean
     ): List<Place> {
         val actualUrl =
             if (filterFavourites) PLACES_FAVOURITE_ENDPOINT
@@ -57,6 +62,13 @@ internal class PlacesServiceInfrastructure(
         return client.get(actualUrl) {
             parameter("page", page)
             parameter("limit", limit)
-        }.body()
+            parameter("state", state)
+
+            if (distance != null) {
+                parameter("lat", distance.coordinates.latitude)
+                parameter("lon", distance.coordinates.longitude)
+                parameter("distance", distance.maxDistance)
+            }
+        }.handleListResponse()
     }
 }

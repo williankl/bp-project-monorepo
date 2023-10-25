@@ -2,6 +2,8 @@ package williankl.bpProject.common.data.placeService.services
 
 import com.benasher44.uuid.Uuid
 import williankl.bpProject.common.core.models.Place
+import williankl.bpProject.common.core.models.Place.PlaceState
+import williankl.bpProject.common.core.models.network.request.PlaceDistanceQuery
 import williankl.bpProject.common.core.models.network.request.SavingPlaceRequest
 
 public interface PlacesService {
@@ -19,7 +21,10 @@ public interface PlacesService {
 
     public suspend fun retrievePlaces(
         page: Int,
-        limit: Int,
+        state: PlaceState = PlaceState.Published,
+        fromUser: Uuid? = null,
+        distance: PlaceDistanceQuery? = null,
+        limit: Int = 20,
         filterFavourites: Boolean = false,
     ): List<Place>
 }
