@@ -189,7 +189,6 @@ internal object HomePage : BeautifulScreen() {
         }
     }
 
-
     @Composable
     private fun LabeledContent(
         label: String,

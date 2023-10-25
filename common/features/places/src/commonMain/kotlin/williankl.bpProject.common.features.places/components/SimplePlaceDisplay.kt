@@ -2,16 +2,12 @@ package williankl.bpProject.common.features.places.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.platform.design.components.AsyncImage
@@ -44,4 +40,3 @@ public fun SimplePlaceDisplay(
         )
     }
 }
-

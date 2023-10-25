@@ -51,7 +51,7 @@ public data class PlaceListingScreen(
             displayPresentationList = runnerModel.placePagingResult.items,
             onNextPageRequested = {
                 val shouldMakeRequest = runnerModel.placePagingResult.hasReachedFinalPage.not() &&
-                        runnerModel.isPagingLoading.not()
+                    runnerModel.isPagingLoading.not()
 
                 if (shouldMakeRequest) {
                     runnerModel.requestNextPage()
