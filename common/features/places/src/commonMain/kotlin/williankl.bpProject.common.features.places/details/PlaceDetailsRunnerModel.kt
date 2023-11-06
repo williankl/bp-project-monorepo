@@ -103,7 +103,7 @@ internal class PlaceDetailsRunnerModel(
         rating: Int,
         comment: String?,
     ) = runAsync {
-        ratingService.ratePlace(
+        val result = ratingService.ratePlace(
             placeId = placeId,
             rateRequest = PlaceRatingRequest(
                 comment = comment,
@@ -111,6 +111,11 @@ internal class PlaceDetailsRunnerModel(
             )
         )
 
+        mutableRatingPaging.update { paging ->
+            paging.copy(
+                items = paging.items + result,
+            )
+        }
         fetchNextCommentPage(refreshing = true)
     }
 

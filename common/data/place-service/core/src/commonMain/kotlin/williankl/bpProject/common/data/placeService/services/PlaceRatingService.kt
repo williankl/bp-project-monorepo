@@ -9,7 +9,7 @@ public interface PlaceRatingService {
     public suspend fun ratePlace(
         placeId: Uuid,
         rateRequest: PlaceRatingRequest
-    )
+    ): PlaceRating
 
     public suspend fun placeRatingData(placeId: Uuid): PlaceRatingData
 
