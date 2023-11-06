@@ -13,7 +13,7 @@ internal enum class AddressComponentType(
     NaturalFeature("natural_feature"),
     Neighborhood("neighborhood"),
     PointOfInterest("point_of_interest"),
-    Street("route"),
+    Route("route"),
     StreetAddress("street_address"),
     StreetNumber("street_number"),
     Locality("locality"),
