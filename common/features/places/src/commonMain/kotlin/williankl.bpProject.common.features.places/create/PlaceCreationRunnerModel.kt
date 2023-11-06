@@ -48,8 +48,9 @@ internal class PlaceCreationRunnerModel(
         )
     }
 
-    fun publishImage(
+    fun publishPlace(
         imageUriList: List<String>,
+        onPublished: () -> Unit,
     ) = runAsync {
         val selectedAddress = creationHandler.selectedAddress
             ?: error("Could not retrieve address")
@@ -93,5 +94,7 @@ internal class PlaceCreationRunnerModel(
                 tags = emptyList(),
             )
         )
+
+        onPublished()
     }
 }

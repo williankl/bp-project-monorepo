@@ -37,7 +37,9 @@ import williankl.bpProject.common.platform.design.core.button.Button
 import williankl.bpProject.common.platform.design.core.button.ButtonVariant
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.composeColor
+import williankl.bpProject.common.platform.stateHandler.LocalRouter
 import williankl.bpProject.common.platform.stateHandler.collectData
+import williankl.bpProject.common.platform.stateHandler.navigation.models.NavigationDestination
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
 internal data class PlaceCreationScreen(
@@ -45,6 +47,7 @@ internal data class PlaceCreationScreen(
 ) : BeautifulScreen() {
     @Composable
     override fun BeautifulContent() {
+        val router = LocalRouter.currentOrThrow
         val runnerModel = rememberScreenModel<PlaceCreationRunnerModel>()
         val presentation by runnerModel.collectData()
 
@@ -58,7 +61,11 @@ internal data class PlaceCreationScreen(
             PlaceCreationContent(
                 presentation = presentation,
                 images = presentation.images,
-                onPublishRequested = { runnerModel.publishImage(imageUriList) },
+                onPublishRequested = {
+                    runnerModel.publishPlace(imageUriList) {
+                        router.replaceAll(NavigationDestination.Dashboard)
+                    }
+                },
                 modifier = Modifier
                     .fillMaxSize()
             )
@@ -183,7 +190,7 @@ internal data class PlaceCreationScreen(
             ChipOption(
                 label = creationHandler.selectedAddress?.displayName ?: strings.searchLocationLabel,
                 isSelected = creationHandler.selectedAddress != null &&
-                    creationHandler.selectedAddress !in presentation.suggestedPlaces,
+                        creationHandler.selectedAddress !in presentation.suggestedPlaces,
                 onClicked = {
                     navigator.push(
                         item = PlaceSearchScreen(creationHandler)
