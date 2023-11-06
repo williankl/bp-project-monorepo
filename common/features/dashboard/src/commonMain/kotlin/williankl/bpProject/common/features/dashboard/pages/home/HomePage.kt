@@ -29,9 +29,8 @@ import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.PlaceQualifier
 import williankl.bpProject.common.features.dashboard.LocalDashboardStrings
-import williankl.bpProject.common.features.places.components.PlaceDisplay
-import williankl.bpProject.common.features.places.components.PlaceDisplayPresentation
 import williankl.bpProject.common.features.places.components.SimplePlaceDisplay
+import williankl.bpProject.common.features.places.components.WeightedPlacesDisplay
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
@@ -103,7 +102,7 @@ internal object HomePage : BeautifulScreen() {
                         withAction = { onPlaceListingRequested(PlaceQualifier.Nearby) },
                         modifier = Modifier,
                     ) {
-                        SampleStaggeredItem(
+                        WeightedPlacesDisplay(
                             places = presentation.nearestPlaces,
                             onPlaceSelected = onPlaceSelected,
                             modifier = Modifier
@@ -133,59 +132,6 @@ internal object HomePage : BeautifulScreen() {
                         }
                     }
                 }
-            }
-        }
-    }
-
-    @Composable
-    private fun SampleStaggeredItem(
-        places: List<PlaceDisplayPresentation>,
-        onPlaceSelected: (Place) -> Unit,
-        modifier: Modifier = Modifier,
-    ) {
-        @Composable
-        fun WeightedColumn(
-            firstBigger: Boolean,
-            places: List<PlaceDisplayPresentation>,
-            modifier: Modifier = Modifier,
-        ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = modifier,
-            ) {
-                places.forEachIndexed { index, placePresentation ->
-                    val weight = when {
-                        index == 0 && firstBigger -> 1f
-                        index != 0 && firstBigger.not() -> 1f
-                        else -> 0.8f
-                    }
-
-                    PlaceDisplay(
-                        placeDisplayPresentation = placePresentation,
-                        imageModifier = Modifier.weight(1f),
-                        modifier = Modifier
-                            .clickableIcon(0.dp) { onPlaceSelected(placePresentation.place) }
-                            .weight(weight),
-                    )
-                }
-            }
-        }
-
-        val validColumns = remember(places) {
-            places.chunked(2)
-                .take(2)
-        }
-
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(20.dp),
-            modifier = modifier,
-        ) {
-            validColumns.forEachIndexed { index, columnPlaces ->
-                WeightedColumn(
-                    firstBigger = index % 2 == 0,
-                    places = columnPlaces,
-                    modifier = Modifier.weight(1f),
-                )
             }
         }
     }

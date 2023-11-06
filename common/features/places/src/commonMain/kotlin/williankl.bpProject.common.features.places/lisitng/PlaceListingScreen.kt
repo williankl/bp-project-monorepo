@@ -3,6 +3,9 @@ package williankl.bpProject.common.features.places.lisitng
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
@@ -22,6 +25,7 @@ import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.PlaceQualifier
 import williankl.bpProject.common.features.places.components.PlaceDisplay
 import williankl.bpProject.common.features.places.components.PlaceDisplayPresentation
+import williankl.bpProject.common.features.places.components.lazyWeightedPlaceDisplays
 import williankl.bpProject.common.platform.design.core.clickableIcon
 import williankl.bpProject.common.platform.stateHandler.LocalRouter
 import williankl.bpProject.common.platform.stateHandler.collectData
@@ -52,7 +56,7 @@ public data class PlaceListingScreen(
             displayPresentationList = placePaging.pagingResult.items,
             onNextPageRequested = {
                 val shouldMakeRequest = placePaging.pagingResult.hasReachedFinalPage.not() &&
-                    placePaging.isLoading.not()
+                        placePaging.isLoading.not()
 
                 if (shouldMakeRequest) {
                     runnerModel.requestNextPage()
@@ -74,7 +78,7 @@ public data class PlaceListingScreen(
         onPlaceSelected: (Place) -> Unit,
         modifier: Modifier = Modifier,
     ) {
-        val state = rememberLazyStaggeredGridState()
+        val state = rememberLazyListState()
         val shouldRequestNextPage by remember {
             derivedStateOf { state.firstVisibleItemIndex > displayPresentationList.size - 10 }
         }
@@ -83,23 +87,18 @@ public data class PlaceListingScreen(
             onNextPageRequested()
         }
 
-        LazyVerticalStaggeredGrid(
-            modifier = modifier,
+        LazyColumn(
             state = state,
-            verticalItemSpacing = 20.dp,
-            horizontalArrangement = Arrangement.spacedBy(20.dp),
             contentPadding = PaddingValues(20.dp),
-            columns = StaggeredGridCells.Fixed(2),
-            content = {
-                items(displayPresentationList) { displayPresentation ->
-                    PlaceDisplay(
-                        placeDisplayPresentation = displayPresentation,
-                        imageModifier = Modifier,
-                        modifier = Modifier
-                            .clickableIcon { onPlaceSelected(displayPresentation.place) },
-                    )
-                }
-            }
-        )
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+            modifier = modifier,
+        ) {
+            lazyWeightedPlaceDisplays(
+                places = displayPresentationList,
+                onPlaceSelected = onPlaceSelected,
+                modifier = Modifier
+                    .height(400.dp),
+            )
+        }
     }
 }

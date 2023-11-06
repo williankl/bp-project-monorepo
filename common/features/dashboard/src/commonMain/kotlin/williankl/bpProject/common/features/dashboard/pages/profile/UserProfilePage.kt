@@ -2,7 +2,6 @@ package williankl.bpProject.common.features.dashboard.pages.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,10 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items
-import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -34,6 +31,7 @@ import williankl.bpProject.common.core.models.PlaceQualifier
 import williankl.bpProject.common.features.dashboard.LocalDashboardStrings
 import williankl.bpProject.common.features.dashboard.pages.profile.UserProfileRunnerModel.UserProfilePresentation
 import williankl.bpProject.common.features.dashboard.pages.profile.options.menu.MenuSidebarScreen
+import williankl.bpProject.common.features.places.components.lazyWeightedPlaceDisplays
 import williankl.bpProject.common.platform.design.components.AsyncImage
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
@@ -109,10 +107,10 @@ internal object UserProfilePage : BeautifulScreen() {
         onNextPageRequested: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
-        val state = rememberLazyStaggeredGridState()
+        val state = rememberLazyListState()
         val shouldRequestNextPage by remember {
             derivedStateOf {
-                state.firstVisibleItemIndex > presentation.posts.size || presentation.posts.isEmpty()
+                state.firstVisibleItemIndex > presentation.places.size || presentation.places.isEmpty()
             }
         }
 
@@ -129,26 +127,18 @@ internal object UserProfilePage : BeautifulScreen() {
                 modifier = Modifier,
             )
 
-            LazyVerticalStaggeredGrid(
+            LazyColumn(
                 state = state,
                 contentPadding = PaddingValues(20.dp),
-                verticalItemSpacing = 20.dp,
-                horizontalArrangement = Arrangement.spacedBy(20.dp),
-                columns = StaggeredGridCells.Fixed(2),
-                content = {
-                    items(presentation.posts) { post ->
-                        post.images.firstOrNull()?.url
-                            ?.let { imageUrl ->
-                                AsyncImage(
-                                    url = imageUrl,
-                                    modifier = Modifier
-                                        .clip(BeautifulShape.Rounded.Large.composeShape)
-                                        .clickable { onPostSelected(post) }
-                                )
-                            }
-                    }
-                }
-            )
+                verticalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                lazyWeightedPlaceDisplays(
+                    places = presentation.places,
+                    onPlaceSelected = onPostSelected,
+                    modifier = Modifier
+                        .height(400.dp),
+                )
+            }
         }
     }
 
