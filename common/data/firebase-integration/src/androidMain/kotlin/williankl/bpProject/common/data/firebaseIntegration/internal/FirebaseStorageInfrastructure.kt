@@ -36,7 +36,8 @@ internal actual class FirebaseStorageInfrastructure actual constructor(
         bitmap: Bitmap,
         quality: EncodeQuality,
     ): String {
-        val encodedImage = ImageTransformer.encodeImage(bitmap.toAndroidBitmap(), quality)
+        val downSampledImage = ImageTransformer.downSampleImage(bitmap.toAndroidBitmap(), quality)
+        val encodedImage = ImageTransformer.encodeImage(downSampledImage, quality)
         val storageReference = retrieveStorageReference(userId)
         storageReference
             .putBytes(encodedImage)
