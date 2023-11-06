@@ -26,7 +26,6 @@ internal actual class FirebaseStorageInfrastructure actual constructor(
 
         return images.map { image ->
             ImageUploadResult(
-                originalImageUrl = uploadImage(user.id, image, EncodeQuality.Original),
                 url = uploadImage(user.id, image, EncodeQuality.LowQuality),
             )
         }

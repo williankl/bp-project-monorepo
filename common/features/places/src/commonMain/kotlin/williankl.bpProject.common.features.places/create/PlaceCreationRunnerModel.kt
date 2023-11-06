@@ -85,7 +85,6 @@ internal class PlaceCreationRunnerModel(
                     ImageData(
                         id = uuid4(),
                         url = result.url,
-                        originalUrl = result.originalImageUrl,
                         position = index,
                     )
                 },

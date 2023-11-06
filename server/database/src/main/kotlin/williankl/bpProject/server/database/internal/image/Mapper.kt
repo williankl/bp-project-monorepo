@@ -11,7 +11,6 @@ internal object Mapper {
             Place.ImageData(
                 id = id,
                 url = url,
-                originalUrl = originalUrl,
                 position = position,
             )
         }
@@ -26,7 +25,6 @@ internal object Mapper {
                 id = id,
                 placeId = placeId,
                 url = url,
-                originalUrl = originalUrl,
                 position = position,
             )
         }
