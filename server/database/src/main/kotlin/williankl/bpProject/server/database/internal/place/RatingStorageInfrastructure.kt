@@ -15,12 +15,15 @@ internal class RatingStorageInfrastructure(
         ownerId: Uuid,
         placeId: Uuid,
         data: PlaceRatingRequest
-    ) {
+    ): PlaceRating {
+        val generatedPlace = toDomain(ownerId, placeId, data)
+
         DriverProvider.withDatabase(driver) {
-            placeRatingQueries.create(
-                toDomain(ownerId, placeId, data)
-            )
+            placeRatingQueries.create(generatedPlace)
         }
+
+        return retrieveRating(generatedPlace.id)
+            ?: error("Could not retrieve created place")
     }
 
     override suspend fun ratingsForPlace(

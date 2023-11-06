@@ -9,7 +9,7 @@ public interface PlaceRatingStorage {
         ownerId: Uuid,
         placeId: Uuid,
         data: PlaceRatingRequest,
-    )
+    ): PlaceRating
 
     public suspend fun ratingsForPlace(
         placeId: Uuid,
