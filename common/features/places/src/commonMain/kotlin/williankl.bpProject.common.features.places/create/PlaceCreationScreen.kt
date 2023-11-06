@@ -190,7 +190,7 @@ internal data class PlaceCreationScreen(
             ChipOption(
                 label = creationHandler.selectedAddress?.displayName ?: strings.searchLocationLabel,
                 isSelected = creationHandler.selectedAddress != null &&
-                        creationHandler.selectedAddress !in presentation.suggestedPlaces,
+                    creationHandler.selectedAddress !in presentation.suggestedPlaces,
                 onClicked = {
                     navigator.push(
                         item = PlaceSearchScreen(creationHandler)
