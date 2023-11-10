@@ -1,4 +1,4 @@
-package williankl.bpProject.common.features.places.create
+package williankl.bpProject.common.features.places.creating.create
 
 import androidx.compose.ui.graphics.ImageBitmap
 import com.benasher44.uuid.uuid4
@@ -15,8 +15,8 @@ import williankl.bpProject.common.data.imageRetrievalService.retriever.ImageRetr
 import williankl.bpProject.common.data.imageRetrievalService.toImageBitmap
 import williankl.bpProject.common.data.placeService.models.MapPlaceResult
 import williankl.bpProject.common.data.placeService.services.PlacesService
-import williankl.bpProject.common.features.places.create.PlaceCreationRunnerModel.PlaceCreationPresentation
-import williankl.bpProject.common.features.places.create.handler.CreationHandler
+import williankl.bpProject.common.features.places.creating.create.PlaceCreationRunnerModel.PlaceCreationPresentation
+import williankl.bpProject.common.features.places.creating.create.handler.CreationHandler
 import williankl.bpProject.common.platform.stateHandler.RunnerModel
 
 internal class PlaceCreationRunnerModel(

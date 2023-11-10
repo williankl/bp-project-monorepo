@@ -16,7 +16,7 @@ import williankl.bpProject.common.features.authentication.modal.LoginRequiredBot
 import williankl.bpProject.common.features.dashboard.DashboardScreen
 import williankl.bpProject.common.features.places.details.PlaceDetailsScreen
 import williankl.bpProject.common.features.places.lisitng.PlaceListingScreen
-import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionScreen
+import williankl.bpProject.common.features.places.creating.photoSelection.PhotoSelectionScreen
 import williankl.bpProject.common.platform.stateHandler.models.ModelState
 import williankl.bpProject.common.platform.stateHandler.navigation.Router
 import williankl.bpProject.common.platform.stateHandler.navigation.models.Authentication

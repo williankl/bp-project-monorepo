@@ -35,7 +35,7 @@ dependencies {
     implementation(libs.plugin.ksp)
     implementation(libs.plugin.buildKonfig)
     implementation(libs.plugin.ktor)
-    implementation(libs.plugin.moko)
+    implementation(libs.plugin.mokoResources)
     implementation(libs.plugin.google.services)
     implementation(libs.plugin.google.crashlytics)
 }

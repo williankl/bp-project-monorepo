@@ -1,4 +1,4 @@
-package williankl.bpProject.common.features.places.create.components
+package williankl.bpProject.common.features.places.creating.create.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

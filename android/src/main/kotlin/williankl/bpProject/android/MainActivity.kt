@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import dev.icerock.moko.maps.google.GoogleMapController
 import williankl.bpProject.common.application.AppContent
 import williankl.bpProject.common.data.imageRetrievalService.ImageCaptureHelper
 import williankl.bpProject.common.data.imageRetrievalService.controller.ImageRetrievalController
@@ -61,13 +62,14 @@ internal class MainActivity : ComponentActivity() {
         )
 
         setContent {
-            AppContent(imageRetrievalController)
+            AppContent(
+                imageRetrievalController = imageRetrievalController,
+            )
         }
     }
 
     private fun onImagePickResult(uris: List<AndroidUri>) {
         val images = uris.map { uri -> uri.toString() }
-
         imageRetrievalController.publishImages(images)
     }
 

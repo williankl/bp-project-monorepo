@@ -1,4 +1,4 @@
-package williankl.bpProject.common.features.places.photoSelection
+package williankl.bpProject.common.features.places.creating.photoSelection
 
 import androidx.compose.ui.graphics.Color
 import com.chrynan.uri.core.Uri
@@ -7,7 +7,7 @@ import korlibs.image.bitmap.Bitmap
 import kotlinx.coroutines.CoroutineDispatcher
 import williankl.bpProject.common.data.imageRetrievalService.averageColor
 import williankl.bpProject.common.data.imageRetrievalService.retriever.ImageRetriever
-import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionRunnerModel.PhotoSelectionPresentation
+import williankl.bpProject.common.features.places.creating.photoSelection.PhotoSelectionRunnerModel.PhotoSelectionPresentation
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.nonComposableColor
 import williankl.bpProject.common.platform.stateHandler.RunnerModel

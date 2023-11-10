@@ -19,6 +19,8 @@ dependencies {
     commonMainImplementation(projects.common.core)
     commonMainImplementation(projects.common.platform.design.core)
     commonMainImplementation(libs.moko.resourcesCompose)
+    commonMainImplementation(libs.moko.maps.core)
+    commonMainImplementation(libs.moko.maps.google)
     commonMainImplementation(libs.kamel)
 
     commonMainImplementation(libs.lyricist.core)

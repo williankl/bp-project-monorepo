@@ -29,6 +29,8 @@ dependencies {
 
     commonMainImplementation(libs.voyager.navigator)
     commonMainImplementation(libs.moko.resourcesCompose)
+    commonMainImplementation(libs.moko.maps.core)
+    commonMainImplementation(libs.moko.maps.google)
 
     commonMainImplementation(libs.lyricist.core)
     commonMainLyricistImplementation(libs.lyricist.ksp)

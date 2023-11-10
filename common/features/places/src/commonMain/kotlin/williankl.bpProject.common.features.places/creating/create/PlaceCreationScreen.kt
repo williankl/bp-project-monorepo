@@ -1,4 +1,4 @@
-package williankl.bpProject.common.features.places.create
+package williankl.bpProject.common.features.places.creating.create
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -25,12 +25,12 @@ import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.core.models.Season
 import williankl.bpProject.common.features.places.Divider
 import williankl.bpProject.common.features.places.LocalPlacesStrings
-import williankl.bpProject.common.features.places.create.PlaceCreationRunnerModel.PlaceCreationPresentation
-import williankl.bpProject.common.features.places.create.components.ChipCarrousselOption
-import williankl.bpProject.common.features.places.create.components.ChipOption
-import williankl.bpProject.common.features.places.create.components.InputOption
-import williankl.bpProject.common.features.places.create.handler.LocalPlaceCreationHandler
-import williankl.bpProject.common.features.places.searchScreen.PlaceSearchScreen
+import williankl.bpProject.common.features.places.creating.create.PlaceCreationRunnerModel.PlaceCreationPresentation
+import williankl.bpProject.common.features.places.creating.create.components.ChipCarrousselOption
+import williankl.bpProject.common.features.places.creating.create.components.ChipOption
+import williankl.bpProject.common.features.places.creating.create.components.InputOption
+import williankl.bpProject.common.features.places.creating.create.handler.LocalPlaceCreationHandler
+import williankl.bpProject.common.features.places.creating.searchScreen.PlaceSearchScreen
 import williankl.bpProject.common.platform.design.components.ImagePager
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.button.Button

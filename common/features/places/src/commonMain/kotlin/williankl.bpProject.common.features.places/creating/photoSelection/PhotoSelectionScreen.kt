@@ -1,4 +1,4 @@
-package williankl.bpProject.common.features.places.photoSelection
+package williankl.bpProject.common.features.places.creating.photoSelection
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -34,9 +34,9 @@ import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
 import williankl.bpProject.common.data.imageRetrievalService.toImageBitmap
 import williankl.bpProject.common.features.places.LocalPlacesStrings
-import williankl.bpProject.common.features.places.create.PlaceCreationScreen
-import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionRunnerModel.Companion.defaultImageColor
-import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionRunnerModel.PhotoSelectionPresentation
+import williankl.bpProject.common.features.places.creating.create.PlaceCreationScreen
+import williankl.bpProject.common.features.places.creating.photoSelection.PhotoSelectionRunnerModel.Companion.defaultImageColor
+import williankl.bpProject.common.features.places.creating.photoSelection.PhotoSelectionRunnerModel.PhotoSelectionPresentation
 import williankl.bpProject.common.platform.design.components.ActionedImagePager
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.button.Button
