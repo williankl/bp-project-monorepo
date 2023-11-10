@@ -52,7 +52,7 @@ internal class ServerMapsServiceInfrastructure(
                             state = typeLongTextOrEmpty(AddressComponentType.AdministrativeAreaLevelOne),
                             neighborhood = typeLongTextOrEmpty(AddressComponentType.Neighborhood),
                             country = typeLongTextOrEmpty(AddressComponentType.Country),
-                            street = typeLongTextOrEmpty(AddressComponentType.Street),
+                            street = typeLongTextOrEmpty(AddressComponentType.Route),
                         )
                     )
                 }
@@ -69,11 +69,17 @@ internal class ServerMapsServiceInfrastructure(
                         displayName = displayName.text,
                         coordinate = location,
                         address = MapPlaceResult.Address(
-                            city = typeLongTextOrEmpty(AddressComponentType.AdministrativeAreaLevelTwo),
-                            state = typeLongTextOrEmpty(AddressComponentType.AdministrativeAreaLevelOne),
-                            neighborhood = typeLongTextOrEmpty(AddressComponentType.Neighborhood),
+                            state = typeLongTextOrEmpty(AddressComponentType.AdministrativeAreaLevelOne)
+                                .ifEmpty { typeLongTextOrEmpty(AddressComponentType.Locality) },
+                            city = typeLongTextOrEmpty(AddressComponentType.AdministrativeAreaLevelTwo)
+                                .ifEmpty { typeLongTextOrEmpty(AddressComponentType.SubLocality) }
+                                .ifEmpty { typeLongTextOrEmpty(AddressComponentType.SubLocalityOne) },
+                            neighborhood = typeLongTextOrEmpty(AddressComponentType.Neighborhood)
+                                .ifEmpty { typeLongTextOrEmpty(AddressComponentType.SubLocalityOne) }
+                                .ifEmpty { typeLongTextOrEmpty(AddressComponentType.SubLocalityTwo) },
                             country = typeLongTextOrEmpty(AddressComponentType.Country),
-                            street = typeLongTextOrEmpty(AddressComponentType.Street),
+                            street = typeLongTextOrEmpty(AddressComponentType.Route)
+                                .ifEmpty { typeLongTextOrEmpty(AddressComponentType.StreetAddress) },
                         )
                     )
                 }

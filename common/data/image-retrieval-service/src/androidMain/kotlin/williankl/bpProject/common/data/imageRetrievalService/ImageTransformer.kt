@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
 import java.io.ByteArrayOutputStream
+import kotlin.math.roundToInt
 
 public object ImageTransformer {
 
@@ -25,6 +26,20 @@ public object ImageTransformer {
 
     public suspend fun decodeImage(imageBytes: ByteArray): Bitmap {
         return decodeImage(imageBytes.toStoringString())
+    }
+
+    public suspend fun downSampleImage(
+        bitmap: Bitmap,
+        quality: EncodeQuality,
+        filtering: Boolean = true,
+    ): Bitmap {
+        val percentageFactor = quality.factor * 0.01f
+        return Bitmap.createScaledBitmap(
+            bitmap,
+            (bitmap.width * percentageFactor).roundToInt(),
+            (bitmap.height * percentageFactor).roundToInt(),
+            filtering,
+        )
     }
 
     public suspend fun decodeImage(encodedImage: String): Bitmap {

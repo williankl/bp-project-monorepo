@@ -15,18 +15,18 @@ internal object Mapper {
     ): Place {
         return with(joinedData) {
             Place(
-                id = id,
+                id = placeId,
                 owner = User(
-                    id = id__,
+                    id = ownerId,
                     email = email,
-                    name = name_,
+                    name = name,
                     tag = tag,
                     avatarUrl = avatarUrl,
                 ),
-                displayName = name,
+                displayName = name_,
                 description = description,
                 address = Place.PlaceAddress(
-                    id = id_,
+                    id = id__,
                     street = street,
                     city = city,
                     country = country,

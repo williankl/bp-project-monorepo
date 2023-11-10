@@ -19,13 +19,13 @@ internal data class MapTextQueryResponse(
         @Serializable
         internal data class DisplayNameResponse(
             val text: String,
-            val languageCode: String,
+            val languageCode: String? = null,
         )
 
         @Serializable
         internal data class AddressComponents(
             val longText: String,
-            val shortText: String,
+            val shortText: String? = null,
             val types: List<@Serializable(AddressComponentTypeSerializer::class) AddressComponentType> = emptyList(),
         )
     }

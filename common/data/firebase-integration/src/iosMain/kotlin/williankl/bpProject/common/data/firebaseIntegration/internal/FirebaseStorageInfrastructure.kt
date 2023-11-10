@@ -2,6 +2,7 @@ package williankl.bpProject.common.data.firebaseIntegration.internal
 
 import korlibs.image.bitmap.Bitmap
 import williankl.bpProject.common.data.firebaseIntegration.FirebaseIntegration
+import williankl.bpProject.common.data.firebaseIntegration.models.ImageUploadResult
 import williankl.bpProject.common.data.sessionHandler.Session
 
 internal actual class FirebaseStorageInfrastructure actual constructor(
@@ -9,7 +10,7 @@ internal actual class FirebaseStorageInfrastructure actual constructor(
 ) : FirebaseIntegration {
     override suspend fun uploadPlacesImages(
         images: List<Bitmap>
-    ): List<String> {
+    ): List<ImageUploadResult> {
         TODO("Not yet implemented")
     }
 }

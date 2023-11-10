@@ -81,13 +81,16 @@ internal class RatingRouter(
             val placeId = idFromParameter("placeId")
 
             if (placeId != null && received != null && userId != null) {
-                placesRatingStorage.createRating(
+                val result = placesRatingStorage.createRating(
                     placeId = placeId,
                     ownerId = userId,
                     data = received,
                 )
 
-                call.respond(HttpStatusCode.OK)
+                call.respond(
+                    status = HttpStatusCode.OK,
+                    message = result,
+                )
             } else {
                 call.respond(
                     status = HttpStatusCode.BadRequest,

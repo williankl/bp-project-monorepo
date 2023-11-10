@@ -76,12 +76,12 @@ internal class PlaceDetailsRunnerModel(
         )
     }
 
-    fun fetchNextCommentPage(resetting: Boolean = false) = runAsync(
+    fun fetchNextCommentPage(refreshing: Boolean = false) = runAsync(
         onLoading = { /* todo - show comment only loading */ },
         onContent = { /* todo - hide comment only loading */ }
     ) {
         mutableRatingPaging.update { paging ->
-            if (resetting) return@update PagingResult<PlaceRating>()
+            if (refreshing) return@update PagingResult<PlaceRating>()
             if (paging.hasReachedFinalPage) return@runAsync
 
             with(paging) {
@@ -103,13 +103,20 @@ internal class PlaceDetailsRunnerModel(
         rating: Int,
         comment: String?,
     ) = runAsync {
-        ratingService.ratePlace(
+        val result = ratingService.ratePlace(
             placeId = placeId,
             rateRequest = PlaceRatingRequest(
                 comment = comment,
                 rating = rating,
             )
         )
+
+        mutableRatingPaging.update { paging ->
+            paging.copy(
+                items = paging.items + result,
+            )
+        }
+        fetchNextCommentPage(refreshing = true)
     }
 
     fun openPlaceOnGoogleMaps(place: Place) = runAsync(

@@ -26,11 +26,11 @@ internal class PlaceRatingServiceInfrastructure(
     override suspend fun ratePlace(
         placeId: Uuid,
         rateRequest: PlaceRatingRequest,
-    ) {
-        client.post(PLACES_ENDPOINT) {
+    ): PlaceRating {
+        return client.post(PLACES_ENDPOINT) {
             parameter("placeId", placeId.toString())
             setBody(rateRequest)
-        }
+        }.body()
     }
 
     override suspend fun placeRatingData(placeId: Uuid): PlaceRatingData {

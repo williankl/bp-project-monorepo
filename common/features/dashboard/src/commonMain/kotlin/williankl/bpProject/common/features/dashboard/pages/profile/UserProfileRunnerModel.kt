@@ -5,14 +5,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineDispatcher
 import williankl.bpProject.common.core.models.Place
+import williankl.bpProject.common.data.placeService.services.MapsService
 import williankl.bpProject.common.data.placeService.services.PlacesService
+import williankl.bpProject.common.data.placeService.services.UserLocationService
 import williankl.bpProject.common.data.sessionHandler.Session
 import williankl.bpProject.common.features.dashboard.pages.profile.UserProfileRunnerModel.UserProfilePresentation
+import williankl.bpProject.common.features.places.components.PlaceDisplayPresentation
 import williankl.bpProject.common.platform.stateHandler.RunnerModel
 
 internal class UserProfileRunnerModel(
     private val session: Session,
     private val placesService: PlacesService,
+    private val userLocationService: UserLocationService,
+    private val mapsService: MapsService,
     dispatcher: CoroutineDispatcher,
 ) : RunnerModel<UserProfilePresentation>(
     dispatcher = dispatcher,
@@ -26,7 +31,7 @@ internal class UserProfileRunnerModel(
         val avatarUrl: String = "",
         val userFullName: String = "",
         val userTag: String? = null,
-        val posts: List<Place> = emptyList()
+        val places: List<PlaceDisplayPresentation> = emptyList()
     )
 
     init {
@@ -63,9 +68,11 @@ internal class UserProfileRunnerModel(
         val currentUser = session.loggedInUser()
             ?: error("User not logged in")
 
-        val foundPlaces = placesService.retrievePlaces(
-            page = currentPage,
-            fromUser = currentUser.id,
+        val foundPlaces = mapToPresentation(
+            placesService.retrievePlaces(
+                page = currentPage,
+                fromUser = currentUser.id,
+            )
         )
 
         currentPage++
@@ -73,7 +80,27 @@ internal class UserProfileRunnerModel(
 
         updateData { data ->
             data.copy(
-                posts = data.posts + foundPlaces
+                places = data.places + foundPlaces
+            )
+        }
+    }
+
+    private suspend fun mapToPresentation(places: List<Place>): List<PlaceDisplayPresentation> {
+        val lastUserCoordinates = userLocationService.lastUserCoordinates()
+        val placesCoordinates = places.map { place -> place.address.coordinates }
+
+        val distanceList = lastUserCoordinates
+            ?.let { from ->
+                mapsService.distanceBetween(
+                    from = from,
+                    to = placesCoordinates.toTypedArray(),
+                )
+            }.orEmpty()
+
+        return places.mapIndexed { index, place ->
+            PlaceDisplayPresentation(
+                place = place,
+                distanceLabel = distanceList.getOrNull(index),
             )
         }
     }

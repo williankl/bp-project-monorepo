@@ -24,6 +24,8 @@ public val dashboardDi: DI.Module = DI.Module("williankl.bpProject.common.featur
         UserProfileRunnerModel(
             session = instance(),
             placesService = instance(),
+            userLocationService = instance(),
+            mapsService = instance(MapServiceType.Client),
             dispatcher = Dispatchers.Default,
         )
     }

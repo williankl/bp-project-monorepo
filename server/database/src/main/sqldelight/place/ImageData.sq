@@ -3,12 +3,11 @@ CREATE TABLE IF NOT EXISTS ImageData (
   id uuid PRIMARY KEY NOT NULL,
   placeId uuid NOT NULL,
   url text NOT NULL,
-  originalUrl text NOT NULL,
   position integer NOT NULL
 );
 
 create:
-INSERT INTO ImageData(id, placeId, url, originalUrl, position)
+INSERT INTO ImageData(id, placeId, url, position)
 VALUES ?;
 
 imagesForPlace:
