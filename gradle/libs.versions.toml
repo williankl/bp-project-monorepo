@@ -27,7 +27,10 @@ korim = "4.0.10"
 hikari = "5.0.1"
 postgres = "42.6.0"
 cashApp-sqlDelight = "2.0.0"
-moko = "0.23.0"
+
+moko-resources = "0.23.0"
+moko-media = "0.11.0"
+moko-maps = "0.6.0"
 
 kotlinx-serialization = "1.6.0"
 kotlinx-coroutines = "1.7.3"
@@ -139,7 +142,12 @@ cashApp-sqliteDriver = { module = "app.cash.sqldelight:sqlite-driver", version.r
 
 # Moko
 
-moko-resourcesCompose = { module = "dev.icerock.moko:resources-compose", version.ref = "moko" }
+moko-resourcesCompose = { module = "dev.icerock.moko:resources-compose", version.ref = "moko-resources" }
+moko-media-core = { module = "dev.icerock.moko:media", version.ref = "moko-media" }
+moko-media-compose = { module = "dev.icerock.moko:media-compose", version.ref = "moko-media" }
+moko-maps-core = { module = "dev.icerock.moko:maps", version.ref = "moko-maps" }
+moko-maps-google = { module = "dev.icerock.moko:maps-google", version.ref = "moko-maps" }
+moko-maps-mapBox = { module = "dev.icerock.moko:maps-mapbox", version.ref = "moko-maps" }
 
 # KMM - Utils
 

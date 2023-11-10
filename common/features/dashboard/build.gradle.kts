@@ -30,3 +30,5 @@ dependencies {
     commonMainImplementation(libs.lyricist.core)
     commonMainLyricistImplementation(libs.lyricist.ksp)
 }
+
+kotlin
