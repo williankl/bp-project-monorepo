@@ -12,6 +12,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import williankl.bpProject.common.data.networking.core.NetworkClientSession
 
 internal class ClientConfigurationHelper(
     private val bpBaseUrl: String,

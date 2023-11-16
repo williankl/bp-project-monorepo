@@ -5,6 +5,9 @@ import org.kodein.di.DI
 import org.kodein.di.bindConstant
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
+import williankl.bpProject.common.data.networking.core.ClientType
+import williankl.bpProject.common.data.networking.core.NetworkClientSession
+import williankl.bpProject.common.data.networking.core.NetworkConstant
 import williankl.bpProject.common.data.networking.internal.ClientConfigurationHelper
 import williankl.bpProject.common.data.networking.internal.ClientEngineProvider
 import williankl.bpProject.common.data.networking.internal.HttpClientProvider
@@ -42,21 +45,21 @@ public val networkingDi: DI.Module = DI.Module("williankl.bpProject.common.data.
         ClientEngineProvider()
     }
 
-    bindSingleton<HttpClient> {
+    bindSingleton {
         HttpClientProvider(
             configurationHelper = instance(),
             engineProvider = instance(),
         ).provideBpClient()
     }
 
-    bindSingleton<HttpClient>(ClientType.GooglePlaces) {
+    bindSingleton(ClientType.GooglePlaces) {
         HttpClientProvider(
             configurationHelper = instance(),
             engineProvider = instance(),
         ).provideGooglePlacesClient()
     }
 
-    bindSingleton<HttpClient>(ClientType.GoogleMaps) {
+    bindSingleton(ClientType.GoogleMaps) {
         HttpClientProvider(
             configurationHelper = instance(),
             engineProvider = instance(),

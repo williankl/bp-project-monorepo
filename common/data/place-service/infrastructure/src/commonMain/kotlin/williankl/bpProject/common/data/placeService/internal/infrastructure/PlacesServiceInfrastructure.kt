@@ -9,9 +9,9 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.PlaceQualifier
+import williankl.bpProject.common.data.networking.core.handleListResponse
 import williankl.bpProject.common.data.networking.core.models.request.PlaceDistanceQuery
 import williankl.bpProject.common.data.networking.core.models.request.SavingPlaceRequest
-import williankl.bpProject.common.data.networking.handleListResponse
 import williankl.bpProject.common.data.placeService.services.PlacesService
 import williankl.bpProject.common.data.placeService.services.UserLocationService
 

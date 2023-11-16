@@ -1,6 +1,7 @@
 package williankl.bpProject.common.data.networking.internal
 
 import kotlinx.coroutines.flow.MutableStateFlow
+import williankl.bpProject.common.data.networking.core.NetworkClientSession
 
 internal class NetworkClientSessionHandler : NetworkClientSession {
 

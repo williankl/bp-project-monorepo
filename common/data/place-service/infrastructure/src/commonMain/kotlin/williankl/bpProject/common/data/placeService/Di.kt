@@ -3,6 +3,7 @@ package williankl.bpProject.common.data.placeService
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
+import williankl.bpProject.common.data.networking.core.ClientType
 import williankl.bpProject.common.data.placeService.internal.ClientMapsServiceInfrastructure
 import williankl.bpProject.common.data.placeService.internal.ServerMapsServiceInfrastructure
 import williankl.bpProject.common.data.placeService.internal.infrastructure.PlaceRatingServiceInfrastructure

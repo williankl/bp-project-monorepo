@@ -18,6 +18,7 @@ dependencies {
     commonMainImplementation(projects.common.data.firebaseIntegration)
     commonMainImplementation(projects.common.data.imageRetrievalService)
     commonMainImplementation(projects.common.data.networking.core)
+    commonMainImplementation(projects.common.data.networking.internal)
     commonMainImplementation(projects.common.data.auth)
     commonMainImplementation(projects.common.data.sessionHandler)
     commonMainImplementation(projects.common.data.placeService.core)

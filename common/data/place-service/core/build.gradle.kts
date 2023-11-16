@@ -13,6 +13,8 @@ addJvmTarget()
 
 dependencies {
     commonMainImplementation(projects.common.core)
+    commonMainImplementation(projects.common.data.networking.core)
+
     commonMainImplementation(libs.kotlinx.serialization.core)
     commonMainImplementation(libs.kotlinx.serialization.json)
 }

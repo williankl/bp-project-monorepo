@@ -2,6 +2,7 @@ import williankl.bpProject.buildSrc.helpers.addJvmTarget
 
 plugins {
     id("bp.multiplatform")
+    kotlin("plugin.serialization")
 }
 
 android {

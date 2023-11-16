@@ -2,7 +2,7 @@ package williankl.bpProject.common.data.placeService.services
 
 import com.benasher44.uuid.Uuid
 import williankl.bpProject.common.core.models.PlaceRating
-import williankl.bpProject.common.core.models.network.request.PlaceRatingRequest
+import williankl.bpProject.common.data.networking.core.models.request.PlaceRatingRequest
 import williankl.bpProject.common.data.placeService.models.PlaceRatingData
 
 public interface PlaceRatingService {

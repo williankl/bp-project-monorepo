@@ -22,9 +22,11 @@ dependencies {
     commonMainImplementation(projects.common.data.auth)
     commonMainImplementation(projects.common.data.sessionHandler)
     commonMainImplementation(projects.common.data.imageRetrievalService)
+    commonMainImplementation(projects.common.data.networking.core)
     commonMainImplementation(projects.common.data.placeService.core)
     commonMainImplementation(projects.common.platform.stateHandler)
     commonMainImplementation(projects.common.features.places)
+
     commonMainImplementation(libs.moko.resourcesCompose)
 
     commonMainImplementation(libs.lyricist.core)

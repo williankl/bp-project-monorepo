@@ -4,8 +4,8 @@ import com.benasher44.uuid.Uuid
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.Place.PlaceState
 import williankl.bpProject.common.core.models.PlaceQualifier
-import williankl.bpProject.common.core.models.network.request.PlaceDistanceQuery
-import williankl.bpProject.common.core.models.network.request.SavingPlaceRequest
+import williankl.bpProject.common.data.networking.core.models.request.PlaceDistanceQuery
+import williankl.bpProject.common.data.networking.core.models.request.SavingPlaceRequest
 
 public interface PlacesService {
 

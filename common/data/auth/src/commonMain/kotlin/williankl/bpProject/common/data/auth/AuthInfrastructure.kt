@@ -5,9 +5,9 @@ import io.ktor.client.call.body
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
-import williankl.bpProject.common.core.models.network.response.UserCredentialResponse
 import williankl.bpProject.common.data.auth.model.LoginData
 import williankl.bpProject.common.data.cypher.BeautifulCypher
+import williankl.bpProject.common.data.networking.core.models.response.UserCredentialResponse
 
 internal class AuthInfrastructure(
     private val client: HttpClient,

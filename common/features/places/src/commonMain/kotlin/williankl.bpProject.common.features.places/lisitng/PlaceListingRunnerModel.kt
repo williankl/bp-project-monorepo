@@ -5,10 +5,10 @@ import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import williankl.bpProject.common.core.models.PlaceQualifier
-import williankl.bpProject.common.data.networking.currentPage
-import williankl.bpProject.common.data.networking.models.PagingState
-import williankl.bpProject.common.data.networking.setLoading
-import williankl.bpProject.common.data.networking.updateResult
+import williankl.bpProject.common.data.networking.core.currentPage
+import williankl.bpProject.common.data.networking.core.models.PagingState
+import williankl.bpProject.common.data.networking.core.setLoading
+import williankl.bpProject.common.data.networking.core.updateResult
 import williankl.bpProject.common.data.placeService.services.MapsService
 import williankl.bpProject.common.data.placeService.services.PlacesService
 import williankl.bpProject.common.data.placeService.services.UserLocationService

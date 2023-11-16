@@ -1,9 +1,9 @@
 package williankl.bpProject.common.features.authentication
 
 import kotlinx.coroutines.CoroutineDispatcher
-import williankl.bpProject.common.core.models.network.response.UserCredentialResponse
 import williankl.bpProject.common.data.auth.AuthService
 import williankl.bpProject.common.data.auth.model.LoginData
+import williankl.bpProject.common.data.networking.core.models.response.UserCredentialResponse
 import williankl.bpProject.common.data.sessionHandler.PreferencesHandler
 import williankl.bpProject.common.data.sessionHandler.Session
 import williankl.bpProject.common.platform.stateHandler.RunnerModel

@@ -7,7 +7,7 @@ import org.kodein.di.android.androidCoreModule
 import org.kodein.di.android.x.androidXModule
 import org.kodein.di.bindConstant
 import williankl.bpProject.common.application.applicationDi
-import williankl.bpProject.common.data.networking.NetworkConstant
+import williankl.bpProject.common.data.networking.core.NetworkConstant
 
 internal class MainApplication : Application(), DIAware {
     override val di: DI = DI {
