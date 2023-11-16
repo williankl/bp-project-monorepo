@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,30 +57,35 @@ public data class DashboardScreen(
         val runnerModel = rememberScreenModel<DashboardTab, DashboardRunnerModel>(arg = initialTab)
         val presentation by runnerModel.collectData()
         val imageRetrievalController = LocalImageRetrievalController.currentOrThrow
+        val selectedImages by imageRetrievalController.publishedImages.collectAsState()
         val router = LocalRouter.currentOrThrow
 
         LaunchedEffect(Unit) {
+            imageRetrievalController.clearPublishedImages()
             runnerModel.refreshPresentation()
+        }
+
+        LaunchedEffect(selectedImages) {
+            if (selectedImages.isNotEmpty()) {
+                router.push(PlacePhotoSelection)
+            }
         }
 
         DashboardScreenContent(
             currentAction = runnerModel.currentTab,
             onOptionSelected = { selectedAction ->
+                imageRetrievalController.clearPublishedImages()
                 when (selectedAction) {
                     DashboardActions.Home -> runnerModel.currentTab = DashboardActions.Home
                     DashboardActions.Profile ->
                         if (presentation.user != null) {
                             runnerModel.currentTab = DashboardActions.Profile
                         } else {
-                            router.showBottomSheet(
-                                Authentication.LoginRequiredBottomSheet
-                            )
+                            router.showBottomSheet(Authentication.LoginRequiredBottomSheet)
                         }
 
                     DashboardActions.Add ->
-                        imageRetrievalController.showBottomSheet(router.bottomSheetNavigator) { result ->
-                            router.push(PlacePhotoSelection(result))
-                        }
+                        imageRetrievalController.showBottomSheet(router.bottomSheetNavigator)
                 }
             },
             modifier = Modifier

@@ -11,6 +11,7 @@ dependencies {
     commonMainImplementation(projects.common.data.imageRetrievalService)
     commonMainImplementation(projects.common.data.sessionHandler)
     commonMainImplementation(libs.kodein.core)
+    commonMainImplementation(libs.moko.media.core)
 
     androidMainImplementation(platform(libs.firebase.bom))
     androidMainImplementation(libs.firebase.storage)

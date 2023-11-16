@@ -1,6 +1,6 @@
 package williankl.bpProject.common.data.firebaseIntegration
 
-import korlibs.image.bitmap.Bitmap
+import dev.icerock.moko.media.Bitmap
 import williankl.bpProject.common.data.firebaseIntegration.models.ImageUploadResult
 
 public interface FirebaseIntegration {

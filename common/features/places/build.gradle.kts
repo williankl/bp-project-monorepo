@@ -31,6 +31,8 @@ dependencies {
     commonMainImplementation(libs.moko.resourcesCompose)
     commonMainImplementation(libs.moko.maps.core)
     commonMainImplementation(libs.moko.maps.google)
+    commonMainImplementation(libs.moko.media.core)
+    commonMainImplementation(libs.moko.media.compose)
 
     commonMainImplementation(libs.lyricist.core)
     commonMainLyricistImplementation(libs.lyricist.ksp)

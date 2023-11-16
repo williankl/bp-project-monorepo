@@ -17,14 +17,12 @@ import williankl.bpProject.common.features.places.creating.searchScreen.PlaceSea
 public val placesDi: DI.Module = DI.Module("williankl.bpProject.common.features.places") {
     bindProvider {
         PhotoSelectionRunnerModel(
-            imageRetriever = instance(),
             dispatcher = Dispatchers.Default,
         )
     }
 
     bindProvider {
         PlaceCreationRunnerModel(
-            imageRetriever = instance(),
             placesService = instance(),
             firebaseIntegration = instance(),
             dispatcher = Dispatchers.Default,

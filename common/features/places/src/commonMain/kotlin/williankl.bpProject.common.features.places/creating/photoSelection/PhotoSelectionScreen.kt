@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,10 +30,10 @@ import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.chrynan.uri.core.Uri
+import com.benasher44.uuid.Uuid
+import dev.icerock.moko.media.compose.toImageBitmap
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
-import williankl.bpProject.common.data.imageRetrievalService.toImageBitmap
 import williankl.bpProject.common.features.places.LocalPlacesStrings
 import williankl.bpProject.common.features.places.creating.create.PlaceCreationScreen
 import williankl.bpProject.common.features.places.creating.photoSelection.PhotoSelectionRunnerModel.Companion.defaultImageColor
@@ -50,36 +51,34 @@ import williankl.bpProject.common.platform.design.core.models.IconConfig
 import williankl.bpProject.common.platform.stateHandler.collectData
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
-public data class PhotoSelectionScreen(
-    private val imageUriList: List<String>
-) : BeautifulScreen() {
+public object PhotoSelectionScreen : BeautifulScreen() {
 
     @Composable
     override fun BeautifulContent() {
         val imageRetrievalController = LocalImageRetrievalController.currentOrThrow
         val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val navigator = LocalNavigator.currentOrThrow
+
         val runnerModel = rememberScreenModel<PhotoSelectionRunnerModel>()
         val presentation by runnerModel.collectData()
+        val selectedImages by imageRetrievalController.publishedImages.collectAsState()
 
-        var finalUriList by remember {
-            mutableStateOf(imageUriList)
-        }
-
-        LaunchedEffect(finalUriList) {
-            runnerModel.retrievePresentation(finalUriList)
+        LaunchedEffect(selectedImages) {
+            if (selectedImages.isEmpty()) {
+                navigator.pop()
+            } else {
+                runnerModel.retrievePresentation(selectedImages)
+            }
         }
 
         PhotoSelectionContent(
             presentation = presentation,
             onDeleteRequested = runnerModel::handleImageRemoval,
             onAddRequested = {
-                imageRetrievalController.showBottomSheet(bottomSheetNavigator) { result ->
-                    finalUriList = finalUriList + result
-                }
+                imageRetrievalController.showBottomSheet(bottomSheetNavigator)
             },
             onImagesConfirmed = {
-                navigator.push(PlaceCreationScreen(finalUriList))
+                navigator.push(PlaceCreationScreen)
             },
             modifier = Modifier.fillMaxSize()
         )
@@ -89,7 +88,7 @@ public data class PhotoSelectionScreen(
     @OptIn(ExperimentalFoundationApi::class)
     private fun PhotoSelectionContent(
         presentation: PhotoSelectionPresentation,
-        onDeleteRequested: (Uri) -> Unit,
+        onDeleteRequested: (Uuid) -> Unit,
         onAddRequested: () -> Unit,
         onImagesConfirmed: () -> Unit,
         modifier: Modifier = Modifier,
