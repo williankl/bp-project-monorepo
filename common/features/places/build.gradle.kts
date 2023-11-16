@@ -21,7 +21,7 @@ dependencies {
     commonMainImplementation(projects.common.data.sessionHandler)
     commonMainImplementation(projects.common.data.firebaseIntegration)
     commonMainImplementation(projects.common.data.imageRetrievalService)
-    commonMainImplementation(projects.common.data.networking)
+    commonMainImplementation(projects.common.data.networking.core)
     commonMainImplementation(projects.common.platform.uriNavigator)
     commonMainImplementation(projects.common.platform.design.core)
     commonMainImplementation(projects.common.platform.design.components)

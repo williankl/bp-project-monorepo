@@ -1,4 +1,4 @@
-package williankl.bpProject.common.data.networking
+package williankl.bpProject.common.data.networking.core
 
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
@@ -6,8 +6,8 @@ import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import williankl.bpProject.common.data.networking.models.PagingResult
-import williankl.bpProject.common.data.networking.models.PagingState
+import williankl.bpProject.common.data.networking.core.models.PagingResult
+import williankl.bpProject.common.data.networking.core.models.PagingState
 
 public suspend inline fun <reified T> HttpResponse.handleResponse(): T? {
     return when (status) {

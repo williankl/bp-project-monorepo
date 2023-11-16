@@ -1,4 +1,4 @@
-package williankl.bpProject.common.data.networking
+package williankl.bpProject.common.data.networking.core
 
 public interface NetworkClientSession {
     public fun currentToken(): String?

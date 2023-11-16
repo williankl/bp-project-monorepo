@@ -1,4 +1,4 @@
-package williankl.bpProject.common.data.networking.models
+package williankl.bpProject.common.data.networking.core.models
 
 public data class PagingResult<T>(
     val currentPage: Int = 0,

@@ -1,4 +1,4 @@
-package williankl.bpProject.common.data.networking.models
+package williankl.bpProject.common.data.networking.core.models
 
 public data class PagingState<T>(
     val pagingResult: PagingResult<T> = PagingResult(),

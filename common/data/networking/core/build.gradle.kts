@@ -5,13 +5,14 @@ plugins {
 }
 
 android {
-    namespace = "williankl.bpProject.common.data.networking"
+    namespace = "williankl.bpProject.common.data.networking.core"
 }
 
 addJvmTarget()
 
 dependencies {
     commonMainImplementation(projects.common.core)
+
     commonMainImplementation(libs.kodein.core)
     commonMainImplementation(libs.ktor.client.core)
     commonMainImplementation(libs.ktor.client.logging)
@@ -19,17 +20,4 @@ dependencies {
     commonMainImplementation(libs.ktor.client.jsonSerialization)
     commonMainImplementation(libs.kotlinx.serialization.json)
     commonMainImplementation(libs.kotlinx.serialization.core)
-
-    androidMainImplementation(libs.ktor.client.okHttp)
-    iosMainImplementation(libs.ktor.client.darwin)
-}
-
-kotlin {
-    sourceSets {
-        val jvmMain by getting {
-            dependencies {
-                implementation(libs.ktor.client.okHttp)
-            }
-        }
-    }
 }

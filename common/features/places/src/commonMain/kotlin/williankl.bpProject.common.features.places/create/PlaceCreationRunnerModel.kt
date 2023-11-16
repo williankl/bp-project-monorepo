@@ -9,7 +9,7 @@ import williankl.bpProject.common.core.models.MapCoordinate
 import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.Place.ImageData
 import williankl.bpProject.common.core.models.Place.PlaceAddress
-import williankl.bpProject.common.core.models.network.request.SavingPlaceRequest
+import williankl.bpProject.common.data.networking.core.models.request.SavingPlaceRequest
 import williankl.bpProject.common.data.firebaseIntegration.FirebaseIntegration
 import williankl.bpProject.common.data.imageRetrievalService.retriever.ImageRetriever
 import williankl.bpProject.common.data.imageRetrievalService.toImageBitmap
