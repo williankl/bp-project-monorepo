@@ -8,23 +8,21 @@ import org.kodein.di.bindProvider
 import org.kodein.di.instance
 import williankl.bpProject.common.core.models.PlaceQualifier
 import williankl.bpProject.common.data.placeService.models.MapServiceType
-import williankl.bpProject.common.features.places.create.PlaceCreationRunnerModel
+import williankl.bpProject.common.features.places.creating.create.PlaceCreationRunnerModel
 import williankl.bpProject.common.features.places.details.PlaceDetailsRunnerModel
 import williankl.bpProject.common.features.places.lisitng.PlaceListingRunnerModel
-import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionRunnerModel
-import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel
+import williankl.bpProject.common.features.places.creating.photoSelection.PhotoSelectionRunnerModel
+import williankl.bpProject.common.features.places.creating.searchScreen.PlaceSearchRunnerModel
 
 public val placesDi: DI.Module = DI.Module("williankl.bpProject.common.features.places") {
     bindProvider {
         PhotoSelectionRunnerModel(
-            imageRetriever = instance(),
             dispatcher = Dispatchers.Default,
         )
     }
 
     bindProvider {
         PlaceCreationRunnerModel(
-            imageRetriever = instance(),
             placesService = instance(),
             firebaseIntegration = instance(),
             dispatcher = Dispatchers.Default,
@@ -34,6 +32,7 @@ public val placesDi: DI.Module = DI.Module("williankl.bpProject.common.features.
     bindProvider {
         PlaceSearchRunnerModel(
             mapsService = instance(MapServiceType.Client),
+            mapController = instance(),
             dispatcher = Dispatchers.Default,
         )
     }

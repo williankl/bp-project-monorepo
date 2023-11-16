@@ -1,4 +1,4 @@
-package williankl.bpProject.common.features.places.create.handler
+package williankl.bpProject.common.features.places.creating.create.handler
 
 import androidx.compose.runtime.staticCompositionLocalOf
 

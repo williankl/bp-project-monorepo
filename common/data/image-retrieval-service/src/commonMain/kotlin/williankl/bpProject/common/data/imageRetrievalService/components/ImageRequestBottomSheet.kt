@@ -13,15 +13,25 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.currentOrThrow
+import dev.icerock.moko.media.compose.BindMediaPickerEffect
+import dev.icerock.moko.media.compose.rememberMediaPickerControllerFactory
+import dev.icerock.moko.media.picker.MediaPickerController
+import dev.icerock.moko.media.picker.MediaSource
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.compose.painterResource
+import korlibs.io.async.launch
+import org.kodein.di.compose.localDI
+import org.kodein.di.instance
 import williankl.bpProject.common.data.imageRetrievalService.LocalImageRetrievalServiceStrings
+import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
 import williankl.bpProject.common.platform.design.core.ComposeString
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
@@ -29,7 +39,7 @@ import williankl.bpProject.common.platform.design.core.colors.composeColor
 import williankl.bpProject.common.platform.design.core.text.Text
 
 internal class ImageRequestBottomSheet(
-    private val onOptionSelected: (ImageRequestOptions) -> Unit,
+    private val onImagePublished: () -> Unit,
 ) : Screen {
 
     internal enum class ImageRequestOptions(
@@ -48,8 +58,27 @@ internal class ImageRequestBottomSheet(
 
     @Composable
     override fun Content() {
+        val localDI = localDI()
+        val coroutineScope = rememberCoroutineScope()
+        val imageRetrievalController = LocalImageRetrievalController.currentOrThrow
+        val mediaController by localDI.instance<MediaPickerController>()
+
         ImageRequestBottomSheetContent(
-            onOptionSelected = onOptionSelected,
+            onOptionSelected = { option ->
+                val source = when (option) {
+                    ImageRequestOptions.ImportFromGallery -> MediaSource.GALLERY
+                    ImageRequestOptions.Camera -> MediaSource.CAMERA
+                }
+
+                coroutineScope.launch {
+                    runCatching {
+                        imageRetrievalController.publishImage(mediaController.pickImage(source))
+                    }.fold(
+                        onSuccess = { onImagePublished() },
+                        onFailure = { /* Nothing */ }
+                    )
+                }
+            },
             modifier = Modifier,
         )
     }

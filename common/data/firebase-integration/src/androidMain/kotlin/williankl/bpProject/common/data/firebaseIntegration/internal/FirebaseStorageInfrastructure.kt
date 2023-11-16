@@ -5,7 +5,7 @@ import com.benasher44.uuid.uuid4
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
-import korlibs.image.bitmap.Bitmap
+import dev.icerock.moko.media.Bitmap
 import korlibs.image.format.toAndroidBitmap
 import williankl.bpProject.common.data.firebaseIntegration.FirebaseIntegration
 import williankl.bpProject.common.data.firebaseIntegration.models.ImageUploadResult
@@ -36,7 +36,7 @@ internal actual class FirebaseStorageInfrastructure actual constructor(
         bitmap: Bitmap,
         quality: EncodeQuality,
     ): String {
-        val downSampledImage = ImageTransformer.downSampleImage(bitmap.toAndroidBitmap(), quality)
+        val downSampledImage = ImageTransformer.downSampleImage(bitmap.platformBitmap, quality)
         val encodedImage = ImageTransformer.encodeImage(downSampledImage, quality)
         val storageReference = retrieveStorageReference(userId)
         storageReference

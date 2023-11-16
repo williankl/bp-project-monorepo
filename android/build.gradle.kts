@@ -33,6 +33,11 @@ dependencies {
     implementation(compose.material)
     implementation(libs.android.compose.activity)
 
+    implementation(libs.moko.maps.core)
+    implementation(libs.moko.maps.google)
+    implementation(libs.moko.permission.core)
+    implementation(libs.moko.media.core)
+
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.crashlytics)
     implementation(libs.kodein.android)

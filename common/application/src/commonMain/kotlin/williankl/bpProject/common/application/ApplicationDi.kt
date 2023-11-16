@@ -5,7 +5,6 @@ import williankl.bpProject.common.core.commonCoreDi
 import williankl.bpProject.common.data.auth.authServiceDi
 import williankl.bpProject.common.data.cypher.cypherDi
 import williankl.bpProject.common.data.firebaseIntegration.firebaseIntegrationDi
-import williankl.bpProject.common.data.imageRetrievalService.imageRetrievalServiceDi
 import williankl.bpProject.common.data.networking.networkingDi
 import williankl.bpProject.common.data.placeService.deviceLocation.deviceLocationDi
 import williankl.bpProject.common.data.placeService.placesServiceDi
@@ -19,7 +18,6 @@ import williankl.bpProject.common.platform.uriNavigator.uriNavigatorDi
 public val applicationDi: DI.Module = DI.Module("williankl.bpProject.common.application") {
     import(cypherDi)
     import(commonCoreDi)
-    import(imageRetrievalServiceDi)
     import(firebaseIntegrationDi)
     import(networkingDi)
     import(platformSessionHandlerDi)

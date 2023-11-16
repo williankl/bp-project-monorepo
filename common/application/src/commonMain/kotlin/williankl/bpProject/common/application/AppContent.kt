@@ -46,9 +46,7 @@ import williankl.bpProject.common.platform.stateHandler.LocalRouter
 import williankl.bpProject.common.platform.stateHandler.navigation.Router
 
 @Composable
-public fun AppContent(
-    imageRetrievalController: ImageRetrievalController,
-) {
+public fun AppContent() {
     val localDi = localDI()
 
     LaunchedEffect(Unit) {
@@ -63,7 +61,7 @@ public fun AppContent(
 
     BeautifulThemeContent {
         CompositionLocalProvider(
-            LocalImageRetrievalController provides imageRetrievalController,
+            LocalImageRetrievalController provides ImageRetrievalController(),
             LocalRouter provides router,
         ) {
             WithNavigators(router) { navigator, bottomSheetNavigator ->

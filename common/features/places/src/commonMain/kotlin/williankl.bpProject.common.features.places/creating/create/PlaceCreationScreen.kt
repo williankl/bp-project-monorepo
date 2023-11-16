@@ -1,4 +1,4 @@
-package williankl.bpProject.common.features.places.create
+package williankl.bpProject.common.features.places.creating.create
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -23,14 +24,15 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import williankl.bpProject.common.core.models.Season
+import williankl.bpProject.common.data.imageRetrievalService.controller.LocalImageRetrievalController
 import williankl.bpProject.common.features.places.Divider
 import williankl.bpProject.common.features.places.LocalPlacesStrings
-import williankl.bpProject.common.features.places.create.PlaceCreationRunnerModel.PlaceCreationPresentation
-import williankl.bpProject.common.features.places.create.components.ChipCarrousselOption
-import williankl.bpProject.common.features.places.create.components.ChipOption
-import williankl.bpProject.common.features.places.create.components.InputOption
-import williankl.bpProject.common.features.places.create.handler.LocalPlaceCreationHandler
-import williankl.bpProject.common.features.places.searchScreen.PlaceSearchScreen
+import williankl.bpProject.common.features.places.creating.create.PlaceCreationRunnerModel.PlaceCreationPresentation
+import williankl.bpProject.common.features.places.creating.create.components.ChipCarrousselOption
+import williankl.bpProject.common.features.places.creating.create.components.ChipOption
+import williankl.bpProject.common.features.places.creating.create.components.InputOption
+import williankl.bpProject.common.features.places.creating.create.handler.LocalPlaceCreationHandler
+import williankl.bpProject.common.features.places.creating.searchScreen.PlaceSearchScreen
 import williankl.bpProject.common.platform.design.components.ImagePager
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.button.Button
@@ -42,17 +44,18 @@ import williankl.bpProject.common.platform.stateHandler.collectData
 import williankl.bpProject.common.platform.stateHandler.navigation.models.NavigationDestination
 import williankl.bpProject.common.platform.stateHandler.screen.BeautifulScreen
 
-internal data class PlaceCreationScreen(
-    private val imageUriList: List<String>
-) : BeautifulScreen() {
+internal object PlaceCreationScreen : BeautifulScreen() {
     @Composable
     override fun BeautifulContent() {
         val router = LocalRouter.currentOrThrow
+        val imageRetrievalController = LocalImageRetrievalController.currentOrThrow
+
         val runnerModel = rememberScreenModel<PlaceCreationRunnerModel>()
         val presentation by runnerModel.collectData()
+        val images by imageRetrievalController.publishedImages.collectAsState()
 
-        LaunchedEffect(imageUriList) {
-            runnerModel.retrievePresentation(imageUriList)
+        LaunchedEffect(images) {
+            runnerModel.retrievePresentation(images)
         }
 
         CompositionLocalProvider(
@@ -62,7 +65,8 @@ internal data class PlaceCreationScreen(
                 presentation = presentation,
                 images = presentation.images,
                 onPublishRequested = {
-                    runnerModel.publishPlace(imageUriList) {
+                    runnerModel.publishPlace(images) {
+                        imageRetrievalController.clearPublishedImages()
                         router.replaceAll(NavigationDestination.Dashboard)
                     }
                 },

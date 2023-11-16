@@ -1,9 +1,11 @@
-package williankl.bpProject.common.features.places.create
+package williankl.bpProject.common.features.places.creating.create
 
 import androidx.compose.ui.graphics.ImageBitmap
 import com.benasher44.uuid.uuid4
 import com.chrynan.uri.core.Uri
 import com.chrynan.uri.core.fromString
+import dev.icerock.moko.media.Bitmap
+import dev.icerock.moko.media.compose.toImageBitmap
 import kotlinx.coroutines.CoroutineDispatcher
 import williankl.bpProject.common.core.models.MapCoordinate
 import williankl.bpProject.common.core.models.Place
@@ -11,16 +13,13 @@ import williankl.bpProject.common.core.models.Place.ImageData
 import williankl.bpProject.common.core.models.Place.PlaceAddress
 import williankl.bpProject.common.core.models.network.request.SavingPlaceRequest
 import williankl.bpProject.common.data.firebaseIntegration.FirebaseIntegration
-import williankl.bpProject.common.data.imageRetrievalService.retriever.ImageRetriever
-import williankl.bpProject.common.data.imageRetrievalService.toImageBitmap
 import williankl.bpProject.common.data.placeService.models.MapPlaceResult
 import williankl.bpProject.common.data.placeService.services.PlacesService
-import williankl.bpProject.common.features.places.create.PlaceCreationRunnerModel.PlaceCreationPresentation
-import williankl.bpProject.common.features.places.create.handler.CreationHandler
+import williankl.bpProject.common.features.places.creating.create.PlaceCreationRunnerModel.PlaceCreationPresentation
+import williankl.bpProject.common.features.places.creating.create.handler.CreationHandler
 import williankl.bpProject.common.platform.stateHandler.RunnerModel
 
 internal class PlaceCreationRunnerModel(
-    private val imageRetriever: ImageRetriever,
     private val placesService: PlacesService,
     private val firebaseIntegration: FirebaseIntegration,
     dispatcher: CoroutineDispatcher,
@@ -38,32 +37,20 @@ internal class PlaceCreationRunnerModel(
         val images: List<ImageBitmap> = emptyList(),
     )
 
-    fun retrievePresentation(uriList: List<String>) = setContent {
-        val parsedUriList = uriList.map(Uri::fromString)
-
+    fun retrievePresentation(images: List<Bitmap>) = setContent {
         PlaceCreationPresentation(
-            images = parsedUriList
-                .map { imageRetriever.retrieveImageFromUri(it) }
-                .map { bitmap -> bitmap.toImageBitmap() }
+            images = images.map { image -> image.toImageBitmap() }
         )
     }
 
     fun publishPlace(
-        imageUriList: List<String>,
+        images: List<Bitmap>,
         onPublished: () -> Unit,
     ) = runAsync {
         val selectedAddress = creationHandler.selectedAddress
             ?: error("Could not retrieve address")
 
-        val imageBitmaps = imageUriList.map { uriString ->
-            val uri = Uri.fromString(uriString)
-            imageRetriever.retrieveImageFromUri(
-                uri = uri,
-                allowHardware = false
-            )
-        }
-
-        val imageUploadResults = firebaseIntegration.uploadPlacesImages(imageBitmaps)
+        val imageUploadResults = firebaseIntegration.uploadPlacesImages(images)
 
         placesService.saveNewPlace(
             place = SavingPlaceRequest(

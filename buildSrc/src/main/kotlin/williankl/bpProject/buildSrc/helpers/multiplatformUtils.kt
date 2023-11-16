@@ -14,6 +14,28 @@ public fun Project.addJvmTarget() {
     setupMultiplatformTargets(withJvm = true)
 }
 
+public fun Project.applyMapsConfig(){
+    configure<KotlinMultiplatformExtension>{
+        targets
+            .matching { it is org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget }
+            .configureEach {
+                val target = this as org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+                target.binaries
+                    .matching { it is org.jetbrains.kotlin.gradle.plugin.mpp.Framework }
+                    .configureEach {
+                        val framework = this as org.jetbrains.kotlin.gradle.plugin.mpp.Framework
+                        val frameworks = listOf("Base", "Maps").map { frameworkPath ->
+                            project.file("../ios-app/Pods/GoogleMaps/$frameworkPath/Frameworks").path.let { "-F$it" }
+                        }.plus(
+                            project.file("../ios-app/Pods/Mapbox-iOS-SDK/dynamic").path.let { "-F$it" }
+                        )
+
+                        framework.linkerOpts(frameworks)
+                    }
+            }
+    }
+}
+
 public fun DependencyHandlerScope.commonMainLyricistImplementation(
     lyricistDependency: Provider<MinimalExternalModuleDependency>
 ) {

@@ -4,9 +4,7 @@ import williankl.bpProject.common.core.models.Place
 import williankl.bpProject.common.core.models.PlaceQualifier
 
 public sealed class Places : NavigationDestination() {
-    public data class PlacePhotoSelection(
-        val uriList: List<String>
-    ) : Places()
+    public data object PlacePhotoSelection : Places()
     public data object PlaceDataCreation : Places()
     public data object PlaceLocalSearch : Places()
 

@@ -1,19 +1,17 @@
-package williankl.bpProject.common.features.places.photoSelection
+package williankl.bpProject.common.features.places.creating.photoSelection
 
 import androidx.compose.ui.graphics.Color
-import com.chrynan.uri.core.Uri
-import com.chrynan.uri.core.fromString
-import korlibs.image.bitmap.Bitmap
+import com.benasher44.uuid.Uuid
+import com.benasher44.uuid.uuid4
+import dev.icerock.moko.media.Bitmap
 import kotlinx.coroutines.CoroutineDispatcher
 import williankl.bpProject.common.data.imageRetrievalService.averageColor
-import williankl.bpProject.common.data.imageRetrievalService.retriever.ImageRetriever
-import williankl.bpProject.common.features.places.photoSelection.PhotoSelectionRunnerModel.PhotoSelectionPresentation
+import williankl.bpProject.common.features.places.creating.photoSelection.PhotoSelectionRunnerModel.PhotoSelectionPresentation
 import williankl.bpProject.common.platform.design.core.colors.BeautifulColor
 import williankl.bpProject.common.platform.design.core.colors.nonComposableColor
 import williankl.bpProject.common.platform.stateHandler.RunnerModel
 
 internal class PhotoSelectionRunnerModel(
-    private val imageRetriever: ImageRetriever,
     dispatcher: CoroutineDispatcher,
 ) : RunnerModel<PhotoSelectionPresentation>(
     dispatcher = dispatcher,
@@ -28,24 +26,17 @@ internal class PhotoSelectionRunnerModel(
         val imageDataList: List<SelectedImageData> = emptyList()
     ) {
         internal data class SelectedImageData(
-            val uri: Uri,
+            val id: Uuid,
             val image: Bitmap,
             val averageColor: Color,
         )
     }
 
-    fun retrievePresentation(uriList: List<String>) = setContent {
-        val parsedUriList = uriList.map { uriString ->
-            val uri = Uri.fromString(uriString)
-            val hardwareImage = imageRetriever.retrieveImageFromUri(uri)
-            val image = imageRetriever.retrieveImageFromUri(
-                uri = uri,
-                allowHardware = false,
-            )
-
+    fun retrievePresentation(images: List<Bitmap>) = setContent {
+        val parsedUriList = images.map { image ->
             PhotoSelectionPresentation.SelectedImageData(
-                uri = uri,
-                image = hardwareImage,
+                id = uuid4(),
+                image = image,
                 averageColor = image.averageColor(),
             )
         }
@@ -55,12 +46,11 @@ internal class PhotoSelectionRunnerModel(
         )
     }
 
-    fun handleImageRemoval(uri: Uri) = runAsync {
+    fun handleImageRemoval(uuid: Uuid) = runAsync {
         updateData { currentData ->
             currentData.copy(
-                imageDataList = currentData.imageDataList.filter { data ->
-                    data.uri != uri
-                }
+                imageDataList = currentData.imageDataList
+                    .filter { data -> data.id != uuid }
             )
         }
     }

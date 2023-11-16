@@ -25,8 +25,10 @@ dependencies {
     commonMainImplementation(compose.foundation)
 
     commonMainImplementation(libs.kotlinx.coroutines.core)
-    commonMainImplementation(libs.kodein.core)
+    commonMainImplementation(libs.kodein.compose)
     commonMainImplementation(libs.moko.resourcesCompose)
+    commonMainImplementation(libs.moko.media.core)
+    commonMainImplementation(libs.moko.media.compose)
 
     commonMainImplementation(libs.lyricist.core)
     commonMainLyricistImplementation(libs.lyricist.ksp)

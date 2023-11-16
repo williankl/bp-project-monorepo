@@ -1,6 +1,6 @@
 package williankl.bpProject.common.data.firebaseIntegration.internal
 
-import korlibs.image.bitmap.Bitmap
+import dev.icerock.moko.media.Bitmap
 import williankl.bpProject.common.data.firebaseIntegration.FirebaseIntegration
 import williankl.bpProject.common.data.firebaseIntegration.models.ImageUploadResult
 import williankl.bpProject.common.data.sessionHandler.Session

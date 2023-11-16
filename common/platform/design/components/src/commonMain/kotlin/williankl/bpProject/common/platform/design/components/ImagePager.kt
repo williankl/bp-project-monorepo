@@ -132,7 +132,7 @@ public fun ImagePager(
 }
 
 @Composable
-@OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 public fun <T> ActionedImagePager(
     imageMap: Map<T, ImageBitmap>,
     actionResource: ImageResource,

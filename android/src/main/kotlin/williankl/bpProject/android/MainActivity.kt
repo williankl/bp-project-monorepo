@@ -5,27 +5,19 @@ import android.os.Bundle
 import android.view.Window
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.FragmentActivity
+import dev.icerock.moko.media.picker.MediaPickerController
+import org.kodein.di.DI
+import org.kodein.di.DIAware
+import org.kodein.di.android.closestDI
+import org.kodein.di.instance
 import williankl.bpProject.common.application.AppContent
-import williankl.bpProject.common.data.imageRetrievalService.ImageCaptureHelper
-import williankl.bpProject.common.data.imageRetrievalService.controller.ImageRetrievalController
-import williankl.bpProject.common.data.imageRetrievalService.controller.RetrievalMode
-import android.net.Uri as AndroidUri
 
-internal class MainActivity : ComponentActivity() {
+internal class MainActivity : FragmentActivity(), DIAware {
 
-    private val imageRetriever =
-        registerForActivityResult(
-            ActivityResultContracts.PickMultipleVisualMedia(maxItems = 4),
-            ::onImagePickResult,
-        )
-
-    private val cameraImageRetriever =
-        registerForActivityResult(
-            ActivityResultContracts.TakePicture(),
-            ::onImageTaken,
-        )
+    override val di: DI by closestDI()
+    private val mediaPickerController by instance<MediaPickerController>()
 
     private val locationPermissionRetriever =
         registerForActivityResult(
@@ -33,25 +25,10 @@ internal class MainActivity : ComponentActivity() {
             ::onPermissionRequestResult,
         )
 
-    private val imageRetrievalController by lazy {
-        ImageRetrievalController(
-            onRetrieveRequested = { mode ->
-                when (mode) {
-                    RetrievalMode.Gallery -> imageRetriever.launch(
-                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                    )
-
-                    RetrievalMode.Camera -> cameraImageRetriever.launch(
-                        ImageCaptureHelper.cacheUri(this)
-                    )
-                }
-            }
-        )
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
+        mediaPickerController.bind(lifecycle, supportFragmentManager)
 
         locationPermissionRetriever.launch(
             arrayOf(
@@ -61,20 +38,7 @@ internal class MainActivity : ComponentActivity() {
         )
 
         setContent {
-            AppContent(imageRetrievalController)
-        }
-    }
-
-    private fun onImagePickResult(uris: List<AndroidUri>) {
-        val images = uris.map { uri -> uri.toString() }
-
-        imageRetrievalController.publishImages(images)
-    }
-
-    private fun onImageTaken(takenImage: Boolean) {
-        val cachedUri = ImageCaptureHelper.cacheUri(this)
-        if (takenImage && cachedUri != null) {
-            imageRetrievalController.publishImages(listOf(cachedUri.toString()))
+            AppContent()
         }
     }
 
@@ -83,4 +47,6 @@ internal class MainActivity : ComponentActivity() {
     ) {
         // todo - handle result if needed
     }
+
+
 }

@@ -1,10 +1,9 @@
-package williankl.bpProject.common.features.places.searchScreen
+package williankl.bpProject.common.features.places.creating.searchScreen
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.animation.with
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,10 +18,13 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,17 +40,20 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import dev.icerock.moko.geo.LatLng
 import dev.icerock.moko.resources.compose.painterResource
 import kotlinx.coroutines.delay
-import williankl.bpProject.common.core.models.MapCoordinate
+import kotlinx.coroutines.launch
 import williankl.bpProject.common.data.placeService.models.MapPlaceResult
 import williankl.bpProject.common.features.places.Divider
 import williankl.bpProject.common.features.places.LocalPlacesStrings
-import williankl.bpProject.common.features.places.create.handler.CreationHandler
-import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.Companion.MINIMUM_SEARCH_LENGTH
-import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.Companion.queryDebounce
-import williankl.bpProject.common.features.places.searchScreen.PlaceSearchRunnerModel.PlaceSearchPresentation
+import williankl.bpProject.common.features.places.creating.create.handler.CreationHandler
+import williankl.bpProject.common.features.places.creating.searchScreen.PlaceSearchRunnerModel.Companion.MINIMUM_SEARCH_LENGTH
+import williankl.bpProject.common.features.places.creating.searchScreen.PlaceSearchRunnerModel.Companion.queryDebounce
+import williankl.bpProject.common.features.places.creating.searchScreen.PlaceSearchRunnerModel.PlaceSearchPresentation
+import williankl.bpProject.common.platform.design.components.maps.LocalMapController
 import williankl.bpProject.common.platform.design.components.maps.MapsComponent
+import williankl.bpProject.common.platform.design.components.maps.toMapCoordinate
 import williankl.bpProject.common.platform.design.core.SharedDesignCoreResources
 import williankl.bpProject.common.platform.design.core.button.Button
 import williankl.bpProject.common.platform.design.core.button.ButtonType
@@ -86,6 +91,10 @@ internal data class PlaceSearchScreen(
             mutableStateOf("")
         }
 
+        var isMapReady by remember {
+            mutableStateOf(false)
+        }
+
         LaunchedEffect(presentation.selectedAddress) {
             searchQuery = presentation.selectedAddress?.displayName.orEmpty()
         }
@@ -97,26 +106,32 @@ internal data class PlaceSearchScreen(
             }
         }
 
-        PlaceSearchContent(
-            presentation = presentation,
-            searchQuery = searchQuery,
-            selectedLocation = presentation.selectedAddress,
-            onSearchQueryChanged = { searchQuery = it },
-            onMapAddressSelected = { runnerModel.updateAddressValue(it) },
-            onCoordinateSelected = {
-                runnerModel.updateFromCoordinate(
-                    coordinate = it,
-                )
-            },
-            onContinueClicked = {
-                presentation.selectedAddress
-                    ?.let { place -> placeCreationHandler.selectedAddress = place }
-                    ?.also { navigator.pop() }
-            },
-            modifier = Modifier
-                .background(BeautifulColor.Background.composeColor)
-                .fillMaxSize()
-        )
+        LaunchedEffect(isMapReady) {
+            if (isMapReady) {
+                runnerModel.initializeMap(placeCreationHandler.selectedAddress?.coordinate)
+            }
+        }
+
+        CompositionLocalProvider(
+            LocalMapController provides runnerModel.mapController
+        ) {
+            PlaceSearchContent(
+                presentation = presentation,
+                searchQuery = searchQuery,
+                selectedLocation = presentation.selectedAddress,
+                onSearchQueryChanged = { searchQuery = it },
+                onMapAddressSelected = { runnerModel.updateAddressValue(it) },
+                onMapReady = { isMapReady = true },
+                onContinueClicked = {
+                    presentation.selectedAddress
+                        ?.let { place -> placeCreationHandler.selectedAddress = place }
+                        ?.also { navigator.pop() }
+                },
+                modifier = Modifier
+                    .background(BeautifulColor.Background.composeColor)
+                    .fillMaxSize()
+            )
+        }
     }
 
     @Composable
@@ -126,7 +141,7 @@ internal data class PlaceSearchScreen(
         selectedLocation: MapPlaceResult?,
         onSearchQueryChanged: (String) -> Unit,
         onMapAddressSelected: (MapPlaceResult?) -> Unit,
-        onCoordinateSelected: (MapCoordinate) -> Unit,
+        onMapReady: () -> Unit,
         onContinueClicked: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
@@ -203,9 +218,7 @@ internal data class PlaceSearchScreen(
                     }
                 } else {
                     MapsComponent(
-                        currentMarkedPlace = selectedLocation?.coordinate,
-                        onClearPlaceRequested = { onMapAddressSelected(null) },
-                        onPlaceSelected = onCoordinateSelected,
+                        onMapReady = onMapReady,
                         modifier = Modifier.fillMaxSize(),
                     )
                 }
